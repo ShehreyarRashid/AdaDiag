@@ -1,0 +1,14 @@
+# Conda alternative to requirements.txt. CPU only; no DGL, no CUDA needed.
+#   conda env create -f environment.yml && conda activate adadiag
+name: adadiag
+channels:
+  - conda-forge
+dependencies:
+  - python=3.11
+  - numpy>=1.24
+  - scikit-learn>=1.3
+  - scipy>=1.10
+  - pytest>=7.0
+  - pip
+  - pip:
+      - torch>=2.0
