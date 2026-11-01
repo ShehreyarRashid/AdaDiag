@@ -20,6 +20,10 @@ BASE = dict(
     aggregator="mean",
 )
 
+#: `ft_num` is TVDiag's failure-type count. The model does not read it -- `AdaDiag` takes
+#: `n_types` from `len(ds.types)`, which is derived from the data. It is kept here so the
+#: transcription stays faithful to `config/exp_config.py`, and `check_against` below asserts
+#: the two agree, which catches a dataset whose label file has changed.
 PER_DATASET = {
     "gaia":     dict(feat_drop=0.0, batch_size=512, patience=10, ft_num=5, aug_percent=0.2),
     "hotel":    dict(feat_drop=0.3, batch_size=128, patience=10, ft_num=5, aug_percent=0.2),
@@ -36,3 +40,12 @@ def get(dataset: str, **overrides) -> dict:
     cfg.update(PER_DATASET[dataset])
     cfg.update({k: v for k, v in overrides.items() if v is not None})
     return cfg
+
+
+def check_against(cfg: dict, ds) -> None:
+    """Assert the transcribed config agrees with the loaded data."""
+    if cfg["ft_num"] != len(ds.types):
+        raise ValueError(
+            f"{ds.name}: config ft_num={cfg['ft_num']} but the data has {len(ds.types)} "
+            f"failure types ({ds.types}). One of the two is out of date."
+        )

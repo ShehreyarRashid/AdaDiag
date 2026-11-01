@@ -43,6 +43,20 @@ baseline.
 magnitude, so an unconstrained **w** is unidentifiable and the optimiser can "win" by
 shrinking everything.
 
+**…but the simplex fixes the wrong degree of freedom.** This is the most important design
+note in the repository and it was found by reviewing the finished code, not by planning it.
+The simplex removes the *scale* ambiguity, which is real. It does nothing about the
+*direction* of the incentive, because `w` is used in exactly one place — the auxiliary
+contrastive term — and is deliberately kept off the prediction path so that inference stays
+free. The consequence is that `∂l_rcl/∂θ_w = ∂l_fti/∂θ_w = 0` **exactly**: no diagnosis
+gradient ever reaches the weighting module. And since `l_to` is *linear* in `w`, a linear
+objective on a simplex is minimised at a **vertex** — so one-hot collapse is the solution
+and a graded allocation is not. Both facts are asserted in
+`tests/test_weighting_identifiability.py` and measured by `identifiability.py`; README §6.6
+has the numbers. Anyone extending this work should read that section first: the obvious
+extensions (deeper MLP, better descriptor, more conditioning) all leave both problems
+untouched.
+
 **Detached descriptor.** The weighting module should choose an allocation given the
 incident, not reshape the encoders so its own job gets easier. Removing the detach makes the
 module able to co-adapt with the representation, which conflates the two effects.

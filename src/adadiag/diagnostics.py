@@ -9,6 +9,14 @@ share and NO weighting scheme -- fixed or learned -- can move the end metrics. T
 property of TVDiag's objective, not of the weighting module, and it is the difference
 between "AdaDiag does not work" and "the task-oriented loss is too weakly coupled to the
 heads for any reweighting of it to matter".
+
+CAVEAT on "share". Gradient norms do not add linearly -- two terms can reinforce or cancel
+at the parameter level -- so `norm_i / sum_j norm_j` is a proxy for influence, not an exact
+decomposition of the applied update. It is reported because the ordering it gives is large
+and stable (on Hotel, 1.7% against 45-58%), not because the percentages are exact.
+
+See also `identifiability.py`, which shows the complementary and sharper problem: the
+weighting module receives no gradient from either diagnosis loss at all.
 """
 from __future__ import annotations
 

@@ -26,9 +26,9 @@ project.
    ├── environment.yml
    ├── pyproject.toml
    ├── .gitignore
-   ├── src/adadiag/      (12 .py files)
-   ├── scripts/          (4 .py files)
-   ├── tests/            (1 .py file)
+   ├── src/adadiag/      (13 .py files)
+   ├── scripts/          (5 .py files)
+   ├── tests/            (2 .py files)
    ├── results/          (.json files + README.md)
    └── docs/             (architecture.md)
    ```
@@ -168,4 +168,21 @@ Then **Settings → General → Features** and untick *Wikis* and *Projects* if 
 them, so the tab bar stays clean.
 
 If you want a version you can cite in the report, use **Releases → Create a new release**,
-tag `v1.0.0`, and GitHub will build a permanent zip of that exact state.
+tag `v1.1.0`, and GitHub will build a permanent zip of that exact state.
+
+---
+
+## One last sanity check
+
+From inside the folder, run:
+
+```bash
+pip install -r requirements.txt
+python -m pytest tests/ -q
+```
+
+You should see `10 passed`. Those ten tests are what let you say in the report that the
+re-implementation is verified against TVDiag's own loss (4 tests), that Eq. 13 is inert as
+shipped (1), that the simplex columns are well formed (1), and that the two structural claims
+in README §6.6 hold (4). They need no dataset, so a reader can run them straight after
+cloning — which is the single most useful thing a reviewer can do with this repository.

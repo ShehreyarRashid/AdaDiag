@@ -9,9 +9,18 @@ benchmarks, it cannot.
 
 > **Headline result, stated up front.** AdaDiag is implementable in ~10⁴ parameters with
 > zero inference cost, and it **does not improve on TVDiag's hand-written prior** on GAIA or
-> Hotel Reservation. The reason is measurable: the loss term AdaDiag reweights supplies only
-> **1.7 – 10.4 %** of the encoder gradient, so no reallocation inside it can move the end
-> metrics. The contribution of this repository is that diagnosis, reproducibly.
+> Hotel Reservation. There are two reasons, and the second is the stronger one:
+>
+> 1. **The lever is weak.** The loss term AdaDiag reweights supplies only **1.7 – 10.4 %** of
+>    the encoder gradient (§6.4), so no reallocation inside it can move the end metrics.
+> 2. **The lever is also misaimed.** The weighting module receives **exactly zero gradient
+>    from both diagnosis losses** — its only learning signal is the auxiliary contrastive
+>    term, in which the objective is *linear*, so on a simplex its minimiser is a **vertex**.
+>    The graded "who to listen to" the method is built around is not a solution of the
+>    objective as written; one-hot collapse is (§6.6). Both claims are asserted in `tests/`.
+>
+> The contribution of this repository is that diagnosis, reproducibly — a negative result
+> with a mechanism, rather than an unexplained flat table.
 
 ---
 
@@ -119,6 +128,7 @@ forward path that produces predictions, so AdaDiag adds **zero inference cost**.
 | 7 | Training loop; the replaced task-oriented block | `src/adadiag/train.py` | `task_oriented_loss()`, `train()` |
 | 8 | Evaluation (HR@k, MRR@3, F1, per class) | `src/adadiag/evaluate.py` | `evaluate()`, `per_class()` |
 | 9 | Gradient-share diagnostic | `src/adadiag/diagnostics.py` | `gradient_shares()` |
+| 10 | Identifiability: gradient paths + vertex collapse | `src/adadiag/identifiability.py` | `measure_gradient_paths()`, `measure_collapse()` |
 | — | Hyperparameters, transcribed from TVDiag | `src/adadiag/config.py` | `get()` |
 | — | Equivalence + invariant tests | `tests/test_supcon_equivalence.py` | `pytest -q` |
 
@@ -174,6 +184,9 @@ python scripts/run_sweep.py       --dataset hotel --repo ../TVDiag
 # per-failure-class breakdown and the learned weight matrix per class
 python scripts/run_perclass.py    --dataset hotel --repo ../TVDiag
 
+# why the learned arms cannot work as specified (§6.6) -- takes seconds for part 1
+python scripts/run_identifiability.py --dataset hotel --repo ../TVDiag
+
 # why a null is a null: the gradient-share measurement
 python scripts/run_diagnostics.py --dataset hotel --repo ../TVDiag
 
@@ -193,8 +206,8 @@ version-pinning problem in reproducing TVDiag.
 
 | dataset | metric | TVDiag (reported) | V0-raw (here, 5 seeds) | gap |
 |---|---|---|---|---|
-| GAIA | HR@1 | 0.759 | 0.729 ± 0.019 | −0.030 |
-| GAIA | F1 | 0.936 | 0.918 ± 0.010 | −0.018 |
+| GAIA | HR@1 | 0.759 | 0.731 ± 0.021 | −0.028 |
+| GAIA | F1 | 0.936 | 0.918 ± 0.013 | −0.018 |
 | Hotel | HR@1 | 0.821 | **0.831 ± 0.017** | +0.010 |
 | Hotel | F1 | 0.822 | 0.799 ± 0.016 | −0.023 |
 
@@ -203,15 +216,24 @@ for arm-to-arm comparison.
 
 ### 6.2 The five arms — GAIA (5 seeds, identical splits and seeds)
 
-| arm | HR@1 | MRR@3 | F1 | macro-F1 |
-|---|---|---|---|---|
-| V0-raw (TVDiag as shipped) | 0.729 ± 0.019 | 0.803 | 0.918 | 0.577 |
-| V0-simplex (prior) | 0.744 ± 0.026 | 0.812 | 0.932 | 0.577 |
-| V1-uniform (⅓ each) | 0.746 ± 0.017 | 0.814 | 0.937 | 0.567 |
-| V2-global (learned matrix) | 0.741 ± 0.016 | 0.811 | 0.938 | 0.563 |
-| V3-incident (**AdaDiag**) | 0.745 ± 0.021 | 0.813 | 0.937 | 0.578 |
+| arm | HR@1 | HR@3 | MRR@3 | F1 | macro-F1 |
+|---|---|---|---|---|---|
+| V0-raw (TVDiag as shipped) | 0.731 ± 0.021 | 0.892 ± 0.011 | 0.804 ± 0.015 | 0.918 ± 0.013 | 0.571 ± 0.005 |
+| V0-simplex (prior) | 0.744 ± 0.010 | 0.897 ± 0.009 | 0.814 ± 0.008 | 0.932 ± 0.009 | 0.573 ± 0.006 |
+| V1-uniform (⅓ each) | 0.746 ± 0.020 | 0.900 ± 0.007 | 0.815 ± 0.012 | 0.930 ± 0.011 | 0.558 ± 0.019 |
+| V2-global (learned matrix) | 0.733 ± 0.024 | 0.896 ± 0.013 | 0.807 ± 0.017 | 0.922 ± 0.015 | 0.561 ± 0.020 |
+| V3-incident (**AdaDiag**) | 0.747 ± 0.013 | 0.896 ± 0.007 | 0.814 ± 0.008 | 0.935 ± 0.012 | 0.576 ± 0.024 |
 
-V3 vs V0-simplex: **+0.002 HR@1, p = 0.80**. Nothing is significant.
+Paired t-tests against V0-simplex, same seeds:
+
+| arm | Δ HR@1 | Δ MRR@3 | Δ macro-F1 |
+|---|---|---|---|
+| V0-raw | −0.013 (p=0.13) | −0.010 (p=0.11) | −0.001 (p=0.55) |
+| V1-uniform | +0.002 (p=0.84) | +0.002 (p=0.82) | −0.015 (p=0.10) |
+| V2-global | −0.011 (p=0.39) | −0.007 (p=0.44) | −0.012 (p=0.17) |
+| V3-incident (**AdaDiag**) | **+0.003 (p=0.59)** | +0.001 (p=0.84) | +0.004 (p=0.74) |
+
+V3 vs V0-simplex: **+0.003 HR@1, p = 0.59**. Nothing is significant at any threshold.
 
 ### 6.3 The five arms — Hotel Reservation, where the prior should fail
 
@@ -230,9 +252,13 @@ inverts.
 
 ### 6.4 Why the result is a null, and how we know
 
-The weights move a long way with no effect on accuracy — on GAIA, V3 converges to ~0.92/1.00
+The weights move a long way with no effect on accuracy — on GAIA, V3 converges to ~0.98/1.00
 on logs, close to the *opposite* of the prior, and scores the same. Weights that free mean
-the objective is **under-determined in w**. The gradient-share diagnostic shows why:
+the objective is **under-determined in w**. There are two independent reasons; this section
+covers the first (the term is too weak to matter) and §6.6 the second and sharper one (the
+module gets no task gradient at all, and its objective is minimised at a corner).
+
+The gradient-share diagnostic shows the first:
 
 | term | GAIA share | Hotel share |
 |---|---|---|
@@ -252,6 +278,83 @@ fused representation feeding the two heads, leaving TVDiag's task-oriented loss 
 is **worse** (−0.023 HR@1, −0.037 macro-F1) and roughly triples the variance. A plausible
 but untested reading: a per-incident multiplicative gate is a nuisance the heads must undo,
 and 122 training incidents are not enough to absorb it.
+
+### 6.6 The deeper problem: the simplex fixes the wrong degree of freedom
+
+§6.4 says the lever is weak. This section says it also points the wrong way, and this is the
+part that generalises beyond TVDiag — it would apply to any method that learns modality
+weights on an *auxiliary* loss.
+
+**(1) No diagnosis gradient reaches the weighting module.** `w` is used in exactly one place,
+the task-oriented contrastive term. It is deliberately *not* on the forward path that
+produces node or type logits — that is what makes AdaDiag free at inference time. The
+consequence is that
+
+```
+∂l_rcl / ∂θ_w  =  0        ∂l_fti / ∂θ_w  =  0        exactly, not approximately
+```
+
+Measured, on Hotel, `v3_incident`:
+
+| term | total ‖grad‖ at the weighting parameters |
+|---|---|
+| `l_rcl` | **0.000000e+00** |
+| `l_fti` | **0.000000e+00** |
+| `σ · l_to` | 9.477373e+00 |
+
+The module's entire learning signal is an auxiliary loss. Nothing in the objective tells it
+what *diagnosis accuracy* prefers.
+
+**(2) `l_to` is linear in `w`, so the minimiser is a vertex.** With
+`l_to = Σ_m Σ_t w[m,t] · L_{m,t}` and each task column on the simplex, the objective is a
+linear function on a simplex — minimised at a **corner**. Smooth graded allocations are not
+minimisers; they are points the optimiser passes through on the way to a corner. Observed on
+every GAIA seed:
+
+| seed | `v3_incident` RCL | `v3_incident` FTI | HR@1 | | `v2_global` RCL | `v2_global` FTI |
+|---|---|---|---|---|---|---|
+| 0 | log **0.999** | log **1.000** | 0.743 | | log 0.366 | log 0.375 |
+| 1 | log **0.988** | log **1.000** | 0.729 | | log 0.463 | log 0.595 |
+| 2 | log **0.979** | log **1.000** | 0.753 | | log 0.407 | log 0.491 |
+| 3 | log **0.989** | log **0.992** | 0.764 | | log 0.426 | log 0.546 |
+| 4 | log **0.986** | log **1.000** | 0.745 | | log 0.458 | log 0.610 |
+
+Mean largest column weight: **0.998** for `v3_incident` (1.0 = fully collapsed, ⅓ = uniform),
+0.524 for `v2_global`. Hotel behaves the same way — 0.998 on both tasks.
+
+`v3_incident` collapses onto a single modality for both tasks on **every seed** — including
+**RCL, the task TVDiag assigns `log` a weight of exactly zero** — and scores the same as the
+prior anyway. `v2_global`, which has one matrix for the whole dataset and no per-incident
+capacity, drifts in the same direction but cannot reach a corner. That contrast is itself
+evidence for the mechanism: the arm with more capacity to reach a vertex reaches one.
+
+**(3) So the simplex solved the wrong problem.** It was introduced to make `w` identifiable
+against the outer scale σ (§1, "Why the columns are simplex-constrained"), and it does that
+correctly. But identifiability is not *alignment*. By (1) no task gradient reaches the
+module, so the corner it picks is selected by the auxiliary loss landscape, not by
+usefulness. Per-incident conditioning therefore does not buy a graded "who to listen to" —
+it buys a per-incident choice of **one modality per task**, which is the same *kind* of rule
+as TVDiag's hard-coded mapping, just chosen by convenience rather than by domain knowledge.
+
+**What is and is not claimed.** (1) is exact and (2) is universal across our seeds; both are
+asserted in `tests/test_weighting_identifiability.py`. We do **not** claim the chosen corner
+is always `argmin L_{m,t}` — measured after training it matches on RCL but not on FTI, where
+the three terms sit within 3 % of each other and the encoders have co-adapted to whatever
+`w` became. The collapse is the robust finding; which corner wins is not.
+
+**What a real fix would require.** Any correction has to get task gradient into the module
+*without* putting `w` on the prediction path — `v4_fusion` does the latter and is worse
+(§6.5). Three candidates, none tested here because each changes TVDiag's objective and so
+breaks the controlled comparison:
+
+- a **bi-level / hypergradient** step, updating `w` against held-out *task* loss rather than
+  against `l_to`;
+- an **entropy or temperature penalty** on the columns — this would prevent collapse, but by
+  overriding the objective rather than repairing it;
+- **raising σ** so `l_to` has enough influence for its allocation to matter at all; §6.4
+  puts it at 10.4 % (GAIA) and 1.7 % (Hotel), so there is very little to reallocate.
+
+This is the honest next step, not a result claimed here.
 
 ---
 
@@ -285,6 +388,14 @@ Checkable in minutes, independent of AdaDiag:
 - The null is specific to **reweighting the task-oriented contrastive term under TVDiag's
   σ = 0.1**. An untested follow-up is to sweep σ upward and see whether the arms separate
   once the term carries real weight.
+- §6.6's claim (1) — zero task gradient to the weighting module — is exact and holds for any
+  σ. Claim (2), vertex collapse, is an analytic property of a linear objective on a simplex,
+  verified on our seeds but not proved to be reached from every initialisation.
+- The three fixes listed in §6.6 are **not implemented**. Each changes TVDiag's objective,
+  which would end the controlled comparison this repository is built around; they are named
+  so the next person does not repeat the arm that cannot work.
+- `v4_fusion` is exploratory and was run on Hotel only, where the prior is most wrong. Its
+  negative result should not be read as a general claim about gating fused representations.
 
 ---
 

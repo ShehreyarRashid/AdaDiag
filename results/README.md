@@ -10,6 +10,7 @@ README is rendered from these files by `scripts/make_report.py` — none is type
 | `hotel_v4_fusion.json` | `run_sweep.py --arms v4_fusion` — the exploratory arm |
 | `gaia_gradshare.json`, `hotel_gradshare.json` | `run_diagnostics.py` — gradient shares |
 | `hotel_perclass.json` | `run_perclass.py` — per-class metrics and learned weights |
+| `hotel_identifiability.json`, `gaia_identifiability.json` | `run_identifiability.py` — gradient paths and vertex collapse (README §6.6) |
 | `run.log` | the full console transcript of the regeneration |
 
 Each sweep record carries the metrics, the arm, the seed, the epoch count, wall-clock

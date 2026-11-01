@@ -11,7 +11,7 @@ Per incident we produce
     y    ()           index of the ground-truth failure type
     c    (3,)         alert counts per source -- the descriptor's non-embedding part
 
-See configs/datasets.yaml for the per-dataset constants this module asserts against.
+The per-dataset constants this module asserts against are in `EXPECTED` below.
 """
 from __future__ import annotations
 
@@ -87,8 +87,20 @@ def load(name: str, repo: str | Path, strict: bool = True) -> Dataset:
     rows = list(csv.DictReader(open(root_dir / "label.csv")))
     types = sorted({r["anomaly_type"] for r in rows})
 
+    # Every incident must list the same instances in the same ORDER: `root` is an index into
+    # that list and the RCL head has one output per position, so a per-incident reordering
+    # would silently make index k mean a different service in different incidents. True for
+    # all three released datasets (checked, 1 distinct ordering each) -- asserted, not assumed.
+    orderings = {tuple(v) for v in nodes.values()}
+    if len(orderings) != 1:
+        raise ValueError(
+            f"{name}: nodes.json has {len(orderings)} distinct instance orderings. "
+            f"Root-cause indices are not comparable across incidents; this loader assumes one."
+        )
+    instance_names = list(next(iter(orderings)))
+    n_nodes = len(instance_names)
+
     X, A, root, ytype, cnt, split = [], [], [], [], [], []
-    n_nodes = len(next(iter(nodes.values())))
     skipped = 0
     for r in rows:
         i = r["index"]
@@ -121,7 +133,7 @@ def load(name: str, repo: str | Path, strict: bool = True) -> Dataset:
     ds = Dataset(
         X=torch.tensor(np.stack(X)), A=torch.tensor(np.stack(A)),
         root=torch.tensor(root), ytype=torch.tensor(ytype), cnt=counts,
-        split=split, types=types, instances=list(next(iter(nodes.values()))), name=name,
+        split=split, types=types, instances=instance_names, name=name,
     )
     if strict and name in EXPECTED:
         e = EXPECTED[name]

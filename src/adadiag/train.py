@@ -19,7 +19,7 @@ from .augment import drop_non_root
 from .losses import AutomaticWeightedLoss, supcon_per_sample, uspcon
 from .model import AdaDiag
 from .evaluate import evaluate
-from .weighting import MODALITIES, TASKS
+from .weighting import MODALITIES, PRIOR_SIMPLEX, TASKS
 
 
 def task_oriented_loss(model, fs, labels, w, temperature) -> torch.Tensor:
@@ -40,15 +40,24 @@ def task_oriented_loss(model, fs, labels, w, temperature) -> torch.Tensor:
     total = torch.zeros((), dtype=torch.float32, device=w.device)
     for mi, m in enumerate(MODALITIES):
         for ti, t in enumerate(TASKS):
-            if float(w[0, mi, ti]) == 0.0 and not model.weighting.is_learned:
+            # Fixed arms only: their w is constant across the batch, so row 0 decides for all.
+            # .detach() because w carries grad for the learned arms (harmless, but float() on a
+            # grad-tracking tensor warns).
+            if not model.weighting.is_learned and float(w[0, mi, ti].detach()) == 0.0:
                 continue
             per_sample, nz = supcon_per_sample(fs[m], labels[t], temperature)
             total = total + (w[:, mi, ti] * per_sample).sum() / nz
     return total
 
 
-def train(arm: str, seed: int, ds, cfg: dict, verbose: bool = False) -> dict:
-    """Train one arm with one seed and return the test metrics."""
+def train(arm: str, seed: int, ds, cfg: dict,
+          verbose: bool = False) -> tuple[dict, AdaDiag]:
+    """Train one arm with one seed.
+
+    Returns:
+        (metrics, model) -- the test metrics dict, and the trained model so callers can
+        inspect the learned weights (see `evaluate.per_class`, `identifiability`).
+    """
     torch.manual_seed(seed)
     np.random.seed(seed)
     random.seed(seed)
@@ -87,7 +96,6 @@ def train(arm: str, seed: int, ds, cfg: dict, verbose: bool = False) -> dict:
             w = model.weights(f, cnt)
             if arm == "v4_fusion":
                 # v4 moves the weights to the fusion path, so the LOSS keeps TVDiag's prior
-                from .weighting import PRIOR_SIMPLEX
                 w_loss = torch.tensor(PRIOR_SIMPLEX, device=f.device).expand_as(w)
             else:
                 w_loss = w
