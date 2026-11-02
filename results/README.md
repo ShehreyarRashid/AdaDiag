@@ -12,6 +12,14 @@ README is rendered from these files by `scripts/make_report.py` — none is type
 | `hotel_perclass.json` | `run_perclass.py` — per-class metrics and learned weights |
 | `ablation_hotel_s0.json`, `ablation_hotel_s1.json` | `run_ablation.py` — all four ablation groups, 5 seeds, two shards (README §6.8) |
 | `ablation_gaia_s0.json`, `ablation_gaia_s1.json` | `run_ablation.py --groups A B D` — 3 seeds, two shards |
+| `paper_comparison/` | `paper_comparison_runs.sh` + `make_paper_comparison.py` — the comparison with the TVDiag paper's Tables 3–7 and Figures 11, 13–18 (README §6.9); its own README is `PAPER_COMPARISON.md` |
+
+In `paper_comparison/`: `runs_<dataset>.json` are the default-setting runs behind Tables 4–5
+and Figures 11/13/14/18 (2 threads; the GAIA and Hotel ones re-train records already in
+`gaia.json` / `hotel.json` and are identical to them); `sweep_gaia_*.json` are Figure 16;
+`ablate_*.json` are Tables 6–7 and Figure 17; `fig15_gaia.json` is Figure 15; `readme_table.md` is the table quoted in README §6.9. Each record
+carries a `variant` (the configuration change, see `adadiag/paper_compare.VARIANTS`) and a
+`tag` (`drop:<modalities>` or `emb:<re-embedding>`).
 
 `run_identifiability.py` (README §6.6) is not committed as a file: part 1 takes seconds and
 part 2's collapse figures are already in `gaia.json` / `hotel.json` as `w_final`. Pass

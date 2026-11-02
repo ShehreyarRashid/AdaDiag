@@ -1,0 +1,191 @@
+/home/claude/AdaDiag/src/adadiag/train.py:107: UserWarning: Converting a tensor with requires_grad=True to a scalar may lead to unexpected behavior.
+Consider using tensor.detach() first. (Triggered internally at /__w/pytorch/pytorch/torch/csrc/autograd/generated/python_variable_methods.cpp:820.)
+  running += float(loss)
+<gaia: 1099 incidents, 10 instances, 5 types, 160/939 train/test>
+    early stop @ epoch 291
+  v0_raw       seed 0  HR@1 0.716  MRR@3 0.795  F1 0.922  macroF1 0.571  (292 ep, 61.2s)
+    early stop @ epoch 291
+  v0_raw       seed 1  HR@1 0.705  MRR@3 0.783  F1 0.913  macroF1 0.571  (292 ep, 65.0s)
+    early stop @ epoch 190
+  v0_raw       seed 2  HR@1 0.750  MRR@3 0.820  F1 0.939  macroF1 0.579  (191 ep, 42.8s)
+    early stop @ epoch 367
+  v0_raw       seed 3  HR@1 0.754  MRR@3 0.816  F1 0.908  macroF1 0.569  (368 ep, 76.8s)
+    early stop @ epoch 327
+  v0_raw       seed 4  HR@1 0.732  MRR@3 0.806  F1 0.910  macroF1 0.566  (328 ep, 68.6s)
+    early stop @ epoch 165
+  v0_simplex   seed 0  HR@1 0.727  MRR@3 0.803  F1 0.939  macroF1 0.567  (166 ep, 34.7s)
+    early stop @ epoch 262
+  v0_simplex   seed 1  HR@1 0.741  MRR@3 0.809  F1 0.923  macroF1 0.568  (263 ep, 55.3s)
+    early stop @ epoch 190
+  v0_simplex   seed 2  HR@1 0.754  MRR@3 0.820  F1 0.943  macroF1 0.581  (191 ep, 38.8s)
+    early stop @ epoch 246
+  v0_simplex   seed 3  HR@1 0.751  MRR@3 0.817  F1 0.930  macroF1 0.575  (247 ep, 52.6s)
+    early stop @ epoch 293
+  v0_simplex   seed 4  HR@1 0.747  MRR@3 0.820  F1 0.924  macroF1 0.572  (294 ep, 67.0s)
+    early stop @ epoch 149
+  v1_uniform   seed 0  HR@1 0.750  MRR@3 0.819  F1 0.927  macroF1 0.526  (150 ep, 44.6s)
+    early stop @ epoch 246
+  v1_uniform   seed 1  HR@1 0.747  MRR@3 0.812  F1 0.931  macroF1 0.554  (247 ep, 70.7s)
+    early stop @ epoch 263
+  v1_uniform   seed 2  HR@1 0.745  MRR@3 0.820  F1 0.936  macroF1 0.570  (264 ep, 73.9s)
+    early stop @ epoch 215
+  v1_uniform   seed 3  HR@1 0.773  MRR@3 0.829  F1 0.942  macroF1 0.572  (216 ep, 58.6s)
+    early stop @ epoch 368
+  v1_uniform   seed 4  HR@1 0.716  MRR@3 0.797  F1 0.913  macroF1 0.567  (369 ep, 107.0s)
+    early stop @ epoch 149
+  v2_global    seed 0  HR@1 0.749  MRR@3 0.819  F1 0.928  macroF1 0.527  (150 ep, 44.6s)
+    early stop @ epoch 359
+  v2_global    seed 1  HR@1 0.704  MRR@3 0.784  F1 0.901  macroF1 0.561  (360 ep, 110.2s)
+    early stop @ epoch 263
+  v2_global    seed 2  HR@1 0.745  MRR@3 0.822  F1 0.939  macroF1 0.575  (264 ep, 84.2s)
+    early stop @ epoch 308
+  v2_global    seed 3  HR@1 0.756  MRR@3 0.817  F1 0.929  macroF1 0.570  (309 ep, 93.8s)
+  v2_global    seed 4  HR@1 0.710  MRR@3 0.792  F1 0.911  macroF1 0.570  (400 ep, 118.2s)
+    early stop @ epoch 230
+  v3_incident  seed 0  HR@1 0.743  MRR@3 0.814  F1 0.937  macroF1 0.570  (231 ep, 261.6s)
+    early stop @ epoch 224
+  v3_incident  seed 1  HR@1 0.729  MRR@3 0.801  F1 0.915  macroF1 0.542  (225 ep, 67.5s)
+    early stop @ epoch 190
+  v3_incident  seed 2  HR@1 0.753  MRR@3 0.819  F1 0.944  macroF1 0.581  (191 ep, 58.2s)
+    early stop @ epoch 215
+  v3_incident  seed 3  HR@1 0.764  MRR@3 0.823  F1 0.937  macroF1 0.578  (216 ep, 190.0s)
+    early stop @ epoch 238
+  v3_incident  seed 4  HR@1 0.745  MRR@3 0.816  F1 0.943  macroF1 0.609  (239 ep, 95.6s)
+wrote results/gaia.json
+<hotel: 200 incidents, 18 instances, 5 types, 122/78 train/test>
+    early stop @ epoch 159
+  v0_raw       seed 0  HR@1 0.846  MRR@3 0.885  F1 0.809  macroF1 0.804  (160 ep, 28.6s)
+    early stop @ epoch 138
+  v0_raw       seed 1  HR@1 0.821  MRR@3 0.861  F1 0.771  macroF1 0.747  (139 ep, 24.1s)
+    early stop @ epoch 137
+  v0_raw       seed 2  HR@1 0.833  MRR@3 0.872  F1 0.791  macroF1 0.766  (138 ep, 51.1s)
+    early stop @ epoch 152
+  v0_raw       seed 3  HR@1 0.846  MRR@3 0.882  F1 0.819  macroF1 0.815  (153 ep, 162.9s)
+    early stop @ epoch 190
+  v0_raw       seed 4  HR@1 0.833  MRR@3 0.868  F1 0.788  macroF1 0.777  (191 ep, 34.8s)
+    early stop @ epoch 193
+  v0_simplex   seed 0  HR@1 0.846  MRR@3 0.876  F1 0.784  macroF1 0.766  (194 ep, 47.7s)
+    early stop @ epoch 111
+  v0_simplex   seed 1  HR@1 0.821  MRR@3 0.861  F1 0.799  macroF1 0.783  (112 ep, 20.2s)
+    early stop @ epoch 162
+  v0_simplex   seed 2  HR@1 0.833  MRR@3 0.870  F1 0.798  macroF1 0.778  (163 ep, 28.3s)
+    early stop @ epoch 152
+  v0_simplex   seed 3  HR@1 0.846  MRR@3 0.882  F1 0.819  macroF1 0.815  (153 ep, 27.3s)
+    early stop @ epoch 173
+  v0_simplex   seed 4  HR@1 0.821  MRR@3 0.865  F1 0.819  macroF1 0.814  (174 ep, 30.6s)
+    early stop @ epoch 162
+  v1_uniform   seed 0  HR@1 0.846  MRR@3 0.885  F1 0.774  macroF1 0.774  (163 ep, 41.3s)
+    early stop @ epoch 107
+  v1_uniform   seed 1  HR@1 0.821  MRR@3 0.857  F1 0.785  macroF1 0.778  (108 ep, 25.6s)
+    early stop @ epoch 137
+  v1_uniform   seed 2  HR@1 0.833  MRR@3 0.868  F1 0.780  macroF1 0.753  (138 ep, 33.8s)
+    early stop @ epoch 152
+  v1_uniform   seed 3  HR@1 0.846  MRR@3 0.882  F1 0.797  macroF1 0.788  (153 ep, 38.1s)
+    early stop @ epoch 124
+  v1_uniform   seed 4  HR@1 0.833  MRR@3 0.876  F1 0.827  macroF1 0.824  (125 ep, 30.3s)
+    early stop @ epoch 162
+  v2_global    seed 0  HR@1 0.846  MRR@3 0.880  F1 0.774  macroF1 0.774  (163 ep, 36.8s)
+    early stop @ epoch 107
+  v2_global    seed 1  HR@1 0.821  MRR@3 0.861  F1 0.785  macroF1 0.778  (108 ep, 24.8s)
+    early stop @ epoch 137
+  v2_global    seed 2  HR@1 0.833  MRR@3 0.872  F1 0.780  macroF1 0.753  (138 ep, 31.9s)
+    early stop @ epoch 120
+  v2_global    seed 3  HR@1 0.833  MRR@3 0.872  F1 0.775  macroF1 0.765  (121 ep, 30.4s)
+    early stop @ epoch 124
+  v2_global    seed 4  HR@1 0.833  MRR@3 0.876  F1 0.840  macroF1 0.837  (125 ep, 30.9s)
+    early stop @ epoch 142
+  v3_incident  seed 0  HR@1 0.846  MRR@3 0.880  F1 0.737  macroF1 0.701  (143 ep, 34.7s)
+    early stop @ epoch 107
+  v3_incident  seed 1  HR@1 0.808  MRR@3 0.850  F1 0.764  macroF1 0.756  (108 ep, 24.8s)
+    early stop @ epoch 152
+  v3_incident  seed 2  HR@1 0.833  MRR@3 0.876  F1 0.814  macroF1 0.802  (153 ep, 38.2s)
+    early stop @ epoch 125
+  v3_incident  seed 3  HR@1 0.821  MRR@3 0.865  F1 0.779  macroF1 0.764  (126 ep, 27.7s)
+    early stop @ epoch 141
+  v3_incident  seed 4  HR@1 0.833  MRR@3 0.872  F1 0.811  macroF1 0.806  (142 ep, 31.8s)
+wrote results/hotel.json
+<hotel: 200 incidents, 18 instances, 5 types, 122/78 train/test>
+    early stop @ epoch 178
+  v4_fusion    seed 0  HR@1 0.846  MRR@3 0.878  F1 0.772  macroF1 0.757  (179 ep, 41.5s)
+    early stop @ epoch 104
+  v4_fusion    seed 1  HR@1 0.821  MRR@3 0.855  F1 0.713  macroF1 0.704  (105 ep, 24.5s)
+    early stop @ epoch 109
+  v4_fusion    seed 2  HR@1 0.782  MRR@3 0.827  F1 0.764  macroF1 0.751  (110 ep, 25.5s)
+    early stop @ epoch 71
+  v4_fusion    seed 3  HR@1 0.782  MRR@3 0.812  F1 0.726  macroF1 0.677  (72 ep, 16.5s)
+    early stop @ epoch 156
+  v4_fusion    seed 4  HR@1 0.808  MRR@3 0.844  F1 0.824  macroF1 0.822  (157 ep, 37.0s)
+wrote results/hotel_v4_fusion.json
+
+=== gaia / v0_simplex ===
+  term             grad norm    share
+  l_rcl               0.2573    57.1%
+  l_fti               0.1036    23.0%
+  sigma*l_to          0.0523    11.6%
+  sigma*l_cm          0.0375     8.3%
+  -> the task-oriented term supplies 11.6% of the encoder gradient; w only reallocates within that share.
+
+=== gaia / v3_incident ===
+  term             grad norm    share
+  l_rcl               0.2529    56.1%
+  l_fti               0.1070    23.7%
+  sigma*l_to          0.0562    12.5%
+  sigma*l_cm          0.0348     7.7%
+  -> the task-oriented term supplies 12.5% of the encoder gradient; w only reallocates within that share.
+
+wrote results/gaia_gradshare.json
+
+=== hotel / v0_simplex ===
+  term             grad norm    share
+  l_rcl               0.3782    44.0%
+  l_fti               0.4387    51.1%
+  sigma*l_to          0.0150     1.7%
+  sigma*l_cm          0.0273     3.2%
+  -> the task-oriented term supplies 1.7% of the encoder gradient; w only reallocates within that share.
+
+=== hotel / v3_incident ===
+  term             grad norm    share
+  l_rcl               0.3940    44.1%
+  l_fti               0.4374    49.0%
+  sigma*l_to          0.0318     3.6%
+  sigma*l_cm          0.0300     3.4%
+  -> the task-oriented term supplies 3.6% of the encoder gradient; w only reallocates within that share.
+
+wrote results/hotel_gradshare.json
+
+=== v0_simplex ===
+  failure class                             n    HR@1    HR@3  FTI rec
+  container-kill                           22   1.000   1.000    0.500
+  network-delay                            14   0.357   0.643    0.857
+  network-loss                             13   0.769   0.846    1.000
+  pod-failure                              15   1.000   1.000    0.800
+  pod-kill                                 14   1.000   1.000    0.786
+
+=== v2_global ===
+  failure class                             n    HR@1    HR@3  FTI rec
+  container-kill                           22   1.000   1.000    0.591
+  network-delay                            14   0.357   0.643    0.929
+  network-loss                             13   0.769   0.923    1.000
+  pod-failure                              15   1.000   1.000    0.800
+  pod-kill                                 14   1.000   1.000    0.643
+    w[container-kill                ] 0.38  0.38  0.31  0.28  0.30  0.35
+    w[network-delay                 ] 0.38  0.38  0.31  0.28  0.30  0.35
+    w[network-loss                  ] 0.38  0.38  0.31  0.28  0.30  0.35
+    w[pod-failure                   ] 0.38  0.38  0.31  0.28  0.30  0.35
+    w[pod-kill                      ] 0.38  0.38  0.31  0.28  0.30  0.35
+
+=== v3_incident ===
+  failure class                             n    HR@1    HR@3  FTI rec
+  container-kill                           22   1.000   1.000    0.409
+  network-delay                            14   0.357   0.643    0.714
+  network-loss                             13   0.769   0.923    0.923
+  pod-failure                              15   1.000   1.000    0.733
+  pod-kill                                 14   1.000   1.000    0.857
+    w[container-kill                ] 1.00  0.00  0.00  0.00  0.00  1.00
+    w[network-delay                 ] 1.00  0.00  0.00  0.00  0.00  1.00
+    w[network-loss                  ] 1.00  0.00  0.00  0.00  0.00  1.00
+    w[pod-failure                   ] 1.00  0.00  0.00  0.00  0.00  1.00
+    w[pod-kill                      ] 1.00  0.00  0.00  0.00  0.00  1.00
+
+wrote results/hotel_perclass.json
+ALL DONE

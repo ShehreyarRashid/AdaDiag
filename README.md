@@ -31,6 +31,12 @@ benchmarks, it cannot.
 >    `log → FTI` is right on GAIA and wrong on Hotel. AdaDiag captures neither. Its one
 >    significant win (+0.080 F1) comes when the term is made strong enough to hurt the
 >    fixed prior; it protects against that damage but never beats TVDiag's default.
+> 5. **Set beside the paper, the re-implementation holds up and the paper agrees with point 1**
+>    (§6.9). TVDiag's published HR@1 is reproduced within 0.03 on all three released
+>    datasets, and its modality ablations within 0.05. The paper's own Table 6 and Fig. 16,
+>    re-run over three seeds, show the term AdaDiag reweights contributes nothing measurable:
+>    removing TO, CM or the dynamic weights changes nothing, and no contrastive loss at all
+>    (ω = 0) is as good as the default.
 >
 > The contribution of this repository is that diagnosis, reproducibly — a negative result
 > with a mechanism, rather than an unexplained flat table.
@@ -143,9 +149,10 @@ forward path that produces predictions, so AdaDiag adds **zero inference cost**.
 | 9 | Gradient-share diagnostic | `src/adadiag/diagnostics.py` | `gradient_shares()` |
 | 10 | Identifiability: gradient paths + vertex collapse | `src/adadiag/identifiability.py` | `measure_gradient_paths()`, `measure_collapse()` |
 | 11 | Ablation studies (4 groups, 22 configurations) | `src/adadiag/ablation.py` | `ABLATIONS`, `run_one()`, `gradient_snapshot()` |
+| 12 | Comparison with the TVDiag paper (Tables 3–7, Figs. 11, 13–18) | `src/adadiag/paper_compare.py`, `src/adadiag/paper_numbers.py` | `per_class_k()`, `modality_shapley()`, `to_agreement()`, `VARIANTS` |
 | — | Hyperparameters, transcribed from TVDiag | `src/adadiag/config.py` | `get()` |
 | — | Re-run committed experiments, compare to results/ | `scripts/verify_results.py` | `main()` |
-| — | Tests (27; 22 need no data, 5 check data/) | `tests/test_supcon_equivalence.py`, `tests/test_weighting_identifiability.py`, `tests/test_ablation_switches.py`, `tests/test_data_integrity.py` | `pytest -q` |
+| — | Tests (35; 30 need no data, 5 check data/) | `tests/test_supcon_equivalence.py`, `tests/test_weighting_identifiability.py`, `tests/test_ablation_switches.py`, `tests/test_paper_compare.py`, `tests/test_data_integrity.py` | `pytest -q` |
 
 Model assembly lives in `src/adadiag/model.py`; the runnable entry points are in `scripts/`.
 
@@ -212,7 +219,7 @@ Per dataset the loader reads `data/<ds>/tmp/{metric,trace,log}.pkl` (embeddings)
 git clone https://github.com/ShehreyarRashid/AdaDiag.git && cd AdaDiag
 pip install -r requirements.txt            # or: conda env create -f environment.yml
 
-pytest -q                                  # 27 tests, incl. checksums of data/; run first
+pytest -q                                  # 35 tests, incl. checksums of data/; run first
 
 # the five-arm, five-seed sweep (2 CPU cores, no GPU: ~16 min Hotel, ~34 min GAIA)
 python scripts/run_sweep.py       --dataset gaia
@@ -234,6 +241,10 @@ python scripts/run_diagnostics.py --dataset hotel
 
 # render the tables below
 python scripts/make_report.py results/hotel.json --dataset hotel
+
+# the comparison with the TVDiag paper (§6.9): every run, in lanes, then the report
+bash scripts/paper_comparison_runs.sh main          # and sweep0..5, ada, gaia_abl, ...
+python scripts/make_paper_comparison.py
 ```
 
 **CPU only. No GPU, no CUDA, and no DGL.** The incident graphs have 10–21 nodes, so the
@@ -272,9 +283,12 @@ New result records carry an `env` field (PyTorch version, thread count) for this
 | GAIA | F1 | 0.936 | 0.918 ± 0.013 | −0.018 |
 | Hotel | HR@1 | 0.821 | **0.836 ± 0.011** | +0.015 |
 | Hotel | F1 | 0.822 | 0.796 ± 0.019 | −0.026 |
+| Sock Shop | HR@1 | 0.863 | **0.868 ± 0.012** | +0.005 |
+| Sock Shop | F1 | 0.636 | 0.572 ± 0.014 | −0.064 |
 
-Within ~3 points on both datasets, from a clean-room dense re-implementation. Close enough
-for arm-to-arm comparison.
+HR@1 within 3 points on all three datasets, from a clean-room dense re-implementation;
+F1 2–6 points lower. Close enough for arm-to-arm comparison. Every other table and figure of
+the paper's evaluation is set beside this re-implementation in §6.9.
 
 ### 6.2 The five arms — GAIA (5 seeds, identical splits and seeds)
 
@@ -709,9 +723,70 @@ heads, while the prior's strong terms reshape all three.
 The direction this points to is a weighting that is trained on the diagnosis losses
 (§6.6) and conditioned on failure class for RCL — not on the incident descriptor used here.
 
+### 6.9 Against the paper — Tables 3–7 and Figures 11, 13–18
+
+Every table and figure of TVDiag's evaluation that can be recomputed from the released
+data, set beside this re-implementation and AdaDiag. Full tables, all figures and the method
+behind each: **[`results/paper_comparison/PAPER_COMPARISON.md`](results/paper_comparison/PAPER_COMPARISON.md)**.
+The paper's dataset A is GAIA, C is Sock Shop, D is Hotel Reservation; B (AIOps-22) is not
+distributed. The paper's baselines are not re-run. Values the paper only plots (Figs.
+15–18) were read off its figures, to ± 0.005.
+
+| Dataset |  | HR@1 | HR@3 | Avg@3 | MRR@3 | F1 |
+| --- | --- | ---: | ---: | ---: | ---: | ---: |
+| A · GAIA | TVDiag, paper | 0.759 | 0.909 | 0.844 | 0.827 | 0.936 |
+|  | TVDiag, re-run | 0.731 | 0.892 | 0.823 | 0.804 | 0.918 |
+|  | AdaDiag | 0.747 | 0.896 | 0.832 | 0.814 | 0.935 |
+| C · Sock Shop | TVDiag, paper | 0.863 | 0.954 | 0.913 | 0.903 | 0.636 |
+|  | TVDiag, re-run | 0.868 | 0.948 | 0.913 | 0.904 | 0.572 |
+|  | AdaDiag | 0.871 | 0.949 | 0.917 | 0.907 | 0.575 |
+| D · Hotel Reservation | TVDiag, paper | 0.821 | 0.923 | 0.876 | 0.866 | 0.822 |
+|  | TVDiag, re-run | 0.836 | 0.921 | 0.883 | 0.874 | 0.796 |
+|  | AdaDiag | 0.828 | 0.923 | 0.878 | 0.869 | 0.781 |
+
+**What the comparison shows.** Numbers are GAIA (A) unless a dataset is named; *re-run* is
+TVDiag as shipped, 3–5 seeds.
+
+1. **The published numbers reproduce for localisation, less so for failure type**
+   (Tables 4–5). HR@1 lands within 0.03 of the paper on all three datasets (A −0.028, C
+   +0.005, D +0.015); F1 is 0.02–0.06 lower. The re-run still beats every published baseline on both
+   tasks on all three.
+2. **Table 5 compares two different F1s.** TVDiag's F1 is the harmonic mean of its
+   weighted precision and recall, exactly, on all four datasets; 18 of the 24 baseline
+   rows print an F1 more than 0.005 below that quantity. The comparison flatters TVDiag by
+   roughly the gap between the two definitions (0.002–0.025 on the re-run).
+3. **Of the four training components, only augmentation matters** (Table 6). Without AUG
+   HR@1 falls 0.111 (paper: 0.084). Removing TO, CM or DW changes nothing measurable —
+   +0.011, +0.010, +0.003 here; −0.005, −0.002, −0.002 in the paper, from single runs. On
+   Hotel, which the paper's Table 6 does not cover, none of the four matters, AUG included.
+4. **The contrastive terms do not help** (Fig. 16b). ω = 0 — no TO, no CM — is as good as
+   the default, and F1 falls steadily as ω grows (−0.050 at ω = 0.9, p = 0.011); the paper
+   reports ω = 0.1 as best. Too large an inactivation probability hurts, as the paper says
+   (p = 0.9: −0.151 HR@1); temperature and depth are flat within seed noise.
+5. **The modality ablations reproduce closely** (Fig. 17, Table 7). Dropping metric or
+   trace costs 0.265 / 0.253 HR@1 (paper 0.274 / 0.294); dropping log costs 0.173 F1 (paper
+   0.216). TVDiag's own single-modality rows in Table 7 match within 0.001 on logs
+   (0.337 / 0.638 / 0.518 / 0.945 vs the paper's 0.337 / 0.639 / 0.518 / 0.945) and within
+   0.01 on traces.
+6. **Per-incident contributions agree for RCL, only partly for FTI** (Fig. 18). RCL's
+   ranking — trace > metric > log — matches the paper. For FTI both put logs first, but here
+   logs dominate far more (median share 0.55 vs 0.39) and metrics fall to last.
+7. **The alert-field ablation reproduces in direction** (Fig. 15, alerts re-embedded with
+   TVDiag's own fastText step). Dropping the trace alerts' abnormal type costs the most
+   (F1 −0.115; paper −0.120); the operation name and the metric direction matter little.
+
+**For AdaDiag.** Findings 3 and 4 are the paper's own evaluation confirming §6.4 from the
+other side: the term AdaDiag reweights contributes nothing measurable at TVDiag's settings,
+so there is nothing for a better weighting of it to win. On the paper's numbers AdaDiag
+sits within 0.012 HR@1 of TVDiag's published results; its edge over TVDiag as shipped on
+GAIA (+0.016 HR@1) is matched by the same fixed rule rescaled (V0-simplex, +0.013). Its
+learned matrix sends GAIA's RCL term to `log` (0.99) — the modality with the smallest share
+of RCL's predictions (median 0.03, Fig. 18) — and along ω it only loses less F1 than
+TVDiag, never exceeding TVDiag's best point (Fig. 16b).
+
 ---
 
-## 7. Three findings about the TVDiag artefact
+## 7. Four findings about the TVDiag artefact
 
 Checkable in minutes, independent of AdaDiag:
 
@@ -725,14 +800,27 @@ Checkable in minutes, independent of AdaDiag:
    `tests/`); "fixing" it would mean no longer reproducing TVDiag.
 3. **Their F1 is not sklearn's weighted F1** — `helper/eval.py` takes the harmonic mean of
    *weighted* precision and *weighted* recall. The published figures are that quantity, so
-   `evaluate.py` reports it their way and `f1_sklearn_weighted` alongside.
+   `evaluate.py` reports it their way and `f1_sklearn_weighted` alongside. The paper's
+   Table 5 mixes the two: TVDiag's F1 equals the harmonic mean of its P and R on all four
+   datasets, while 18 of the 24 baseline rows print an F1 below theirs — a comparison that
+   favours TVDiag (§6.9).
+4. **Fig. 15's `w/o abDirection` is a no-op on two of the three released datasets.** The
+   embedding code drops field index 3 of a metric alert, which is the direction on GAIA's
+   4-field alerts but does not exist on Hotel's and Sock Shop's 3-field ones
+   (`scripts/reembed_alerts.py` drops the last field instead).
 
 ---
 
 ## 8. Honest scope
 
-- Two datasets completed (GAIA, Hotel Reservation); Sock Shop is bundled in `data/` but not run,
-  and AIOps-22 is not distributed (§4).
+- The arm comparison and the ablations cover two datasets (GAIA, Hotel Reservation). Sock
+  Shop is run only for the paper comparison (§6.9: TVDiag, V0-simplex and AdaDiag at the
+  default settings, 5 seeds). AIOps-22 is not distributed (§4).
+- **The paper comparison (§6.9)** re-runs TVDiag, not its baselines; the baselines' numbers
+  are the paper's. Values the paper only plots were read off its figures (± 0.005). Its
+  Table 7 rows for DiagFusion's extractors need raw telemetry the release omits. The
+  hyper-parameter sweeps use six of the paper's nine points per parameter, 3 seeds; the
+  p-values in Fig. 16's notes are uncorrected.
 - These are **this re-implementation's** numbers, not the paper's. The defensible claim is
   the *difference between arms* under identical splits, seeds and hyperparameters; absolute
   values are anchored by §6.1 and no further.

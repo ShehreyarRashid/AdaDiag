@@ -113,7 +113,12 @@ def compute_terms(model, arm, batch, cfg) -> tuple[dict, torch.Tensor]:
 def total_loss(awl, terms, cfg) -> torch.Tensor:
     sigma = cfg["contrastive_loss_scale"]
     sigma_to = cfg.get("to_scale") or sigma          # ablation: scale l_to on its own
-    loss = awl(terms["l_rcl"], terms["l_fti"], sigma_to * terms["l_to"], sigma * terms["l_cm"])
+    parts = (terms["l_rcl"], terms["l_fti"], sigma_to * terms["l_to"], sigma * terms["l_cm"])
+    if cfg.get("dynamic_weights", True):
+        loss = awl(*parts)
+    else:
+        # TVDiag's "w/o DW" (Table 6): Eq. 12 with static unit weights instead of Eq. 13.
+        loss = parts[0] + parts[1] + parts[2] + parts[3]
     if "negent" in terms:
         loss = loss + cfg["entropy_reg"] * terms["negent"]
     return loss

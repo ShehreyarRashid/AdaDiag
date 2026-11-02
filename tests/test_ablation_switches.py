@@ -43,7 +43,8 @@ def test_explicit_defaults_change_nothing(arm):
     """Spelling out every switch at its default gives the identical loss."""
     m1, c1 = _model(arm)
     m2, c2 = _model(arm, drop_modalities=(), w_constraint="simplex", detach=True,
-                    descriptor="full", use_to=True, use_cm=True, entropy_reg=0.0)
+                    descriptor="full", use_to=True, use_cm=True, entropy_reg=0.0,
+                    dynamic_weights=True)
     m1.eval(); m2.eval()                    # hotel uses dropout; compare without it
     batch = _batch(c1)
     awl = AutomaticWeightedLoss(4)
