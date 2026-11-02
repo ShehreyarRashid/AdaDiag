@@ -1,0 +1,34 @@
+[
+ {
+  "dataset": "gaia",
+  "arm": "v0_simplex",
+  "grad_norm": {
+   "l_rcl": 0.2573,
+   "l_fti": 0.1036,
+   "sigma*l_to": 0.0523,
+   "sigma*l_cm": 0.0375
+  },
+  "share": {
+   "l_rcl": 57.1,
+   "l_fti": 23.0,
+   "sigma*l_to": 11.6,
+   "sigma*l_cm": 8.3
+  }
+ },
+ {
+  "dataset": "gaia",
+  "arm": "v3_incident",
+  "grad_norm": {
+   "l_rcl": 0.2529,
+   "l_fti": 0.107,
+   "sigma*l_to": 0.0562,
+   "sigma*l_cm": 0.0348
+  },
+  "share": {
+   "l_rcl": 56.1,
+   "l_fti": 23.7,
+   "sigma*l_to": 12.5,
+   "sigma*l_cm": 7.7
+  }
+ }
+]
