@@ -1,0 +1,1745 @@
+[
+ {
+  "HR@1": 0.7199148029818956,
+  "HR@2": 0.8413205537806177,
+  "HR@3": 0.8839190628328009,
+  "HR@4": 0.9179978700745474,
+  "HR@5": 0.9424920127795527,
+  "MRR@3": 0.7948171922320121,
+  "precision": 0.9178232326400279,
+  "recall": 0.939297124600639,
+  "f1": 0.9284360272603696,
+  "f1_sklearn_weighted": 0.9267642045418935,
+  "macro_f1": 0.5706781924737065,
+  "arm": "v0_simplex",
+  "seed": 1,
+  "dataset": "gaia",
+  "epochs": 271,
+  "train_s": 200.0,
+  "weighting_params": 0,
+  "env": {
+   "torch": "2.15.0+cu132",
+   "threads": 1
+  },
+  "name": "ref_prior",
+  "group": "ref",
+  "description": "TVDiag prior (V0-simplex), full model",
+  "overrides": {},
+  "per_class": {
+   "[access permission denied exception]": {
+    "n": 15,
+    "hr1": 0.06666667014360428,
+    "hr3": 0.13333334028720856,
+    "fti_recall": 0.0
+   },
+   "[file moving program]": {
+    "n": 27,
+    "hr1": 0.9259259104728699,
+    "hr3": 1.0,
+    "fti_recall": 0.9259259104728699
+   },
+   "[login failure]": {
+    "n": 458,
+    "hr1": 0.7947598099708557,
+    "hr3": 0.971615731716156,
+    "fti_recall": 0.9454148411750793
+   },
+   "[memory_anomalies]": {
+    "n": 426,
+    "hr1": 0.6690140962600708,
+    "hr3": 0.8309859037399292,
+    "fti_recall": 0.9953051805496216
+   },
+   "[normal memory freed label]": {
+    "n": 13,
+    "hr1": 0.07692307978868484,
+    "hr3": 0.1538461595773697,
+    "fti_recall": 0.0
+   }
+  },
+  "grad_share": {
+   "l_rcl": 66.73,
+   "l_fti": 5.12,
+   "sigma*l_to": 15.34,
+   "sigma*l_cm": 12.82
+  },
+  "weights": null
+ },
+ {
+  "HR@1": 0.7433439829605963,
+  "HR@2": 0.853035143769968,
+  "HR@3": 0.9030883919062833,
+  "HR@4": 0.919062832800852,
+  "HR@5": 0.9382321618743344,
+  "MRR@3": 0.8148739035771931,
+  "precision": 0.9238928013863601,
+  "recall": 0.9488817891373802,
+  "f1": 0.9362205775180529,
+  "f1_sklearn_weighted": 0.9353547763015141,
+  "macro_f1": 0.5699258270418329,
+  "arm": "v3_incident",
+  "seed": 0,
+  "dataset": "gaia",
+  "epochs": 231,
+  "train_s": 240.7,
+  "weighting_params": 6790,
+  "env": {
+   "torch": "2.15.0+cu132",
+   "threads": 1
+  },
+  "name": "ref_adadiag",
+  "group": "ref",
+  "description": "AdaDiag (V3-incident), full model",
+  "overrides": {},
+  "per_class": {
+   "[access permission denied exception]": {
+    "n": 15,
+    "hr1": 0.13333334028720856,
+    "hr3": 0.5333333611488342,
+    "fti_recall": 0.0
+   },
+   "[file moving program]": {
+    "n": 27,
+    "hr1": 0.9259259104728699,
+    "hr3": 1.0,
+    "fti_recall": 0.8518518805503845
+   },
+   "[login failure]": {
+    "n": 458,
+    "hr1": 0.807860255241394,
+    "hr3": 0.9737991094589233,
+    "fti_recall": 0.9737991094589233
+   },
+   "[memory_anomalies]": {
+    "n": 426,
+    "hr1": 0.7065727710723877,
+    "hr3": 0.8544601202011108,
+    "fti_recall": 0.9906103014945984
+   },
+   "[normal memory freed label]": {
+    "n": 13,
+    "hr1": 0.0,
+    "hr3": 0.23076923191547394,
+    "fti_recall": 0.0
+   }
+  },
+  "grad_share": {
+   "l_rcl": 38.15,
+   "l_fti": 34.57,
+   "sigma*l_to": 16.35,
+   "sigma*l_cm": 10.93
+  },
+  "weights": {
+   "w": [
+    [
+     0.00022669935424346477,
+     4.570710734697059e-05
+    ],
+    [
+     9.470469376537949e-05,
+     5.620088631985709e-05
+    ],
+    [
+     0.9996786117553711,
+     0.9998981356620789
+    ]
+   ],
+   "col_max": [
+    0.9996786117553711,
+    0.9998981356620789
+   ],
+   "col_sum": [
+    1.0,
+    1.0
+   ]
+  }
+ },
+ {
+  "HR@1": 0.7497337593184239,
+  "HR@2": 0.853035143769968,
+  "HR@3": 0.898828541001065,
+  "HR@4": 0.9275825346112886,
+  "HR@5": 0.9478168264110756,
+  "MRR@3": 0.8166489606213392,
+  "precision": 0.930601109670696,
+  "recall": 0.9574014909478168,
+  "f1": 0.9438110832946284,
+  "f1_sklearn_weighted": 0.9435986686729259,
+  "macro_f1": 0.5812398225937465,
+  "arm": "v3_incident",
+  "seed": 2,
+  "dataset": "gaia",
+  "epochs": 191,
+  "train_s": 193.4,
+  "weighting_params": 6790,
+  "env": {
+   "torch": "2.15.0+cu132",
+   "threads": 1
+  },
+  "name": "ref_adadiag",
+  "group": "ref",
+  "description": "AdaDiag (V3-incident), full model",
+  "overrides": {},
+  "per_class": {
+   "[access permission denied exception]": {
+    "n": 15,
+    "hr1": 0.2666666805744171,
+    "hr3": 0.6666666865348816,
+    "fti_recall": 0.0
+   },
+   "[file moving program]": {
+    "n": 27,
+    "hr1": 0.9259259104728699,
+    "hr3": 1.0,
+    "fti_recall": 0.9259259104728699
+   },
+   "[login failure]": {
+    "n": 458,
+    "hr1": 0.875545859336853,
+    "hr3": 0.9912663698196411,
+    "fti_recall": 0.9934498071670532
+   },
+   "[memory_anomalies]": {
+    "n": 426,
+    "hr1": 0.6431924700737,
+    "hr3": 0.8239436745643616,
+    "fti_recall": 0.9835680723190308
+   },
+   "[normal memory freed label]": {
+    "n": 13,
+    "hr1": 0.0,
+    "hr3": 0.1538461595773697,
+    "fti_recall": 0.0
+   }
+  },
+  "grad_share": {
+   "l_rcl": 53.93,
+   "l_fti": 21.68,
+   "sigma*l_to": 13.75,
+   "sigma*l_cm": 10.64
+  },
+  "weights": {
+   "w": [
+    [
+     0.021905165165662766,
+     8.095103112282231e-05
+    ],
+    [
+     0.00017636106349527836,
+     3.866419137921184e-05
+    ],
+    [
+     0.9779184460639954,
+     0.9998804330825806
+    ]
+   ],
+   "col_max": [
+    0.9779184460639954,
+    0.9998804330825806
+   ],
+   "col_sum": [
+    1.0,
+    1.0
+   ]
+  }
+ },
+ {
+  "HR@1": 0.617678381256656,
+  "HR@2": 0.7902023429179978,
+  "HR@3": 0.8445154419595314,
+  "HR@4": 0.8998935037273695,
+  "HR@5": 0.9254526091586794,
+  "MRR@3": 0.7220446959344216,
+  "precision": 0.8753470904861823,
+  "recall": 0.8668796592119276,
+  "f1": 0.8710927984825181,
+  "f1_sklearn_weighted": 0.8640551412243435,
+  "macro_f1": 0.5482658498994757,
+  "arm": "v0_simplex",
+  "seed": 1,
+  "dataset": "gaia",
+  "epochs": 500,
+  "train_s": 74.3,
+  "weighting_params": 0,
+  "env": {
+   "torch": "2.15.0+cu132",
+   "threads": 1
+  },
+  "name": "A_no_aug",
+  "group": "A",
+  "description": "w/o AUG",
+  "overrides": {
+   "aug_times": 0
+  },
+  "per_class": {
+   "[access permission denied exception]": {
+    "n": 15,
+    "hr1": 0.06666667014360428,
+    "hr3": 0.2666666805744171,
+    "fti_recall": 0.0
+   },
+   "[file moving program]": {
+    "n": 27,
+    "hr1": 0.8518518805503845,
+    "hr3": 1.0,
+    "fti_recall": 1.0
+   },
+   "[login failure]": {
+    "n": 458,
+    "hr1": 0.6135371327400208,
+    "hr3": 0.9017467498779297,
+    "fti_recall": 0.807860255241394
+   },
+   "[memory_anomalies]": {
+    "n": 426,
+    "hr1": 0.6455398797988892,
+    "hr3": 0.8169013857841492,
+    "fti_recall": 0.9788732528686523
+   },
+   "[normal memory freed label]": {
+    "n": 13,
+    "hr1": 0.0,
+    "hr3": 0.07692307978868484,
+    "fti_recall": 0.0
+   }
+  },
+  "grad_share": {
+   "l_rcl": 1.79,
+   "l_fti": 6.23,
+   "sigma*l_to": 34.37,
+   "sigma*l_cm": 57.61
+  },
+  "weights": null
+ },
+ {
+  "HR@1": 0.724174653887114,
+  "HR@2": 0.8445154419595314,
+  "HR@3": 0.8977635782747604,
+  "HR@4": 0.919062832800852,
+  "HR@5": 0.939297124600639,
+  "MRR@3": 0.8020944483617878,
+  "precision": 0.9213273303570932,
+  "recall": 0.9424920127795527,
+  "f1": 0.9317895033278513,
+  "f1_sklearn_weighted": 0.9293144412162451,
+  "macro_f1": 0.5396770279881187,
+  "arm": "v0_simplex",
+  "seed": 0,
+  "dataset": "gaia",
+  "epochs": 189,
+  "train_s": 14.9,
+  "weighting_params": 0,
+  "env": {
+   "torch": "2.15.0+cu132",
+   "threads": 1
+  },
+  "name": "A_no_to",
+  "group": "A",
+  "description": "w/o TO (the term AdaDiag reweights)",
+  "overrides": {
+   "use_to": false
+  },
+  "per_class": {
+   "[access permission denied exception]": {
+    "n": 15,
+    "hr1": 0.20000000298023224,
+    "hr3": 0.46666666865348816,
+    "fti_recall": 0.0
+   },
+   "[file moving program]": {
+    "n": 27,
+    "hr1": 0.9259259104728699,
+    "hr3": 1.0,
+    "fti_recall": 0.6296296119689941
+   },
+   "[login failure]": {
+    "n": 458,
+    "hr1": 0.7991266250610352,
+    "hr3": 0.9781659245491028,
+    "fti_recall": 0.9672489166259766
+   },
+   "[memory_anomalies]": {
+    "n": 426,
+    "hr1": 0.67136150598526,
+    "hr3": 0.84272301197052,
+    "fti_recall": 0.9976525902748108
+   },
+   "[normal memory freed label]": {
+    "n": 13,
+    "hr1": 0.0,
+    "hr3": 0.1538461595773697,
+    "fti_recall": 0.0
+   }
+  },
+  "grad_share": {
+   "l_rcl": 71.26,
+   "l_fti": 17.13,
+   "sigma*l_to": 0.0,
+   "sigma*l_cm": 11.61
+  },
+  "weights": null
+ },
+ {
+  "HR@1": 0.7529286474973376,
+  "HR@2": 0.8509052183173589,
+  "HR@3": 0.9041533546325878,
+  "HR@4": 0.9307774227902024,
+  "HR@5": 0.946751863684771,
+  "MRR@3": 0.8196663658458966,
+  "precision": 0.9277094237871887,
+  "recall": 0.9531416400425985,
+  "f1": 0.9402535891076985,
+  "f1_sklearn_weighted": 0.9390398341568813,
+  "macro_f1": 0.567339468936746,
+  "arm": "v0_simplex",
+  "seed": 2,
+  "dataset": "gaia",
+  "epochs": 157,
+  "train_s": 11.8,
+  "weighting_params": 0,
+  "env": {
+   "torch": "2.15.0+cu132",
+   "threads": 1
+  },
+  "name": "A_no_to",
+  "group": "A",
+  "description": "w/o TO (the term AdaDiag reweights)",
+  "overrides": {
+   "use_to": false
+  },
+  "per_class": {
+   "[access permission denied exception]": {
+    "n": 15,
+    "hr1": 0.06666667014360428,
+    "hr3": 0.6000000238418579,
+    "fti_recall": 0.0
+   },
+   "[file moving program]": {
+    "n": 27,
+    "hr1": 0.8888888955116272,
+    "hr3": 1.0,
+    "fti_recall": 0.8148148059844971
+   },
+   "[login failure]": {
+    "n": 458,
+    "hr1": 0.864628791809082,
+    "hr3": 0.9890829920768738,
+    "fti_recall": 0.9759825468063354
+   },
+   "[memory_anomalies]": {
+    "n": 426,
+    "hr1": 0.67136150598526,
+    "hr3": 0.8380281925201416,
+    "fti_recall": 1.0
+   },
+   "[normal memory freed label]": {
+    "n": 13,
+    "hr1": 0.0,
+    "hr3": 0.23076923191547394,
+    "fti_recall": 0.0
+   }
+  },
+  "grad_share": {
+   "l_rcl": 78.45,
+   "l_fti": 15.82,
+   "sigma*l_to": 0.0,
+   "sigma*l_cm": 5.73
+  },
+  "weights": null
+ },
+ {
+  "HR@1": 0.7454739084132055,
+  "HR@2": 0.8466453674121406,
+  "HR@3": 0.8817891373801917,
+  "HR@4": 0.9116080937167199,
+  "HR@5": 0.9350372736954207,
+  "MRR@3": 0.8077742279020235,
+  "precision": 0.9226355247848321,
+  "recall": 0.9435569755058573,
+  "f1": 0.9329789773826999,
+  "f1_sklearn_weighted": 0.9320423659479117,
+  "macro_f1": 0.5953223747799535,
+  "arm": "v0_simplex",
+  "seed": 1,
+  "dataset": "gaia",
+  "epochs": 201,
+  "train_s": 133.4,
+  "weighting_params": 0,
+  "env": {
+   "torch": "2.15.0+cu132",
+   "threads": 1
+  },
+  "name": "A_no_cm",
+  "group": "A",
+  "description": "w/o CM",
+  "overrides": {
+   "use_cm": false
+  },
+  "per_class": {
+   "[access permission denied exception]": {
+    "n": 15,
+    "hr1": 0.06666667014360428,
+    "hr3": 0.3333333432674408,
+    "fti_recall": 0.0
+   },
+   "[file moving program]": {
+    "n": 27,
+    "hr1": 0.9259259104728699,
+    "hr3": 1.0,
+    "fti_recall": 0.8888888955116272
+   },
+   "[login failure]": {
+    "n": 458,
+    "hr1": 0.8493449687957764,
+    "hr3": 0.9868995547294617,
+    "fti_recall": 0.9803493618965149
+   },
+   "[memory_anomalies]": {
+    "n": 426,
+    "hr1": 0.6690140962600708,
+    "hr3": 0.8051643371582031,
+    "fti_recall": 0.9671361446380615
+   },
+   "[normal memory freed label]": {
+    "n": 13,
+    "hr1": 0.0,
+    "hr3": 0.07692307978868484,
+    "fti_recall": 0.07692307978868484
+   }
+  },
+  "grad_share": {
+   "l_rcl": 49.81,
+   "l_fti": 37.75,
+   "sigma*l_to": 12.45,
+   "sigma*l_cm": 0.0
+  },
+  "weights": null
+ },
+ {
+  "HR@1": 0.7433439829605963,
+  "HR@2": 0.8541001064962727,
+  "HR@3": 0.898828541001065,
+  "HR@4": 0.919062832800852,
+  "HR@5": 0.9382321618743344,
+  "MRR@3": 0.8136315553967818,
+  "precision": 0.911320249907005,
+  "recall": 0.9329073482428115,
+  "f1": 0.9219874581571639,
+  "f1_sklearn_weighted": 0.9159096856375427,
+  "macro_f1": 0.490307450933957,
+  "arm": "v0_simplex",
+  "seed": 0,
+  "dataset": "gaia",
+  "epochs": 150,
+  "train_s": 10.4,
+  "weighting_params": 0,
+  "env": {
+   "torch": "2.15.0+cu132",
+   "threads": 1
+  },
+  "name": "A_no_to_cm",
+  "group": "A",
+  "description": "w/o TO and CM (diagnosis losses + AUG only)",
+  "overrides": {
+   "use_to": false,
+   "use_cm": false
+  },
+  "per_class": {
+   "[access permission denied exception]": {
+    "n": 15,
+    "hr1": 0.13333334028720856,
+    "hr3": 0.3333333432674408,
+    "fti_recall": 0.0
+   },
+   "[file moving program]": {
+    "n": 27,
+    "hr1": 0.8148148059844971,
+    "hr3": 1.0,
+    "fti_recall": 0.37037035822868347
+   },
+   "[login failure]": {
+    "n": 458,
+    "hr1": 0.8296943306922913,
+    "hr3": 0.9803493618965149,
+    "fti_recall": 0.9628821015357971
+   },
+   "[memory_anomalies]": {
+    "n": 426,
+    "hr1": 0.6901408433914185,
+    "hr3": 0.8474178314208984,
+    "fti_recall": 0.9976525902748108
+   },
+   "[normal memory freed label]": {
+    "n": 13,
+    "hr1": 0.0,
+    "hr3": 0.1538461595773697,
+    "fti_recall": 0.0
+   }
+  },
+  "grad_share": {
+   "l_rcl": 84.17,
+   "l_fti": 15.83,
+   "sigma*l_to": 0.0,
+   "sigma*l_cm": 0.0
+  },
+  "weights": null
+ },
+ {
+  "HR@1": 0.7401490947816827,
+  "HR@2": 0.8541001064962727,
+  "HR@3": 0.9030883919062833,
+  "HR@4": 0.9243876464323749,
+  "HR@5": 0.9403620873269436,
+  "MRR@3": 0.8134540399423422,
+  "precision": 0.9266035009560263,
+  "recall": 0.952076677316294,
+  "f1": 0.9391673927077351,
+  "f1_sklearn_weighted": 0.9381546261882895,
+  "macro_f1": 0.5755281829713017,
+  "arm": "v0_simplex",
+  "seed": 2,
+  "dataset": "gaia",
+  "epochs": 138,
+  "train_s": 9.6,
+  "weighting_params": 0,
+  "env": {
+   "torch": "2.15.0+cu132",
+   "threads": 1
+  },
+  "name": "A_no_to_cm",
+  "group": "A",
+  "description": "w/o TO and CM (diagnosis losses + AUG only)",
+  "overrides": {
+   "use_to": false,
+   "use_cm": false
+  },
+  "per_class": {
+   "[access permission denied exception]": {
+    "n": 15,
+    "hr1": 0.06666667014360428,
+    "hr3": 0.6000000238418579,
+    "fti_recall": 0.0
+   },
+   "[file moving program]": {
+    "n": 27,
+    "hr1": 0.9259259104728699,
+    "hr3": 1.0,
+    "fti_recall": 0.9259259104728699
+   },
+   "[login failure]": {
+    "n": 458,
+    "hr1": 0.8340611457824707,
+    "hr3": 0.9868995547294617,
+    "fti_recall": 0.9672489166259766
+   },
+   "[memory_anomalies]": {
+    "n": 426,
+    "hr1": 0.6737089157104492,
+    "hr3": 0.8403756022453308,
+    "fti_recall": 1.0
+   },
+   "[normal memory freed label]": {
+    "n": 13,
+    "hr1": 0.0,
+    "hr3": 0.1538461595773697,
+    "fti_recall": 0.0
+   }
+  },
+  "grad_share": {
+   "l_rcl": 74.36,
+   "l_fti": 25.64,
+   "sigma*l_to": 0.0,
+   "sigma*l_cm": 0.0
+  },
+  "weights": null
+ },
+ {
+  "HR@1": 0.48136315228966986,
+  "HR@2": 0.5708200212992546,
+  "HR@3": 0.6411075612353567,
+  "HR@4": 0.6986155484558041,
+  "HR@5": 0.7465388711395101,
+  "MRR@3": 0.5495207992732462,
+  "precision": 0.9323172213255194,
+  "recall": 0.952076677316294,
+  "f1": 0.9420933520577939,
+  "f1_sklearn_weighted": 0.9419595958467871,
+  "macro_f1": 0.584171749401464,
+  "arm": "v0_simplex",
+  "seed": 1,
+  "dataset": "gaia",
+  "epochs": 286,
+  "train_s": 135.7,
+  "weighting_params": 0,
+  "env": {
+   "torch": "2.15.0+cu132",
+   "threads": 1
+  },
+  "name": "B_no_metric",
+  "group": "B",
+  "description": "w/o metric",
+  "overrides": {
+   "drop_modalities": [
+    "metric"
+   ]
+  },
+  "per_class": {
+   "[access permission denied exception]": {
+    "n": 15,
+    "hr1": 0.06666667014360428,
+    "hr3": 0.3333333432674408,
+    "fti_recall": 0.0
+   },
+   "[file moving program]": {
+    "n": 27,
+    "hr1": 0.9259259104728699,
+    "hr3": 1.0,
+    "fti_recall": 0.9629629850387573
+   },
+   "[login failure]": {
+    "n": 458,
+    "hr1": 0.8231440782546997,
+    "hr3": 0.9475982785224915,
+    "fti_recall": 0.9912663698196411
+   },
+   "[memory_anomalies]": {
+    "n": 426,
+    "hr1": 0.10563380271196365,
+    "hr3": 0.30751174688339233,
+    "fti_recall": 0.9718309640884399
+   },
+   "[normal memory freed label]": {
+    "n": 13,
+    "hr1": 0.3076923191547394,
+    "hr3": 0.38461539149284363,
+    "fti_recall": 0.0
+   }
+  },
+  "grad_share": {
+   "l_rcl": 64.35,
+   "l_fti": 21.6,
+   "sigma*l_to": 10.18,
+   "sigma*l_cm": 3.86
+  },
+  "weights": null
+ },
+ {
+  "HR@1": 0.47071352502662406,
+  "HR@2": 0.6677316293929713,
+  "HR@3": 0.8221512247071352,
+  "HR@4": 0.8881789137380192,
+  "HR@5": 0.9254526091586794,
+  "MRR@3": 0.620695802731255,
+  "precision": 0.903096773813228,
+  "recall": 0.9233226837060703,
+  "f1": 0.9130977371168452,
+  "f1_sklearn_weighted": 0.910208290269432,
+  "macro_f1": 0.5632414146135185,
+  "arm": "v0_simplex",
+  "seed": 0,
+  "dataset": "gaia",
+  "epochs": 220,
+  "train_s": 103.8,
+  "weighting_params": 0,
+  "env": {
+   "torch": "2.15.0+cu132",
+   "threads": 1
+  },
+  "name": "B_no_trace",
+  "group": "B",
+  "description": "w/o trace",
+  "overrides": {
+   "drop_modalities": [
+    "trace"
+   ]
+  },
+  "per_class": {
+   "[access permission denied exception]": {
+    "n": 15,
+    "hr1": 0.0,
+    "hr3": 0.6666666865348816,
+    "fti_recall": 0.0
+   },
+   "[file moving program]": {
+    "n": 27,
+    "hr1": 0.9259259104728699,
+    "hr3": 1.0,
+    "fti_recall": 0.8888888955116272
+   },
+   "[login failure]": {
+    "n": 458,
+    "hr1": 0.22052401304244995,
+    "hr3": 0.7772925496101379,
+    "fti_recall": 0.9170305728912354
+   },
+   "[memory_anomalies]": {
+    "n": 426,
+    "hr1": 0.7417840361595154,
+    "hr3": 0.8802816867828369,
+    "fti_recall": 0.9929577708244324
+   },
+   "[normal memory freed label]": {
+    "n": 13,
+    "hr1": 0.0,
+    "hr3": 0.3076923191547394,
+    "fti_recall": 0.0
+   }
+  },
+  "grad_share": {
+   "l_rcl": 64.49,
+   "l_fti": 19.6,
+   "sigma*l_to": 11.58,
+   "sigma*l_cm": 4.32
+  },
+  "weights": null
+ },
+ {
+  "HR@1": 0.45260915867944623,
+  "HR@2": 0.6890308839190629,
+  "HR@3": 0.845580404685836,
+  "HR@4": 0.906283280085197,
+  "HR@5": 0.9382321618743344,
+  "MRR@3": 0.6230032273882621,
+  "precision": 0.9088209904451803,
+  "recall": 0.9243876464323749,
+  "f1": 0.9165382264583699,
+  "f1_sklearn_weighted": 0.9153696529854319,
+  "macro_f1": 0.6134736013239376,
+  "arm": "v0_simplex",
+  "seed": 2,
+  "dataset": "gaia",
+  "epochs": 226,
+  "train_s": 105.3,
+  "weighting_params": 0,
+  "env": {
+   "torch": "2.15.0+cu132",
+   "threads": 1
+  },
+  "name": "B_no_trace",
+  "group": "B",
+  "description": "w/o trace",
+  "overrides": {
+   "drop_modalities": [
+    "trace"
+   ]
+  },
+  "per_class": {
+   "[access permission denied exception]": {
+    "n": 15,
+    "hr1": 0.06666667014360428,
+    "hr3": 0.5333333611488342,
+    "fti_recall": 0.0
+   },
+   "[file moving program]": {
+    "n": 27,
+    "hr1": 0.8888888955116272,
+    "hr3": 1.0,
+    "fti_recall": 1.0
+   },
+   "[login failure]": {
+    "n": 458,
+    "hr1": 0.21179039776325226,
+    "hr3": 0.8318777084350586,
+    "fti_recall": 0.932314395904541
+   },
+   "[memory_anomalies]": {
+    "n": 426,
+    "hr1": 0.7065727710723877,
+    "hr3": 0.8779342770576477,
+    "fti_recall": 0.9671361446380615
+   },
+   "[normal memory freed label]": {
+    "n": 13,
+    "hr1": 0.1538461595773697,
+    "hr3": 0.3076923191547394,
+    "fti_recall": 0.1538461595773697
+   }
+  },
+  "grad_share": {
+   "l_rcl": 77.82,
+   "l_fti": 9.31,
+   "sigma*l_to": 9.05,
+   "sigma*l_cm": 3.82
+  },
+  "weights": null
+ },
+ {
+  "HR@1": 0.6698615548455804,
+  "HR@2": 0.8168264110756124,
+  "HR@3": 0.8647497337593184,
+  "HR@4": 0.8913738019169329,
+  "HR@5": 0.9243876464323749,
+  "MRR@3": 0.759318423855165,
+  "precision": 0.7652526239041114,
+  "recall": 0.7689030883919062,
+  "f1": 0.7670735130781138,
+  "f1_sklearn_weighted": 0.7564353794091475,
+  "macro_f1": 0.37869182436656945,
+  "arm": "v0_simplex",
+  "seed": 1,
+  "dataset": "gaia",
+  "epochs": 173,
+  "train_s": 137.0,
+  "weighting_params": 0,
+  "env": {
+   "torch": "2.15.0+cu132",
+   "threads": 1
+  },
+  "name": "B_no_log",
+  "group": "B",
+  "description": "w/o log",
+  "overrides": {
+   "drop_modalities": [
+    "log"
+   ]
+  },
+  "per_class": {
+   "[access permission denied exception]": {
+    "n": 15,
+    "hr1": 0.0,
+    "hr3": 0.20000000298023224,
+    "fti_recall": 0.0
+   },
+   "[file moving program]": {
+    "n": 27,
+    "hr1": 0.6666666865348816,
+    "hr3": 0.7777777910232544,
+    "fti_recall": 0.14814814925193787
+   },
+   "[login failure]": {
+    "n": 458,
+    "hr1": 0.7117903828620911,
+    "hr3": 0.9410480260848999,
+    "fti_recall": 0.7248908281326294
+   },
+   "[memory_anomalies]": {
+    "n": 426,
+    "hr1": 0.6690140962600708,
+    "hr3": 0.8309859037399292,
+    "fti_recall": 0.9037558436393738
+   },
+   "[normal memory freed label]": {
+    "n": 13,
+    "hr1": 0.0,
+    "hr3": 0.23076923191547394,
+    "fti_recall": 0.07692307978868484
+   }
+  },
+  "grad_share": {
+   "l_rcl": 58.53,
+   "l_fti": 31.35,
+   "sigma*l_to": 5.5,
+   "sigma*l_cm": 4.63
+  },
+  "weights": null
+ },
+ {
+  "HR@1": 0.41959531416400425,
+  "HR@2": 0.617678381256656,
+  "HR@3": 0.7529286474973376,
+  "HR@4": 0.8359957401490948,
+  "HR@5": 0.8935037273695421,
+  "MRR@3": 0.5637203131240016,
+  "precision": 0.6477015289503606,
+  "recall": 0.6656017039403621,
+  "f1": 0.6565296277619226,
+  "f1_sklearn_weighted": 0.6410495223375147,
+  "macro_f1": 0.2730260570304818,
+  "arm": "v0_simplex",
+  "seed": 0,
+  "dataset": "gaia",
+  "epochs": 199,
+  "train_s": 86.3,
+  "weighting_params": 0,
+  "env": {
+   "torch": "2.15.0+cu132",
+   "threads": 1
+  },
+  "name": "B_only_metric",
+  "group": "B",
+  "description": "metric only",
+  "overrides": {
+   "drop_modalities": [
+    "trace",
+    "log"
+   ]
+  },
+  "per_class": {
+   "[access permission denied exception]": {
+    "n": 15,
+    "hr1": 0.0,
+    "hr3": 0.20000000298023224,
+    "fti_recall": 0.0
+   },
+   "[file moving program]": {
+    "n": 27,
+    "hr1": 0.5555555820465088,
+    "hr3": 0.5925925970077515,
+    "fti_recall": 0.0
+   },
+   "[login failure]": {
+    "n": 458,
+    "hr1": 0.17030568420886993,
+    "hr3": 0.6943231225013733,
+    "fti_recall": 0.556768536567688
+   },
+   "[memory_anomalies]": {
+    "n": 426,
+    "hr1": 0.7042253613471985,
+    "hr3": 0.8591549396514893,
+    "fti_recall": 0.8685445785522461
+   },
+   "[normal memory freed label]": {
+    "n": 13,
+    "hr1": 0.07692307978868484,
+    "hr3": 0.23076923191547394,
+    "fti_recall": 0.0
+   }
+  },
+  "grad_share": {
+   "l_rcl": 52.55,
+   "l_fti": 42.95,
+   "sigma*l_to": 4.51,
+   "sigma*l_cm": 0.0
+  },
+  "weights": null
+ },
+ {
+  "HR@1": 0.43450479233226835,
+  "HR@2": 0.6048988285410011,
+  "HR@3": 0.739084132055378,
+  "HR@4": 0.8232161874334398,
+  "HR@5": 0.8977635782747604,
+  "MRR@3": 0.5644302774415102,
+  "precision": 0.64262762485556,
+  "recall": 0.6379126730564431,
+  "f1": 0.6402614687252801,
+  "f1_sklearn_weighted": 0.6098278652678787,
+  "macro_f1": 0.2600522931241608,
+  "arm": "v0_simplex",
+  "seed": 2,
+  "dataset": "gaia",
+  "epochs": 168,
+  "train_s": 76.8,
+  "weighting_params": 0,
+  "env": {
+   "torch": "2.15.0+cu132",
+   "threads": 1
+  },
+  "name": "B_only_metric",
+  "group": "B",
+  "description": "metric only",
+  "overrides": {
+   "drop_modalities": [
+    "trace",
+    "log"
+   ]
+  },
+  "per_class": {
+   "[access permission denied exception]": {
+    "n": 15,
+    "hr1": 0.0,
+    "hr3": 0.13333334028720856,
+    "fti_recall": 0.0
+   },
+   "[file moving program]": {
+    "n": 27,
+    "hr1": 0.5185185074806213,
+    "hr3": 0.6296296119689941,
+    "fti_recall": 0.0
+   },
+   "[login failure]": {
+    "n": 458,
+    "hr1": 0.17903929948806763,
+    "hr3": 0.6681222915649414,
+    "fti_recall": 0.4737991392612457
+   },
+   "[memory_anomalies]": {
+    "n": 426,
+    "hr1": 0.7300469279289246,
+    "hr3": 0.8591549396514893,
+    "fti_recall": 0.8967136144638062
+   },
+   "[normal memory freed label]": {
+    "n": 13,
+    "hr1": 0.07692307978868484,
+    "hr3": 0.23076923191547394,
+    "fti_recall": 0.0
+   }
+  },
+  "grad_share": {
+   "l_rcl": 67.29,
+   "l_fti": 28.85,
+   "sigma*l_to": 3.86,
+   "sigma*l_cm": 0.0
+  },
+  "weights": null
+ },
+ {
+  "HR@1": 0.4206602768903088,
+  "HR@2": 0.5207667731629393,
+  "HR@3": 0.5835995740149095,
+  "HR@4": 0.6687965921192758,
+  "HR@5": 0.7305644302449414,
+  "MRR@3": 0.4916578136440029,
+  "precision": 0.7306996719049916,
+  "recall": 0.7486687965921193,
+  "f1": 0.7395751034103304,
+  "f1_sklearn_weighted": 0.7369140308195884,
+  "macro_f1": 0.3654747972862797,
+  "arm": "v0_simplex",
+  "seed": 1,
+  "dataset": "gaia",
+  "epochs": 185,
+  "train_s": 82.4,
+  "weighting_params": 0,
+  "env": {
+   "torch": "2.15.0+cu132",
+   "threads": 1
+  },
+  "name": "B_only_trace",
+  "group": "B",
+  "description": "trace only",
+  "overrides": {
+   "drop_modalities": [
+    "metric",
+    "log"
+   ]
+  },
+  "per_class": {
+   "[access permission denied exception]": {
+    "n": 15,
+    "hr1": 0.13333334028720856,
+    "hr3": 0.2666666805744171,
+    "fti_recall": 0.0
+   },
+   "[file moving program]": {
+    "n": 27,
+    "hr1": 0.5185185074806213,
+    "hr3": 0.7037037014961243,
+    "fti_recall": 0.25925925374031067
+   },
+   "[login failure]": {
+    "n": 458,
+    "hr1": 0.7139738202095032,
+    "hr3": 0.8427947759628296,
+    "fti_recall": 0.7554585337638855
+   },
+   "[memory_anomalies]": {
+    "n": 426,
+    "hr1": 0.11267605423927307,
+    "hr3": 0.31455397605895996,
+    "fti_recall": 0.8215962648391724
+   },
+   "[normal memory freed label]": {
+    "n": 13,
+    "hr1": 0.3076923191547394,
+    "hr3": 0.38461539149284363,
+    "fti_recall": 0.0
+   }
+  },
+  "grad_share": {
+   "l_rcl": 65.77,
+   "l_fti": 23.01,
+   "sigma*l_to": 11.23,
+   "sigma*l_cm": 0.0
+  },
+  "weights": null
+ },
+ {
+  "HR@1": 0.329073482428115,
+  "HR@2": 0.5878594249201278,
+  "HR@3": 0.6347177848775293,
+  "HR@4": 0.7103301384451545,
+  "HR@5": 0.7614483493077743,
+  "MRR@3": 0.474085944910019,
+  "precision": 0.9313828062559504,
+  "recall": 0.9584664536741214,
+  "f1": 0.9447305605297046,
+  "f1_sklearn_weighted": 0.9442746226700803,
+  "macro_f1": 0.5815226105322082,
+  "arm": "v0_simplex",
+  "seed": 0,
+  "dataset": "gaia",
+  "epochs": 143,
+  "train_s": 63.1,
+  "weighting_params": 0,
+  "env": {
+   "torch": "2.15.0+cu132",
+   "threads": 1
+  },
+  "name": "B_only_log",
+  "group": "B",
+  "description": "log only",
+  "overrides": {
+   "drop_modalities": [
+    "metric",
+    "trace"
+   ]
+  },
+  "per_class": {
+   "[access permission denied exception]": {
+    "n": 15,
+    "hr1": 0.0,
+    "hr3": 0.06666667014360428,
+    "fti_recall": 0.0
+   },
+   "[file moving program]": {
+    "n": 27,
+    "hr1": 0.9259259104728699,
+    "hr3": 1.0,
+    "fti_recall": 0.9259259104728699
+   },
+   "[login failure]": {
+    "n": 458,
+    "hr1": 0.5109170079231262,
+    "hr3": 0.9388646483421326,
+    "fti_recall": 0.9868995547294617
+   },
+   "[memory_anomalies]": {
+    "n": 426,
+    "hr1": 0.11502347141504288,
+    "hr3": 0.31220656633377075,
+    "fti_recall": 0.9929577708244324
+   },
+   "[normal memory freed label]": {
+    "n": 13,
+    "hr1": 0.07692307978868484,
+    "hr3": 0.38461539149284363,
+    "fti_recall": 0.0
+   }
+  },
+  "grad_share": {
+   "l_rcl": 73.2,
+   "l_fti": 16.17,
+   "sigma*l_to": 10.62,
+   "sigma*l_cm": 0.0
+  },
+  "weights": null
+ },
+ {
+  "HR@1": 0.34185303514376997,
+  "HR@2": 0.5729499467518637,
+  "HR@3": 0.6432374866879659,
+  "HR@4": 0.7135250266240681,
+  "HR@5": 0.751863684771033,
+  "MRR@3": 0.4808306871765592,
+  "precision": 0.9311478230081988,
+  "recall": 0.9584664536741214,
+  "f1": 0.9446096621708457,
+  "f1_sklearn_weighted": 0.9442668005030226,
+  "macro_f1": 0.5887568393619779,
+  "arm": "v0_simplex",
+  "seed": 2,
+  "dataset": "gaia",
+  "epochs": 193,
+  "train_s": 92.8,
+  "weighting_params": 0,
+  "env": {
+   "torch": "2.15.0+cu132",
+   "threads": 1
+  },
+  "name": "B_only_log",
+  "group": "B",
+  "description": "log only",
+  "overrides": {
+   "drop_modalities": [
+    "metric",
+    "trace"
+   ]
+  },
+  "per_class": {
+   "[access permission denied exception]": {
+    "n": 15,
+    "hr1": 0.0,
+    "hr3": 0.06666667014360428,
+    "fti_recall": 0.0
+   },
+   "[file moving program]": {
+    "n": 27,
+    "hr1": 0.9259259104728699,
+    "hr3": 1.0,
+    "fti_recall": 1.0
+   },
+   "[login failure]": {
+    "n": 458,
+    "hr1": 0.528384268283844,
+    "hr3": 0.9497816562652588,
+    "fti_recall": 0.9847161769866943
+   },
+   "[memory_anomalies]": {
+    "n": 426,
+    "hr1": 0.11971831321716309,
+    "hr3": 0.31924882531166077,
+    "fti_recall": 0.9906103014945984
+   },
+   "[normal memory freed label]": {
+    "n": 13,
+    "hr1": 0.23076923191547394,
+    "hr3": 0.38461539149284363,
+    "fti_recall": 0.0
+   }
+  },
+  "grad_share": {
+   "l_rcl": 90.21,
+   "l_fti": 4.53,
+   "sigma*l_to": 5.26,
+   "sigma*l_cm": 0.0
+  },
+  "weights": null
+ },
+ {
+  "HR@1": 0.7082002129925452,
+  "HR@2": 0.8274760383386581,
+  "HR@3": 0.8764643237486688,
+  "HR@4": 0.9041533546325878,
+  "HR@5": 0.9265175718849841,
+  "MRR@3": 0.7841675324688832,
+  "precision": 0.8615850877549257,
+  "recall": 0.8551650692225772,
+  "f1": 0.8583630742265739,
+  "f1_sklearn_weighted": 0.846416976870954,
+  "macro_f1": 0.5323381021612136,
+  "arm": "v0_simplex",
+  "seed": 1,
+  "dataset": "gaia",
+  "epochs": 192,
+  "train_s": 96.1,
+  "weighting_params": 0,
+  "env": {
+   "torch": "2.15.0+cu132",
+   "threads": 1
+  },
+  "name": "D_prior_s0.5",
+  "group": "D",
+  "description": "prior, sigma_to=0.5",
+  "overrides": {
+   "to_scale": 0.5
+  },
+  "per_class": {
+   "[access permission denied exception]": {
+    "n": 15,
+    "hr1": 0.13333334028720856,
+    "hr3": 0.13333334028720856,
+    "fti_recall": 0.0
+   },
+   "[file moving program]": {
+    "n": 27,
+    "hr1": 0.8148148059844971,
+    "hr3": 1.0,
+    "fti_recall": 0.8518518805503845
+   },
+   "[login failure]": {
+    "n": 458,
+    "hr1": 0.7663755416870117,
+    "hr3": 0.9519650936126709,
+    "fti_recall": 0.7838428020477295
+   },
+   "[memory_anomalies]": {
+    "n": 426,
+    "hr1": 0.6807511448860168,
+    "hr3": 0.8356807231903076,
+    "fti_recall": 0.9882628917694092
+   },
+   "[normal memory freed label]": {
+    "n": 13,
+    "hr1": 0.0,
+    "hr3": 0.1538461595773697,
+    "fti_recall": 0.0
+   }
+  },
+  "grad_share": {
+   "l_rcl": 15.38,
+   "l_fti": 9.03,
+   "sigma*l_to": 66.96,
+   "sigma*l_cm": 8.63
+  },
+  "weights": null
+ },
+ {
+  "HR@1": 0.7145899893503728,
+  "HR@2": 0.8509052183173589,
+  "HR@3": 0.88604898828541,
+  "HR@4": 0.9148029818956337,
+  "HR@5": 0.9350372736954207,
+  "MRR@3": 0.7944621938232161,
+  "precision": 0.8540527861266853,
+  "recall": 0.8562300319488818,
+  "f1": 0.8551400231853035,
+  "f1_sklearn_weighted": 0.8439385782724952,
+  "macro_f1": 0.5390698162826223,
+  "arm": "v0_simplex",
+  "seed": 0,
+  "dataset": "gaia",
+  "epochs": 189,
+  "train_s": 87.8,
+  "weighting_params": 0,
+  "env": {
+   "torch": "2.15.0+cu132",
+   "threads": 1
+  },
+  "name": "D_prior_s1",
+  "group": "D",
+  "description": "prior, sigma_to=1",
+  "overrides": {
+   "to_scale": 1.0
+  },
+  "per_class": {
+   "[access permission denied exception]": {
+    "n": 15,
+    "hr1": 0.06666667014360428,
+    "hr3": 0.4000000059604645,
+    "fti_recall": 0.0
+   },
+   "[file moving program]": {
+    "n": 27,
+    "hr1": 0.8518518805503845,
+    "hr3": 1.0,
+    "fti_recall": 0.9259259104728699
+   },
+   "[login failure]": {
+    "n": 458,
+    "hr1": 0.77947598695755,
+    "hr3": 0.9672489166259766,
+    "fti_recall": 0.7860261797904968
+   },
+   "[memory_anomalies]": {
+    "n": 426,
+    "hr1": 0.6784037351608276,
+    "hr3": 0.8333333134651184,
+    "fti_recall": 0.9835680723190308
+   },
+   "[normal memory freed label]": {
+    "n": 13,
+    "hr1": 0.07692307978868484,
+    "hr3": 0.07692307978868484,
+    "fti_recall": 0.0
+   }
+  },
+  "grad_share": {
+   "l_rcl": 7.43,
+   "l_fti": 8.13,
+   "sigma*l_to": 80.64,
+   "sigma*l_cm": 3.8
+  },
+  "weights": null
+ },
+ {
+  "HR@1": 0.7028753993610224,
+  "HR@2": 0.845580404685836,
+  "HR@3": 0.8839190628328009,
+  "HR@4": 0.9179978700745474,
+  "HR@5": 0.9382321618743344,
+  "MRR@3": 0.7870074547390842,
+  "precision": 0.8488501564867751,
+  "recall": 0.8519701810436635,
+  "f1": 0.8504073070422553,
+  "f1_sklearn_weighted": 0.8410344007474347,
+  "macro_f1": 0.5225126296264021,
+  "arm": "v0_simplex",
+  "seed": 2,
+  "dataset": "gaia",
+  "epochs": 156,
+  "train_s": 73.3,
+  "weighting_params": 0,
+  "env": {
+   "torch": "2.15.0+cu132",
+   "threads": 1
+  },
+  "name": "D_prior_s1",
+  "group": "D",
+  "description": "prior, sigma_to=1",
+  "overrides": {
+   "to_scale": 1.0
+  },
+  "per_class": {
+   "[access permission denied exception]": {
+    "n": 15,
+    "hr1": 0.20000000298023224,
+    "hr3": 0.2666666805744171,
+    "fti_recall": 0.0
+   },
+   "[file moving program]": {
+    "n": 27,
+    "hr1": 0.8148148059844971,
+    "hr3": 1.0,
+    "fti_recall": 0.8148148059844971
+   },
+   "[login failure]": {
+    "n": 458,
+    "hr1": 0.7620087265968323,
+    "hr3": 0.9650654792785645,
+    "fti_recall": 0.7947598099708557
+   },
+   "[memory_anomalies]": {
+    "n": 426,
+    "hr1": 0.67136150598526,
+    "hr3": 0.8309859037399292,
+    "fti_recall": 0.9718309640884399
+   },
+   "[normal memory freed label]": {
+    "n": 13,
+    "hr1": 0.0,
+    "hr3": 0.23076923191547394,
+    "fti_recall": 0.0
+   }
+  },
+  "grad_share": {
+   "l_rcl": 12.79,
+   "l_fti": 8.78,
+   "sigma*l_to": 74.97,
+   "sigma*l_cm": 3.46
+  },
+  "weights": null
+ },
+ {
+  "HR@1": 0.6975505857294995,
+  "HR@2": 0.838125665601704,
+  "HR@3": 0.8871139510117146,
+  "HR@4": 0.9201277955271565,
+  "HR@5": 0.9329073482428115,
+  "MRR@3": 0.7841675649689663,
+  "precision": 0.8335125334805554,
+  "recall": 0.825346112886049,
+  "f1": 0.8294092218848967,
+  "f1_sklearn_weighted": 0.8131005237870083,
+  "macro_f1": 0.5182324521968471,
+  "arm": "v0_simplex",
+  "seed": 1,
+  "dataset": "gaia",
+  "epochs": 174,
+  "train_s": 85.3,
+  "weighting_params": 0,
+  "env": {
+   "torch": "2.15.0+cu132",
+   "threads": 1
+  },
+  "name": "D_prior_s2",
+  "group": "D",
+  "description": "prior, sigma_to=2",
+  "overrides": {
+   "to_scale": 2.0
+  },
+  "per_class": {
+   "[access permission denied exception]": {
+    "n": 15,
+    "hr1": 0.06666667014360428,
+    "hr3": 0.20000000298023224,
+    "fti_recall": 0.0
+   },
+   "[file moving program]": {
+    "n": 27,
+    "hr1": 0.8148148059844971,
+    "hr3": 0.9629629850387573,
+    "fti_recall": 0.8518518805503845
+   },
+   "[login failure]": {
+    "n": 458,
+    "hr1": 0.7336244583129883,
+    "hr3": 0.9585152864456177,
+    "fti_recall": 0.7336244583129883
+   },
+   "[memory_anomalies]": {
+    "n": 426,
+    "hr1": 0.6948356628417969,
+    "hr3": 0.8544601202011108,
+    "fti_recall": 0.9765258431434631
+   },
+   "[normal memory freed label]": {
+    "n": 13,
+    "hr1": 0.0,
+    "hr3": 0.07692307978868484,
+    "fti_recall": 0.0
+   }
+  },
+  "grad_share": {
+   "l_rcl": 9.22,
+   "l_fti": 7.31,
+   "sigma*l_to": 79.65,
+   "sigma*l_cm": 3.81
+  },
+  "weights": null
+ },
+ {
+  "HR@1": 0.7465388711395101,
+  "HR@2": 0.8594249201277955,
+  "HR@3": 0.8935037273695421,
+  "HR@4": 0.9137380191693291,
+  "HR@5": 0.9350372736954207,
+  "MRR@3": 0.8143415197142905,
+  "precision": 0.8996923272692569,
+  "recall": 0.9233226837060703,
+  "f1": 0.9113543543227063,
+  "f1_sklearn_weighted": 0.909600059438697,
+  "macro_f1": 0.546026778965905,
+  "arm": "v3_incident",
+  "seed": 0,
+  "dataset": "gaia",
+  "epochs": 154,
+  "train_s": 108.5,
+  "weighting_params": 6790,
+  "env": {
+   "torch": "2.15.0+cu132",
+   "threads": 1
+  },
+  "name": "D_ada_s0.5",
+  "group": "D",
+  "description": "AdaDiag, sigma_to=0.5",
+  "overrides": {
+   "to_scale": 0.5
+  },
+  "per_class": {
+   "[access permission denied exception]": {
+    "n": 15,
+    "hr1": 0.06666667014360428,
+    "hr3": 0.3333333432674408,
+    "fti_recall": 0.0
+   },
+   "[file moving program]": {
+    "n": 27,
+    "hr1": 0.8888888955116272,
+    "hr3": 1.0,
+    "fti_recall": 0.7407407164573669
+   },
+   "[login failure]": {
+    "n": 458,
+    "hr1": 0.8275108933448792,
+    "hr3": 0.9803493618965149,
+    "fti_recall": 0.943231463432312
+   },
+   "[memory_anomalies]": {
+    "n": 426,
+    "hr1": 0.6971830725669861,
+    "hr3": 0.8403756022453308,
+    "fti_recall": 0.9741784334182739
+   },
+   "[normal memory freed label]": {
+    "n": 13,
+    "hr1": 0.0,
+    "hr3": 0.0,
+    "fti_recall": 0.0
+   }
+  },
+  "grad_share": {
+   "l_rcl": 17.11,
+   "l_fti": 14.52,
+   "sigma*l_to": 60.57,
+   "sigma*l_cm": 7.8
+  },
+  "weights": {
+   "w": [
+    [
+     0.000250136770773679,
+     1.886252357508056e-05
+    ],
+    [
+     9.777034574653953e-05,
+     3.875152106047608e-05
+    ],
+    [
+     0.999652087688446,
+     0.999942421913147
+    ]
+   ],
+   "col_max": [
+    0.999652087688446,
+    0.999942421913147
+   ],
+   "col_sum": [
+    1.0,
+    1.0
+   ]
+  }
+ },
+ {
+  "HR@1": 0.7550585729499467,
+  "HR@2": 0.858359957401491,
+  "HR@3": 0.8903088391906283,
+  "HR@4": 0.9169329073482428,
+  "HR@5": 0.9414270500532481,
+  "MRR@3": 0.8173589249388479,
+  "precision": 0.904677726365784,
+  "recall": 0.9265175718849841,
+  "f1": 0.9154674121013052,
+  "f1_sklearn_weighted": 0.9136208799825636,
+  "macro_f1": 0.5607022883402674,
+  "arm": "v3_incident",
+  "seed": 2,
+  "dataset": "gaia",
+  "epochs": 170,
+  "train_s": 118.1,
+  "weighting_params": 6790,
+  "env": {
+   "torch": "2.15.0+cu132",
+   "threads": 1
+  },
+  "name": "D_ada_s0.5",
+  "group": "D",
+  "description": "AdaDiag, sigma_to=0.5",
+  "overrides": {
+   "to_scale": 0.5
+  },
+  "per_class": {
+   "[access permission denied exception]": {
+    "n": 15,
+    "hr1": 0.13333334028720856,
+    "hr3": 0.3333333432674408,
+    "fti_recall": 0.0
+   },
+   "[file moving program]": {
+    "n": 27,
+    "hr1": 0.8518518805503845,
+    "hr3": 1.0,
+    "fti_recall": 0.8518518805503845
+   },
+   "[login failure]": {
+    "n": 458,
+    "hr1": 0.8580785989761353,
+    "hr3": 0.9825327396392822,
+    "fti_recall": 0.9344978332519531
+   },
+   "[memory_anomalies]": {
+    "n": 426,
+    "hr1": 0.6830986142158508,
+    "hr3": 0.8262910842895508,
+    "fti_recall": 0.9835680723190308
+   },
+   "[normal memory freed label]": {
+    "n": 13,
+    "hr1": 0.0,
+    "hr3": 0.1538461595773697,
+    "fti_recall": 0.0
+   }
+  },
+  "grad_share": {
+   "l_rcl": 40.82,
+   "l_fti": 8.08,
+   "sigma*l_to": 44.48,
+   "sigma*l_cm": 6.62
+  },
+  "weights": {
+   "w": [
+    [
+     0.00018115216516889632,
+     4.247362812748179e-05
+    ],
+    [
+     3.358475078130141e-05,
+     2.14308292925125e-05
+    ],
+    [
+     0.9997852444648743,
+     0.9999361038208008
+    ]
+   ],
+   "col_max": [
+    0.9997852444648743,
+    0.9999361038208008
+   ],
+   "col_sum": [
+    1.0,
+    1.0
+   ]
+  }
+ }
+]

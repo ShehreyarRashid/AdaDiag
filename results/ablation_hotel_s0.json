@@ -1,0 +1,4423 @@
+[
+ {
+  "HR@1": 0.8461538461538461,
+  "HR@2": 0.8974358974358975,
+  "HR@3": 0.9102564102564102,
+  "HR@4": 0.9487179487179487,
+  "HR@5": 0.9487179487179487,
+  "MRR@3": 0.8760683108598758,
+  "precision": 0.8143605620385806,
+  "recall": 0.7564102564102564,
+  "f1": 0.7843164315343019,
+  "f1_sklearn_weighted": 0.7535638318443748,
+  "macro_f1": 0.7657918552036199,
+  "arm": "v0_simplex",
+  "seed": 0,
+  "dataset": "hotel",
+  "epochs": 194,
+  "train_s": 73.1,
+  "weighting_params": 0,
+  "name": "ref_prior",
+  "group": "ref",
+  "description": "TVDiag prior (V0-simplex), full model",
+  "overrides": {},
+  "per_class": {
+   "container-kill": {
+    "n": 22,
+    "hr1": 1.0,
+    "hr3": 1.0,
+    "fti_recall": 0.5
+   },
+   "network-delay": {
+    "n": 14,
+    "hr1": 0.3571428656578064,
+    "hr3": 0.6428571343421936,
+    "fti_recall": 0.8571428656578064
+   },
+   "network-loss": {
+    "n": 13,
+    "hr1": 0.7692307829856873,
+    "hr3": 0.8461538553237915,
+    "fti_recall": 1.0
+   },
+   "pod-failure": {
+    "n": 15,
+    "hr1": 1.0,
+    "hr3": 1.0,
+    "fti_recall": 0.800000011920929
+   },
+   "pod-kill": {
+    "n": 14,
+    "hr1": 1.0,
+    "hr3": 1.0,
+    "fti_recall": 0.7857142686843872
+   }
+  },
+  "grad_share": {
+   "l_rcl": 41.87,
+   "l_fti": 44.84,
+   "sigma*l_to": 5.15,
+   "sigma*l_cm": 8.14
+  },
+  "weights": null
+ },
+ {
+  "HR@1": 0.8333333333333334,
+  "HR@2": 0.8846153846153846,
+  "HR@3": 0.9230769230769231,
+  "HR@4": 0.9743589743589743,
+  "HR@5": 0.9743589743589743,
+  "MRR@3": 0.8717948717948718,
+  "precision": 0.8338319088319088,
+  "recall": 0.782051282051282,
+  "f1": 0.8071119459579812,
+  "f1_sklearn_weighted": 0.7801406495027864,
+  "macro_f1": 0.7895489709531456,
+  "arm": "v0_simplex",
+  "seed": 2,
+  "dataset": "hotel",
+  "epochs": 163,
+  "train_s": 61.1,
+  "weighting_params": 0,
+  "name": "ref_prior",
+  "group": "ref",
+  "description": "TVDiag prior (V0-simplex), full model",
+  "overrides": {},
+  "per_class": {
+   "container-kill": {
+    "n": 22,
+    "hr1": 1.0,
+    "hr3": 1.0,
+    "fti_recall": 0.5454545617103577
+   },
+   "network-delay": {
+    "n": 14,
+    "hr1": 0.2857142984867096,
+    "hr3": 0.6428571343421936,
+    "fti_recall": 0.8571428656578064
+   },
+   "network-loss": {
+    "n": 13,
+    "hr1": 0.7692307829856873,
+    "hr3": 0.9230769276618958,
+    "fti_recall": 1.0
+   },
+   "pod-failure": {
+    "n": 15,
+    "hr1": 1.0,
+    "hr3": 1.0,
+    "fti_recall": 0.800000011920929
+   },
+   "pod-kill": {
+    "n": 14,
+    "hr1": 1.0,
+    "hr3": 1.0,
+    "fti_recall": 0.8571428656578064
+   }
+  },
+  "grad_share": {
+   "l_rcl": 23.47,
+   "l_fti": 63.22,
+   "sigma*l_to": 5.23,
+   "sigma*l_cm": 8.07
+  },
+  "weights": null
+ },
+ {
+  "HR@1": 0.8333333333333334,
+  "HR@2": 0.8846153846153846,
+  "HR@3": 0.9230769230769231,
+  "HR@4": 0.9487179487179487,
+  "HR@5": 0.9615384615384616,
+  "MRR@3": 0.8717948717948718,
+  "precision": 0.8307654820812715,
+  "recall": 0.8076923076923077,
+  "f1": 0.8190664337664281,
+  "f1_sklearn_weighted": 0.8137606837606837,
+  "macro_f1": 0.8117142857142857,
+  "arm": "v0_simplex",
+  "seed": 4,
+  "dataset": "hotel",
+  "epochs": 125,
+  "train_s": 47.4,
+  "weighting_params": 0,
+  "name": "ref_prior",
+  "group": "ref",
+  "description": "TVDiag prior (V0-simplex), full model",
+  "overrides": {},
+  "per_class": {
+   "container-kill": {
+    "n": 22,
+    "hr1": 1.0,
+    "hr3": 1.0,
+    "fti_recall": 0.7727272510528564
+   },
+   "network-delay": {
+    "n": 14,
+    "hr1": 0.3571428656578064,
+    "hr3": 0.6428571343421936,
+    "fti_recall": 0.9285714030265808
+   },
+   "network-loss": {
+    "n": 13,
+    "hr1": 0.692307710647583,
+    "hr3": 0.9230769276618958,
+    "fti_recall": 0.8461538553237915
+   },
+   "pod-failure": {
+    "n": 15,
+    "hr1": 1.0,
+    "hr3": 1.0,
+    "fti_recall": 0.7333333492279053
+   },
+   "pod-kill": {
+    "n": 14,
+    "hr1": 1.0,
+    "hr3": 1.0,
+    "fti_recall": 0.7857142686843872
+   }
+  },
+  "grad_share": {
+   "l_rcl": 33.62,
+   "l_fti": 57.58,
+   "sigma*l_to": 3.23,
+   "sigma*l_cm": 5.56
+  },
+  "weights": null
+ },
+ {
+  "HR@1": 0.8076923076923077,
+  "HR@2": 0.8589743589743589,
+  "HR@3": 0.9102564102564102,
+  "HR@4": 0.9615384615384616,
+  "HR@5": 0.9615384615384616,
+  "MRR@3": 0.8504272852188501,
+  "precision": 0.7864009135264195,
+  "recall": 0.7435897435897436,
+  "f1": 0.7643963718707246,
+  "f1_sklearn_weighted": 0.7468654801988135,
+  "macro_f1": 0.7557094757094757,
+  "arm": "v3_incident",
+  "seed": 1,
+  "dataset": "hotel",
+  "epochs": 108,
+  "train_s": 57.2,
+  "weighting_params": 6790,
+  "name": "ref_adadiag",
+  "group": "ref",
+  "description": "AdaDiag (V3-incident), full model",
+  "overrides": {},
+  "per_class": {
+   "container-kill": {
+    "n": 22,
+    "hr1": 1.0,
+    "hr3": 1.0,
+    "fti_recall": 0.5454545617103577
+   },
+   "network-delay": {
+    "n": 14,
+    "hr1": 0.2142857164144516,
+    "hr3": 0.5714285969734192,
+    "fti_recall": 0.9285714030265808
+   },
+   "network-loss": {
+    "n": 13,
+    "hr1": 0.692307710647583,
+    "hr3": 0.9230769276618958,
+    "fti_recall": 0.9230769276618958
+   },
+   "pod-failure": {
+    "n": 15,
+    "hr1": 1.0,
+    "hr3": 1.0,
+    "fti_recall": 0.800000011920929
+   },
+   "pod-kill": {
+    "n": 14,
+    "hr1": 1.0,
+    "hr3": 1.0,
+    "fti_recall": 0.6428571343421936
+   }
+  },
+  "grad_share": {
+   "l_rcl": 39.29,
+   "l_fti": 43.11,
+   "sigma*l_to": 10.86,
+   "sigma*l_cm": 6.75
+  },
+  "weights": {
+   "w": [
+    [
+     0.9997642040252686,
+     0.4589807689189911
+    ],
+    [
+     0.00015362877456936985,
+     0.00018113605619873852
+    ],
+    [
+     8.220185554819182e-05,
+     0.5408380627632141
+    ]
+   ],
+   "col_max": [
+    0.9997642040252686,
+    0.5408380627632141
+   ],
+   "col_sum": [
+    1.0,
+    1.0
+   ]
+  }
+ },
+ {
+  "HR@1": 0.8205128205128205,
+  "HR@2": 0.8846153846153846,
+  "HR@3": 0.9230769230769231,
+  "HR@4": 0.9487179487179487,
+  "HR@5": 0.9615384615384616,
+  "MRR@3": 0.8653846153846154,
+  "precision": 0.8030417295123178,
+  "recall": 0.7564102564102564,
+  "f1": 0.7790287947457288,
+  "f1_sklearn_weighted": 0.7517772750125692,
+  "macro_f1": 0.7637450980392158,
+  "arm": "v3_incident",
+  "seed": 3,
+  "dataset": "hotel",
+  "epochs": 126,
+  "train_s": 62.3,
+  "weighting_params": 6790,
+  "name": "ref_adadiag",
+  "group": "ref",
+  "description": "AdaDiag (V3-incident), full model",
+  "overrides": {},
+  "per_class": {
+   "container-kill": {
+    "n": 22,
+    "hr1": 1.0,
+    "hr3": 1.0,
+    "fti_recall": 0.5
+   },
+   "network-delay": {
+    "n": 14,
+    "hr1": 0.2857142984867096,
+    "hr3": 0.6428571343421936,
+    "fti_recall": 0.7857142686843872
+   },
+   "network-loss": {
+    "n": 13,
+    "hr1": 0.692307710647583,
+    "hr3": 0.9230769276618958,
+    "fti_recall": 1.0
+   },
+   "pod-failure": {
+    "n": 15,
+    "hr1": 1.0,
+    "hr3": 1.0,
+    "fti_recall": 0.8666666746139526
+   },
+   "pod-kill": {
+    "n": 14,
+    "hr1": 1.0,
+    "hr3": 1.0,
+    "fti_recall": 0.7857142686843872
+   }
+  },
+  "grad_share": {
+   "l_rcl": 36.38,
+   "l_fti": 49.19,
+   "sigma*l_to": 8.56,
+   "sigma*l_cm": 5.88
+  },
+  "weights": {
+   "w": [
+    [
+     0.999266505241394,
+     0.4321983754634857
+    ],
+    [
+     0.0004827555676456541,
+     0.0002583733294159174
+    ],
+    [
+     0.00025073278811760247,
+     0.5675432682037354
+    ]
+   ],
+   "col_max": [
+    0.999266505241394,
+    0.5675432682037354
+   ],
+   "col_sum": [
+    1.0,
+    1.0
+   ]
+  }
+ },
+ {
+  "HR@1": 0.8333333333333334,
+  "HR@2": 0.8846153846153846,
+  "HR@3": 0.9230769230769231,
+  "HR@4": 0.9615384615384616,
+  "HR@5": 0.9615384615384616,
+  "MRR@3": 0.8717948717948718,
+  "precision": 0.7750899176238543,
+  "recall": 0.7692307692307693,
+  "f1": 0.7721492286309536,
+  "f1_sklearn_weighted": 0.7654791255752793,
+  "macro_f1": 0.773470695970696,
+  "arm": "v0_simplex",
+  "seed": 0,
+  "dataset": "hotel",
+  "epochs": 127,
+  "train_s": 11.0,
+  "weighting_params": 0,
+  "name": "A_no_aug",
+  "group": "A",
+  "description": "w/o AUG",
+  "overrides": {
+   "aug_times": 0
+  },
+  "per_class": {
+   "container-kill": {
+    "n": 22,
+    "hr1": 1.0,
+    "hr3": 1.0,
+    "fti_recall": 0.6363636255264282
+   },
+   "network-delay": {
+    "n": 14,
+    "hr1": 0.2857142984867096,
+    "hr3": 0.6428571343421936,
+    "fti_recall": 0.9285714030265808
+   },
+   "network-loss": {
+    "n": 13,
+    "hr1": 0.7692307829856873,
+    "hr3": 0.9230769276618958,
+    "fti_recall": 1.0
+   },
+   "pod-failure": {
+    "n": 15,
+    "hr1": 1.0,
+    "hr3": 1.0,
+    "fti_recall": 0.7333333492279053
+   },
+   "pod-kill": {
+    "n": 14,
+    "hr1": 1.0,
+    "hr3": 1.0,
+    "fti_recall": 0.6428571343421936
+   }
+  },
+  "grad_share": {
+   "l_rcl": 38.32,
+   "l_fti": 50.82,
+   "sigma*l_to": 4.22,
+   "sigma*l_cm": 6.64
+  },
+  "weights": null
+ },
+ {
+  "HR@1": 0.8333333333333334,
+  "HR@2": 0.8717948717948718,
+  "HR@3": 0.9102564102564102,
+  "HR@4": 0.9743589743589743,
+  "HR@5": 0.9743589743589743,
+  "MRR@3": 0.8653846153846154,
+  "precision": 0.7910853443941679,
+  "recall": 0.782051282051282,
+  "f1": 0.7865423732372706,
+  "f1_sklearn_weighted": 0.7800429954760978,
+  "macro_f1": 0.7893821878693958,
+  "arm": "v0_simplex",
+  "seed": 2,
+  "dataset": "hotel",
+  "epochs": 188,
+  "train_s": 15.9,
+  "weighting_params": 0,
+  "name": "A_no_aug",
+  "group": "A",
+  "description": "w/o AUG",
+  "overrides": {
+   "aug_times": 0
+  },
+  "per_class": {
+   "container-kill": {
+    "n": 22,
+    "hr1": 1.0,
+    "hr3": 1.0,
+    "fti_recall": 0.6363636255264282
+   },
+   "network-delay": {
+    "n": 14,
+    "hr1": 0.3571428656578064,
+    "hr3": 0.5714285969734192,
+    "fti_recall": 0.9285714030265808
+   },
+   "network-loss": {
+    "n": 13,
+    "hr1": 0.692307710647583,
+    "hr3": 0.9230769276618958,
+    "fti_recall": 1.0
+   },
+   "pod-failure": {
+    "n": 15,
+    "hr1": 1.0,
+    "hr3": 1.0,
+    "fti_recall": 0.7333333492279053
+   },
+   "pod-kill": {
+    "n": 14,
+    "hr1": 1.0,
+    "hr3": 1.0,
+    "fti_recall": 0.7142857313156128
+   }
+  },
+  "grad_share": {
+   "l_rcl": 41.15,
+   "l_fti": 40.88,
+   "sigma*l_to": 7.37,
+   "sigma*l_cm": 10.6
+  },
+  "weights": null
+ },
+ {
+  "HR@1": 0.8076923076923077,
+  "HR@2": 0.8589743589743589,
+  "HR@3": 0.9230769230769231,
+  "HR@4": 0.9487179487179487,
+  "HR@5": 0.9615384615384616,
+  "MRR@3": 0.8547008220966046,
+  "precision": 0.7787494682291062,
+  "recall": 0.717948717948718,
+  "f1": 0.7471141309339506,
+  "f1_sklearn_weighted": 0.7157641254132483,
+  "macro_f1": 0.7314989493936862,
+  "arm": "v0_simplex",
+  "seed": 4,
+  "dataset": "hotel",
+  "epochs": 114,
+  "train_s": 10.4,
+  "weighting_params": 0,
+  "name": "A_no_aug",
+  "group": "A",
+  "description": "w/o AUG",
+  "overrides": {
+   "aug_times": 0
+  },
+  "per_class": {
+   "container-kill": {
+    "n": 22,
+    "hr1": 1.0,
+    "hr3": 1.0,
+    "fti_recall": 0.4545454680919647
+   },
+   "network-delay": {
+    "n": 14,
+    "hr1": 0.2142857164144516,
+    "hr3": 0.6428571343421936,
+    "fti_recall": 0.9285714030265808
+   },
+   "network-loss": {
+    "n": 13,
+    "hr1": 0.692307710647583,
+    "hr3": 0.9230769276618958,
+    "fti_recall": 1.0
+   },
+   "pod-failure": {
+    "n": 15,
+    "hr1": 1.0,
+    "hr3": 1.0,
+    "fti_recall": 0.6000000238418579
+   },
+   "pod-kill": {
+    "n": 14,
+    "hr1": 1.0,
+    "hr3": 1.0,
+    "fti_recall": 0.7857142686843872
+   }
+  },
+  "grad_share": {
+   "l_rcl": 35.73,
+   "l_fti": 56.03,
+   "sigma*l_to": 2.92,
+   "sigma*l_cm": 5.32
+  },
+  "weights": null
+ },
+ {
+  "HR@1": 0.8205128205128205,
+  "HR@2": 0.8846153846153846,
+  "HR@3": 0.9102564102564102,
+  "HR@4": 0.9615384615384616,
+  "HR@5": 0.9743589743589743,
+  "MRR@3": 0.861111078506861,
+  "precision": 0.8326249730661496,
+  "recall": 0.7948717948717948,
+  "f1": 0.8133105021581283,
+  "f1_sklearn_weighted": 0.7885747680619476,
+  "macro_f1": 0.7975498575498575,
+  "arm": "v0_simplex",
+  "seed": 1,
+  "dataset": "hotel",
+  "epochs": 112,
+  "train_s": 17.3,
+  "weighting_params": 0,
+  "name": "A_no_to",
+  "group": "A",
+  "description": "w/o TO (the term AdaDiag reweights)",
+  "overrides": {
+   "use_to": false
+  },
+  "per_class": {
+   "container-kill": {
+    "n": 22,
+    "hr1": 1.0,
+    "hr3": 1.0,
+    "fti_recall": 0.5909090638160706
+   },
+   "network-delay": {
+    "n": 14,
+    "hr1": 0.2857142984867096,
+    "hr3": 0.5714285969734192,
+    "fti_recall": 0.9285714030265808
+   },
+   "network-loss": {
+    "n": 13,
+    "hr1": 0.692307710647583,
+    "hr3": 0.9230769276618958,
+    "fti_recall": 1.0
+   },
+   "pod-failure": {
+    "n": 15,
+    "hr1": 1.0,
+    "hr3": 1.0,
+    "fti_recall": 1.0
+   },
+   "pod-kill": {
+    "n": 14,
+    "hr1": 1.0,
+    "hr3": 1.0,
+    "fti_recall": 0.5714285969734192
+   }
+  },
+  "grad_share": {
+   "l_rcl": 32.48,
+   "l_fti": 60.64,
+   "sigma*l_to": 0.0,
+   "sigma*l_cm": 6.88
+  },
+  "weights": null
+ },
+ {
+  "HR@1": 0.8461538461538461,
+  "HR@2": 0.9102564102564102,
+  "HR@3": 0.9230769230769231,
+  "HR@4": 0.9615384615384616,
+  "HR@5": 0.9615384615384616,
+  "MRR@3": 0.8824785672701322,
+  "precision": 0.8240486365486365,
+  "recall": 0.7948717948717948,
+  "f1": 0.8091972972635417,
+  "f1_sklearn_weighted": 0.7923082064521271,
+  "macro_f1": 0.8010441887861243,
+  "arm": "v0_simplex",
+  "seed": 3,
+  "dataset": "hotel",
+  "epochs": 153,
+  "train_s": 20.5,
+  "weighting_params": 0,
+  "name": "A_no_to",
+  "group": "A",
+  "description": "w/o TO (the term AdaDiag reweights)",
+  "overrides": {
+   "use_to": false
+  },
+  "per_class": {
+   "container-kill": {
+    "n": 22,
+    "hr1": 1.0,
+    "hr3": 1.0,
+    "fti_recall": 0.5909090638160706
+   },
+   "network-delay": {
+    "n": 14,
+    "hr1": 0.3571428656578064,
+    "hr3": 0.6428571343421936,
+    "fti_recall": 0.8571428656578064
+   },
+   "network-loss": {
+    "n": 13,
+    "hr1": 0.7692307829856873,
+    "hr3": 0.9230769276618958,
+    "fti_recall": 1.0
+   },
+   "pod-failure": {
+    "n": 15,
+    "hr1": 1.0,
+    "hr3": 1.0,
+    "fti_recall": 0.8666666746139526
+   },
+   "pod-kill": {
+    "n": 14,
+    "hr1": 1.0,
+    "hr3": 1.0,
+    "fti_recall": 0.7857142686843872
+   }
+  },
+  "grad_share": {
+   "l_rcl": 35.95,
+   "l_fti": 56.67,
+   "sigma*l_to": 0.0,
+   "sigma*l_cm": 7.38
+  },
+  "weights": null
+ },
+ {
+  "HR@1": 0.8333333333333334,
+  "HR@2": 0.8717948717948718,
+  "HR@3": 0.9358974358974359,
+  "HR@4": 0.9615384615384616,
+  "HR@5": 0.9615384615384616,
+  "MRR@3": 0.8739315913273737,
+  "precision": 0.8223684210526315,
+  "recall": 0.7564102564102564,
+  "f1": 0.7880115396944118,
+  "f1_sklearn_weighted": 0.753359870416322,
+  "macro_f1": 0.76381490015361,
+  "arm": "v0_simplex",
+  "seed": 0,
+  "dataset": "hotel",
+  "epochs": 117,
+  "train_s": 46.1,
+  "weighting_params": 0,
+  "name": "A_no_cm",
+  "group": "A",
+  "description": "w/o CM",
+  "overrides": {
+   "use_cm": false
+  },
+  "per_class": {
+   "container-kill": {
+    "n": 22,
+    "hr1": 1.0,
+    "hr3": 1.0,
+    "fti_recall": 0.5
+   },
+   "network-delay": {
+    "n": 14,
+    "hr1": 0.2857142984867096,
+    "hr3": 0.7142857313156128,
+    "fti_recall": 0.7857142686843872
+   },
+   "network-loss": {
+    "n": 13,
+    "hr1": 0.7692307829856873,
+    "hr3": 0.9230769276618958,
+    "fti_recall": 1.0
+   },
+   "pod-failure": {
+    "n": 15,
+    "hr1": 1.0,
+    "hr3": 1.0,
+    "fti_recall": 0.800000011920929
+   },
+   "pod-kill": {
+    "n": 14,
+    "hr1": 1.0,
+    "hr3": 1.0,
+    "fti_recall": 0.8571428656578064
+   }
+  },
+  "grad_share": {
+   "l_rcl": 30.53,
+   "l_fti": 65.85,
+   "sigma*l_to": 3.62,
+   "sigma*l_cm": 0.0
+  },
+  "weights": null
+ },
+ {
+  "HR@1": 0.8333333333333334,
+  "HR@2": 0.8846153846153846,
+  "HR@3": 0.9358974358974359,
+  "HR@4": 0.9615384615384616,
+  "HR@5": 0.9615384615384616,
+  "MRR@3": 0.8760684086726263,
+  "precision": 0.8577311577311578,
+  "recall": 0.8076923076923077,
+  "f1": 0.8319600060292418,
+  "f1_sklearn_weighted": 0.8133198710121786,
+  "macro_f1": 0.8192185592185594,
+  "arm": "v0_simplex",
+  "seed": 2,
+  "dataset": "hotel",
+  "epochs": 163,
+  "train_s": 56.9,
+  "weighting_params": 0,
+  "name": "A_no_cm",
+  "group": "A",
+  "description": "w/o CM",
+  "overrides": {
+   "use_cm": false
+  },
+  "per_class": {
+   "container-kill": {
+    "n": 22,
+    "hr1": 1.0,
+    "hr3": 1.0,
+    "fti_recall": 0.6363636255264282
+   },
+   "network-delay": {
+    "n": 14,
+    "hr1": 0.2857142984867096,
+    "hr3": 0.7142857313156128,
+    "fti_recall": 0.8571428656578064
+   },
+   "network-loss": {
+    "n": 13,
+    "hr1": 0.7692307829856873,
+    "hr3": 0.9230769276618958,
+    "fti_recall": 1.0
+   },
+   "pod-failure": {
+    "n": 15,
+    "hr1": 1.0,
+    "hr3": 1.0,
+    "fti_recall": 0.800000011920929
+   },
+   "pod-kill": {
+    "n": 14,
+    "hr1": 1.0,
+    "hr3": 1.0,
+    "fti_recall": 0.8571428656578064
+   }
+  },
+  "grad_share": {
+   "l_rcl": 33.3,
+   "l_fti": 59.65,
+   "sigma*l_to": 7.04,
+   "sigma*l_cm": 0.0
+  },
+  "weights": null
+ },
+ {
+  "HR@1": 0.8333333333333334,
+  "HR@2": 0.8846153846153846,
+  "HR@3": 0.9230769230769231,
+  "HR@4": 0.9487179487179487,
+  "HR@5": 0.9615384615384616,
+  "MRR@3": 0.8717948717948718,
+  "precision": 0.8377594627594629,
+  "recall": 0.782051282051282,
+  "f1": 0.8089474205558255,
+  "f1_sklearn_weighted": 0.7904163542760034,
+  "macro_f1": 0.7993528265107213,
+  "arm": "v0_simplex",
+  "seed": 4,
+  "dataset": "hotel",
+  "epochs": 125,
+  "train_s": 46.8,
+  "weighting_params": 0,
+  "name": "A_no_cm",
+  "group": "A",
+  "description": "w/o CM",
+  "overrides": {
+   "use_cm": false
+  },
+  "per_class": {
+   "container-kill": {
+    "n": 22,
+    "hr1": 1.0,
+    "hr3": 1.0,
+    "fti_recall": 0.5909090638160706
+   },
+   "network-delay": {
+    "n": 14,
+    "hr1": 0.3571428656578064,
+    "hr3": 0.6428571343421936,
+    "fti_recall": 0.9285714030265808
+   },
+   "network-loss": {
+    "n": 13,
+    "hr1": 0.692307710647583,
+    "hr3": 0.9230769276618958,
+    "fti_recall": 0.8461538553237915
+   },
+   "pod-failure": {
+    "n": 15,
+    "hr1": 1.0,
+    "hr3": 1.0,
+    "fti_recall": 0.800000011920929
+   },
+   "pod-kill": {
+    "n": 14,
+    "hr1": 1.0,
+    "hr3": 1.0,
+    "fti_recall": 0.8571428656578064
+   }
+  },
+  "grad_share": {
+   "l_rcl": 38.4,
+   "l_fti": 57.82,
+   "sigma*l_to": 3.79,
+   "sigma*l_cm": 0.0
+  },
+  "weights": null
+ },
+ {
+  "HR@1": 0.8333333333333334,
+  "HR@2": 0.8717948717948718,
+  "HR@3": 0.9358974358974359,
+  "HR@4": 0.9615384615384616,
+  "HR@5": 0.9615384615384616,
+  "MRR@3": 0.8739316891401242,
+  "precision": 0.8348518468710776,
+  "recall": 0.7948717948717948,
+  "f1": 0.8143714295814884,
+  "f1_sklearn_weighted": 0.7964312676956354,
+  "macro_f1": 0.8013323668496083,
+  "arm": "v0_simplex",
+  "seed": 1,
+  "dataset": "hotel",
+  "epochs": 172,
+  "train_s": 17.8,
+  "weighting_params": 0,
+  "name": "A_no_to_cm",
+  "group": "A",
+  "description": "w/o TO and CM (diagnosis losses + AUG only)",
+  "overrides": {
+   "use_to": false,
+   "use_cm": false
+  },
+  "per_class": {
+   "container-kill": {
+    "n": 22,
+    "hr1": 1.0,
+    "hr3": 1.0,
+    "fti_recall": 0.6363636255264282
+   },
+   "network-delay": {
+    "n": 14,
+    "hr1": 0.3571428656578064,
+    "hr3": 0.7142857313156128,
+    "fti_recall": 0.9285714030265808
+   },
+   "network-loss": {
+    "n": 13,
+    "hr1": 0.692307710647583,
+    "hr3": 0.9230769276618958,
+    "fti_recall": 1.0
+   },
+   "pod-failure": {
+    "n": 15,
+    "hr1": 1.0,
+    "hr3": 1.0,
+    "fti_recall": 0.8666666746139526
+   },
+   "pod-kill": {
+    "n": 14,
+    "hr1": 1.0,
+    "hr3": 1.0,
+    "fti_recall": 0.6428571343421936
+   }
+  },
+  "grad_share": {
+   "l_rcl": 32.65,
+   "l_fti": 67.35,
+   "sigma*l_to": 0.0,
+   "sigma*l_cm": 0.0
+  },
+  "weights": null
+ },
+ {
+  "HR@1": 0.8461538461538461,
+  "HR@2": 0.8974358974358975,
+  "HR@3": 0.9230769230769231,
+  "HR@4": 0.9615384615384616,
+  "HR@5": 0.9615384615384616,
+  "MRR@3": 0.8803418477376302,
+  "precision": 0.8249598984893103,
+  "recall": 0.7948717948717948,
+  "f1": 0.8096364059266123,
+  "f1_sklearn_weighted": 0.7927971216587842,
+  "macro_f1": 0.8012372484146677,
+  "arm": "v0_simplex",
+  "seed": 3,
+  "dataset": "hotel",
+  "epochs": 153,
+  "train_s": 15.6,
+  "weighting_params": 0,
+  "name": "A_no_to_cm",
+  "group": "A",
+  "description": "w/o TO and CM (diagnosis losses + AUG only)",
+  "overrides": {
+   "use_to": false,
+   "use_cm": false
+  },
+  "per_class": {
+   "container-kill": {
+    "n": 22,
+    "hr1": 1.0,
+    "hr3": 1.0,
+    "fti_recall": 0.5909090638160706
+   },
+   "network-delay": {
+    "n": 14,
+    "hr1": 0.3571428656578064,
+    "hr3": 0.6428571343421936,
+    "fti_recall": 0.8571428656578064
+   },
+   "network-loss": {
+    "n": 13,
+    "hr1": 0.7692307829856873,
+    "hr3": 0.9230769276618958,
+    "fti_recall": 1.0
+   },
+   "pod-failure": {
+    "n": 15,
+    "hr1": 1.0,
+    "hr3": 1.0,
+    "fti_recall": 0.8666666746139526
+   },
+   "pod-kill": {
+    "n": 14,
+    "hr1": 1.0,
+    "hr3": 1.0,
+    "fti_recall": 0.7857142686843872
+   }
+  },
+  "grad_share": {
+   "l_rcl": 34.59,
+   "l_fti": 65.41,
+   "sigma*l_to": 0.0,
+   "sigma*l_cm": 0.0
+  },
+  "weights": null
+ },
+ {
+  "HR@1": 0.782051282051282,
+  "HR@2": 0.8461538461538461,
+  "HR@3": 0.8974358974358975,
+  "HR@4": 0.9358974358974359,
+  "HR@5": 0.9358974358974359,
+  "MRR@3": 0.831196515988081,
+  "precision": 0.4740918803418803,
+  "recall": 0.46153846153846156,
+  "f1": 0.46773095588396757,
+  "f1_sklearn_weighted": 0.43752014411721785,
+  "macro_f1": 0.4764398375076907,
+  "arm": "v0_simplex",
+  "seed": 0,
+  "dataset": "hotel",
+  "epochs": 194,
+  "train_s": 63.8,
+  "weighting_params": 0,
+  "name": "B_no_metric",
+  "group": "B",
+  "description": "w/o metric",
+  "overrides": {
+   "drop_modalities": [
+    "metric"
+   ]
+  },
+  "per_class": {
+   "container-kill": {
+    "n": 22,
+    "hr1": 1.0,
+    "hr3": 1.0,
+    "fti_recall": 0.09090909361839294
+   },
+   "network-delay": {
+    "n": 14,
+    "hr1": 0.0714285746216774,
+    "hr3": 0.5714285969734192,
+    "fti_recall": 0.7857142686843872
+   },
+   "network-loss": {
+    "n": 13,
+    "hr1": 0.692307710647583,
+    "hr3": 0.8461538553237915,
+    "fti_recall": 0.7692307829856873
+   },
+   "pod-failure": {
+    "n": 15,
+    "hr1": 1.0,
+    "hr3": 1.0,
+    "fti_recall": 0.3333333432674408
+   },
+   "pod-kill": {
+    "n": 14,
+    "hr1": 1.0,
+    "hr3": 1.0,
+    "fti_recall": 0.5714285969734192
+   }
+  },
+  "grad_share": {
+   "l_rcl": 39.67,
+   "l_fti": 53.31,
+   "sigma*l_to": 2.34,
+   "sigma*l_cm": 4.68
+  },
+  "weights": null
+ },
+ {
+  "HR@1": 0.782051282051282,
+  "HR@2": 0.7948717948717948,
+  "HR@3": 0.8717948717948718,
+  "HR@4": 0.9615384615384616,
+  "HR@5": 0.9615384615384616,
+  "MRR@3": 0.8141025641025641,
+  "precision": 0.43006668545130083,
+  "recall": 0.4358974358974359,
+  "f1": 0.4329624307324764,
+  "f1_sklearn_weighted": 0.4194551232570684,
+  "macro_f1": 0.45083600945669905,
+  "arm": "v0_simplex",
+  "seed": 2,
+  "dataset": "hotel",
+  "epochs": 94,
+  "train_s": 31.6,
+  "weighting_params": 0,
+  "name": "B_no_metric",
+  "group": "B",
+  "description": "w/o metric",
+  "overrides": {
+   "drop_modalities": [
+    "metric"
+   ]
+  },
+  "per_class": {
+   "container-kill": {
+    "n": 22,
+    "hr1": 1.0,
+    "hr3": 1.0,
+    "fti_recall": 0.13636364042758942
+   },
+   "network-delay": {
+    "n": 14,
+    "hr1": 0.1428571492433548,
+    "hr3": 0.5714285969734192,
+    "fti_recall": 0.7857142686843872
+   },
+   "network-loss": {
+    "n": 13,
+    "hr1": 0.6153846383094788,
+    "hr3": 0.692307710647583,
+    "fti_recall": 0.6153846383094788
+   },
+   "pod-failure": {
+    "n": 15,
+    "hr1": 1.0,
+    "hr3": 1.0,
+    "fti_recall": 0.2666666805744171
+   },
+   "pod-kill": {
+    "n": 14,
+    "hr1": 1.0,
+    "hr3": 1.0,
+    "fti_recall": 0.5714285969734192
+   }
+  },
+  "grad_share": {
+   "l_rcl": 30.57,
+   "l_fti": 59.36,
+   "sigma*l_to": 2.59,
+   "sigma*l_cm": 7.47
+  },
+  "weights": null
+ },
+ {
+  "HR@1": 0.7435897435897436,
+  "HR@2": 0.8076923076923077,
+  "HR@3": 0.8717948717948718,
+  "HR@4": 0.9230769230769231,
+  "HR@5": 0.9230769230769231,
+  "MRR@3": 0.7970085144042969,
+  "precision": 0.4675213675213675,
+  "recall": 0.46153846153846156,
+  "f1": 0.46451065034321704,
+  "f1_sklearn_weighted": 0.43836562757158287,
+  "macro_f1": 0.47129561000528747,
+  "arm": "v0_simplex",
+  "seed": 4,
+  "dataset": "hotel",
+  "epochs": 178,
+  "train_s": 58.1,
+  "weighting_params": 0,
+  "name": "B_no_metric",
+  "group": "B",
+  "description": "w/o metric",
+  "overrides": {
+   "drop_modalities": [
+    "metric"
+   ]
+  },
+  "per_class": {
+   "container-kill": {
+    "n": 22,
+    "hr1": 1.0,
+    "hr3": 1.0,
+    "fti_recall": 0.13636364042758942
+   },
+   "network-delay": {
+    "n": 14,
+    "hr1": 0.0714285746216774,
+    "hr3": 0.5714285969734192,
+    "fti_recall": 0.7142857313156128
+   },
+   "network-loss": {
+    "n": 13,
+    "hr1": 0.5384615659713745,
+    "hr3": 0.692307710647583,
+    "fti_recall": 0.692307710647583
+   },
+   "pod-failure": {
+    "n": 15,
+    "hr1": 0.9333333373069763,
+    "hr3": 1.0,
+    "fti_recall": 0.2666666805744171
+   },
+   "pod-kill": {
+    "n": 14,
+    "hr1": 1.0,
+    "hr3": 1.0,
+    "fti_recall": 0.7142857313156128
+   }
+  },
+  "grad_share": {
+   "l_rcl": 29.74,
+   "l_fti": 64.8,
+   "sigma*l_to": 1.53,
+   "sigma*l_cm": 3.93
+  },
+  "weights": null
+ },
+ {
+  "HR@1": 0.7948717948717948,
+  "HR@2": 0.8461538461538461,
+  "HR@3": 0.8974358974358975,
+  "HR@4": 0.8974358974358975,
+  "HR@5": 0.9487179487179487,
+  "MRR@3": 0.8376067723983374,
+  "precision": 0.8253690753690753,
+  "recall": 0.7948717948717948,
+  "f1": 0.8098334147968483,
+  "f1_sklearn_weighted": 0.7997050304742612,
+  "macro_f1": 0.7927432927432927,
+  "arm": "v0_simplex",
+  "seed": 1,
+  "dataset": "hotel",
+  "epochs": 126,
+  "train_s": 35.4,
+  "weighting_params": 0,
+  "name": "B_no_trace",
+  "group": "B",
+  "description": "w/o trace",
+  "overrides": {
+   "drop_modalities": [
+    "trace"
+   ]
+  },
+  "per_class": {
+   "container-kill": {
+    "n": 22,
+    "hr1": 1.0,
+    "hr3": 1.0,
+    "fti_recall": 0.7727272510528564
+   },
+   "network-delay": {
+    "n": 14,
+    "hr1": 0.2857142984867096,
+    "hr3": 0.5714285969734192,
+    "fti_recall": 0.7857142686843872
+   },
+   "network-loss": {
+    "n": 13,
+    "hr1": 0.5384615659713745,
+    "hr3": 0.8461538553237915,
+    "fti_recall": 0.8461538553237915
+   },
+   "pod-failure": {
+    "n": 15,
+    "hr1": 1.0,
+    "hr3": 1.0,
+    "fti_recall": 0.9333333373069763
+   },
+   "pod-kill": {
+    "n": 14,
+    "hr1": 1.0,
+    "hr3": 1.0,
+    "fti_recall": 0.6428571343421936
+   }
+  },
+  "grad_share": {
+   "l_rcl": 36.86,
+   "l_fti": 53.24,
+   "sigma*l_to": 6.25,
+   "sigma*l_cm": 3.65
+  },
+  "weights": null
+ },
+ {
+  "HR@1": 0.782051282051282,
+  "HR@2": 0.8205128205128205,
+  "HR@3": 0.8717948717948718,
+  "HR@4": 0.9102564102564102,
+  "HR@5": 0.9358974358974359,
+  "MRR@3": 0.8183760520739433,
+  "precision": 0.7104700854700854,
+  "recall": 0.6666666666666666,
+  "f1": 0.6878717351952417,
+  "f1_sklearn_weighted": 0.6595144261178416,
+  "macro_f1": 0.6777446462455949,
+  "arm": "v0_simplex",
+  "seed": 3,
+  "dataset": "hotel",
+  "epochs": 65,
+  "train_s": 17.9,
+  "weighting_params": 0,
+  "name": "B_no_trace",
+  "group": "B",
+  "description": "w/o trace",
+  "overrides": {
+   "drop_modalities": [
+    "trace"
+   ]
+  },
+  "per_class": {
+   "container-kill": {
+    "n": 22,
+    "hr1": 1.0,
+    "hr3": 1.0,
+    "fti_recall": 0.3636363744735718
+   },
+   "network-delay": {
+    "n": 14,
+    "hr1": 0.2142857164144516,
+    "hr3": 0.5,
+    "fti_recall": 0.9285714030265808
+   },
+   "network-loss": {
+    "n": 13,
+    "hr1": 0.5384615659713745,
+    "hr3": 0.7692307829856873,
+    "fti_recall": 0.9230769276618958
+   },
+   "pod-failure": {
+    "n": 15,
+    "hr1": 1.0,
+    "hr3": 1.0,
+    "fti_recall": 0.800000011920929
+   },
+   "pod-kill": {
+    "n": 14,
+    "hr1": 1.0,
+    "hr3": 1.0,
+    "fti_recall": 0.5
+   }
+  },
+  "grad_share": {
+   "l_rcl": 45.87,
+   "l_fti": 44.22,
+   "sigma*l_to": 5.62,
+   "sigma*l_cm": 4.29
+  },
+  "weights": null
+ },
+ {
+  "HR@1": 0.8076923076923077,
+  "HR@2": 0.8974358974358975,
+  "HR@3": 0.9230769230769231,
+  "HR@4": 0.9487179487179487,
+  "HR@5": 0.9487179487179487,
+  "MRR@3": 0.861111078506861,
+  "precision": 0.7504304927099045,
+  "recall": 0.7435897435897436,
+  "f1": 0.7469944571007336,
+  "f1_sklearn_weighted": 0.7363745194668443,
+  "macro_f1": 0.7438140190086797,
+  "arm": "v0_simplex",
+  "seed": 0,
+  "dataset": "hotel",
+  "epochs": 147,
+  "train_s": 59.9,
+  "weighting_params": 0,
+  "name": "B_no_log",
+  "group": "B",
+  "description": "w/o log",
+  "overrides": {
+   "drop_modalities": [
+    "log"
+   ]
+  },
+  "per_class": {
+   "container-kill": {
+    "n": 22,
+    "hr1": 0.9545454382896423,
+    "hr3": 0.9545454382896423,
+    "fti_recall": 0.5909090638160706
+   },
+   "network-delay": {
+    "n": 14,
+    "hr1": 0.2857142984867096,
+    "hr3": 0.7142857313156128,
+    "fti_recall": 1.0
+   },
+   "network-loss": {
+    "n": 13,
+    "hr1": 0.692307710647583,
+    "hr3": 0.9230769276618958,
+    "fti_recall": 1.0
+   },
+   "pod-failure": {
+    "n": 15,
+    "hr1": 1.0,
+    "hr3": 1.0,
+    "fti_recall": 0.6666666865348816
+   },
+   "pod-kill": {
+    "n": 14,
+    "hr1": 1.0,
+    "hr3": 1.0,
+    "fti_recall": 0.5714285969734192
+   }
+  },
+  "grad_share": {
+   "l_rcl": 38.05,
+   "l_fti": 51.66,
+   "sigma*l_to": 5.4,
+   "sigma*l_cm": 4.89
+  },
+  "weights": null
+ },
+ {
+  "HR@1": 0.8205128205128205,
+  "HR@2": 0.8589743589743589,
+  "HR@3": 0.9102564102564102,
+  "HR@4": 0.9487179487179487,
+  "HR@5": 0.9615384615384616,
+  "MRR@3": 0.8568375416291065,
+  "precision": 0.7497605879958821,
+  "recall": 0.7307692307692307,
+  "f1": 0.7401431044567999,
+  "f1_sklearn_weighted": 0.7256685966363385,
+  "macro_f1": 0.7358218125960062,
+  "arm": "v0_simplex",
+  "seed": 2,
+  "dataset": "hotel",
+  "epochs": 157,
+  "train_s": 63.0,
+  "weighting_params": 0,
+  "name": "B_no_log",
+  "group": "B",
+  "description": "w/o log",
+  "overrides": {
+   "drop_modalities": [
+    "log"
+   ]
+  },
+  "per_class": {
+   "container-kill": {
+    "n": 22,
+    "hr1": 0.9545454382896423,
+    "hr3": 0.9545454382896423,
+    "fti_recall": 0.5454545617103577
+   },
+   "network-delay": {
+    "n": 14,
+    "hr1": 0.3571428656578064,
+    "hr3": 0.6428571343421936,
+    "fti_recall": 0.9285714030265808
+   },
+   "network-loss": {
+    "n": 13,
+    "hr1": 0.692307710647583,
+    "hr3": 0.9230769276618958,
+    "fti_recall": 1.0
+   },
+   "pod-failure": {
+    "n": 15,
+    "hr1": 1.0,
+    "hr3": 1.0,
+    "fti_recall": 0.6000000238418579
+   },
+   "pod-kill": {
+    "n": 14,
+    "hr1": 1.0,
+    "hr3": 1.0,
+    "fti_recall": 0.7142857313156128
+   }
+  },
+  "grad_share": {
+   "l_rcl": 31.87,
+   "l_fti": 59.6,
+   "sigma*l_to": 4.56,
+   "sigma*l_cm": 3.96
+  },
+  "weights": null
+ },
+ {
+  "HR@1": 0.8076923076923077,
+  "HR@2": 0.8846153846153846,
+  "HR@3": 0.9102564102564102,
+  "HR@4": 0.9358974358974359,
+  "HR@5": 0.9358974358974359,
+  "MRR@3": 0.8547008220966046,
+  "precision": 0.8118178829717292,
+  "recall": 0.7692307692307693,
+  "f1": 0.7899507630251671,
+  "f1_sklearn_weighted": 0.7666611166611167,
+  "macro_f1": 0.7704329004329005,
+  "arm": "v0_simplex",
+  "seed": 4,
+  "dataset": "hotel",
+  "epochs": 135,
+  "train_s": 55.3,
+  "weighting_params": 0,
+  "name": "B_no_log",
+  "group": "B",
+  "description": "w/o log",
+  "overrides": {
+   "drop_modalities": [
+    "log"
+   ]
+  },
+  "per_class": {
+   "container-kill": {
+    "n": 22,
+    "hr1": 0.9545454382896423,
+    "hr3": 0.9545454382896423,
+    "fti_recall": 0.5909090638160706
+   },
+   "network-delay": {
+    "n": 14,
+    "hr1": 0.3571428656578064,
+    "hr3": 0.6428571343421936,
+    "fti_recall": 0.8571428656578064
+   },
+   "network-loss": {
+    "n": 13,
+    "hr1": 0.6153846383094788,
+    "hr3": 0.9230769276618958,
+    "fti_recall": 1.0
+   },
+   "pod-failure": {
+    "n": 15,
+    "hr1": 1.0,
+    "hr3": 1.0,
+    "fti_recall": 0.6666666865348816
+   },
+   "pod-kill": {
+    "n": 14,
+    "hr1": 1.0,
+    "hr3": 1.0,
+    "fti_recall": 0.8571428656578064
+   }
+  },
+  "grad_share": {
+   "l_rcl": 31.26,
+   "l_fti": 60.57,
+   "sigma*l_to": 4.33,
+   "sigma*l_cm": 3.84
+  },
+  "weights": null
+ },
+ {
+  "HR@1": 0.7948717948717948,
+  "HR@2": 0.8461538461538461,
+  "HR@3": 0.8717948717948718,
+  "HR@4": 0.9102564102564102,
+  "HR@5": 0.9102564102564102,
+  "MRR@3": 0.8290597964555789,
+  "precision": 0.703863473987313,
+  "recall": 0.7051282051282052,
+  "f1": 0.7044952719373527,
+  "f1_sklearn_weighted": 0.6924810861652967,
+  "macro_f1": 0.7013460925039873,
+  "arm": "v0_simplex",
+  "seed": 1,
+  "dataset": "hotel",
+  "epochs": 111,
+  "train_s": 29.6,
+  "weighting_params": 0,
+  "name": "B_only_metric",
+  "group": "B",
+  "description": "metric only",
+  "overrides": {
+   "drop_modalities": [
+    "trace",
+    "log"
+   ]
+  },
+  "per_class": {
+   "container-kill": {
+    "n": 22,
+    "hr1": 0.9545454382896423,
+    "hr3": 0.9545454382896423,
+    "fti_recall": 0.5454545617103577
+   },
+   "network-delay": {
+    "n": 14,
+    "hr1": 0.2857142984867096,
+    "hr3": 0.5,
+    "fti_recall": 1.0
+   },
+   "network-loss": {
+    "n": 13,
+    "hr1": 0.6153846383094788,
+    "hr3": 0.8461538553237915,
+    "fti_recall": 0.9230769276618958
+   },
+   "pod-failure": {
+    "n": 15,
+    "hr1": 1.0,
+    "hr3": 1.0,
+    "fti_recall": 0.6666666865348816
+   },
+   "pod-kill": {
+    "n": 14,
+    "hr1": 1.0,
+    "hr3": 1.0,
+    "fti_recall": 0.5
+   }
+  },
+  "grad_share": {
+   "l_rcl": 46.81,
+   "l_fti": 46.12,
+   "sigma*l_to": 7.07,
+   "sigma*l_cm": 0.0
+  },
+  "weights": null
+ },
+ {
+  "HR@1": 0.7948717948717948,
+  "HR@2": 0.8333333333333334,
+  "HR@3": 0.8717948717948718,
+  "HR@4": 0.9102564102564102,
+  "HR@5": 0.9230769230769231,
+  "MRR@3": 0.8269230769230769,
+  "precision": 0.7902442002442002,
+  "recall": 0.7307692307692307,
+  "f1": 0.7593439144683013,
+  "f1_sklearn_weighted": 0.7330988873819269,
+  "macro_f1": 0.7435231705414261,
+  "arm": "v0_simplex",
+  "seed": 3,
+  "dataset": "hotel",
+  "epochs": 115,
+  "train_s": 29.8,
+  "weighting_params": 0,
+  "name": "B_only_metric",
+  "group": "B",
+  "description": "metric only",
+  "overrides": {
+   "drop_modalities": [
+    "trace",
+    "log"
+   ]
+  },
+  "per_class": {
+   "container-kill": {
+    "n": 22,
+    "hr1": 0.9545454382896423,
+    "hr3": 0.9545454382896423,
+    "fti_recall": 0.5
+   },
+   "network-delay": {
+    "n": 14,
+    "hr1": 0.3571428656578064,
+    "hr3": 0.5,
+    "fti_recall": 0.9285714030265808
+   },
+   "network-loss": {
+    "n": 13,
+    "hr1": 0.5384615659713745,
+    "hr3": 0.8461538553237915,
+    "fti_recall": 0.7692307829856873
+   },
+   "pod-failure": {
+    "n": 15,
+    "hr1": 1.0,
+    "hr3": 1.0,
+    "fti_recall": 0.7333333492279053
+   },
+   "pod-kill": {
+    "n": 14,
+    "hr1": 1.0,
+    "hr3": 1.0,
+    "fti_recall": 0.8571428656578064
+   }
+  },
+  "grad_share": {
+   "l_rcl": 22.44,
+   "l_fti": 72.37,
+   "sigma*l_to": 5.19,
+   "sigma*l_cm": 0.0
+  },
+  "weights": null
+ },
+ {
+  "HR@1": 0.24358974358974358,
+  "HR@2": 0.41025641025641024,
+  "HR@3": 0.6025641025641025,
+  "HR@4": 0.6410256410256411,
+  "HR@5": 0.6923076923076923,
+  "MRR@3": 0.391025641025641,
+  "precision": 0.29693223443223443,
+  "recall": 0.38461538461538464,
+  "f1": 0.3351334590837446,
+  "f1_sklearn_weighted": 0.3255844704120566,
+  "macro_f1": 0.365803044423734,
+  "arm": "v0_simplex",
+  "seed": 0,
+  "dataset": "hotel",
+  "epochs": 189,
+  "train_s": 53.2,
+  "weighting_params": 0,
+  "name": "B_only_trace",
+  "group": "B",
+  "description": "trace only",
+  "overrides": {
+   "drop_modalities": [
+    "metric",
+    "log"
+   ]
+  },
+  "per_class": {
+   "container-kill": {
+    "n": 22,
+    "hr1": 0.1818181872367859,
+    "hr3": 0.4545454680919647,
+    "fti_recall": 0.0
+   },
+   "network-delay": {
+    "n": 14,
+    "hr1": 0.2142857164144516,
+    "hr3": 0.7142857313156128,
+    "fti_recall": 0.6428571343421936
+   },
+   "network-loss": {
+    "n": 13,
+    "hr1": 0.3076923191547394,
+    "hr3": 0.6153846383094788,
+    "fti_recall": 0.692307710647583
+   },
+   "pod-failure": {
+    "n": 15,
+    "hr1": 0.3333333432674408,
+    "hr3": 0.800000011920929,
+    "fti_recall": 0.2666666805744171
+   },
+   "pod-kill": {
+    "n": 14,
+    "hr1": 0.2142857164144516,
+    "hr3": 0.5,
+    "fti_recall": 0.5714285969734192
+   }
+  },
+  "grad_share": {
+   "l_rcl": 48.64,
+   "l_fti": 47.49,
+   "sigma*l_to": 3.86,
+   "sigma*l_cm": 0.0
+  },
+  "weights": null
+ },
+ {
+  "HR@1": 0.28205128205128205,
+  "HR@2": 0.4358974358974359,
+  "HR@3": 0.5512820512820513,
+  "HR@4": 0.6282051282051282,
+  "HR@5": 0.6666666666666666,
+  "MRR@3": 0.39743592188908505,
+  "precision": 0.3125084791751458,
+  "recall": 0.4358974358974359,
+  "f1": 0.36403144877721144,
+  "f1_sklearn_weighted": 0.3438649939911504,
+  "macro_f1": 0.38892881718785843,
+  "arm": "v0_simplex",
+  "seed": 2,
+  "dataset": "hotel",
+  "epochs": 92,
+  "train_s": 33.9,
+  "weighting_params": 0,
+  "name": "B_only_trace",
+  "group": "B",
+  "description": "trace only",
+  "overrides": {
+   "drop_modalities": [
+    "metric",
+    "log"
+   ]
+  },
+  "per_class": {
+   "container-kill": {
+    "n": 22,
+    "hr1": 0.22727273404598236,
+    "hr3": 0.5454545617103577,
+    "fti_recall": 0.0
+   },
+   "network-delay": {
+    "n": 14,
+    "hr1": 0.3571428656578064,
+    "hr3": 0.7142857313156128,
+    "fti_recall": 0.7142857313156128
+   },
+   "network-loss": {
+    "n": 13,
+    "hr1": 0.38461539149284363,
+    "hr3": 0.5384615659713745,
+    "fti_recall": 0.9230769276618958
+   },
+   "pod-failure": {
+    "n": 15,
+    "hr1": 0.3333333432674408,
+    "hr3": 0.5333333611488342,
+    "fti_recall": 0.13333334028720856
+   },
+   "pod-kill": {
+    "n": 14,
+    "hr1": 0.1428571492433548,
+    "hr3": 0.4285714328289032,
+    "fti_recall": 0.7142857313156128
+   }
+  },
+  "grad_share": {
+   "l_rcl": 42.12,
+   "l_fti": 53.47,
+   "sigma*l_to": 4.41,
+   "sigma*l_cm": 0.0
+  },
+  "weights": null
+ },
+ {
+  "HR@1": 0.2564102564102564,
+  "HR@2": 0.4358974358974359,
+  "HR@3": 0.5512820512820513,
+  "HR@4": 0.6282051282051282,
+  "HR@5": 0.6794871794871795,
+  "MRR@3": 0.38461538461538464,
+  "precision": 0.27388782714869675,
+  "recall": 0.38461538461538464,
+  "f1": 0.31994216610748477,
+  "f1_sklearn_weighted": 0.31577731577731577,
+  "macro_f1": 0.35541423776717895,
+  "arm": "v0_simplex",
+  "seed": 4,
+  "dataset": "hotel",
+  "epochs": 99,
+  "train_s": 25.3,
+  "weighting_params": 0,
+  "name": "B_only_trace",
+  "group": "B",
+  "description": "trace only",
+  "overrides": {
+   "drop_modalities": [
+    "metric",
+    "log"
+   ]
+  },
+  "per_class": {
+   "container-kill": {
+    "n": 22,
+    "hr1": 0.22727273404598236,
+    "hr3": 0.5454545617103577,
+    "fti_recall": 0.0
+   },
+   "network-delay": {
+    "n": 14,
+    "hr1": 0.2857142984867096,
+    "hr3": 0.7857142686843872,
+    "fti_recall": 0.8571428656578064
+   },
+   "network-loss": {
+    "n": 13,
+    "hr1": 0.3076923191547394,
+    "hr3": 0.4615384638309479,
+    "fti_recall": 0.6153846383094788
+   },
+   "pod-failure": {
+    "n": 15,
+    "hr1": 0.3333333432674408,
+    "hr3": 0.46666666865348816,
+    "fti_recall": 0.20000000298023224
+   },
+   "pod-kill": {
+    "n": 14,
+    "hr1": 0.1428571492433548,
+    "hr3": 0.4285714328289032,
+    "fti_recall": 0.5
+   }
+  },
+  "grad_share": {
+   "l_rcl": 55.08,
+   "l_fti": 41.71,
+   "sigma*l_to": 3.21,
+   "sigma*l_cm": 0.0
+  },
+  "weights": null
+ },
+ {
+  "HR@1": 0.7051282051282052,
+  "HR@2": 0.782051282051282,
+  "HR@3": 0.8205128205128205,
+  "HR@4": 0.8205128205128205,
+  "HR@5": 0.8461538461538461,
+  "MRR@3": 0.7564102564102564,
+  "precision": 0.44517704517704515,
+  "recall": 0.3333333333333333,
+  "f1": 0.38122124634044335,
+  "f1_sklearn_weighted": 0.31247013011718894,
+  "macro_f1": 0.30998157821687233,
+  "arm": "v0_simplex",
+  "seed": 1,
+  "dataset": "hotel",
+  "epochs": 138,
+  "train_s": 36.0,
+  "weighting_params": 0,
+  "name": "B_only_log",
+  "group": "B",
+  "description": "log only",
+  "overrides": {
+   "drop_modalities": [
+    "metric",
+    "trace"
+   ]
+  },
+  "per_class": {
+   "container-kill": {
+    "n": 22,
+    "hr1": 1.0,
+    "hr3": 1.0,
+    "fti_recall": 0.27272728085517883
+   },
+   "network-delay": {
+    "n": 14,
+    "hr1": 0.0,
+    "hr3": 0.3571428656578064,
+    "fti_recall": 0.9285714030265808
+   },
+   "network-loss": {
+    "n": 13,
+    "hr1": 0.38461539149284363,
+    "hr3": 0.6153846383094788,
+    "fti_recall": 0.07692307978868484
+   },
+   "pod-failure": {
+    "n": 15,
+    "hr1": 1.0,
+    "hr3": 1.0,
+    "fti_recall": 0.2666666805744171
+   },
+   "pod-kill": {
+    "n": 14,
+    "hr1": 1.0,
+    "hr3": 1.0,
+    "fti_recall": 0.1428571492433548
+   }
+  },
+  "grad_share": {
+   "l_rcl": 36.08,
+   "l_fti": 44.51,
+   "sigma*l_to": 19.41,
+   "sigma*l_cm": 0.0
+  },
+  "weights": null
+ },
+ {
+  "HR@1": 0.7051282051282052,
+  "HR@2": 0.782051282051282,
+  "HR@3": 0.8205128205128205,
+  "HR@4": 0.8205128205128205,
+  "HR@5": 0.8461538461538461,
+  "MRR@3": 0.7564102564102564,
+  "precision": 0.3140029561082193,
+  "recall": 0.3333333333333333,
+  "f1": 0.32337952851791557,
+  "f1_sklearn_weighted": 0.3080823316117434,
+  "macro_f1": 0.3097716662422545,
+  "arm": "v0_simplex",
+  "seed": 3,
+  "dataset": "hotel",
+  "epochs": 155,
+  "train_s": 42.6,
+  "weighting_params": 0,
+  "name": "B_only_log",
+  "group": "B",
+  "description": "log only",
+  "overrides": {
+   "drop_modalities": [
+    "metric",
+    "trace"
+   ]
+  },
+  "per_class": {
+   "container-kill": {
+    "n": 22,
+    "hr1": 1.0,
+    "hr3": 1.0,
+    "fti_recall": 0.22727273404598236
+   },
+   "network-delay": {
+    "n": 14,
+    "hr1": 0.0,
+    "hr3": 0.3571428656578064,
+    "fti_recall": 0.9285714030265808
+   },
+   "network-loss": {
+    "n": 13,
+    "hr1": 0.38461539149284363,
+    "hr3": 0.6153846383094788,
+    "fti_recall": 0.07692307978868484
+   },
+   "pod-failure": {
+    "n": 15,
+    "hr1": 1.0,
+    "hr3": 1.0,
+    "fti_recall": 0.2666666805744171
+   },
+   "pod-kill": {
+    "n": 14,
+    "hr1": 1.0,
+    "hr3": 1.0,
+    "fti_recall": 0.2142857164144516
+   }
+  },
+  "grad_share": {
+   "l_rcl": 30.03,
+   "l_fti": 51.04,
+   "sigma*l_to": 18.93,
+   "sigma*l_cm": 0.0
+  },
+  "weights": null
+ },
+ {
+  "HR@1": 0.8461538461538461,
+  "HR@2": 0.8974358974358975,
+  "HR@3": 0.9102564102564102,
+  "HR@4": 0.9615384615384616,
+  "HR@5": 0.9615384615384616,
+  "MRR@3": 0.8760683108598758,
+  "precision": 0.7926174702490492,
+  "recall": 0.717948717948718,
+  "f1": 0.7534376196623281,
+  "f1_sklearn_weighted": 0.7134132892197408,
+  "macro_f1": 0.7231720430107527,
+  "arm": "v3_incident",
+  "seed": 0,
+  "dataset": "hotel",
+  "epochs": 143,
+  "train_s": 89.0,
+  "weighting_params": 6790,
+  "name": "C_softplus",
+  "group": "C",
+  "description": "no simplex (unconstrained positive weights)",
+  "overrides": {
+   "w_constraint": "softplus"
+  },
+  "per_class": {
+   "container-kill": {
+    "n": 22,
+    "hr1": 1.0,
+    "hr3": 1.0,
+    "fti_recall": 0.4545454680919647
+   },
+   "network-delay": {
+    "n": 14,
+    "hr1": 0.3571428656578064,
+    "hr3": 0.5714285969734192,
+    "fti_recall": 0.7142857313156128
+   },
+   "network-loss": {
+    "n": 13,
+    "hr1": 0.7692307829856873,
+    "hr3": 0.9230769276618958,
+    "fti_recall": 0.9230769276618958
+   },
+   "pod-failure": {
+    "n": 15,
+    "hr1": 1.0,
+    "hr3": 1.0,
+    "fti_recall": 0.800000011920929
+   },
+   "pod-kill": {
+    "n": 14,
+    "hr1": 1.0,
+    "hr3": 1.0,
+    "fti_recall": 0.8571428656578064
+   }
+  },
+  "grad_share": {
+   "l_rcl": 41.68,
+   "l_fti": 51.09,
+   "sigma*l_to": 0.0,
+   "sigma*l_cm": 7.23
+  },
+  "weights": {
+   "w": [
+    [
+     3.255953924963251e-05,
+     5.198839062359184e-05
+    ],
+    [
+     0.0001027249381877482,
+     5.5767119192751125e-05
+    ],
+    [
+     3.929043305106461e-05,
+     4.42528908024542e-05
+    ]
+   ],
+   "col_max": [
+    0.0001027249381877482,
+    5.5767119192751125e-05
+   ],
+   "col_sum": [
+    0.0001745749032124877,
+    0.00015200840425677598
+   ]
+  }
+ },
+ {
+  "HR@1": 0.8461538461538461,
+  "HR@2": 0.8846153846153846,
+  "HR@3": 0.9230769230769231,
+  "HR@4": 0.9615384615384616,
+  "HR@5": 0.9615384615384616,
+  "MRR@3": 0.8782051282051282,
+  "precision": 0.8387967152673034,
+  "recall": 0.8076923076923077,
+  "f1": 0.8229507092870487,
+  "f1_sklearn_weighted": 0.8085444647944647,
+  "macro_f1": 0.8126984126984127,
+  "arm": "v3_incident",
+  "seed": 2,
+  "dataset": "hotel",
+  "epochs": 153,
+  "train_s": 78.3,
+  "weighting_params": 6790,
+  "name": "C_softplus",
+  "group": "C",
+  "description": "no simplex (unconstrained positive weights)",
+  "overrides": {
+   "w_constraint": "softplus"
+  },
+  "per_class": {
+   "container-kill": {
+    "n": 22,
+    "hr1": 1.0,
+    "hr3": 1.0,
+    "fti_recall": 0.6363636255264282
+   },
+   "network-delay": {
+    "n": 14,
+    "hr1": 0.3571428656578064,
+    "hr3": 0.6428571343421936,
+    "fti_recall": 0.9285714030265808
+   },
+   "network-loss": {
+    "n": 13,
+    "hr1": 0.7692307829856873,
+    "hr3": 0.9230769276618958,
+    "fti_recall": 0.9230769276618958
+   },
+   "pod-failure": {
+    "n": 15,
+    "hr1": 1.0,
+    "hr3": 1.0,
+    "fti_recall": 0.8666666746139526
+   },
+   "pod-kill": {
+    "n": 14,
+    "hr1": 1.0,
+    "hr3": 1.0,
+    "fti_recall": 0.7857142686843872
+   }
+  },
+  "grad_share": {
+   "l_rcl": 43.03,
+   "l_fti": 47.14,
+   "sigma*l_to": 0.0,
+   "sigma*l_cm": 9.82
+  },
+  "weights": {
+   "w": [
+    [
+     0.00021257851039990783,
+     0.00010708315676311031
+    ],
+    [
+     9.621788922231644e-05,
+     7.563036342617124e-05
+    ],
+    [
+     0.0002051021729130298,
+     8.622873428976163e-05
+    ]
+   ],
+   "col_max": [
+    0.00021257851039990783,
+    0.00010708315676311031
+   ],
+   "col_sum": [
+    0.0005138985579833388,
+    0.0002689422690309584
+   ]
+  }
+ },
+ {
+  "HR@1": 0.8461538461538461,
+  "HR@2": 0.8974358974358975,
+  "HR@3": 0.9230769230769231,
+  "HR@4": 0.9615384615384616,
+  "HR@5": 0.9743589743589743,
+  "MRR@3": 0.8803418477376302,
+  "precision": 0.839696455505279,
+  "recall": 0.8205128205128205,
+  "f1": 0.8299938050385202,
+  "f1_sklearn_weighted": 0.8211982313420558,
+  "macro_f1": 0.8265718678106712,
+  "arm": "v3_incident",
+  "seed": 4,
+  "dataset": "hotel",
+  "epochs": 227,
+  "train_s": 152.9,
+  "weighting_params": 6790,
+  "name": "C_softplus",
+  "group": "C",
+  "description": "no simplex (unconstrained positive weights)",
+  "overrides": {
+   "w_constraint": "softplus"
+  },
+  "per_class": {
+   "container-kill": {
+    "n": 22,
+    "hr1": 1.0,
+    "hr3": 1.0,
+    "fti_recall": 0.6818181872367859
+   },
+   "network-delay": {
+    "n": 14,
+    "hr1": 0.3571428656578064,
+    "hr3": 0.6428571343421936,
+    "fti_recall": 0.9285714030265808
+   },
+   "network-loss": {
+    "n": 13,
+    "hr1": 0.7692307829856873,
+    "hr3": 0.9230769276618958,
+    "fti_recall": 1.0
+   },
+   "pod-failure": {
+    "n": 15,
+    "hr1": 1.0,
+    "hr3": 1.0,
+    "fti_recall": 0.800000011920929
+   },
+   "pod-kill": {
+    "n": 14,
+    "hr1": 1.0,
+    "hr3": 1.0,
+    "fti_recall": 0.7857142686843872
+   }
+  },
+  "grad_share": {
+   "l_rcl": 42.6,
+   "l_fti": 48.8,
+   "sigma*l_to": 0.0,
+   "sigma*l_cm": 8.6
+  },
+  "weights": {
+   "w": [
+    [
+     6.8485514930216596e-06,
+     4.491946128837299e-06
+    ],
+    [
+     1.609297760296613e-05,
+     1.507225078967167e-05
+    ],
+    [
+     1.518704266345594e-05,
+     1.169038841908332e-05
+    ]
+   ],
+   "col_max": [
+    1.609297760296613e-05,
+    1.507225078967167e-05
+   ],
+   "col_sum": [
+    3.812857175944373e-05,
+    3.125458533759229e-05
+   ]
+  }
+ },
+ {
+  "HR@1": 0.8076923076923077,
+  "HR@2": 0.8589743589743589,
+  "HR@3": 0.9102564102564102,
+  "HR@4": 0.9615384615384616,
+  "HR@5": 0.9615384615384616,
+  "MRR@3": 0.8504272852188501,
+  "precision": 0.7932075936883629,
+  "recall": 0.7564102564102564,
+  "f1": 0.7743720289362865,
+  "f1_sklearn_weighted": 0.756493065257433,
+  "macro_f1": 0.7670003400175813,
+  "arm": "v3_incident",
+  "seed": 1,
+  "dataset": "hotel",
+  "epochs": 108,
+  "train_s": 103.6,
+  "weighting_params": 6790,
+  "name": "C_no_detach",
+  "group": "C",
+  "description": "descriptor not detached",
+  "overrides": {
+   "detach": false
+  },
+  "per_class": {
+   "container-kill": {
+    "n": 22,
+    "hr1": 1.0,
+    "hr3": 1.0,
+    "fti_recall": 0.5454545617103577
+   },
+   "network-delay": {
+    "n": 14,
+    "hr1": 0.2142857164144516,
+    "hr3": 0.5714285969734192,
+    "fti_recall": 0.9285714030265808
+   },
+   "network-loss": {
+    "n": 13,
+    "hr1": 0.692307710647583,
+    "hr3": 0.9230769276618958,
+    "fti_recall": 1.0
+   },
+   "pod-failure": {
+    "n": 15,
+    "hr1": 1.0,
+    "hr3": 1.0,
+    "fti_recall": 0.800000011920929
+   },
+   "pod-kill": {
+    "n": 14,
+    "hr1": 1.0,
+    "hr3": 1.0,
+    "fti_recall": 0.6428571343421936
+   }
+  },
+  "grad_share": {
+   "l_rcl": 39.6,
+   "l_fti": 42.52,
+   "sigma*l_to": 11.09,
+   "sigma*l_cm": 6.79
+  },
+  "weights": {
+   "w": [
+    [
+     0.999769389629364,
+     0.4584849178791046
+    ],
+    [
+     0.00014925892173778266,
+     0.00017853829194791615
+    ],
+    [
+     8.136494579957798e-05,
+     0.5413364768028259
+    ]
+   ],
+   "col_max": [
+    0.999769389629364,
+    0.5413364768028259
+   ],
+   "col_sum": [
+    1.0,
+    0.9999999403953552
+   ]
+  }
+ },
+ {
+  "HR@1": 0.8205128205128205,
+  "HR@2": 0.8846153846153846,
+  "HR@3": 0.9102564102564102,
+  "HR@4": 0.9487179487179487,
+  "HR@5": 0.9615384615384616,
+  "MRR@3": 0.861111078506861,
+  "precision": 0.790673264357475,
+  "recall": 0.7435897435897436,
+  "f1": 0.766409053547443,
+  "f1_sklearn_weighted": 0.7395637940490882,
+  "macro_f1": 0.7504875222816401,
+  "arm": "v3_incident",
+  "seed": 3,
+  "dataset": "hotel",
+  "epochs": 126,
+  "train_s": 115.8,
+  "weighting_params": 6790,
+  "name": "C_no_detach",
+  "group": "C",
+  "description": "descriptor not detached",
+  "overrides": {
+   "detach": false
+  },
+  "per_class": {
+   "container-kill": {
+    "n": 22,
+    "hr1": 1.0,
+    "hr3": 1.0,
+    "fti_recall": 0.5
+   },
+   "network-delay": {
+    "n": 14,
+    "hr1": 0.2857142984867096,
+    "hr3": 0.5714285969734192,
+    "fti_recall": 0.7857142686843872
+   },
+   "network-loss": {
+    "n": 13,
+    "hr1": 0.692307710647583,
+    "hr3": 0.9230769276618958,
+    "fti_recall": 1.0
+   },
+   "pod-failure": {
+    "n": 15,
+    "hr1": 1.0,
+    "hr3": 1.0,
+    "fti_recall": 0.8666666746139526
+   },
+   "pod-kill": {
+    "n": 14,
+    "hr1": 1.0,
+    "hr3": 1.0,
+    "fti_recall": 0.7142857313156128
+   }
+  },
+  "grad_share": {
+   "l_rcl": 35.94,
+   "l_fti": 49.75,
+   "sigma*l_to": 8.45,
+   "sigma*l_cm": 5.85
+  },
+  "weights": {
+   "w": [
+    [
+     0.9992714524269104,
+     0.4325565695762634
+    ],
+    [
+     0.0004765396297443658,
+     0.0002654409618116915
+    ],
+    [
+     0.0002519859408494085,
+     0.5671780705451965
+    ]
+   ],
+   "col_max": [
+    0.9992714524269104,
+    0.5671780705451965
+   ],
+   "col_sum": [
+    1.0,
+    1.0000001192092896
+   ]
+  }
+ },
+ {
+  "HR@1": 0.8461538461538461,
+  "HR@2": 0.8974358974358975,
+  "HR@3": 0.9230769230769231,
+  "HR@4": 0.9615384615384616,
+  "HR@5": 0.9615384615384616,
+  "MRR@3": 0.8803418477376302,
+  "precision": 0.7851557290916558,
+  "recall": 0.7051282051282052,
+  "f1": 0.7429932475120529,
+  "f1_sklearn_weighted": 0.7023215523215524,
+  "macro_f1": 0.7113963963963964,
+  "arm": "v3_incident",
+  "seed": 0,
+  "dataset": "hotel",
+  "epochs": 143,
+  "train_s": 127.4,
+  "weighting_params": 6790,
+  "name": "C_desc_emb",
+  "group": "C",
+  "description": "descriptor: embeddings only",
+  "overrides": {
+   "descriptor": "emb"
+  },
+  "per_class": {
+   "container-kill": {
+    "n": 22,
+    "hr1": 1.0,
+    "hr3": 1.0,
+    "fti_recall": 0.4545454680919647
+   },
+   "network-delay": {
+    "n": 14,
+    "hr1": 0.3571428656578064,
+    "hr3": 0.6428571343421936,
+    "fti_recall": 0.7142857313156128
+   },
+   "network-loss": {
+    "n": 13,
+    "hr1": 0.7692307829856873,
+    "hr3": 0.9230769276618958,
+    "fti_recall": 0.9230769276618958
+   },
+   "pod-failure": {
+    "n": 15,
+    "hr1": 1.0,
+    "hr3": 1.0,
+    "fti_recall": 0.7333333492279053
+   },
+   "pod-kill": {
+    "n": 14,
+    "hr1": 1.0,
+    "hr3": 1.0,
+    "fti_recall": 0.8571428656578064
+   }
+  },
+  "grad_share": {
+   "l_rcl": 38.58,
+   "l_fti": 45.99,
+   "sigma*l_to": 8.57,
+   "sigma*l_cm": 6.86
+  },
+  "weights": {
+   "w": [
+    [
+     0.9991141557693481,
+     0.0006086430512368679
+    ],
+    [
+     0.00024305112310685217,
+     0.0009338799281977117
+    ],
+    [
+     0.0006427295738831162,
+     0.9984575510025024
+    ]
+   ],
+   "col_max": [
+    0.9991141557693481,
+    0.9984575510025024
+   ],
+   "col_sum": [
+    0.9999999403953552,
+    1.0000001192092896
+   ]
+  }
+ },
+ {
+  "HR@1": 0.8333333333333334,
+  "HR@2": 0.8846153846153846,
+  "HR@3": 0.9358974358974359,
+  "HR@4": 0.9615384615384616,
+  "HR@5": 0.9743589743589743,
+  "MRR@3": 0.8760683108598758,
+  "precision": 0.8330237358101135,
+  "recall": 0.7948717948717948,
+  "f1": 0.8135006940854814,
+  "f1_sklearn_weighted": 0.7949557387057385,
+  "macro_f1": 0.8015476190476191,
+  "arm": "v3_incident",
+  "seed": 2,
+  "dataset": "hotel",
+  "epochs": 153,
+  "train_s": 116.8,
+  "weighting_params": 6790,
+  "name": "C_desc_emb",
+  "group": "C",
+  "description": "descriptor: embeddings only",
+  "overrides": {
+   "descriptor": "emb"
+  },
+  "per_class": {
+   "container-kill": {
+    "n": 22,
+    "hr1": 1.0,
+    "hr3": 1.0,
+    "fti_recall": 0.5909090638160706
+   },
+   "network-delay": {
+    "n": 14,
+    "hr1": 0.3571428656578064,
+    "hr3": 0.7142857313156128,
+    "fti_recall": 0.9285714030265808
+   },
+   "network-loss": {
+    "n": 13,
+    "hr1": 0.692307710647583,
+    "hr3": 0.9230769276618958,
+    "fti_recall": 0.9230769276618958
+   },
+   "pod-failure": {
+    "n": 15,
+    "hr1": 1.0,
+    "hr3": 1.0,
+    "fti_recall": 0.8666666746139526
+   },
+   "pod-kill": {
+    "n": 14,
+    "hr1": 1.0,
+    "hr3": 1.0,
+    "fti_recall": 0.7857142686843872
+   }
+  },
+  "grad_share": {
+   "l_rcl": 34.78,
+   "l_fti": 44.29,
+   "sigma*l_to": 12.1,
+   "sigma*l_cm": 8.83
+  },
+  "weights": {
+   "w": [
+    [
+     0.9645165205001831,
+     0.456531822681427
+    ],
+    [
+     0.025874584913253784,
+     0.00039284469676204026
+    ],
+    [
+     0.009608959779143333,
+     0.5430753231048584
+    ]
+   ],
+   "col_max": [
+    0.9645165205001831,
+    0.5430753231048584
+   ],
+   "col_sum": [
+    1.0000001192092896,
+    1.0
+   ]
+  }
+ },
+ {
+  "HR@1": 0.8461538461538461,
+  "HR@2": 0.8846153846153846,
+  "HR@3": 0.9230769230769231,
+  "HR@4": 0.9487179487179487,
+  "HR@5": 0.9743589743589743,
+  "MRR@3": 0.8782051282051282,
+  "precision": 0.8345931845931844,
+  "recall": 0.7948717948717948,
+  "f1": 0.8142483465255835,
+  "f1_sklearn_weighted": 0.7999785815877769,
+  "macro_f1": 0.8067791929860896,
+  "arm": "v3_incident",
+  "seed": 4,
+  "dataset": "hotel",
+  "epochs": 142,
+  "train_s": 129.1,
+  "weighting_params": 6790,
+  "name": "C_desc_emb",
+  "group": "C",
+  "description": "descriptor: embeddings only",
+  "overrides": {
+   "descriptor": "emb"
+  },
+  "per_class": {
+   "container-kill": {
+    "n": 22,
+    "hr1": 1.0,
+    "hr3": 1.0,
+    "fti_recall": 0.6363636255264282
+   },
+   "network-delay": {
+    "n": 14,
+    "hr1": 0.3571428656578064,
+    "hr3": 0.6428571343421936,
+    "fti_recall": 0.9285714030265808
+   },
+   "network-loss": {
+    "n": 13,
+    "hr1": 0.7692307829856873,
+    "hr3": 0.9230769276618958,
+    "fti_recall": 0.9230769276618958
+   },
+   "pod-failure": {
+    "n": 15,
+    "hr1": 1.0,
+    "hr3": 1.0,
+    "fti_recall": 0.7333333492279053
+   },
+   "pod-kill": {
+    "n": 14,
+    "hr1": 1.0,
+    "hr3": 1.0,
+    "fti_recall": 0.8571428656578064
+   }
+  },
+  "grad_share": {
+   "l_rcl": 35.27,
+   "l_fti": 50.5,
+   "sigma*l_to": 7.99,
+   "sigma*l_cm": 6.23
+  },
+  "weights": {
+   "w": [
+    [
+     0.9980270266532898,
+     0.00040361614082939923
+    ],
+    [
+     0.001184992608614266,
+     8.311423152917996e-05
+    ],
+    [
+     0.0007879836484789848,
+     0.9995132088661194
+    ]
+   ],
+   "col_max": [
+    0.9980270266532898,
+    0.9995132088661194
+   ],
+   "col_sum": [
+    1.0,
+    0.9999999403953552
+   ]
+  }
+ },
+ {
+  "HR@1": 0.8076923076923077,
+  "HR@2": 0.8589743589743589,
+  "HR@3": 0.9102564102564102,
+  "HR@4": 0.9615384615384616,
+  "HR@5": 0.9615384615384616,
+  "MRR@3": 0.8504272852188501,
+  "precision": 0.789712217805216,
+  "recall": 0.7564102564102564,
+  "f1": 0.7727025913176238,
+  "f1_sklearn_weighted": 0.7541294580510267,
+  "macro_f1": 0.7642452536570185,
+  "arm": "v3_incident",
+  "seed": 1,
+  "dataset": "hotel",
+  "epochs": 108,
+  "train_s": 82.9,
+  "weighting_params": 6790,
+  "name": "C_desc_counts",
+  "group": "C",
+  "description": "descriptor: alert counts only",
+  "overrides": {
+   "descriptor": "counts"
+  },
+  "per_class": {
+   "container-kill": {
+    "n": 22,
+    "hr1": 1.0,
+    "hr3": 1.0,
+    "fti_recall": 0.5454545617103577
+   },
+   "network-delay": {
+    "n": 14,
+    "hr1": 0.2142857164144516,
+    "hr3": 0.5714285969734192,
+    "fti_recall": 0.9285714030265808
+   },
+   "network-loss": {
+    "n": 13,
+    "hr1": 0.692307710647583,
+    "hr3": 0.9230769276618958,
+    "fti_recall": 1.0
+   },
+   "pod-failure": {
+    "n": 15,
+    "hr1": 1.0,
+    "hr3": 1.0,
+    "fti_recall": 0.800000011920929
+   },
+   "pod-kill": {
+    "n": 14,
+    "hr1": 1.0,
+    "hr3": 1.0,
+    "fti_recall": 0.6428571343421936
+   }
+  },
+  "grad_share": {
+   "l_rcl": 41.29,
+   "l_fti": 43.9,
+   "sigma*l_to": 7.59,
+   "sigma*l_cm": 7.22
+  },
+  "weights": {
+   "w": [
+    [
+     0.7561940550804138,
+     0.4318920373916626
+    ],
+    [
+     0.13735520839691162,
+     0.11637817323207855
+    ],
+    [
+     0.10645075142383575,
+     0.45172974467277527
+    ]
+   ],
+   "col_max": [
+    0.7561940550804138,
+    0.45172974467277527
+   ],
+   "col_sum": [
+    1.0,
+    1.0
+   ]
+  }
+ },
+ {
+  "HR@1": 0.8333333333333334,
+  "HR@2": 0.8846153846153846,
+  "HR@3": 0.9230769230769231,
+  "HR@4": 0.9487179487179487,
+  "HR@5": 0.9615384615384616,
+  "MRR@3": 0.8717948717948718,
+  "precision": 0.790673264357475,
+  "recall": 0.7435897435897436,
+  "f1": 0.766409053547443,
+  "f1_sklearn_weighted": 0.7395637940490882,
+  "macro_f1": 0.7504875222816401,
+  "arm": "v3_incident",
+  "seed": 3,
+  "dataset": "hotel",
+  "epochs": 126,
+  "train_s": 95.5,
+  "weighting_params": 6790,
+  "name": "C_desc_counts",
+  "group": "C",
+  "description": "descriptor: alert counts only",
+  "overrides": {
+   "descriptor": "counts"
+  },
+  "per_class": {
+   "container-kill": {
+    "n": 22,
+    "hr1": 1.0,
+    "hr3": 1.0,
+    "fti_recall": 0.5
+   },
+   "network-delay": {
+    "n": 14,
+    "hr1": 0.3571428656578064,
+    "hr3": 0.6428571343421936,
+    "fti_recall": 0.7857142686843872
+   },
+   "network-loss": {
+    "n": 13,
+    "hr1": 0.692307710647583,
+    "hr3": 0.9230769276618958,
+    "fti_recall": 1.0
+   },
+   "pod-failure": {
+    "n": 15,
+    "hr1": 1.0,
+    "hr3": 1.0,
+    "fti_recall": 0.8666666746139526
+   },
+   "pod-kill": {
+    "n": 14,
+    "hr1": 1.0,
+    "hr3": 1.0,
+    "fti_recall": 0.7142857313156128
+   }
+  },
+  "grad_share": {
+   "l_rcl": 38.18,
+   "l_fti": 48.65,
+   "sigma*l_to": 6.93,
+   "sigma*l_cm": 6.23
+  },
+  "weights": {
+   "w": [
+    [
+     0.8064601421356201,
+     0.45561209321022034
+    ],
+    [
+     0.10259965807199478,
+     0.08684702962636948
+    ],
+    [
+     0.09094022214412689,
+     0.457540899515152
+    ]
+   ],
+   "col_max": [
+    0.8064601421356201,
+    0.457540899515152
+   ],
+   "col_sum": [
+    1.0,
+    1.0
+   ]
+  }
+ },
+ {
+  "HR@1": 0.8461538461538461,
+  "HR@2": 0.8974358974358975,
+  "HR@3": 0.9230769230769231,
+  "HR@4": 0.9615384615384616,
+  "HR@5": 0.9615384615384616,
+  "MRR@3": 0.8803418477376302,
+  "precision": 0.799485602117181,
+  "recall": 0.7307692307692307,
+  "f1": 0.7635845558719627,
+  "f1_sklearn_weighted": 0.7332314800367539,
+  "macro_f1": 0.7362339418526032,
+  "arm": "v3_incident",
+  "seed": 0,
+  "dataset": "hotel",
+  "epochs": 143,
+  "train_s": 111.7,
+  "weighting_params": 6790,
+  "name": "C_entropy_01",
+  "group": "C",
+  "description": "+ entropy penalty, lambda=0.01",
+  "overrides": {
+   "entropy_reg": 0.01
+  },
+  "per_class": {
+   "container-kill": {
+    "n": 22,
+    "hr1": 1.0,
+    "hr3": 1.0,
+    "fti_recall": 0.5454545617103577
+   },
+   "network-delay": {
+    "n": 14,
+    "hr1": 0.3571428656578064,
+    "hr3": 0.6428571343421936,
+    "fti_recall": 0.7142857313156128
+   },
+   "network-loss": {
+    "n": 13,
+    "hr1": 0.7692307829856873,
+    "hr3": 0.9230769276618958,
+    "fti_recall": 0.9230769276618958
+   },
+   "pod-failure": {
+    "n": 15,
+    "hr1": 1.0,
+    "hr3": 1.0,
+    "fti_recall": 0.7333333492279053
+   },
+   "pod-kill": {
+    "n": 14,
+    "hr1": 1.0,
+    "hr3": 1.0,
+    "fti_recall": 0.8571428656578064
+   }
+  },
+  "grad_share": {
+   "l_rcl": 39.91,
+   "l_fti": 46.81,
+   "sigma*l_to": 6.23,
+   "sigma*l_cm": 7.05
+  },
+  "weights": {
+   "w": [
+    [
+     0.5203046798706055,
+     0.3759257197380066
+    ],
+    [
+     0.2968384027481079,
+     0.1494399607181549
+    ],
+    [
+     0.18285688757896423,
+     0.4746343195438385
+    ]
+   ],
+   "col_max": [
+    0.5203046798706055,
+    0.4746343195438385
+   ],
+   "col_sum": [
+    1.0,
+    1.0
+   ]
+  }
+ },
+ {
+  "HR@1": 0.8461538461538461,
+  "HR@2": 0.8846153846153846,
+  "HR@3": 0.9358974358974359,
+  "HR@4": 0.9615384615384616,
+  "HR@5": 0.9615384615384616,
+  "MRR@3": 0.8824785672701322,
+  "precision": 0.8218623481781376,
+  "recall": 0.782051282051282,
+  "f1": 0.8014627358337918,
+  "f1_sklearn_weighted": 0.7826630050211807,
+  "macro_f1": 0.7879749986757774,
+  "arm": "v3_incident",
+  "seed": 2,
+  "dataset": "hotel",
+  "epochs": 153,
+  "train_s": 124.5,
+  "weighting_params": 6790,
+  "name": "C_entropy_01",
+  "group": "C",
+  "description": "+ entropy penalty, lambda=0.01",
+  "overrides": {
+   "entropy_reg": 0.01
+  },
+  "per_class": {
+   "container-kill": {
+    "n": 22,
+    "hr1": 1.0,
+    "hr3": 1.0,
+    "fti_recall": 0.5909090638160706
+   },
+   "network-delay": {
+    "n": 14,
+    "hr1": 0.3571428656578064,
+    "hr3": 0.7142857313156128,
+    "fti_recall": 0.9285714030265808
+   },
+   "network-loss": {
+    "n": 13,
+    "hr1": 0.7692307829856873,
+    "hr3": 0.9230769276618958,
+    "fti_recall": 0.9230769276618958
+   },
+   "pod-failure": {
+    "n": 15,
+    "hr1": 1.0,
+    "hr3": 1.0,
+    "fti_recall": 0.800000011920929
+   },
+   "pod-kill": {
+    "n": 14,
+    "hr1": 1.0,
+    "hr3": 1.0,
+    "fti_recall": 0.7857142686843872
+   }
+  },
+  "grad_share": {
+   "l_rcl": 36.98,
+   "l_fti": 44.87,
+   "sigma*l_to": 8.88,
+   "sigma*l_cm": 9.26
+  },
+  "weights": {
+   "w": [
+    [
+     0.5526686310768127,
+     0.4373554289340973
+    ],
+    [
+     0.2654927670955658,
+     0.10720603913068771
+    ],
+    [
+     0.18183855712413788,
+     0.4554385542869568
+    ]
+   ],
+   "col_max": [
+    0.5526686310768127,
+    0.4554385542869568
+   ],
+   "col_sum": [
+    0.9999999403953552,
+    1.0
+   ]
+  }
+ },
+ {
+  "HR@1": 0.8461538461538461,
+  "HR@2": 0.8846153846153846,
+  "HR@3": 0.9230769230769231,
+  "HR@4": 0.9487179487179487,
+  "HR@5": 0.9615384615384616,
+  "MRR@3": 0.8782051282051282,
+  "precision": 0.8546717171717171,
+  "recall": 0.8205128205128205,
+  "f1": 0.8372439996830494,
+  "f1_sklearn_weighted": 0.8223532477918443,
+  "macro_f1": 0.8287942077415762,
+  "arm": "v3_incident",
+  "seed": 4,
+  "dataset": "hotel",
+  "epochs": 142,
+  "train_s": 109.8,
+  "weighting_params": 6790,
+  "name": "C_entropy_01",
+  "group": "C",
+  "description": "+ entropy penalty, lambda=0.01",
+  "overrides": {
+   "entropy_reg": 0.01
+  },
+  "per_class": {
+   "container-kill": {
+    "n": 22,
+    "hr1": 1.0,
+    "hr3": 1.0,
+    "fti_recall": 0.6818181872367859
+   },
+   "network-delay": {
+    "n": 14,
+    "hr1": 0.3571428656578064,
+    "hr3": 0.6428571343421936,
+    "fti_recall": 0.9285714030265808
+   },
+   "network-loss": {
+    "n": 13,
+    "hr1": 0.7692307829856873,
+    "hr3": 0.9230769276618958,
+    "fti_recall": 1.0
+   },
+   "pod-failure": {
+    "n": 15,
+    "hr1": 1.0,
+    "hr3": 1.0,
+    "fti_recall": 0.6666666865348816
+   },
+   "pod-kill": {
+    "n": 14,
+    "hr1": 1.0,
+    "hr3": 1.0,
+    "fti_recall": 0.9285714030265808
+   }
+  },
+  "grad_share": {
+   "l_rcl": 35.39,
+   "l_fti": 52.29,
+   "sigma*l_to": 6.01,
+   "sigma*l_cm": 6.31
+  },
+  "weights": {
+   "w": [
+    [
+     0.5420524477958679,
+     0.3518295884132385
+    ],
+    [
+     0.28301095962524414,
+     0.12096861749887466
+    ],
+    [
+     0.17493657767772675,
+     0.527201771736145
+    ]
+   ],
+   "col_max": [
+    0.5420524477958679,
+    0.527201771736145
+   ],
+   "col_sum": [
+    1.0,
+    1.0
+   ]
+  }
+ },
+ {
+  "HR@1": 0.8076923076923077,
+  "HR@2": 0.8589743589743589,
+  "HR@3": 0.8974358974358975,
+  "HR@4": 0.9615384615384616,
+  "HR@5": 0.9615384615384616,
+  "MRR@3": 0.8461538461538461,
+  "precision": 0.789712217805216,
+  "recall": 0.7564102564102564,
+  "f1": 0.7727025913176238,
+  "f1_sklearn_weighted": 0.7541294580510267,
+  "macro_f1": 0.7642452536570185,
+  "arm": "v3_incident",
+  "seed": 1,
+  "dataset": "hotel",
+  "epochs": 108,
+  "train_s": 84.5,
+  "weighting_params": 6790,
+  "name": "C_entropy_1",
+  "group": "C",
+  "description": "+ entropy penalty, lambda=0.1",
+  "overrides": {
+   "entropy_reg": 0.1
+  },
+  "per_class": {
+   "container-kill": {
+    "n": 22,
+    "hr1": 1.0,
+    "hr3": 1.0,
+    "fti_recall": 0.5454545617103577
+   },
+   "network-delay": {
+    "n": 14,
+    "hr1": 0.2142857164144516,
+    "hr3": 0.5,
+    "fti_recall": 0.9285714030265808
+   },
+   "network-loss": {
+    "n": 13,
+    "hr1": 0.692307710647583,
+    "hr3": 0.9230769276618958,
+    "fti_recall": 1.0
+   },
+   "pod-failure": {
+    "n": 15,
+    "hr1": 1.0,
+    "hr3": 1.0,
+    "fti_recall": 0.800000011920929
+   },
+   "pod-kill": {
+    "n": 14,
+    "hr1": 1.0,
+    "hr3": 1.0,
+    "fti_recall": 0.6428571343421936
+   }
+  },
+  "grad_share": {
+   "l_rcl": 43.33,
+   "l_fti": 43.84,
+   "sigma*l_to": 4.93,
+   "sigma*l_cm": 7.9
+  },
+  "weights": {
+   "w": [
+    [
+     0.3502300977706909,
+     0.3453492522239685
+    ],
+    [
+     0.33062878251075745,
+     0.3241104185581207
+    ],
+    [
+     0.319141149520874,
+     0.3305402994155884
+    ]
+   ],
+   "col_max": [
+    0.3502300977706909,
+    0.3453492522239685
+   ],
+   "col_sum": [
+    1.0,
+    1.0
+   ]
+  }
+ },
+ {
+  "HR@1": 0.8333333333333334,
+  "HR@2": 0.8846153846153846,
+  "HR@3": 0.9230769230769231,
+  "HR@4": 0.9487179487179487,
+  "HR@5": 0.9615384615384616,
+  "MRR@3": 0.8717948717948718,
+  "precision": 0.7983468794971533,
+  "recall": 0.7564102564102564,
+  "f1": 0.776812987543969,
+  "f1_sklearn_weighted": 0.7540853098514388,
+  "macro_f1": 0.7622508727831309,
+  "arm": "v3_incident",
+  "seed": 3,
+  "dataset": "hotel",
+  "epochs": 126,
+  "train_s": 97.6,
+  "weighting_params": 6790,
+  "name": "C_entropy_1",
+  "group": "C",
+  "description": "+ entropy penalty, lambda=0.1",
+  "overrides": {
+   "entropy_reg": 0.1
+  },
+  "per_class": {
+   "container-kill": {
+    "n": 22,
+    "hr1": 1.0,
+    "hr3": 1.0,
+    "fti_recall": 0.5454545617103577
+   },
+   "network-delay": {
+    "n": 14,
+    "hr1": 0.3571428656578064,
+    "hr3": 0.6428571343421936,
+    "fti_recall": 0.7857142686843872
+   },
+   "network-loss": {
+    "n": 13,
+    "hr1": 0.692307710647583,
+    "hr3": 0.9230769276618958,
+    "fti_recall": 1.0
+   },
+   "pod-failure": {
+    "n": 15,
+    "hr1": 1.0,
+    "hr3": 1.0,
+    "fti_recall": 0.8666666746139526
+   },
+   "pod-kill": {
+    "n": 14,
+    "hr1": 1.0,
+    "hr3": 1.0,
+    "fti_recall": 0.7142857313156128
+   }
+  },
+  "grad_share": {
+   "l_rcl": 39.7,
+   "l_fti": 50.16,
+   "sigma*l_to": 3.77,
+   "sigma*l_cm": 6.37
+  },
+  "weights": {
+   "w": [
+    [
+     0.3494568169116974,
+     0.35000601410865784
+    ],
+    [
+     0.3278377056121826,
+     0.32447803020477295
+    ],
+    [
+     0.3227054476737976,
+     0.325516015291214
+    ]
+   ],
+   "col_max": [
+    0.3494568169116974,
+    0.35000601410865784
+   ],
+   "col_sum": [
+    0.9999999403953552,
+    1.0
+   ]
+  }
+ },
+ {
+  "HR@1": 0.8205128205128205,
+  "HR@2": 0.8846153846153846,
+  "HR@3": 0.9230769230769231,
+  "HR@4": 0.9615384615384616,
+  "HR@5": 0.9615384615384616,
+  "MRR@3": 0.8653846153846154,
+  "precision": 0.8009757336680412,
+  "recall": 0.7307692307692307,
+  "f1": 0.7642635482368971,
+  "f1_sklearn_weighted": 0.7208896241154304,
+  "macro_f1": 0.7369175627240143,
+  "arm": "v0_simplex",
+  "seed": 0,
+  "dataset": "hotel",
+  "epochs": 132,
+  "train_s": 52.8,
+  "weighting_params": 0,
+  "name": "D_prior_s0.5",
+  "group": "D",
+  "description": "prior, sigma_to=0.5",
+  "overrides": {
+   "to_scale": 0.5
+  },
+  "per_class": {
+   "container-kill": {
+    "n": 22,
+    "hr1": 1.0,
+    "hr3": 1.0,
+    "fti_recall": 0.40909090638160706
+   },
+   "network-delay": {
+    "n": 14,
+    "hr1": 0.2142857164144516,
+    "hr3": 0.6428571343421936,
+    "fti_recall": 0.8571428656578064
+   },
+   "network-loss": {
+    "n": 13,
+    "hr1": 0.7692307829856873,
+    "hr3": 0.9230769276618958,
+    "fti_recall": 0.9230769276618958
+   },
+   "pod-failure": {
+    "n": 15,
+    "hr1": 1.0,
+    "hr3": 1.0,
+    "fti_recall": 0.800000011920929
+   },
+   "pod-kill": {
+    "n": 14,
+    "hr1": 1.0,
+    "hr3": 1.0,
+    "fti_recall": 0.8571428656578064
+   }
+  },
+  "grad_share": {
+   "l_rcl": 31.82,
+   "l_fti": 27.29,
+   "sigma*l_to": 32.83,
+   "sigma*l_cm": 8.06
+  },
+  "weights": null
+ },
+ {
+  "HR@1": 0.8333333333333334,
+  "HR@2": 0.8846153846153846,
+  "HR@3": 0.9102564102564102,
+  "HR@4": 0.9615384615384616,
+  "HR@5": 0.9615384615384616,
+  "MRR@3": 0.8675214327298678,
+  "precision": 0.7797377886065668,
+  "recall": 0.6794871794871795,
+  "f1": 0.7261688119440248,
+  "f1_sklearn_weighted": 0.6476547194495911,
+  "macro_f1": 0.6803833203833205,
+  "arm": "v0_simplex",
+  "seed": 2,
+  "dataset": "hotel",
+  "epochs": 194,
+  "train_s": 79.9,
+  "weighting_params": 0,
+  "name": "D_prior_s0.5",
+  "group": "D",
+  "description": "prior, sigma_to=0.5",
+  "overrides": {
+   "to_scale": 0.5
+  },
+  "per_class": {
+   "container-kill": {
+    "n": 22,
+    "hr1": 1.0,
+    "hr3": 1.0,
+    "fti_recall": 0.22727273404598236
+   },
+   "network-delay": {
+    "n": 14,
+    "hr1": 0.3571428656578064,
+    "hr3": 0.5714285969734192,
+    "fti_recall": 0.8571428656578064
+   },
+   "network-loss": {
+    "n": 13,
+    "hr1": 0.692307710647583,
+    "hr3": 0.9230769276618958,
+    "fti_recall": 0.9230769276618958
+   },
+   "pod-failure": {
+    "n": 15,
+    "hr1": 1.0,
+    "hr3": 1.0,
+    "fti_recall": 0.800000011920929
+   },
+   "pod-kill": {
+    "n": 14,
+    "hr1": 1.0,
+    "hr3": 1.0,
+    "fti_recall": 0.8571428656578064
+   }
+  },
+  "grad_share": {
+   "l_rcl": 15.85,
+   "l_fti": 30.72,
+   "sigma*l_to": 42.92,
+   "sigma*l_cm": 10.51
+  },
+  "weights": null
+ },
+ {
+  "HR@1": 0.8461538461538461,
+  "HR@2": 0.8717948717948718,
+  "HR@3": 0.9230769230769231,
+  "HR@4": 0.9358974358974359,
+  "HR@5": 0.9487179487179487,
+  "MRR@3": 0.8760683108598758,
+  "precision": 0.823120836278731,
+  "recall": 0.7948717948717948,
+  "f1": 0.8087497111331143,
+  "f1_sklearn_weighted": 0.791324425752322,
+  "macro_f1": 0.7994386813793999,
+  "arm": "v0_simplex",
+  "seed": 4,
+  "dataset": "hotel",
+  "epochs": 150,
+  "train_s": 61.0,
+  "weighting_params": 0,
+  "name": "D_prior_s0.5",
+  "group": "D",
+  "description": "prior, sigma_to=0.5",
+  "overrides": {
+   "to_scale": 0.5
+  },
+  "per_class": {
+   "container-kill": {
+    "n": 22,
+    "hr1": 1.0,
+    "hr3": 1.0,
+    "fti_recall": 0.5909090638160706
+   },
+   "network-delay": {
+    "n": 14,
+    "hr1": 0.3571428656578064,
+    "hr3": 0.6428571343421936,
+    "fti_recall": 0.8571428656578064
+   },
+   "network-loss": {
+    "n": 13,
+    "hr1": 0.7692307829856873,
+    "hr3": 0.9230769276618958,
+    "fti_recall": 1.0
+   },
+   "pod-failure": {
+    "n": 15,
+    "hr1": 1.0,
+    "hr3": 1.0,
+    "fti_recall": 0.9333333373069763
+   },
+   "pod-kill": {
+    "n": 14,
+    "hr1": 1.0,
+    "hr3": 1.0,
+    "fti_recall": 0.7142857313156128
+   }
+  },
+  "grad_share": {
+   "l_rcl": 22.53,
+   "l_fti": 35.87,
+   "sigma*l_to": 33.99,
+   "sigma*l_cm": 7.61
+  },
+  "weights": null
+ },
+ {
+  "HR@1": 0.8333333333333334,
+  "HR@2": 0.8846153846153846,
+  "HR@3": 0.9102564102564102,
+  "HR@4": 0.9230769230769231,
+  "HR@5": 0.9743589743589743,
+  "MRR@3": 0.8675213349171174,
+  "precision": 0.7388901920428578,
+  "recall": 0.6794871794871795,
+  "f1": 0.7079447580305809,
+  "f1_sklearn_weighted": 0.66252695002695,
+  "macro_f1": 0.6883633633633635,
+  "arm": "v0_simplex",
+  "seed": 1,
+  "dataset": "hotel",
+  "epochs": 209,
+  "train_s": 82.2,
+  "weighting_params": 0,
+  "name": "D_prior_s1",
+  "group": "D",
+  "description": "prior, sigma_to=1",
+  "overrides": {
+   "to_scale": 1.0
+  },
+  "per_class": {
+   "container-kill": {
+    "n": 22,
+    "hr1": 1.0,
+    "hr3": 1.0,
+    "fti_recall": 0.3181818127632141
+   },
+   "network-delay": {
+    "n": 14,
+    "hr1": 0.3571428656578064,
+    "hr3": 0.5714285969734192,
+    "fti_recall": 0.8571428656578064
+   },
+   "network-loss": {
+    "n": 13,
+    "hr1": 0.692307710647583,
+    "hr3": 0.9230769276618958,
+    "fti_recall": 1.0
+   },
+   "pod-failure": {
+    "n": 15,
+    "hr1": 1.0,
+    "hr3": 1.0,
+    "fti_recall": 0.6666666865348816
+   },
+   "pod-kill": {
+    "n": 14,
+    "hr1": 1.0,
+    "hr3": 1.0,
+    "fti_recall": 0.7857142686843872
+   }
+  },
+  "grad_share": {
+   "l_rcl": 17.54,
+   "l_fti": 30.17,
+   "sigma*l_to": 42.98,
+   "sigma*l_cm": 9.31
+  },
+  "weights": null
+ },
+ {
+  "HR@1": 0.8461538461538461,
+  "HR@2": 0.8846153846153846,
+  "HR@3": 0.9102564102564102,
+  "HR@4": 0.9487179487179487,
+  "HR@5": 0.9487179487179487,
+  "MRR@3": 0.8739316891401242,
+  "precision": 0.7145927601809954,
+  "recall": 0.6666666666666666,
+  "f1": 0.6897982583058064,
+  "f1_sklearn_weighted": 0.6515953344900713,
+  "macro_f1": 0.6818796992481204,
+  "arm": "v0_simplex",
+  "seed": 3,
+  "dataset": "hotel",
+  "epochs": 171,
+  "train_s": 69.9,
+  "weighting_params": 0,
+  "name": "D_prior_s1",
+  "group": "D",
+  "description": "prior, sigma_to=1",
+  "overrides": {
+   "to_scale": 1.0
+  },
+  "per_class": {
+   "container-kill": {
+    "n": 22,
+    "hr1": 1.0,
+    "hr3": 1.0,
+    "fti_recall": 0.27272728085517883
+   },
+   "network-delay": {
+    "n": 14,
+    "hr1": 0.3571428656578064,
+    "hr3": 0.5714285969734192,
+    "fti_recall": 0.9285714030265808
+   },
+   "network-loss": {
+    "n": 13,
+    "hr1": 0.7692307829856873,
+    "hr3": 0.9230769276618958,
+    "fti_recall": 0.9230769276618958
+   },
+   "pod-failure": {
+    "n": 15,
+    "hr1": 1.0,
+    "hr3": 1.0,
+    "fti_recall": 0.800000011920929
+   },
+   "pod-kill": {
+    "n": 14,
+    "hr1": 1.0,
+    "hr3": 1.0,
+    "fti_recall": 0.6428571343421936
+   }
+  },
+  "grad_share": {
+   "l_rcl": 22.65,
+   "l_fti": 35.12,
+   "sigma*l_to": 34.9,
+   "sigma*l_cm": 7.33
+  },
+  "weights": null
+ },
+ {
+  "HR@1": 0.8333333333333334,
+  "HR@2": 0.8974358974358975,
+  "HR@3": 0.9102564102564102,
+  "HR@4": 0.9358974358974359,
+  "HR@5": 0.9487179487179487,
+  "MRR@3": 0.8696580544496194,
+  "precision": 0.665680473372781,
+  "recall": 0.6538461538461539,
+  "f1": 0.6597102449120387,
+  "f1_sklearn_weighted": 0.6389739730256973,
+  "macro_f1": 0.6663577897198587,
+  "arm": "v0_simplex",
+  "seed": 0,
+  "dataset": "hotel",
+  "epochs": 188,
+  "train_s": 78.0,
+  "weighting_params": 0,
+  "name": "D_prior_s2",
+  "group": "D",
+  "description": "prior, sigma_to=2",
+  "overrides": {
+   "to_scale": 2.0
+  },
+  "per_class": {
+   "container-kill": {
+    "n": 22,
+    "hr1": 1.0,
+    "hr3": 1.0,
+    "fti_recall": 0.3181818127632141
+   },
+   "network-delay": {
+    "n": 14,
+    "hr1": 0.2857142984867096,
+    "hr3": 0.5714285969734192,
+    "fti_recall": 0.8571428656578064
+   },
+   "network-loss": {
+    "n": 13,
+    "hr1": 0.7692307829856873,
+    "hr3": 0.9230769276618958,
+    "fti_recall": 0.9230769276618958
+   },
+   "pod-failure": {
+    "n": 15,
+    "hr1": 1.0,
+    "hr3": 1.0,
+    "fti_recall": 0.7333333492279053
+   },
+   "pod-kill": {
+    "n": 14,
+    "hr1": 1.0,
+    "hr3": 1.0,
+    "fti_recall": 0.6428571343421936
+   }
+  },
+  "grad_share": {
+   "l_rcl": 11.68,
+   "l_fti": 32.32,
+   "sigma*l_to": 49.55,
+   "sigma*l_cm": 6.46
+  },
+  "weights": null
+ },
+ {
+  "HR@1": 0.8205128205128205,
+  "HR@2": 0.8717948717948718,
+  "HR@3": 0.9230769230769231,
+  "HR@4": 0.9487179487179487,
+  "HR@5": 0.9743589743589743,
+  "MRR@3": 0.863247798039363,
+  "precision": 0.7970918659504267,
+  "recall": 0.6794871794871795,
+  "f1": 0.7336061086066856,
+  "f1_sklearn_weighted": 0.661633428300095,
+  "macro_f1": 0.6938624338624338,
+  "arm": "v0_simplex",
+  "seed": 2,
+  "dataset": "hotel",
+  "epochs": 197,
+  "train_s": 111.3,
+  "weighting_params": 0,
+  "name": "D_prior_s2",
+  "group": "D",
+  "description": "prior, sigma_to=2",
+  "overrides": {
+   "to_scale": 2.0
+  },
+  "per_class": {
+   "container-kill": {
+    "n": 22,
+    "hr1": 1.0,
+    "hr3": 1.0,
+    "fti_recall": 0.27272728085517883
+   },
+   "network-delay": {
+    "n": 14,
+    "hr1": 0.3571428656578064,
+    "hr3": 0.6428571343421936,
+    "fti_recall": 0.9285714030265808
+   },
+   "network-loss": {
+    "n": 13,
+    "hr1": 0.6153846383094788,
+    "hr3": 0.9230769276618958,
+    "fti_recall": 1.0
+   },
+   "pod-failure": {
+    "n": 15,
+    "hr1": 1.0,
+    "hr3": 1.0,
+    "fti_recall": 0.5333333611488342
+   },
+   "pod-kill": {
+    "n": 14,
+    "hr1": 1.0,
+    "hr3": 1.0,
+    "fti_recall": 0.9285714030265808
+   }
+  },
+  "grad_share": {
+   "l_rcl": 11.06,
+   "l_fti": 36.04,
+   "sigma*l_to": 45.99,
+   "sigma*l_cm": 6.91
+  },
+  "weights": null
+ },
+ {
+  "HR@1": 0.782051282051282,
+  "HR@2": 0.8717948717948718,
+  "HR@3": 0.9102564102564102,
+  "HR@4": 0.9358974358974359,
+  "HR@5": 0.9358974358974359,
+  "MRR@3": 0.8397435897435898,
+  "precision": 0.7931959108429696,
+  "recall": 0.6794871794871795,
+  "f1": 0.731951708793814,
+  "f1_sklearn_weighted": 0.6518655601168108,
+  "macro_f1": 0.6865959627544994,
+  "arm": "v0_simplex",
+  "seed": 4,
+  "dataset": "hotel",
+  "epochs": 206,
+  "train_s": 112.7,
+  "weighting_params": 0,
+  "name": "D_prior_s2",
+  "group": "D",
+  "description": "prior, sigma_to=2",
+  "overrides": {
+   "to_scale": 2.0
+  },
+  "per_class": {
+   "container-kill": {
+    "n": 22,
+    "hr1": 1.0,
+    "hr3": 1.0,
+    "fti_recall": 0.22727273404598236
+   },
+   "network-delay": {
+    "n": 14,
+    "hr1": 0.1428571492433548,
+    "hr3": 0.5714285969734192,
+    "fti_recall": 0.8571428656578064
+   },
+   "network-loss": {
+    "n": 13,
+    "hr1": 0.6153846383094788,
+    "hr3": 0.9230769276618958,
+    "fti_recall": 1.0
+   },
+   "pod-failure": {
+    "n": 15,
+    "hr1": 1.0,
+    "hr3": 1.0,
+    "fti_recall": 0.7333333492279053
+   },
+   "pod-kill": {
+    "n": 14,
+    "hr1": 1.0,
+    "hr3": 1.0,
+    "fti_recall": 0.8571428656578064
+   }
+  },
+  "grad_share": {
+   "l_rcl": 8.85,
+   "l_fti": 28.88,
+   "sigma*l_to": 56.91,
+   "sigma*l_cm": 5.36
+  },
+  "weights": null
+ },
+ {
+  "HR@1": 0.8333333333333334,
+  "HR@2": 0.8717948717948718,
+  "HR@3": 0.9102564102564102,
+  "HR@4": 0.9487179487179487,
+  "HR@5": 0.9615384615384616,
+  "MRR@3": 0.8653846153846154,
+  "precision": 0.7688239263316663,
+  "recall": 0.7307692307692307,
+  "f1": 0.7493137276360213,
+  "f1_sklearn_weighted": 0.7247894670688788,
+  "macro_f1": 0.7296288515406163,
+  "arm": "v3_incident",
+  "seed": 1,
+  "dataset": "hotel",
+  "epochs": 152,
+  "train_s": 122.2,
+  "weighting_params": 6790,
+  "name": "D_ada_s0.5",
+  "group": "D",
+  "description": "AdaDiag, sigma_to=0.5",
+  "overrides": {
+   "to_scale": 0.5
+  },
+  "per_class": {
+   "container-kill": {
+    "n": 22,
+    "hr1": 1.0,
+    "hr3": 1.0,
+    "fti_recall": 0.5454545617103577
+   },
+   "network-delay": {
+    "n": 14,
+    "hr1": 0.2857142984867096,
+    "hr3": 0.5714285969734192,
+    "fti_recall": 1.0
+   },
+   "network-loss": {
+    "n": 13,
+    "hr1": 0.7692307829856873,
+    "hr3": 0.9230769276618958,
+    "fti_recall": 1.0
+   },
+   "pod-failure": {
+    "n": 15,
+    "hr1": 1.0,
+    "hr3": 1.0,
+    "fti_recall": 0.6666666865348816
+   },
+   "pod-kill": {
+    "n": 14,
+    "hr1": 1.0,
+    "hr3": 1.0,
+    "fti_recall": 0.5714285969734192
+   }
+  },
+  "grad_share": {
+   "l_rcl": 15.95,
+   "l_fti": 31.95,
+   "sigma*l_to": 41.03,
+   "sigma*l_cm": 11.07
+  },
+  "weights": {
+   "w": [
+    [
+     8.163823804352432e-05,
+     0.9997563362121582
+    ],
+    [
+     0.00010159647354157642,
+     0.00010777956777019426
+    ],
+    [
+     0.9998168349266052,
+     0.00013584591215476394
+    ]
+   ],
+   "col_max": [
+    0.9998168349266052,
+    0.9997563362121582
+   ],
+   "col_sum": [
+    1.0000001192092896,
+    0.9999999403953552
+   ]
+  }
+ },
+ {
+  "HR@1": 0.8205128205128205,
+  "HR@2": 0.8846153846153846,
+  "HR@3": 0.9102564102564102,
+  "HR@4": 0.9358974358974359,
+  "HR@5": 0.9487179487179487,
+  "MRR@3": 0.861111078506861,
+  "precision": 0.7956033827074551,
+  "recall": 0.782051282051282,
+  "f1": 0.7887691259048156,
+  "f1_sklearn_weighted": 0.7811015331764882,
+  "macro_f1": 0.7839635682572279,
+  "arm": "v3_incident",
+  "seed": 3,
+  "dataset": "hotel",
+  "epochs": 234,
+  "train_s": 180.3,
+  "weighting_params": 6790,
+  "name": "D_ada_s0.5",
+  "group": "D",
+  "description": "AdaDiag, sigma_to=0.5",
+  "overrides": {
+   "to_scale": 0.5
+  },
+  "per_class": {
+   "container-kill": {
+    "n": 22,
+    "hr1": 1.0,
+    "hr3": 1.0,
+    "fti_recall": 0.6818181872367859
+   },
+   "network-delay": {
+    "n": 14,
+    "hr1": 0.2857142984867096,
+    "hr3": 0.5714285969734192,
+    "fti_recall": 0.8571428656578064
+   },
+   "network-loss": {
+    "n": 13,
+    "hr1": 0.692307710647583,
+    "hr3": 0.9230769276618958,
+    "fti_recall": 1.0
+   },
+   "pod-failure": {
+    "n": 15,
+    "hr1": 1.0,
+    "hr3": 1.0,
+    "fti_recall": 0.7333333492279053
+   },
+   "pod-kill": {
+    "n": 14,
+    "hr1": 1.0,
+    "hr3": 1.0,
+    "fti_recall": 0.7142857313156128
+   }
+  },
+  "grad_share": {
+   "l_rcl": 28.57,
+   "l_fti": 11.49,
+   "sigma*l_to": 46.56,
+   "sigma*l_cm": 13.38
+  },
+  "weights": {
+   "w": [
+    [
+     2.8101634597987868e-05,
+     0.9933406710624695
+    ],
+    [
+     0.0001262970909010619,
+     0.00332436035387218
+    ],
+    [
+     0.9998456835746765,
+     0.0033350230660289526
+    ]
+   ],
+   "col_max": [
+    0.9998456835746765,
+    0.9933406710624695
+   ],
+   "col_sum": [
+    1.0000001192092896,
+    1.0000001192092896
+   ]
+  }
+ },
+ {
+  "HR@1": 0.8205128205128205,
+  "HR@2": 0.8717948717948718,
+  "HR@3": 0.8974358974358975,
+  "HR@4": 0.9487179487179487,
+  "HR@5": 0.9615384615384616,
+  "MRR@3": 0.8547008220966046,
+  "precision": 0.7746154674887705,
+  "recall": 0.7564102564102564,
+  "f1": 0.7654046241500957,
+  "f1_sklearn_weighted": 0.7590192333782078,
+  "macro_f1": 0.7615710215710216,
+  "arm": "v3_incident",
+  "seed": 0,
+  "dataset": "hotel",
+  "epochs": 174,
+  "train_s": 138.8,
+  "weighting_params": 6790,
+  "name": "D_ada_s1",
+  "group": "D",
+  "description": "AdaDiag, sigma_to=1",
+  "overrides": {
+   "to_scale": 1.0
+  },
+  "per_class": {
+   "container-kill": {
+    "n": 22,
+    "hr1": 1.0,
+    "hr3": 1.0,
+    "fti_recall": 0.6818181872367859
+   },
+   "network-delay": {
+    "n": 14,
+    "hr1": 0.3571428656578064,
+    "hr3": 0.5,
+    "fti_recall": 0.9285714030265808
+   },
+   "network-loss": {
+    "n": 13,
+    "hr1": 0.6153846383094788,
+    "hr3": 0.9230769276618958,
+    "fti_recall": 0.9230769276618958
+   },
+   "pod-failure": {
+    "n": 15,
+    "hr1": 1.0,
+    "hr3": 1.0,
+    "fti_recall": 0.7333333492279053
+   },
+   "pod-kill": {
+    "n": 14,
+    "hr1": 1.0,
+    "hr3": 1.0,
+    "fti_recall": 0.5714285969734192
+   }
+  },
+  "grad_share": {
+   "l_rcl": 12.12,
+   "l_fti": 28.38,
+   "sigma*l_to": 50.8,
+   "sigma*l_cm": 8.7
+  },
+  "weights": {
+   "w": [
+    [
+     2.5488840037724003e-05,
+     0.9995716214179993
+    ],
+    [
+     6.52970775263384e-05,
+     0.00021992571419104934
+    ],
+    [
+     0.9999092221260071,
+     0.0002083791041513905
+    ]
+   ],
+   "col_max": [
+    0.9999092221260071,
+    0.9995716214179993
+   ],
+   "col_sum": [
+    1.0,
+    0.9999999403953552
+   ]
+  }
+ },
+ {
+  "HR@1": 0.8205128205128205,
+  "HR@2": 0.8846153846153846,
+  "HR@3": 0.9230769230769231,
+  "HR@4": 0.9230769230769231,
+  "HR@5": 0.9615384615384616,
+  "MRR@3": 0.8653846153846154,
+  "precision": 0.7694976592035415,
+  "recall": 0.7307692307692307,
+  "f1": 0.7496335702044336,
+  "f1_sklearn_weighted": 0.7303097141806819,
+  "macro_f1": 0.7326992004411359,
+  "arm": "v3_incident",
+  "seed": 2,
+  "dataset": "hotel",
+  "epochs": 219,
+  "train_s": 174.9,
+  "weighting_params": 6790,
+  "name": "D_ada_s1",
+  "group": "D",
+  "description": "AdaDiag, sigma_to=1",
+  "overrides": {
+   "to_scale": 1.0
+  },
+  "per_class": {
+   "container-kill": {
+    "n": 22,
+    "hr1": 1.0,
+    "hr3": 1.0,
+    "fti_recall": 0.5909090638160706
+   },
+   "network-delay": {
+    "n": 14,
+    "hr1": 0.3571428656578064,
+    "hr3": 0.6428571343421936,
+    "fti_recall": 0.9285714030265808
+   },
+   "network-loss": {
+    "n": 13,
+    "hr1": 0.6153846383094788,
+    "hr3": 0.9230769276618958,
+    "fti_recall": 0.7692307829856873
+   },
+   "pod-failure": {
+    "n": 15,
+    "hr1": 1.0,
+    "hr3": 1.0,
+    "fti_recall": 0.6000000238418579
+   },
+   "pod-kill": {
+    "n": 14,
+    "hr1": 1.0,
+    "hr3": 1.0,
+    "fti_recall": 0.8571428656578064
+   }
+  },
+  "grad_share": {
+   "l_rcl": 9.4,
+   "l_fti": 26.0,
+   "sigma*l_to": 55.86,
+   "sigma*l_cm": 8.74
+  },
+  "weights": {
+   "w": [
+    [
+     7.773073775751982e-06,
+     0.9999786019325256
+    ],
+    [
+     7.4943691288353875e-06,
+     4.315590103942668e-06
+    ],
+    [
+     0.9999847412109375,
+     1.7043745174305514e-05
+    ]
+   ],
+   "col_max": [
+    0.9999847412109375,
+    0.9999786019325256
+   ],
+   "col_sum": [
+    1.0,
+    0.9999999403953552
+   ]
+  }
+ },
+ {
+  "HR@1": 0.8205128205128205,
+  "HR@2": 0.8589743589743589,
+  "HR@3": 0.8974358974358975,
+  "HR@4": 0.9358974358974359,
+  "HR@5": 0.9615384615384616,
+  "MRR@3": 0.8525641025641025,
+  "precision": 0.8080073416611879,
+  "recall": 0.7948717948717948,
+  "f1": 0.8013857455591132,
+  "f1_sklearn_weighted": 0.7958028083028084,
+  "macro_f1": 0.7983058608058609,
+  "arm": "v3_incident",
+  "seed": 4,
+  "dataset": "hotel",
+  "epochs": 160,
+  "train_s": 122.5,
+  "weighting_params": 6790,
+  "name": "D_ada_s1",
+  "group": "D",
+  "description": "AdaDiag, sigma_to=1",
+  "overrides": {
+   "to_scale": 1.0
+  },
+  "per_class": {
+   "container-kill": {
+    "n": 22,
+    "hr1": 1.0,
+    "hr3": 1.0,
+    "fti_recall": 0.7272727489471436
+   },
+   "network-delay": {
+    "n": 14,
+    "hr1": 0.2857142984867096,
+    "hr3": 0.5,
+    "fti_recall": 0.9285714030265808
+   },
+   "network-loss": {
+    "n": 13,
+    "hr1": 0.692307710647583,
+    "hr3": 0.9230769276618958,
+    "fti_recall": 0.9230769276618958
+   },
+   "pod-failure": {
+    "n": 15,
+    "hr1": 1.0,
+    "hr3": 1.0,
+    "fti_recall": 0.6666666865348816
+   },
+   "pod-kill": {
+    "n": 14,
+    "hr1": 1.0,
+    "hr3": 1.0,
+    "fti_recall": 0.7857142686843872
+   }
+  },
+  "grad_share": {
+   "l_rcl": 13.84,
+   "l_fti": 21.5,
+   "sigma*l_to": 55.7,
+   "sigma*l_cm": 8.97
+  },
+  "weights": {
+   "w": [
+    [
+     4.635774530470371e-05,
+     0.9997156858444214
+    ],
+    [
+     0.00011876873759320006,
+     0.00015750082093290985
+    ],
+    [
+     0.9998348951339722,
+     0.00012678118946496397
+    ]
+   ],
+   "col_max": [
+    0.9998348951339722,
+    0.9997156858444214
+   ],
+   "col_sum": [
+    1.0,
+    0.9999999403953552
+   ]
+  }
+ },
+ {
+  "HR@1": 0.7948717948717948,
+  "HR@2": 0.8589743589743589,
+  "HR@3": 0.8974358974358975,
+  "HR@4": 0.9487179487179487,
+  "HR@5": 0.9487179487179487,
+  "MRR@3": 0.8397435897435898,
+  "precision": 0.752652086475616,
+  "recall": 0.7307692307692307,
+  "f1": 0.7415492549239933,
+  "f1_sklearn_weighted": 0.7315145052214018,
+  "macro_f1": 0.7315237651444548,
+  "arm": "v3_incident",
+  "seed": 1,
+  "dataset": "hotel",
+  "epochs": 152,
+  "train_s": 115.1,
+  "weighting_params": 6790,
+  "name": "D_ada_s2",
+  "group": "D",
+  "description": "AdaDiag, sigma_to=2",
+  "overrides": {
+   "to_scale": 2.0
+  },
+  "per_class": {
+   "container-kill": {
+    "n": 22,
+    "hr1": 1.0,
+    "hr3": 1.0,
+    "fti_recall": 0.6363636255264282
+   },
+   "network-delay": {
+    "n": 14,
+    "hr1": 0.3571428656578064,
+    "hr3": 0.5714285969734192,
+    "fti_recall": 0.9285714030265808
+   },
+   "network-loss": {
+    "n": 13,
+    "hr1": 0.4615384638309479,
+    "hr3": 0.8461538553237915,
+    "fti_recall": 0.9230769276618958
+   },
+   "pod-failure": {
+    "n": 15,
+    "hr1": 1.0,
+    "hr3": 1.0,
+    "fti_recall": 0.6666666865348816
+   },
+   "pod-kill": {
+    "n": 14,
+    "hr1": 1.0,
+    "hr3": 1.0,
+    "fti_recall": 0.5714285969734192
+   }
+  },
+  "grad_share": {
+   "l_rcl": 10.36,
+   "l_fti": 11.83,
+   "sigma*l_to": 72.4,
+   "sigma*l_cm": 5.41
+  },
+  "weights": {
+   "w": [
+    [
+     9.85754195426125e-06,
+     0.9999661445617676
+    ],
+    [
+     7.530734819738427e-06,
+     1.4279336028266698e-05
+    ],
+    [
+     0.9999825954437256,
+     1.957068707270082e-05
+    ]
+   ],
+   "col_max": [
+    0.9999825954437256,
+    0.9999661445617676
+   ],
+   "col_sum": [
+    1.0,
+    1.0
+   ]
+  }
+ },
+ {
+  "HR@1": 0.8076923076923077,
+  "HR@2": 0.8846153846153846,
+  "HR@3": 0.9102564102564102,
+  "HR@4": 0.9230769230769231,
+  "HR@5": 0.9358974358974359,
+  "MRR@3": 0.8547008220966046,
+  "precision": 0.8017893290919607,
+  "recall": 0.7948717948717948,
+  "f1": 0.7983155768735887,
+  "f1_sklearn_weighted": 0.7965932622732862,
+  "macro_f1": 0.7954191369340993,
+  "arm": "v3_incident",
+  "seed": 3,
+  "dataset": "hotel",
+  "epochs": 252,
+  "train_s": 199.5,
+  "weighting_params": 6790,
+  "name": "D_ada_s2",
+  "group": "D",
+  "description": "AdaDiag, sigma_to=2",
+  "overrides": {
+   "to_scale": 2.0
+  },
+  "per_class": {
+   "container-kill": {
+    "n": 22,
+    "hr1": 1.0,
+    "hr3": 1.0,
+    "fti_recall": 0.7727272510528564
+   },
+   "network-delay": {
+    "n": 14,
+    "hr1": 0.2142857164144516,
+    "hr3": 0.6428571343421936,
+    "fti_recall": 0.9285714030265808
+   },
+   "network-loss": {
+    "n": 13,
+    "hr1": 0.692307710647583,
+    "hr3": 0.8461538553237915,
+    "fti_recall": 0.9230769276618958
+   },
+   "pod-failure": {
+    "n": 15,
+    "hr1": 1.0,
+    "hr3": 1.0,
+    "fti_recall": 0.7333333492279053
+   },
+   "pod-kill": {
+    "n": 14,
+    "hr1": 1.0,
+    "hr3": 1.0,
+    "fti_recall": 0.6428571343421936
+   }
+  },
+  "grad_share": {
+   "l_rcl": 8.13,
+   "l_fti": 6.24,
+   "sigma*l_to": 81.48,
+   "sigma*l_cm": 4.15
+  },
+  "weights": {
+   "w": [
+    [
+     1.5406832289954764e-06,
+     0.9999951124191284
+    ],
+    [
+     4.501371677179122e-06,
+     2.166661488445243e-06
+    ],
+    [
+     0.9999939799308777,
+     2.7285761916573392e-06
+    ]
+   ],
+   "col_max": [
+    0.9999939799308777,
+    0.9999951124191284
+   ],
+   "col_sum": [
+    1.0,
+    1.0
+   ]
+  }
+ }
+]

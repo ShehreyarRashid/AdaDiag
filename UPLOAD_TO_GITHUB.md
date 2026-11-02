@@ -22,12 +22,12 @@ that a new version removed. Updating from a Codespace has neither problem.
 
    ```bash
    git pull                                         # start from the latest version
-   unzip -q -o AdaDiag-v1.2.zip -d /tmp/new         # unpack outside the repository
+   unzip -q -o AdaDiag-v1.3.zip -d /tmp/new         # unpack outside the repository
    cp -a /tmp/new/AdaDiag/. .                       # copy everything, hidden files too
-   rm -rf /tmp/new AdaDiag-v1.2.zip                 # clean up
+   rm -rf /tmp/new AdaDiag-v1.3.zip                 # clean up
    python -m pytest tests/ -q                       # must pass before you publish
    git add -A
-   git commit -m "v1.2: ablations, bundled data, reproducibility"
+   git commit -m "v1.3: ablation results, reproduction"
    git push
    ```
 
@@ -200,7 +200,7 @@ Then **Settings → General → Features** and untick *Wikis* and *Projects* if 
 them, so the tab bar stays clean.
 
 If you want a version you can cite in the report, use **Releases → Create a new release**,
-tag `v1.2.0`, and GitHub will build a permanent zip of that exact state.
+tag `v1.3.0`, and GitHub will build a permanent zip of that exact state.
 
 ---
 

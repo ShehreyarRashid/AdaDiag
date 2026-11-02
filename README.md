@@ -25,6 +25,12 @@ benchmarks, it cannot.
 > 3. **So the extra capacity goes unused.** Tested directly: the "per-incident" matrix varies
 >    by at most **0.0037** across the five failure classes (§6.7). It is, to three decimals,
 >    one constant matrix — which is what TVDiag already had.
+> 4. **Ablations agree, and locate where the premise does hold** (§6.8, 169 runs, two
+>    datasets). Deleting the reweighted term costs nothing. Removing each source shows that
+>    RCL's useful source *does* vary by failure class, and FTI's by dataset — TVDiag's
+>    `log → FTI` is right on GAIA and wrong on Hotel. AdaDiag captures neither. Its one
+>    significant win (+0.080 F1) comes when the term is made strong enough to hurt the
+>    fixed prior; it protects against that damage but never beats TVDiag's default.
 >
 > The contribution of this repository is that diagnosis, reproducibly — a negative result
 > with a mechanism, rather than an unexplained flat table.
@@ -246,9 +252,10 @@ python scripts/verify_results.py --dataset gaia --arms v0_simplex v3_incident --
 
 Each run is retrained from scratch and printed next to the committed number. On the
 environment in [`results/ENVIRONMENT.md`](results/ENVIRONMENT.md) (2 CPU threads, PyTorch
-2.15; exact pins in `requirements-lock.txt`) the match is **bit-for-bit** — checked on a
-clean copy of this repository for Hotel V0-raw, seed 0 (all five metrics and the epoch
-count identical); the remaining arms are being re-verified the same way. On other hardware,
+2.15; exact pins in `requirements-lock.txt`) the match is **bit-for-bit**. Verified on a
+clean copy of this repository: all six Hotel arms and GAIA's prior and AdaDiag (seed 0;
+every metric and epoch count identical), both Hotel gradient-share measurements
+(`hotel_gradshare.json`) and the full per-class table (`hotel_perclass.json`). On other hardware,
 PyTorch versions or thread counts the floating-point summation order differs, single seeds
 drift by a few points, and the five-seed means and paired tests are what should agree.
 New result records carry an `env` field (PyTorch version, thread count) for this reason.
@@ -508,8 +515,199 @@ pre-ablation code bit-for-bit (metrics, learned weights and parameter sums; 12-e
 check on Hotel, seed 0), and
 `tests/test_ablation_switches.py` checks the switches themselves without data.
 
-**Results:** being generated; they will be rendered here by
-`scripts/make_ablation_report.py` from `results/ablation_*.json`.
+#### Results — Hotel Reservation
+
+Every table below is printed by `scripts/make_ablation_report.py` from
+`results/ablation_*.json`; the full tables (MRR@3, standard deviations, raw and adjusted
+p-values, learned weights) are in [`results/ABLATIONS.md`](results/ABLATIONS.md).
+
+**hotel** — 5 seeds. Δ vs reference, (Holm-adjusted p); **bold** = significant.
+
+| group | configuration | HR@1 | F1 | Δ HR@1 | Δ F1 | Δ macro-F1 | σ·l_to share |
+|---|---|---|---|---|---|---|---|
+| ref | *TVDiag prior (V0-simplex), full model* | 0.838 | 0.800 | — | — | — | 4.6 % |
+| ref | *AdaDiag (V3-incident), full model* | 0.828 | 0.781 | — | — | — | 9.4 % |
+| A | w/o AUG | 0.821 | 0.770 | -0.018 (0.37) | -0.030 (1.00) | -0.018 (1.00) | 4.6 % |
+| A | w/o TO (the term AdaDiag reweights) | 0.833 | 0.808 | -0.005 (1.00) | +0.008 (1.00) | +0.010 (1.00) | 0.0 % |
+| A | w/o CM | 0.831 | 0.806 | -0.008 (0.92) | +0.006 (1.00) | +0.006 (1.00) | 4.8 % |
+| A | w/o TO and CM (diagnosis losses + AUG only) | 0.833 | 0.809 | -0.005 (1.00) | +0.009 (1.00) | +0.008 (1.00) | 0.0 % |
+| B | w/o metric | 0.767 | 0.445 | **-0.072** (0.014) | **-0.355** (0.000) | **-0.332** (0.000) | 2.1 % |
+| B | w/o trace | 0.800 | 0.792 | -0.038 (0.24) | -0.008 (1.00) | -0.004 (1.00) | 6.5 % |
+| B | w/o log | 0.800 | 0.703 | -0.038 (0.37) | -0.097 (1.00) | -0.089 (1.00) | 4.7 % |
+| B | metric only | 0.785 | 0.745 | **-0.054** (0.007) | **-0.055** (0.002) | -0.044 (0.10) | 7.0 % |
+| B | trace only | 0.254 | 0.346 | **-0.585** (0.000) | **-0.455** (0.000) | **-0.413** (0.001) | 3.9 % |
+| B | log only | 0.705 | 0.349 | **-0.133** (0.000) | **-0.451** (0.001) | **-0.456** (0.001) | 21.9 % |
+| C | no simplex (unconstrained positive weights) | 0.836 | 0.798 | +0.008 (0.92) | **+0.016** (0.016) | **+0.019** (0.026) | 0.0 % |
+| C | descriptor not detached | 0.831 | 0.782 | +0.003 (1.00) | +0.001 (1.00) | +0.002 (1.00) | 9.4 % |
+| C | descriptor: embeddings only | 0.831 | 0.782 | +0.003 (1.00) | +0.001 (1.00) | +0.002 (1.00) | 9.6 % |
+| C | descriptor: alert counts only | 0.836 | 0.785 | +0.008 (0.92) | +0.004 (1.00) | +0.005 (1.00) | 8.1 % |
+| C | + entropy penalty, lambda=0.01 | 0.836 | 0.793 | +0.008 (0.92) | +0.012 (1.00) | +0.013 (1.00) | 6.9 % |
+| C | + entropy penalty, lambda=0.1 | 0.836 | 0.787 | +0.008 (0.92) | +0.006 (1.00) | +0.010 (1.00) | 4.3 % |
+| D | prior, sigma_to=0.5 | 0.833 | 0.758 | -0.005 (1.00) | -0.042 (0.82) | -0.053 (0.80) | 34.1 % |
+| D | prior, sigma_to=1 | 0.838 | 0.723 | +0.000 (1.00) | -0.077 (0.075) | **-0.088** (0.040) | 38.1 % |
+| D | prior, sigma_to=2 | 0.810 | 0.697 | -0.028 (0.33) | **-0.104** (0.011) | **-0.121** (0.007) | 50.2 % |
+| D | AdaDiag, sigma_to=0.5 | 0.823 | 0.771 | -0.005 (1.00) | -0.010 (1.00) | -0.004 (1.00) | 44.9 % |
+| D | AdaDiag, sigma_to=1 | 0.826 | 0.774 | -0.003 (1.00) | -0.007 (1.00) | +0.001 (1.00) | 54.7 % |
+| D | AdaDiag, sigma_to=2 | 0.800 | 0.776 | -0.028 (0.72) | -0.005 (1.00) | +0.004 (1.00) | 75.0 % |
+
+**A — the term AdaDiag reweights can be deleted at no cost.** No TVDiag component is
+significant after correction. Removing the task-oriented term entirely changes HR@1 by
+−0.005 and F1 by +0.008 — an independent confirmation of §6.4: if deleting `l_to` does not
+matter, no reweighting of it can. AUG is the largest effect (−0.018 HR@1), in line with
+TVDiag's own ablation, but it does not survive correction on 5 seeds.
+
+**B — which source each task actually depends on.** `metric` is indispensable (without it
+F1 falls by 0.355), and no single source is enough on its own. Per failure class:
+
+RCL HR@1:
+
+| failure class | n | full model | w/o metric | w/o trace | w/o log |
+|---|---|---|---|---|---|
+| container-kill | 22 | 1.000 | +0.000 | +0.000 | **-0.055** |
+| network-delay | 14 | 0.343 | **-0.243** | -0.043 | -0.029 |
+| network-loss | 13 | 0.738 | -0.154 | **-0.169** | -0.108 |
+| pod-failure | 15 | 1.000 | -0.013 | -0.013 | +0.000 |
+| pod-kill | 14 | 1.000 | +0.000 | +0.000 | +0.000 |
+
+FTI recall:
+
+| failure class | n | full model | w/o metric | w/o trace | w/o log |
+|---|---|---|---|---|---|
+| container-kill | 22 | 0.573 | **-0.473** | +0.109 | -0.064 |
+| network-delay | 14 | 0.900 | **-0.186** | -0.029 | +0.029 |
+| network-loss | 13 | 0.969 | **-0.277** | -0.108 | -0.031 |
+| pod-failure | 15 | 0.827 | **-0.533** | -0.013 | -0.280 |
+| pod-kill | 14 | 0.757 | **-0.100** | -0.029 | -0.071 |
+
+For **RCL the useful source varies by class** — `log` for container-kill, `metric` for
+network-delay, `trace` for network-loss (pod-failure and pod-kill are at ceiling with any
+source). For **FTI it does not**: every class depends on `metric` most. TVDiag's prior
+routes FTI's contrastive term to `log` alone — the source FTI depends on least here
+(Hotel's logs are 95 % empty: only 5.1 % of instance embeddings are non-zero). The
+`log only` row's zero variance has the same cause: in 56 of 78 test incidents the culprit
+is the instance that logged an alert, and every seed learns exactly that rule (55/78).
+
+**C — AdaDiag's own design.** Three results, all consistent with §1 and §6.6:
+
+- *Without the simplex the optimiser switches the term off.* Unconstrained weights shrink
+  to 0.000 in both columns, exactly as the identifiability argument in §1 predicts — and
+  F1 rises by 0.016 (significant). AdaDiag improves by silencing its own lever, which is
+  group A's finding seen from the other side.
+- *The descriptor and the detach do not matter.* Not detaching, or conditioning on the
+  embeddings alone, leaves the learned weights essentially unchanged (largest RCL / FTI
+  weight 0.992–0.994 / 0.729–0.731) and the metrics within 0.003.
+- *Stopping the collapse changes nothing.* An entropy penalty pulls the largest weight from
+  0.994 to 0.544 (λ = 0.01) and to 0.349 — uniform — (λ = 0.1), with no significant change
+  in any metric. The collapse is not what holds AdaDiag back; at TVDiag's σ the weights
+  barely touch the predictions.
+
+**D — the one place AdaDiag separates from the prior.** Raising σ_to lifts `l_to`'s share
+of the encoder gradient from 4.6 % to 50 % (prior) and 75 % (AdaDiag). Head to head at
+each σ_to (Δ = AdaDiag − prior, same seeds):
+
+| σ_to | σ·l_to share (prior) | prior HR@1 | AdaDiag HR@1 | Δ HR@1 | prior F1 | AdaDiag F1 | Δ F1 |
+|---|---|---|---|---|---|---|---|
+| 0.1 | 4.6 % | 0.838 | 0.828 | -0.010 (p=0.18, Holm 0.53) | 0.800 | 0.781 | -0.019 (p=0.16, Holm 0.32) |
+| 0.5 | 34.1 % | 0.833 | 0.823 | -0.010 (p=0.24, Holm 0.53) | 0.758 | 0.771 | +0.013 (p=0.38, Holm 0.38) |
+| 1.0 | 38.1 % | 0.838 | 0.826 | -0.013 (p=0.034, Holm 0.14) | 0.723 | 0.774 | +0.051 (p=0.034, Holm 0.10) |
+| 2.0 | 50.2 % | 0.810 | 0.800 | -0.010 (p=0.41, Holm 0.53) | 0.697 | 0.776 | **+0.080** (p=0.006, Holm 0.023) |
+
+The prior degrades on FTI as `l_to` strengthens (−0.104 against its own default at
+σ_to = 2, significant). GAIA below shows the same damage even where the prior's mapping is
+the right one, so it comes from over-weighting a fixed contrastive routing, not only from
+routing to the wrong source. AdaDiag's F1 holds steady; at σ_to ≥ 0.5 its columns flip, on
+every seed, to RCL → `log` and FTI → `metric`. At σ_to = 2 it beats the prior by
+**+0.080 F1 (Holm p = 0.023)**; HR@1 never separates.
+
+#### Results — GAIA
+
+49 of 54 runs: AdaDiag at σ_to = 1 and 2 did not complete (the jobs hit the 2-hour limit on
+background runs), so those rows are omitted rather than reported on fewer seeds.
+
+**gaia** — 3 seeds. Δ vs reference, (Holm-adjusted p); **bold** = significant.
+
+| group | configuration | HR@1 | F1 | Δ HR@1 | Δ F1 | Δ macro-F1 | σ·l_to share |
+|---|---|---|---|---|---|---|---|
+| ref | *TVDiag prior (V0-simplex), full model* | 0.733 | 0.937 | — | — | — | 17.3 % |
+| ref | *AdaDiag (V3-incident), full model* | 0.740 | 0.932 | — | — | — | 16.4 % |
+| A | w/o AUG | 0.603 | 0.888 | -0.130 (0.35) | -0.049 (0.099) | -0.016 (0.29) | 36.6 % |
+| A | w/o TO (the term AdaDiag reweights) | 0.737 | 0.938 | +0.004 (1.00) | +0.001 (1.00) | -0.021 (0.27) | 0.0 % |
+| A | w/o CM | 0.744 | 0.937 | +0.011 (1.00) | +0.000 (1.00) | +0.021 (0.29) | 23.9 % |
+| A | w/o TO and CM (diagnosis losses + AUG only) | 0.738 | 0.933 | +0.005 (1.00) | -0.004 (1.00) | -0.043 (0.35) | 0.0 % |
+| B | w/o metric | 0.461 | 0.949 | -0.272 (0.052) | +0.012 (0.080) | +0.014 (0.29) | 9.6 % |
+| B | w/o trace | 0.473 | 0.913 | -0.261 (0.070) | -0.024 (0.080) | +0.002 (0.90) | 10.3 % |
+| B | w/o log | 0.678 | 0.763 | -0.055 (0.14) | **-0.174** (0.039) | -0.208 (0.092) | 6.4 % |
+| B | metric only | 0.419 | 0.637 | **-0.315** (0.002) | **-0.300** (0.012) | **-0.310** (0.010) | 4.4 % |
+| B | trace only | 0.402 | 0.741 | **-0.332** (0.032) | **-0.196** (0.005) | **-0.216** (0.021) | 12.2 % |
+| B | log only | 0.337 | 0.945 | **-0.396** (0.007) | +0.008 (0.92) | +0.011 (0.27) | 6.8 % |
+| D | prior, sigma_to=0.5 | 0.715 | 0.876 | -0.018 (0.59) | -0.061 (0.080) | -0.027 (0.29) | 68.5 % |
+| D | prior, sigma_to=1 | 0.706 | 0.850 | -0.027 (0.84) | **-0.087** (0.013) | -0.050 (0.29) | 80.7 % |
+| D | prior, sigma_to=2 | 0.711 | 0.833 | -0.022 (1.00) | -0.104 (0.050) | -0.054 (0.11) | 84.9 % |
+| D | AdaDiag, sigma_to=0.5 | 0.742 | 0.908 | +0.002 (1.00) | -0.024 (0.099) | **-0.023** (0.027) | 47.2 % |
+
+*Not reported (incomplete — fewer seeds than the rest): AdaDiag, sigma_to=1 (1/3 seeds), AdaDiag, sigma_to=2 (0/3 seeds).*
+
+**A — the same answer as Hotel.** Removing the task-oriented term costs nothing (+0.004
+HR@1, +0.001 F1). AUG is again the largest effect (−0.130 HR@1), not significant on 3 seeds.
+
+**B — on GAIA, TVDiag's mapping is the right one.** RCL needs `metric` and `trace`
+(removing either costs 0.27 / 0.26 HR@1); FTI needs `log` (without it F1 falls by 0.174,
+significant, and `log` alone reaches F1 0.945, as high as the full model). That is exactly
+the prior's metric + trace → RCL, log → FTI. Per failure class:
+
+RCL HR@1:
+
+| failure class | n | full model | w/o metric | w/o trace | w/o log |
+|---|---|---|---|---|---|
+| [access permission denied exception] | 15 | 0.133 | -0.044 | -0.111 | **-0.133** |
+| [file moving program] | 27 | 0.926 | +0.000 | -0.025 | **-0.296** |
+| [login failure] | 458 | 0.830 | -0.027 | **-0.592** | -0.105 |
+| [memory_anomalies] | 426 | 0.660 | **-0.573** | +0.067 | +0.015 |
+| [normal memory freed label] | 13 | 0.026 | +0.128 | +0.026 | -0.026 |
+
+FTI recall:
+
+| failure class | n | full model | w/o metric | w/o trace | w/o log |
+|---|---|---|---|---|---|
+| [access permission denied exception] | 15 | 0.000 | +0.000 | +0.000 | +0.000 |
+| [file moving program] | 27 | 0.889 | +0.086 | +0.000 | **-0.753** |
+| [login failure] | 458 | 0.972 | +0.023 | -0.050 | **-0.233** |
+| [memory_anomalies] | 426 | 0.991 | -0.005 | -0.007 | **-0.099** |
+| [normal memory freed label] | 13 | 0.000 | +0.000 | +0.051 | +0.026 |
+
+RCL's source again **varies by class** — `trace` for login failure, `metric` for memory
+anomalies, `log` for the file-moving program — while FTI depends on `log` for every class
+the model can recognise at all.
+
+**D — the same pattern as Hotel.** A stronger `l_to` hurts the prior's F1 (−0.087 at
+σ_to = 1, significant) even though its mapping is right here:
+
+| σ_to | σ·l_to share (prior) | prior HR@1 | AdaDiag HR@1 | Δ HR@1 | prior F1 | AdaDiag F1 | Δ F1 |
+|---|---|---|---|---|---|---|---|
+| 0.1 | 17.3 % | 0.733 | 0.740 | +0.006 (p=0.37, Holm 0.37) | 0.937 | 0.932 | -0.005 (p=0.34, Holm 0.34) |
+| 0.5 | 68.5 % | 0.715 | 0.742 | +0.027 (p=0.045, Holm 0.091) | 0.876 | 0.908 | **+0.032** (p=0.024, Holm 0.049) |
+
+AdaDiag's weights do not move on GAIA (`log` for both tasks at σ_to = 0.1 and 0.5), so here
+the robustness is not a flip to a better source. A plausible, untested reading: AdaDiag
+puts the strong contrastive term on one encoder and leaves the other two to the diagnosis
+heads, while the prior's strong terms reshape all three.
+
+#### What the ablations add up to
+
+1. **The term AdaDiag reweights does not matter at TVDiag's σ, on either dataset** —
+   deleting it costs nothing (A), and AdaDiag gets slightly better when it is allowed to
+   silence it (C).
+2. **The premise is real, at a granularity AdaDiag does not capture.** RCL's useful source
+   varies *by failure class* on both datasets; FTI's varies *by dataset* (metric on Hotel,
+   log on GAIA). AdaDiag's learned matrix is constant across classes (§6.7: spread 0.0037),
+   and the corners it picks contradict group B — FTI → `log` on Hotel, RCL → `log` on GAIA —
+   as expected of a module that receives no task gradient (§6.6).
+3. **Where AdaDiag helps, it protects rather than improves.** With a strong `l_to`, the fixed
+   prior loses F1 on both datasets and AdaDiag loses much less (head to head: +0.080 F1 on
+   Hotel at σ_to = 2, +0.032 on GAIA at σ_to = 0.5), but neither beats TVDiag's default.
+
+The direction this points to is a weighting that is trained on the diagnosis losses
+(§6.6) and conditioned on failure class for RCL — not on the incident descriptor used here.
 
 ---
 
@@ -551,6 +749,11 @@ Checkable in minutes, independent of AdaDiag:
   so the next person does not repeat the arm that cannot work.
 - `v4_fusion` is exploratory and was run on Hotel only, where the prior is most wrong. Its
   negative result should not be read as a general claim about gating fused representations.
+- **Ablations (§6.8).** Hotel runs every group with 5 seeds; GAIA runs groups A, B and D
+  with 3 seeds, and group C (AdaDiag's internals) on Hotel only. Group D deliberately
+  changes TVDiag's objective (σ_to), so it sits outside the controlled comparison of
+  §6.2–6.3: it answers "what if l_to mattered?", not "is AdaDiag better than TVDiag?".
+  Per-class tables rest on 13–22 incidents per class.
 - **Multiple comparisons.** The ablation tables (§6.8) mark significance only after
   Holm–Bonferroni correction over every comparison of a metric. The main arm tables (§6.2,
   §6.3) report raw paired-t p-values for four comparisons each; none is below 0.05 even

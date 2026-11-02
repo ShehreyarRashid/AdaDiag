@@ -16,7 +16,7 @@ import numpy as np
 from scipy import stats
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "src"))
-from adadiag.ablation import ABLATIONS, reference_for              # noqa: E402
+from adadiag.ablation import ABLATIONS, GROUPS, reference_for      # noqa: E402
 
 MODS = ("metric", "trace", "log")
 
@@ -29,7 +29,29 @@ def load(paths):
     by = defaultdict(dict)
     for (n, s), r in runs.items():
         by[n][s] = r
+    # A configuration with fewer seeds than the rest (e.g. an interrupted run) is left out
+    # rather than reported on fewer seeds than its reference; it is named in the output.
+    full = max(len(v) for v in by.values())
+    INCOMPLETE.update({n: len(v) for n, v in by.items() if len(v) < full})
+    for n in INCOMPLETE:
+        del by[n]
     return by
+
+
+INCOMPLETE: dict = {}
+
+
+def note_incomplete(by):
+    # configurations of a group that was run but which have no records at all
+    groups = {ABLATIONS[n][0] for n in list(by) + list(INCOMPLETE)} - {"ref"}
+    for n, (g, *_r) in ABLATIONS.items():
+        if g in groups and n not in by and n not in INCOMPLETE:
+            INCOMPLETE[n] = 0
+    if INCOMPLETE:
+        k = max(len(v) for v in by.values())
+        print("\n*Not reported (incomplete — fewer seeds than the rest): "
+              + ", ".join(f"{ABLATIONS[n][3]} ({c}/{k} seeds)" for n, c in INCOMPLETE.items())
+              + ".*")
 
 
 def paired(by, a, b, key):
@@ -60,12 +82,17 @@ def holm(pvals: dict) -> dict:
     return {k: out.get(k, float("nan")) for k in pvals}
 
 
+def _p(x):
+    """p-value text: 3 decimals below 0.1, so 0.046 never displays as 0.05 next to a bold Δ."""
+    return "—" if math.isnan(x) else (f"{x:.3f}" if x < 0.1 else f"{x:.2f}")
+
+
 def fmt_d(d, p, p_adj=None):
     """Bold only when significant AFTER Holm correction (or raw p if no family given)."""
     test = p if p_adj is None else p_adj
     star = "**" if (not math.isnan(test) and test < 0.05) else ""
-    ps = "—" if math.isnan(p) else f"{p:.2f}"
-    adj = "" if p_adj is None or math.isnan(p_adj) else f", Holm {p_adj:.2f}"
+    ps = _p(p)
+    adj = "" if p_adj is None or math.isnan(p_adj) else f", Holm {_p(p_adj)}"
     return f"{star}{d:+.3f}{star} (p={ps}{adj})"
 
 
@@ -122,7 +149,9 @@ def per_class_modality(by):
     classes = list(next(iter(by["ref_prior"].values()))["per_class"])
     print("\n#### B, per failure class — what removing each source costs\n")
     print("Mean over seeds of (without source − full model). The most damaging removal "
-          "per class is in **bold**: that is the source this class actually depends on.\n")
+          "per class is in **bold** — the source this class actually depends on — but only "
+          "when it costs at least one incident per seed on average (|Δ| ≥ 1/n): with 13–22 "
+          "incidents per class, smaller differences are a single prediction flipping.\n")
     for metric, label in (("hr1", "RCL HR@1"), ("fti_recall", "FTI recall")):
         print(f"\n{label}:\n")
         print("| failure class | n | full model | " + " | ".join(f"w/o {d[5:]}" for d in drops) + " |")
@@ -132,9 +161,9 @@ def per_class_modality(by):
             base = np.mean([by["ref_prior"][s]["per_class"][c][metric] for s in seeds])
             deltas = [np.mean([by[d][s]["per_class"][c][metric] for s in seeds]) - base for d in drops]
             worst = int(np.argmin(deltas))
-            cells = [(f"**{x:+.3f}**" if i == worst and x < -0.01 else f"{x:+.3f}")
-                     for i, x in enumerate(deltas)]
             n = next(iter(by["ref_prior"].values()))["per_class"][c]["n"]
+            cells = [(f"**{x:+.3f}**" if i == worst and x <= -1.0 / n + 1e-9 else f"{x:+.3f}")
+                     for i, x in enumerate(deltas)]
             print(f"| {c} | {n} | {base:.3f} | " + " | ".join(cells) + " |")
 
 
@@ -178,12 +207,45 @@ def sigma_table(by):
               f"{fmt_d(df, pf, pf_all[s])} |")
 
 
+# --- compact tables for the top-level README ------------------------------------------
+def _d(by, n, ref, key, adj):
+    d, p, _ = paired(by, n, ref, key)
+    pa = adj.get((n, key), p)
+    star = "**" if (not math.isnan(pa) and pa < 0.05) else ""
+    return f"{star}{d:+.3f}{star} ({_p(pa)})"
+
+
+def compact(by, adj):
+    """Short tables: Δ vs reference with Holm-adjusted p in brackets; bold = significant."""
+    ds = next(iter(next(iter(by.values())).values()))["dataset"]
+    k = min(len(v) for v in by.values())
+    print(f"\n**{ds}** — {k} seeds. Δ vs reference, (Holm-adjusted p); **bold** = significant.\n")
+    print("| group | configuration | HR@1 | F1 | Δ HR@1 | Δ F1 | Δ macro-F1 | σ·l_to share |")
+    print("|---|---|---|---|---|---|---|---|")
+    for g in ("ref",) + GROUPS:
+        for n, (grp, *_rest) in ABLATIONS.items():
+            if grp != g or n not in by:
+                continue
+            ref = reference_for(n)
+            hr, f1 = ms(by, n, "HR@1")[0], ms(by, n, "f1")[0]
+            cells = ["—", "—", "—"] if ref is None else [_d(by, n, ref, key, adj) for key in KEYS]
+            label = ABLATIONS[n][3] if ref else f"*{ABLATIONS[n][3]}*"
+            print(f"| {g} | {label} | {hr:.3f} | {f1:.3f} | " + " | ".join(cells)
+                  + f" | {share(by, n):.1f} % |")
+
+
 def main() -> None:
     ap = argparse.ArgumentParser(description=__doc__,
                                  formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("results", nargs="+")
+    ap.add_argument("--compact", action="store_true",
+                    help="one short table per dataset, as used in the top-level README")
     a = ap.parse_args()
     by = load(a.results)
+    if a.compact:
+        compact(by, family_holm(by))
+        note_incomplete(by)
+        return
     ds = next(iter(next(iter(by.values())).values()))["dataset"]
     adj = family_holm(by)
     print(f"\n### Ablations — {ds}")
@@ -194,6 +256,7 @@ def main() -> None:
     weight_table(by)
     group_table(by, "D", "D — scale of the task-oriented term", adj)
     sigma_table(by)
+    note_incomplete(by)
 
 
 if __name__ == "__main__":
