@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Train every arm across several seeds on one dataset and write results to JSON.
 
-    python scripts/run_sweep.py --dataset hotel --seeds 5 --repo /path/to/TVDiag
+    python scripts/run_sweep.py --dataset hotel --seeds 5
 """
 from __future__ import annotations
 
@@ -9,6 +9,8 @@ import argparse, json, sys
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "src"))
+ROOT = Path(__file__).resolve().parents[1]
+import torch                                                      # noqa: E402
 from adadiag import config, data                          # noqa: E402
 from adadiag.train import train                           # noqa: E402
 from adadiag.weighting import ARMS                        # noqa: E402
@@ -19,13 +21,17 @@ DEFAULT_ARMS = ["v0_raw", "v0_simplex", "v1_uniform", "v2_global", "v3_incident"
 def main() -> None:
     ap = argparse.ArgumentParser(description=__doc__)
     ap.add_argument("--dataset", default="gaia", choices=["gaia", "hotel", "sockshop"])
-    ap.add_argument("--repo", required=True, help="path to a WHU-AISE/TVDiag checkout")
+    ap.add_argument("--repo", default=str(ROOT), help="folder that contains data/ (default: this repository, which ships it; or a TVDiag checkout)")
     ap.add_argument("--arms", default=",".join(DEFAULT_ARMS),
                     help=f"comma-separated; available: {','.join(ARMS)}")
     ap.add_argument("--seeds", type=int, default=5)
     ap.add_argument("--epochs", type=int, default=400)
     ap.add_argument("--out", default=None)
+    ap.add_argument("--threads", type=int, default=None,
+                    help="torch CPU threads; results/ used 2 (see results/ENVIRONMENT.md)")
     a = ap.parse_args()
+    if a.threads:
+        torch.set_num_threads(a.threads)
 
     cfg = config.get(a.dataset, epochs=a.epochs)
     ds = data.load(a.dataset, a.repo)

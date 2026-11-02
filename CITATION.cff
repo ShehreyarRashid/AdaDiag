@@ -1,0 +1,48 @@
+cff-version: 1.2.0
+message: >-
+  If you use this software, please cite it as below. AdaDiag builds on TVDiag, whose
+  method and released data it uses: please cite TVDiag as well (see references).
+title: >-
+  AdaDiag: Adaptive modality × task weighting for multimodal microservice failure
+  diagnosis
+type: software
+authors:
+  - family-names: Rashid
+    given-names: Shehreyar
+    affiliation: National University of Computer and Emerging Sciences (FAST-NUCES)
+version: 1.2.0
+date-released: 2026-11-02
+license: MIT
+repository-code: https://github.com/ShehreyarRashid/AdaDiag
+keywords:
+  - AIOps
+  - microservices
+  - failure diagnosis
+  - multimodal learning
+  - graph neural networks
+  - reproducibility
+references:
+  - type: article
+    title: >-
+      TVDiag: A Task-oriented and View-invariant Failure Diagnosis Framework for
+      Microservice-based Systems with Multimodal Data
+    authors:
+      - family-names: Xie
+        given-names: Shuaiyu
+      - family-names: Wang
+        given-names: Jian
+      - family-names: He
+        given-names: Hanbin
+      - family-names: Wang
+        given-names: Zhihao
+      - family-names: Zhao
+        given-names: Yuqi
+      - family-names: Zhang
+        given-names: Neng
+      - family-names: Li
+        given-names: Bing
+    journal: ACM Transactions on Software Engineering and Methodology
+    volume: 35
+    issue: 2
+    year: 2026
+    doi: 10.1145/3734868

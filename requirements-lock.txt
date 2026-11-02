@@ -1,0 +1,16 @@
+# Exact versions that produced results/ (see results/ENVIRONMENT.md).
+#
+# requirements.txt gives lower bounds so the code installs anywhere; this file pins what
+# was actually used, for bit-for-bit reproduction:
+#
+#   pip install torch==2.15.0 --index-url https://download.pytorch.org/whl/cpu
+#   pip install -r requirements-lock.txt
+#
+# (results/ were produced with the PyPI build 2.15.0+cu132 running on CPU; the CPU-only
+# build computes the same CPU kernels.)
+
+torch==2.15.0
+numpy==2.5.3
+scikit-learn==1.9.1
+scipy==1.18.1
+pytest>=7.0

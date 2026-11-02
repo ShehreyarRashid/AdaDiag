@@ -65,6 +65,16 @@ module able to co-adapt with the representation, which conflates the two effects
 the RCL softmax. Leaving them in the softmax lets a node that is not in the graph compete as
 a candidate root cause — a bug that inflates HR@k.
 
+**Ablation switches default to the method.** `drop_modalities`, `use_to`, `use_cm`,
+`to_scale`, `w_constraint`, `detach`, `descriptor` and `entropy_reg` are read from the config
+with defaults that reproduce the method exactly — checked bit-for-bit against the
+pre-ablation code. The loss is assembled in one place (`train.compute_terms`), which the
+training loop, the gradient-share diagnostic and the ablation snapshot all call, so the
+objective that is measured is always the objective that is trained. A removed modality is
+zeroed rather than deleted: its encoder is not run, its slot in the fused vector is zero,
+and the fixed priors renormalise over what remains (a column whose only source was removed
+becomes uniform over the rest).
+
 ## What is deliberately *not* fixed
 
 `AutomaticWeightedLoss` is reproduced **inert**, because that is what TVDiag ships (see

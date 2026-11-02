@@ -9,13 +9,43 @@ project.
 
 ---
 
+## Updating a repository that already exists (recommended: from your Codespace)
+
+The browser's drag-and-drop **cannot upload hidden files or folders** — anything whose name
+starts with a dot: `.gitignore`, `.gitattributes`, `.github/`. It also cannot delete files
+that a new version removed. Updating from a Codespace has neither problem.
+
+1. Open your repository on GitHub → **Code** → **Codespaces** → open your codespace (or
+   create one).
+2. Drag the new zip from your computer onto the file list on the left of the Codespace.
+3. In the terminal at the bottom (replace the zip name if yours differs):
+
+   ```bash
+   git pull                                         # start from the latest version
+   unzip -q -o AdaDiag-v1.2.zip -d /tmp/new         # unpack outside the repository
+   cp -a /tmp/new/AdaDiag/. .                       # copy everything, hidden files too
+   rm -rf /tmp/new AdaDiag-v1.2.zip                 # clean up
+   python -m pytest tests/ -q                       # must pass before you publish
+   git add -A
+   git commit -m "v1.2: ablations, bundled data, reproducibility"
+   git push
+   ```
+
+4. On GitHub open the **Actions** tab: the `tests` workflow runs on every push and turns the
+   README badge green when it passes (~5 minutes).
+
+`git add -A` stages new, changed **and deleted** files, so the repository ends up exactly
+matching the zip.
+
+---
+
 ## Before you start
 
 1. **Make a GitHub account** at <https://github.com> if you don't have one. Use your
    university email if you want the free Pro features via
    [GitHub Education](https://education.github.com/pack).
 2. **Download and unzip `AdaDiag.zip`.** You should end up with a folder called `AdaDiag`
-   containing `README.md`, `src/`, `scripts/`, `tests/`, `results/`, `docs/`.
+   containing `README.md`, `src/`, `scripts/`, `tests/`, `results/`, `docs/`, `data/`.
 3. **Check the folder looks right** before uploading:
 
    ```
@@ -26,10 +56,11 @@ project.
    ├── environment.yml
    ├── pyproject.toml
    ├── .gitignore
-   ├── src/adadiag/      (13 .py files)
-   ├── scripts/          (5 .py files)
-   ├── tests/            (2 .py files)
+   ├── src/adadiag/      (14 .py files)
+   ├── scripts/          (7 .py files)
+   ├── tests/            (4 .py files)
    ├── results/          (.json files + README.md)
+   ├── data/             (gaia/, hotel/, sockshop/ + README.md, LICENSE-TVDiag, SHA256SUMS)
    └── docs/             (architecture.md)
    ```
 
@@ -146,9 +177,10 @@ git push
 
 ## Two things to check before you share the link
 
-1. **Don't commit the datasets.** The `.gitignore` already excludes `data/` and `TVDiag/`.
-   GitHub rejects files over 100 MB, and the README explains how to obtain the data instead —
-   which is the right way to do it.
+1. **`data/` is meant to be committed.** It is TVDiag's released data (MIT licence), 48 MB
+   in 27 files, the largest 5.8 MB, so it is under GitHub's 25 MB per-file browser limit
+   and 100-file per-upload limit. Keep `data/LICENSE-TVDiag` and `data/README.md` with it:
+   the licence requires the copyright notice to travel with the data.
 2. **Nothing private.** No API tokens, no passwords, no unpublished material from anyone
    else. Once a public repo exists, assume anything in it has been seen. If you ever do
    commit a secret, deleting the file is **not** enough — the history keeps it; you must
@@ -168,7 +200,7 @@ Then **Settings → General → Features** and untick *Wikis* and *Projects* if 
 them, so the tab bar stays clean.
 
 If you want a version you can cite in the report, use **Releases → Create a new release**,
-tag `v1.1.0`, and GitHub will build a permanent zip of that exact state.
+tag `v1.2.0`, and GitHub will build a permanent zip of that exact state.
 
 ---
 
@@ -181,8 +213,10 @@ pip install -r requirements.txt
 python -m pytest tests/ -q
 ```
 
-You should see `10 passed`. Those ten tests are what let you say in the report that the
+You should see `27 passed`. Those tests are what let you say in the report that the
 re-implementation is verified against TVDiag's own loss (4 tests), that Eq. 13 is inert as
-shipped (1), that the simplex columns are well formed (1), and that the two structural claims
-in README §6.6 hold (4). They need no dataset, so a reader can run them straight after
-cloning — which is the single most useful thing a reviewer can do with this repository.
+shipped (1), that the simplex columns are well formed (1), that the two structural claims
+in README §6.6 hold (4), and that the ablation switches do what they claim and nothing at
+their defaults (12), and that `data/` is byte-identical to TVDiag's release and loads with
+the expected shape (5). A reader can run them straight after cloning — which is the single
+most useful thing a reviewer can do with this repository.

@@ -4,7 +4,7 @@
 The premise is that the useful source varies BY FAILURE CLASS, so this is the table that
 can actually test it -- the aggregate sweep cannot.
 
-    python scripts/run_perclass.py --dataset hotel --repo /path/to/TVDiag
+    python scripts/run_perclass.py --dataset hotel
 """
 from __future__ import annotations
 
@@ -12,6 +12,8 @@ import argparse, json, sys
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "src"))
+ROOT = Path(__file__).resolve().parents[1]
+import torch                                                      # noqa: E402
 from adadiag import config, data                          # noqa: E402
 from adadiag.evaluate import per_class                    # noqa: E402
 from adadiag.train import train                           # noqa: E402
@@ -20,12 +22,16 @@ from adadiag.train import train                           # noqa: E402
 def main() -> None:
     ap = argparse.ArgumentParser(description=__doc__)
     ap.add_argument("--dataset", default="gaia", choices=["gaia", "hotel", "sockshop"])
-    ap.add_argument("--repo", required=True)
+    ap.add_argument("--repo", default=str(ROOT), help="folder that contains data/ (default: this repository, which ships it; or a TVDiag checkout)")
     ap.add_argument("--arms", default="v0_simplex,v2_global,v3_incident")
     ap.add_argument("--seed", type=int, default=0)
     ap.add_argument("--epochs", type=int, default=400)
     ap.add_argument("--out", default=None)
+    ap.add_argument("--threads", type=int, default=None,
+                    help="torch CPU threads; results/ used 2 (see results/ENVIRONMENT.md)")
     a = ap.parse_args()
+    if a.threads:
+        torch.set_num_threads(a.threads)
 
     cfg = config.get(a.dataset, epochs=a.epochs)
     ds = data.load(a.dataset, a.repo)

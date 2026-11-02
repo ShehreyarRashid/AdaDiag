@@ -1,7 +1,7 @@
 """The two structural claims behind README section 6.6, as tests.
 
 Both are self-contained: they build a model and synthetic batch directly, so they run
-without a TVDiag checkout.
+without data/.
 
   1. The weighting module receives EXACTLY zero gradient from both diagnosis losses. If a
      future change puts `w` on the prediction path, this test fails -- which is the point:

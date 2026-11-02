@@ -1,0 +1,10 @@
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.venv/
+venv/
+*.egg-info/
+# data/ and results/*.json are committed on purpose: data/ is TVDiag's released data
+# (unchanged, see data/README.md) and results/ is the evidence behind every README table.
+# A separate TVDiag clone, if you make one inside this folder, is not.
+TVDiag/

@@ -28,14 +28,34 @@ class AdaDiag(nn.Module):
         fuse = len(MODALITIES) * d_o
         self.locator = Locator(fuse, cfg["linear_hidden"])
         self.classifier = TypeClassifier(fuse, cfg["linear_hidden"], n_types)
-        self.weighting = WeightingModule(arm, fuse)
+
+        # Ablation switches (see ablation.py). Every default reproduces the method exactly.
+        dropped = set(cfg.get("drop_modalities", ()) or ())
+        unknown = dropped - set(MODALITIES)
+        if unknown:
+            raise ValueError(f"unknown modalities to drop: {sorted(unknown)}")
+        self.active = tuple(m not in dropped for m in MODALITIES)
+        self.detach = cfg.get("detach", True)
+        self.descriptor = cfg.get("descriptor", "full")
+        if self.descriptor not in ("full", "emb", "counts"):
+            raise ValueError(f"unknown descriptor {self.descriptor!r}")
+
+        self.weighting = WeightingModule(arm, fuse, constraint=cfg.get("w_constraint", "simplex"),
+                                         active=self.active)
         self.d_out = d_o
 
     def forward(self, X, A, keep, counts):
-        """Returns (per-modality graph embeddings, fused embedding, node logits, type logits)."""
+        """Returns (per-modality graph embeddings, fused embedding, node logits, type logits).
+
+        A removed modality (ablation) contributes an all-zero embedding: its encoder is not
+        run, so it receives no gradient, and the heads see nothing from it.
+        """
         fs, es = {}, {}
         for j, m in enumerate(MODALITIES):
-            node_emb = self.encoders[m](X[:, j], A)
+            if self.active[j]:
+                node_emb = self.encoders[m](X[:, j], A)
+            else:
+                node_emb = X.new_zeros(X.shape[0], X.shape[2], self.d_out)
             es[m] = node_emb
             fs[m] = max_pool(node_emb, keep)
         f = torch.cat([fs[m] for m in MODALITIES], dim=-1)          # (B, 3*d_out)
@@ -53,6 +73,16 @@ class AdaDiag(nn.Module):
         return fs, f, self.locator(e), self.classifier(f_fti)
 
     def weights(self, f: torch.Tensor, counts: torch.Tensor) -> torch.Tensor:
-        """The 3x2 weight matrix for this batch. Detached input for the conditioned arms."""
-        cond = f.detach() if self.weighting.arm in ("v3_incident", "v4_fusion") else f
+        """The 3x2 weight matrix for this batch. Detached input for the conditioned arms.
+
+        `descriptor` (ablation): "full" = embeddings + counts (the method); "emb" zeroes the
+        counts; "counts" zeroes the embeddings. Zeroing keeps the MLP's input size fixed, so
+        the parameter count is identical across the three.
+        """
+        conditioned = self.weighting.arm in ("v3_incident", "v4_fusion")
+        cond = f.detach() if (conditioned and self.detach) else f
+        if self.descriptor == "emb":
+            counts = torch.zeros_like(counts)
+        elif self.descriptor == "counts":
+            cond = torch.zeros_like(cond)
         return self.weighting(cond, counts)

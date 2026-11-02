@@ -1,0 +1,13 @@
+# Git attributes: line endings and binary handling.
+#
+# Without this, Git for Windows (core.autocrlf=true, its default) rewrites LF -> CRLF in
+# text files on checkout. For data/ that changes the bytes, so the published SHA-256
+# checksums in data/SHA256SUMS would no longer match and tests/test_data_integrity.py
+# would fail on every Windows clone. data/ is therefore stored and checked out verbatim.
+
+* text=auto eol=lf
+
+data/**     -text -diff
+*.pkl       binary
+*.png       binary
+*.zip       binary

@@ -66,12 +66,28 @@ class WeightingModule(nn.Module):
     are not on the forward path that produces predictions, so AdaDiag adds no inference cost.
     """
 
-    def __init__(self, arm: str, fuse_dim: int, hidden: int = 64):
+    def __init__(self, arm: str, fuse_dim: int, hidden: int = 64,
+                 constraint: str = "simplex", active: tuple[bool, ...] | None = None):
+        """
+        Args:
+            constraint: "simplex" (the method) or "softplus" -- ABLATION ONLY: unconstrained
+                positive weights, initialised so each column sums to ~1 like the simplex.
+                Tests the identifiability argument of README section 1.
+            active: which modalities are present; ABLATION ONLY (modality removal). A removed
+                modality gets weight exactly 0 in every arm.
+        """
         super().__init__()
         if arm not in ARMS:
             raise ValueError(f"unknown arm {arm!r}; expected one of {ARMS}")
-        self.arm = arm
+        if constraint not in ("simplex", "softplus"):
+            raise ValueError(f"unknown constraint {constraint!r}")
+        self.arm, self.constraint = arm, constraint
         self.n_m, self.n_t = len(MODALITIES), len(TASKS)
+        act = tuple(active) if active is not None else (True,) * self.n_m
+        if len(act) != self.n_m or not any(act):
+            raise ValueError(f"active must name at least one of {self.n_m} modalities, got {act}")
+        self.register_buffer("active", torch.tensor(act, dtype=torch.bool), persistent=False)
+        self.all_active = all(act)
         if arm == "v2_global":
             self.logits = nn.Parameter(torch.zeros(self.n_m, self.n_t))
         elif arm in ("v3_incident", "v4_fusion"):
@@ -79,6 +95,36 @@ class WeightingModule(nn.Module):
                 nn.Linear(fuse_dim + len(MODALITIES), hidden), nn.ReLU(),
                 nn.Linear(hidden, self.n_m * self.n_t),
             )
+
+    # -- helpers for the ablation switches; no-ops at the defaults ----------------------
+    def _mask_fixed(self, w: torch.Tensor) -> torch.Tensor:
+        """Zero removed modalities in a fixed prior and renormalise each column over the
+        remaining ones; a column left empty (its only source was removed) becomes uniform
+        over what remains. v0_raw keeps unit weights rather than renormalising."""
+        if self.all_active:
+            return w
+        a = self.active.to(w.dtype)[:, None]
+        w = w * a
+        empty = w.sum(0, keepdim=True) == 0
+        fill = a.expand_as(w) if self.arm == "v0_raw" else a.expand_as(w) / a.sum()
+        w = torch.where(empty, fill, w)
+        if self.arm != "v0_raw":
+            w = w / w.sum(0, keepdim=True)
+        return w
+
+    def _normalise(self, raw: torch.Tensor, dim: int) -> torch.Tensor:
+        """raw logits -> weights, along the modality axis `dim`."""
+        if self.constraint == "softplus":
+            n_act = int(self.active.sum())
+            w = nn.functional.softplus(raw) / (n_act * 0.6931471805599453)   # ~1/n at init
+            if not self.all_active:
+                shape = [1] * raw.dim(); shape[dim] = self.n_m
+                w = w * self.active.view(shape).to(w.dtype)
+            return w
+        if not self.all_active:
+            shape = [1] * raw.dim(); shape[dim] = self.n_m
+            raw = raw.masked_fill(~self.active.view(shape), float("-inf"))
+        return raw.softmax(dim)
 
     def forward(self, graph_emb: torch.Tensor, counts: torch.Tensor) -> torch.Tensor:
         """graph_emb: (B, 3*d_out) -- pass it DETACHED for the conditioned arms.
@@ -88,15 +134,21 @@ class WeightingModule(nn.Module):
         """
         B, dev = graph_emb.shape[0], graph_emb.device
         if self.arm == "v0_raw":
-            return torch.tensor(PRIOR_RAW, device=dev).expand(B, self.n_m, self.n_t)
+            w = self._mask_fixed(torch.tensor(PRIOR_RAW, device=dev))
+            return w.expand(B, self.n_m, self.n_t)
         if self.arm == "v0_simplex":
-            return torch.tensor(PRIOR_SIMPLEX, device=dev).expand(B, self.n_m, self.n_t)
+            w = self._mask_fixed(torch.tensor(PRIOR_SIMPLEX, device=dev))
+            return w.expand(B, self.n_m, self.n_t)
         if self.arm == "v1_uniform":
-            return torch.full((B, self.n_m, self.n_t), 1.0 / self.n_m, device=dev)
+            if self.all_active:
+                return torch.full((B, self.n_m, self.n_t), 1.0 / self.n_m, device=dev)
+            w = self._mask_fixed(torch.full((self.n_m, self.n_t), 1.0, device=dev))
+            return w.expand(B, self.n_m, self.n_t)
         if self.arm == "v2_global":
-            return self.logits.softmax(0).expand(B, self.n_m, self.n_t)
+            return self._normalise(self.logits, 0).expand(B, self.n_m, self.n_t)
         e = torch.cat([graph_emb, counts], dim=-1)
-        return self.net(e).view(B, self.n_m, self.n_t).softmax(1)   # softmax DOWN each column
+        raw = self.net(e).view(B, self.n_m, self.n_t)
+        return self._normalise(raw, 1)                                # DOWN each column
 
     @property
     def is_learned(self) -> bool:

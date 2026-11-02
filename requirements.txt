@@ -7,8 +7,8 @@
 #
 #   pip install -r requirements.txt
 #
-# Verified on Python 3.13 / Linux, CPU only. A full 5-seed sweep on GAIA takes about
-# 6 minutes on 2 CPU cores; no GPU is needed.
+# Verified on Python 3.13 / Linux, CPU only; no GPU is needed. On 2 CPU cores a 5-arm,
+# 5-seed sweep takes ~16 min on Hotel Reservation and ~34 min on GAIA.
 
 torch>=2.0            # tested on 2.15.0
 numpy>=1.24           # tested on 2.5.3

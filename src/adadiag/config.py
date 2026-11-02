@@ -28,7 +28,7 @@ PER_DATASET = {
     "gaia":     dict(feat_drop=0.0, batch_size=512, patience=10, ft_num=5, aug_percent=0.2),
     "hotel":    dict(feat_drop=0.3, batch_size=128, patience=10, ft_num=5, aug_percent=0.2),
     "sockshop": dict(feat_drop=0.0, batch_size=128, patience=10, ft_num=7, aug_percent=0.4),
-    # AIOps-22 is configured in TVDiag but its data is NOT shipped -- see README, "Data".
+    # AIOps-22 is configured in TVDiag but its data is NOT shipped -- see README, "Dataset".
     "aiops22":  dict(feat_drop=0.1, batch_size=128, patience=20, ft_num=9, aug_percent=0.2),
 }
 

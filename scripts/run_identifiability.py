@@ -6,7 +6,7 @@ Two measurements:
      diagnosis losses), and
   2. how far each learned task column collapses onto a single modality.
 
-    python scripts/run_identifiability.py --dataset hotel --repo /path/to/TVDiag
+    python scripts/run_identifiability.py --dataset hotel
 """
 from __future__ import annotations
 
@@ -14,6 +14,7 @@ import argparse, json, sys
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "src"))
+ROOT = Path(__file__).resolve().parents[1]
 from adadiag import config, data, identifiability                 # noqa: E402
 
 MODALITIES = ("metric", "trace", "log")
@@ -23,7 +24,7 @@ def main() -> None:
     ap = argparse.ArgumentParser(description=__doc__,
                                  formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("--dataset", required=True, choices=["gaia", "hotel", "sockshop"])
-    ap.add_argument("--repo", required=True, help="path to a TVDiag checkout")
+    ap.add_argument("--repo", default=str(ROOT), help="folder that contains data/ (default: this repository, which ships it; or a TVDiag checkout)")
     ap.add_argument("--arm", default="v3_incident", choices=["v2_global", "v3_incident"])
     ap.add_argument("--seeds", type=int, default=3)
     ap.add_argument("--epochs", type=int, default=None)

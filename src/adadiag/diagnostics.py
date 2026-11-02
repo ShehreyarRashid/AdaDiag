@@ -24,22 +24,33 @@ import random
 
 import numpy as np
 import torch
-import torch.nn.functional as F
 
-from .augment import drop_non_root
-from .losses import AutomaticWeightedLoss, uspcon
+from .losses import AutomaticWeightedLoss
 from .model import AdaDiag
-from .train import task_oriented_loss
+from .train import compute_terms, make_batch, total_loss
+
+
+def _gnorm(term, params) -> float:
+    if not term.requires_grad:
+        return 0.0
+    gs = torch.autograd.grad(term, params, retain_graph=True, allow_unused=True)
+    return float(torch.sqrt(sum((g ** 2).sum() for g in gs if g is not None)))
 
 
 def gradient_shares(arm: str, ds, cfg: dict, seed: int = 0, epochs: int = 120) -> dict:
-    """Train briefly and report the gradient norm each loss term induces at the encoders."""
+    """Train briefly and report the gradient norm each loss term induces at the encoders.
+
+    Uses the training loop's own `make_batch` / `compute_terms` / `total_loss`, so the
+    objective measured here is by construction the objective trained.
+    """
     torch.manual_seed(seed); np.random.seed(seed); random.seed(seed)
     rng = random.Random(seed)
     model = AdaDiag(arm, len(ds.types), cfg)
     awl = AutomaticWeightedLoss(4, learnable=False)
     opt = torch.optim.Adam(model.parameters(), lr=cfg["lr"], weight_decay=cfg["weight_decay"])
     enc_params = list(model.encoders.parameters())
+    sigma = cfg["contrastive_loss_scale"]
+    sigma_to = cfg.get("to_scale") or sigma
     track = []
 
     for _ in range(epochs):
@@ -47,29 +58,11 @@ def gradient_shares(arm: str, ds, cfg: dict, seed: int = 0, epochs: int = 120) -
         perm = np.random.permutation(ds.train_idx)
         for s in range(0, len(perm), cfg["batch_size"]):
             b = perm[s:s + cfg["batch_size"]]
-            X, A = ds.X[b], ds.A[b]
-            root, yt, cnt = ds.root[b], ds.ytype[b], ds.cnt[b]
-            keep = torch.ones(len(b), ds.n_nodes, dtype=torch.bool)
-            Xa, Aa, ka = drop_non_root(X, A, root, cfg["aug_percent"], rng)
-            X, A = torch.cat([X, Xa]), torch.cat([A, Aa])
-            keep = torch.cat([keep, ka])
-            root, yt, cnt = torch.cat([root] * 2), torch.cat([yt] * 2), torch.cat([cnt] * 2)
-
-            fs, f, node_logits, type_logits = model(X, A, keep, cnt)
-            w = model.weights(f, cnt)
-            l_to = task_oriented_loss(model, fs, {"rcl": root, "fti": yt}, w, cfg["temperature"])
-            l_cm = sum(uspcon(fs["metric"], fs[m], cfg["temperature"]) for m in ("trace", "log"))
-            l_rcl = F.cross_entropy(node_logits.masked_fill(~keep, float("-inf")), root)
-            l_fti = F.cross_entropy(type_logits, yt)
-            sigma = cfg["contrastive_loss_scale"]
-
-            def gnorm(term):
-                gs = torch.autograd.grad(term, enc_params, retain_graph=True, allow_unused=True)
-                return float(torch.sqrt(sum((g ** 2).sum() for g in gs if g is not None)))
-
-            track.append([gnorm(l_rcl), gnorm(l_fti), gnorm(sigma * l_to), gnorm(sigma * l_cm)])
-
-            loss = awl(l_rcl, l_fti, sigma * l_to, sigma * l_cm)
+            terms, _ = compute_terms(model, arm, make_batch(ds, b, cfg, rng), cfg)
+            track.append([_gnorm(terms["l_rcl"], enc_params), _gnorm(terms["l_fti"], enc_params),
+                          _gnorm(sigma_to * terms["l_to"], enc_params),
+                          _gnorm(sigma * terms["l_cm"], enc_params)])
+            loss = total_loss(awl, terms, cfg)
             opt.zero_grad(); loss.backward(); opt.step()
 
     T = np.asarray(track)[len(track) // 2:]        # second half of training

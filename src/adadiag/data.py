@@ -2,7 +2,8 @@
 
 Builds dense tensors from TVDiag's released artefacts. Nothing here is re-derived: the
 128-d event embeddings, the call graphs and the official splits all ship with the TVDiag
-repository, so this module only reads and arranges them.
+repository, and this repository bundles an unchanged copy in `data/` (see data/README.md),
+so this module only reads and arranges them.
 
 Per incident we produce
     X    (3, N, 128)  event embeddings, one plane per source (metric, trace, log)
@@ -65,19 +66,26 @@ class Dataset:
                 f"{len(self.types)} types, {len(self.train_idx)}/{len(self.test_idx)} train/test>")
 
 
-def load(name: str, repo: str | Path, strict: bool = True) -> Dataset:
-    """Load one dataset from a TVDiag checkout.
+#: This repository's root, which ships `data/` (src/adadiag/data.py -> parents[2]).
+REPO_ROOT = Path(__file__).resolve().parents[2]
+
+
+def load(name: str, repo: str | Path | None = None, strict: bool = True) -> Dataset:
+    """Load one dataset.
 
     Args:
         name: one of "gaia", "hotel", "sockshop".
-        repo: path to a clone of github.com/WHU-AISE/TVDiag.
+        repo: a folder containing `data/<name>/`. Defaults to this repository, which bundles
+            all three; a clone of github.com/WHU-AISE/TVDiag works too.
         strict: assert the dataset matches EXPECTED[name].
     """
-    root_dir = Path(repo) / "data" / name
+    root_dir = Path(repo if repo is not None else REPO_ROOT) / "data" / name
     if not root_dir.exists():
         raise FileNotFoundError(
-            f"{root_dir} not found. Clone https://github.com/WHU-AISE/TVDiag and pass its path. "
-            f"Note that AIOps-22 is NOT shipped with that repository -- see README section 'Data'."
+            f"{root_dir} not found. This repository ships data/gaia, data/hotel and "
+            f"data/sockshop -- if they are missing, re-download the repository, or pass "
+            f"--repo pointing at a clone of https://github.com/WHU-AISE/TVDiag. AIOps-22 is "
+            f"not distributed by TVDiag -- see README section 'Dataset'."
         )
 
     feats = {m: pickle.load(open(root_dir / "tmp" / f"{m}.pkl", "rb")) for m in MODALITIES}

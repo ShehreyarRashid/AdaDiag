@@ -1,5 +1,8 @@
 # AdaDiag — Learning who to listen to
 
+[![tests](https://github.com/ShehreyarRashid/AdaDiag/actions/workflows/tests.yml/badge.svg)](https://github.com/ShehreyarRashid/AdaDiag/actions/workflows/tests.yml)
+[![license: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
+
 **Adaptive modality × task weighting for multimodal microservice failure diagnosis.**
 
 A controlled study of whether the fixed modality→task mapping inside
@@ -11,13 +14,17 @@ benchmarks, it cannot.
 > zero inference cost, and it **does not improve on TVDiag's hand-written prior** on GAIA or
 > Hotel Reservation. There are two reasons, and the second is the stronger one:
 >
-> 1. **The lever is weak.** The loss term AdaDiag reweights supplies only **1.7 – 10.4 %** of
->    the encoder gradient (§6.4), so no reallocation inside it can move the end metrics.
+> 1. **The lever is weak.** The loss term AdaDiag reweights supplies only **1.7 – 12.5 %** of
+>    the encoder gradient (§6.4) — 1.7 % on the dataset where the prior is most wrong — so no
+>    reallocation inside it can move the end metrics.
 > 2. **The lever is also misaimed.** The weighting module receives **exactly zero gradient
 >    from both diagnosis losses** — its only learning signal is the auxiliary contrastive
 >    term, in which the objective is *linear*, so on a simplex its minimiser is a **vertex**.
 >    The graded "who to listen to" the method is built around is not a solution of the
 >    objective as written; one-hot collapse is (§6.6). Both claims are asserted in `tests/`.
+> 3. **So the extra capacity goes unused.** Tested directly: the "per-incident" matrix varies
+>    by at most **0.0037** across the five failure classes (§6.7). It is, to three decimals,
+>    one constant matrix — which is what TVDiag already had.
 >
 > The contribution of this repository is that diagnosis, reproducibly — a negative result
 > with a mechanism, rather than an unexplained flat table.
@@ -75,7 +82,7 @@ decides who speaks.*
 
 ```mermaid
 flowchart LR
-  subgraph IN["Released TVDiag artefacts"]
+  subgraph IN["data/ (TVDiag release)"]
     E["event embeddings<br/>(3 × N × 128)"]
     G["call graph<br/>N × N"]
     C["alert counts<br/>c ∈ ℝ³"]
@@ -129,29 +136,54 @@ forward path that produces predictions, so AdaDiag adds **zero inference cost**.
 | 8 | Evaluation (HR@k, MRR@3, F1, per class) | `src/adadiag/evaluate.py` | `evaluate()`, `per_class()` |
 | 9 | Gradient-share diagnostic | `src/adadiag/diagnostics.py` | `gradient_shares()` |
 | 10 | Identifiability: gradient paths + vertex collapse | `src/adadiag/identifiability.py` | `measure_gradient_paths()`, `measure_collapse()` |
+| 11 | Ablation studies (4 groups, 22 configurations) | `src/adadiag/ablation.py` | `ABLATIONS`, `run_one()`, `gradient_snapshot()` |
 | — | Hyperparameters, transcribed from TVDiag | `src/adadiag/config.py` | `get()` |
-| — | Equivalence + invariant tests | `tests/test_supcon_equivalence.py` | `pytest -q` |
+| — | Re-run committed experiments, compare to results/ | `scripts/verify_results.py` | `main()` |
+| — | Tests (27; 22 need no data, 5 check data/) | `tests/test_supcon_equivalence.py`, `tests/test_weighting_identifiability.py`, `tests/test_ablation_switches.py`, `tests/test_data_integrity.py` | `pytest -q` |
 
 Model assembly lives in `src/adadiag/model.py`; the runnable entry points are in `scripts/`.
 
 ---
 
-## 4. Data
+## 4. Dataset
 
-**No dataset is committed here.** Everything is read from a TVDiag checkout, which already
-ships the extracted alerts and the pre-computed 128-d event embeddings — Drain3 and
-fastText do **not** need to be re-run.
+The three datasets TVDiag releases are **included in [`data/`](data/)** (48 MB, 27 files),
+copied byte-for-byte from TVDiag's repository at commit `cf6f334` under its MIT licence.
+Clone this repository and every script runs with no other download. Provenance, layout and
+SHA-256 checksums are in [`data/README.md`](data/README.md); `pytest` verifies the
+checksums. The extracted alerts and the pre-computed 128-d event embeddings are included,
+so Drain3 and fastText do **not** need to be re-run.
 
-```bash
-git clone https://github.com/WHU-AISE/TVDiag.git
-```
+TVDiag's own description of the datasets, quoted verbatim from its README ("we" and "us"
+are the TVDiag authors, who deployed the systems and hold the raw data):
 
-| dataset | in TVDiag repo | incidents | instances | types | train / test | source |
+> We conducted experiments on two datasets:
+>
+> - [GAIA](https://github.com/CloudWise-OpenSource/GAIA-DataSet). GAIA dataset records
+>   metrics, traces, and logs of the MicroSS simulation system in July 2021, which consists
+>   of ten microservices and some middleware such as Redis, MySQL, and Zookeeper. The
+>   extracted events of GAIA can be accessible on [DiagFusion](https://arxiv.org/abs/2302.10512).
+> - [AIOps-22](https://competition.aiops-challenge.com). The AIOps-22 dataset is derived from
+>   the training data released by the AIOps 2022 Challenge, where failures at three levels
+>   (node, service, and instance) were injected into a Web-based e-commerce platform
+>   [Online-boutique](https://github.com/GoogleCloudPlatform/microservices-demo).
+> - Sockshop and HotelReservation. We deployed two well-known microservice-based systems:
+>   [Sockshop](https://github.com/microservices-demo/microservices-demo) and
+>   [HotelReservation](https://github.com/delimitrou/DeathStarBench/tree/master/hotelReservation)
+>   in a Kubernetes cluster. We induced diverse application failures using Chaos Mesh and
+>   gathered system telemetry data for testing. Due to storage constraints, we only provide
+>   extracted alert datasets. You may contact us via email to request the raw data of two
+>   systems.
+
+DiagFusion is published as Zhang et al., *IEEE Transactions on Services Computing* 16(6),
+3851–3864, 2023, [doi:10.1109/TSC.2023.3290018](https://doi.org/10.1109/TSC.2023.3290018).
+
+| dataset | in `data/` | incidents | instances | types | train / test | used in this repo |
 |---|---|---|---|---|---|---|
-| **GAIA** (MicroSS) | yes | 1099 | 10 | 5 | 160 / 939 | [CloudWise GAIA-DataSet](https://github.com/CloudWise-OpenSource/GAIA-DataSet) |
-| **Sock Shop** | yes | 489 | 21 | 7 | 248 / 241 | [microservices-demo](https://github.com/microservices-demo/microservices-demo) |
-| **Hotel Reservation** | yes | 200 | 18 | 5 | 122 / 78 | [DeathStarBench](https://github.com/delimitrou/DeathStarBench) |
-| **AIOps-22** | **no** | — | — | 9 | — | AIOps 2022 Challenge (Online-Boutique) |
+| **GAIA** (MicroSS) | `data/gaia/` | 1099 | 10 | 5 | 160 / 939 | sweeps, diagnostics, ablations A/B/D |
+| **Hotel Reservation** | `data/hotel/` | 200 | 18 | 5 | 122 / 78 | sweeps, diagnostics, per-class, all ablations |
+| **Sock Shop** | `data/sockshop/` | 489 | 21 | 7 | 248 / 241 | loader supported and asserted; not run |
+| **AIOps-22** | **not included** | — | — | 9 | — | not distributed by TVDiag (see below) |
 
 Per dataset the loader reads `data/<ds>/tmp/{metric,trace,log}.pkl` (embeddings),
 `data/<ds>/raw/{nodes,edges}.json` (topology), `data/<ds>/raw/{metrics,traces,logs}.json`
@@ -171,24 +203,28 @@ Per dataset the loader reads `data/<ds>/tmp/{metric,trace,log}.pkl` (embeddings)
 ## 5. Setup and run
 
 ```bash
-git clone https://github.com/<you>/AdaDiag.git && cd AdaDiag
+git clone https://github.com/ShehreyarRashid/AdaDiag.git && cd AdaDiag
 pip install -r requirements.txt            # or: conda env create -f environment.yml
-git clone https://github.com/WHU-AISE/TVDiag.git ../TVDiag
 
-pytest -q                                  # 6 tests; run these first
+pytest -q                                  # 27 tests, incl. checksums of data/; run first
 
-# the full five-arm, five-seed sweep (~6 min on 2 CPU cores for GAIA)
-python scripts/run_sweep.py       --dataset gaia  --repo ../TVDiag
-python scripts/run_sweep.py       --dataset hotel --repo ../TVDiag
+# the five-arm, five-seed sweep (2 CPU cores, no GPU: ~16 min Hotel, ~34 min GAIA)
+python scripts/run_sweep.py       --dataset gaia
+python scripts/run_sweep.py       --dataset hotel
 
 # per-failure-class breakdown and the learned weight matrix per class
-python scripts/run_perclass.py    --dataset hotel --repo ../TVDiag
+python scripts/run_perclass.py    --dataset hotel
 
 # why the learned arms cannot work as specified (§6.6) -- takes seconds for part 1
-python scripts/run_identifiability.py --dataset hotel --repo ../TVDiag
+python scripts/run_identifiability.py --dataset hotel
+
+# ablation studies (§6.8): list them, run them, render the tables
+python scripts/run_ablation.py --list
+python scripts/run_ablation.py --dataset hotel --seeds 5
+python scripts/make_ablation_report.py results/ablation_hotel*.json
 
 # why a null is a null: the gradient-share measurement
-python scripts/run_diagnostics.py --dataset hotel --repo ../TVDiag
+python scripts/run_diagnostics.py --dataset hotel
 
 # render the tables below
 python scripts/make_report.py results/hotel.json --dataset hotel
@@ -197,6 +233,25 @@ python scripts/make_report.py results/hotel.json --dataset hotel
 **CPU only. No GPU, no CUDA, and no DGL.** The incident graphs have 10–21 nodes, so the
 GraphSAGE layers use dense batched matmuls — which removes the single hardest
 version-pinning problem in reproducing TVDiag.
+
+### Reproducing the committed results
+
+Every table in §6 is rendered from `results/*.json` by `scripts/make_report.py`, and every
+JSON can be regenerated from the code and `data/`. To check that claim yourself:
+
+```bash
+python scripts/verify_results.py --threads 2          # Hotel, every arm, seed 0, ~4 min
+python scripts/verify_results.py --dataset gaia --arms v0_simplex v3_incident --threads 2
+```
+
+Each run is retrained from scratch and printed next to the committed number. On the
+environment in [`results/ENVIRONMENT.md`](results/ENVIRONMENT.md) (2 CPU threads, PyTorch
+2.15; exact pins in `requirements-lock.txt`) the match is **bit-for-bit** — checked on a
+clean copy of this repository for Hotel V0-raw, seed 0 (all five metrics and the epoch
+count identical); the remaining arms are being re-verified the same way. On other hardware,
+PyTorch versions or thread counts the floating-point summation order differs, single seeds
+drift by a few points, and the five-seed means and paired tests are what should agree.
+New result records carry an `env` field (PyTorch version, thread count) for this reason.
 
 ---
 
@@ -208,8 +263,8 @@ version-pinning problem in reproducing TVDiag.
 |---|---|---|---|---|
 | GAIA | HR@1 | 0.759 | 0.731 ± 0.021 | −0.028 |
 | GAIA | F1 | 0.936 | 0.918 ± 0.013 | −0.018 |
-| Hotel | HR@1 | 0.821 | **0.831 ± 0.017** | +0.010 |
-| Hotel | F1 | 0.822 | 0.799 ± 0.016 | −0.023 |
+| Hotel | HR@1 | 0.821 | **0.836 ± 0.011** | +0.015 |
+| Hotel | F1 | 0.822 | 0.796 ± 0.019 | −0.026 |
 
 Within ~3 points on both datasets, from a clean-room dense re-implementation. Close enough
 for arm-to-arm comparison.
@@ -237,18 +292,29 @@ V3 vs V0-simplex: **+0.003 HR@1, p = 0.59**. Nothing is significant at any thres
 
 ### 6.3 The five arms — Hotel Reservation, where the prior should fail
 
-| arm | HR@1 | MRR@3 | F1 | macro-F1 |
-|---|---|---|---|---|
-| V0-raw | 0.831 ± 0.017 | 0.867 | 0.799 | 0.784 |
-| **V0-simplex (prior)** | **0.833 ± 0.020** | **0.871** | **0.811** | **0.797** |
-| V1-uniform | 0.828 ± 0.015 | 0.866 | 0.786 | 0.772 |
-| V2-global | 0.828 ± 0.015 | 0.866 | 0.786 | 0.771 |
-| V3-incident (**AdaDiag**) | 0.833 ± 0.016 | 0.870 | 0.794 | 0.777 |
-| V4-fusion (exploratory) | 0.810 ± 0.021 | 0.845 | 0.776 ± 0.052 | 0.761 ± 0.060 |
+| arm | HR@1 | HR@3 | MRR@3 | F1 | macro-F1 |
+|---|---|---|---|---|---|
+| V0-raw (TVDiag as shipped) | **0.836 ± 0.011** | 0.921 ± 0.011 | **0.874 ± 0.010** | 0.796 ± 0.019 | 0.782 ± 0.027 |
+| V0-simplex (prior) | 0.833 ± 0.013 | 0.918 ± 0.007 | 0.871 ± 0.008 | **0.804 ± 0.015** | **0.791 ± 0.022** |
+| V1-uniform (⅓ each) | **0.836 ± 0.011** | 0.921 ± 0.017 | **0.874 ± 0.011** | 0.793 ± 0.021 | 0.784 ± 0.026 |
+| V2-global (learned matrix) | 0.833 ± 0.009 | 0.923 ± 0.009 | 0.872 ± 0.007 | 0.791 ± 0.028 | 0.782 ± 0.033 |
+| V3-incident (**AdaDiag**) | 0.828 ± 0.015 | 0.923 ± 0.009 | 0.869 ± 0.012 | 0.781 ± 0.032 | 0.766 ± 0.042 |
+| V4-fusion (exploratory) | 0.808 ± 0.027 | — | 0.843 ± 0.025 | 0.760 ± 0.044 | 0.742 ± 0.055 |
 
-V3 vs V0-simplex: **+0.000 HR@1, p = 1.00**. The hand-written prior is the best arm on
-every metric. **This falsifies the prediction** that a gain would appear where the mapping
-inverts.
+Paired t-tests against V0-simplex, same seeds:
+
+| arm | Δ HR@1 | Δ MRR@3 | Δ macro-F1 |
+|---|---|---|---|
+| V0-raw | +0.003 (p=0.37) | +0.003 (p=0.18) | −0.009 (p=0.53) |
+| V1-uniform | +0.003 (p=0.37) | +0.003 (p=0.44) | −0.008 (p=0.39) |
+| V2-global | +0.000 (p=1.00) | +0.001 (p=0.73) | −0.010 (p=0.49) |
+| V3-incident (**AdaDiag**) | **−0.005 (p=0.48)** | −0.002 (p=0.69) | −0.026 (p=0.18) |
+
+V3 vs V0-simplex: **−0.005 HR@1, p = 0.48** — directionally *worse*, and the weakest arm of
+the five on HR@1, MRR@3, F1 and macro-F1 alike. Nothing is significant, so the correct
+reading is "no effect", not "a loss". But this is the dataset chosen because TVDiag's mapping
+should be most wrong here, and **the prediction is falsified**: the adaptive arm does not
+beat the hand-written prior, and no arm separates from any other.
 
 ### 6.4 Why the result is a null, and how we know
 
@@ -260,22 +326,26 @@ module gets no task gradient at all, and its objective is minimised at a corner)
 
 The gradient-share diagnostic shows the first:
 
-| term | GAIA share | Hotel share |
-|---|---|---|
-| `l_rcl` | 58.0 % | 45.4 % |
-| `l_fti` | 23.8 % | 49.7 % |
-| **`σ · l_to`** (what AdaDiag reweights) | **10.4 %** | **1.7 %** |
-| `σ · l_cm` | 7.8 % | 3.2 % |
+| term | GAIA V0-simplex | GAIA V3 | Hotel V0-simplex | Hotel V3 |
+|---|---|---|---|---|
+| `l_rcl` | 57.1 % | 56.1 % | 44.0 % | 44.1 % |
+| `l_fti` | 23.0 % | 23.7 % | 51.1 % | 49.0 % |
+| **`σ · l_to`** (what AdaDiag reweights) | **11.6 %** | **12.5 %** | **1.7 %** | **3.6 %** |
+| `σ · l_cm` | 8.3 % | 7.7 % | 3.2 % | 3.4 % |
 
-On the dataset where the mapping is *most* wrong, the term AdaDiag reweights is the
-*weakest* contributor. With σ = 0.1 fixed by TVDiag's config, that ceiling is structural.
+Measured for the prior *and* for AdaDiag, so this is not an artefact of one arm. On the
+dataset where the mapping is *most* wrong, the term AdaDiag reweights is the *weakest*
+contributor — 1.7 % against the two diagnosis losses' 95 %. Learning the weights raises its
+share slightly (1.7 → 3.6 %) but nowhere near enough to matter. With σ = 0.1 fixed by
+TVDiag's config, that ceiling is structural.
 
 ### 6.5 Why V4 exists, and why it also fails
 
-If `l_rcl + l_fti` carry 82–95 % of the gradient, the obvious correction is to move the
+If `l_rcl + l_fti` carry 80–95 % of the gradient, the obvious correction is to move the
 weights onto *that* path. `v4_fusion` applies the identical per-incident 3×2 matrix to the
 fused representation feeding the two heads, leaving TVDiag's task-oriented loss intact. It
-is **worse** (−0.023 HR@1, −0.037 macro-F1) and roughly triples the variance. A plausible
+is **worse on every metric** (−0.026 HR@1, −0.028 MRR@3, −0.044 F1, −0.049 macro-F1 against
+V0-simplex) and inflates the seed variance by **2.1–3.0×**. A plausible
 but untested reading: a per-incident multiplicative gate is a nuisance the heads must undo,
 and 122 training incidents are not enough to absorb it.
 
@@ -319,8 +389,20 @@ every GAIA seed:
 | 3 | log **0.989** | log **0.992** | 0.764 | | log 0.426 | log 0.546 |
 | 4 | log **0.986** | log **1.000** | 0.745 | | log 0.458 | log 0.610 |
 
-Mean largest column weight: **0.998** for `v3_incident` (1.0 = fully collapsed, ⅓ = uniform),
-0.524 for `v2_global`. Hotel behaves the same way — 0.998 on both tasks.
+Mean largest column weight: **0.993** for `v3_incident` (1.0 = fully collapsed, ⅓ = uniform),
+0.524 for `v2_global`. Every one of GAIA's ten columns is above 0.979.
+
+Hotel shows the same pull with one honest wrinkle. Its RCL column collapses onto `metric` on
+**all five seeds** (0.957–1.000), and its FTI column prefers `log` on all five — but reaches
+a corner on only two of them (0.997, 0.997) and stalls near 0.55 on the other three. Mean
+largest weight 0.861. So the *direction* is unanimous across seeds and datasets; the *degree*
+of collapse is not. The vertex is where the objective pulls, not somewhere every run arrives.
+
+The chosen corner is also seed- and dataset-dependent in a way task utility is not: GAIA
+picks `log` for RCL (contradicting TVDiag's prior, which gives `log` weight zero there),
+while Hotel picks `metric` for RCL (agreeing with the prior in direction, but discarding
+`trace` entirely). Two datasets, two opposite answers to "who should RCL listen to", and no
+accuracy difference from either.
 
 `v3_incident` collapses onto a single modality for both tasks on **every seed** — including
 **RCL, the task TVDiag assigns `log` a weight of exactly zero** — and scores the same as the
@@ -352,9 +434,82 @@ breaks the controlled comparison:
 - an **entropy or temperature penalty** on the columns — this would prevent collapse, but by
   overriding the objective rather than repairing it;
 - **raising σ** so `l_to` has enough influence for its allocation to matter at all; §6.4
-  puts it at 10.4 % (GAIA) and 1.7 % (Hotel), so there is very little to reallocate.
+  puts it at 11.6 % (GAIA) and 1.7 % (Hotel), so there is very little to reallocate.
 
 This is the honest next step, not a result claimed here.
+
+### 6.7 The premise, tested directly
+
+Everything above is about aggregate metrics. But the premise of this work is narrower and
+sharper: *the useful source varies by failure class, so condition the weights on the
+incident.* An aggregate table can neither confirm nor refute that. This one can
+(`scripts/run_perclass.py`, Hotel, `v3_incident`):
+
+| failure class | RCL: metric / trace / log | FTI: metric / trace / log |
+|---|---|---|
+| container-kill | 1.000 / 0.000 / 0.000 | 0.000 / 0.000 / 1.000 |
+| network-delay | 0.999 / 0.000 / 0.001 | 0.002 / 0.002 / 0.996 |
+| network-loss | 1.000 / 0.000 / 0.000 | 0.000 / 0.000 / 0.999 |
+| pod-failure | 1.000 / 0.000 / 0.000 | 0.000 / 0.000 / 1.000 |
+| pod-kill | 1.000 / 0.000 / 0.000 | 0.000 / 0.000 / 1.000 |
+
+**Maximum spread across the five classes: 0.0037.** The per-incident matrix is, to three
+decimal places, the *same matrix* for every failure class. Per-incident conditioning — the
+MLP, the 99-d descriptor, the ~10⁴ parameters — buys an allocation indistinguishable from a
+single global constant that happens to sit at a vertex.
+
+And there was room to do better. The same run shows where the headroom is:
+
+| failure class | n | RCL HR@1 | FTI recall |
+|---|---|---|---|
+| container-kill | 22 | 1.000 | **0.500** |
+| network-delay | 14 | **0.357** | 0.857 |
+| network-loss | 13 | 0.769 | 1.000 |
+| pod-failure | 15 | 1.000 | 0.800 |
+| pod-kill | 14 | 1.000 | 0.786 |
+
+Three of five classes are already at HR@1 = 1.000, so almost all the available gain sits in
+`network-delay` (0.357) and in `container-kill`'s type recall (0.500) — exactly the kind of
+class-specific weakness adaptive weighting was supposed to address. It did not move either.
+
+As a control, `v2_global` produces a spread of exactly 0.0000, as it must — one matrix for
+the whole dataset. That the two arms are nearly indistinguishable on this table is the
+clearest single statement of the result: **AdaDiag's extra capacity is not being used.**
+
+### 6.8 Ablation studies
+
+Each group tests a claim made above, rather than ablating for its own sake
+(`src/adadiag/ablation.py`, `scripts/run_ablation.py`):
+
+| group | what is changed | applied to | claim it tests |
+|---|---|---|---|
+| **A** TVDiag's components | w/o AUG · w/o TO · w/o CM · w/o TO and CM | prior (V0-simplex) | §6.4 — if removing TO entirely barely moves the metrics, no reweighting of it can |
+| **B** Modalities | drop one source · keep one source; per failure class | prior (V0-simplex) | the premise — which source each task and class actually depends on |
+| **C** AdaDiag's design | no simplex (softplus) · no detach · descriptor = embeddings only / counts only · entropy penalty λ ∈ {0.01, 0.1} | AdaDiag (V3) | §1 (simplex for identifiability) and §6.6 (does stopping the collapse change accuracy?) |
+| **D** Strength of l_to | σ_to ∈ {0.5, 1, 2}, CM kept at 0.1 | prior and AdaDiag | §8 — do the arms separate once l_to carries real weight? |
+
+Protocol: TVDiag's hyperparameters throughout; every configuration shares seeds with its
+reference (same arm, all switches off), so every Δ is a paired difference. Every run also
+records per-class metrics, the share of the encoder gradient per loss term on the trained
+model, and the learned weight matrix. Hotel runs all four groups with 5 seeds; GAIA runs
+A, B and D with 3 seeds.
+
+Three caveats. Early stopping is TVDiag's rule (on training loss), so removing a loss term
+also moves where training stops — as in TVDiag's own ablation. Removing a modality in
+group B also removes its contrastive terms, and the prior renormalises over what remains
+(without `log`, FTI's term moves to metric + trace), so B measures the source as a whole,
+not only its input to the heads. And ablations run one
+process per CPU core; thread count changes floating-point reduction order, so the
+references here differ from §6.2/6.3 in the last decimals. Comparisons are only ever made
+within the ablation runs.
+
+Every switch defaults to the method: with all of them off, four arms reproduce the
+pre-ablation code bit-for-bit (metrics, learned weights and parameter sums; 12-epoch
+check on Hotel, seed 0), and
+`tests/test_ablation_switches.py` checks the switches themselves without data.
+
+**Results:** being generated; they will be rendered here by
+`scripts/make_ablation_report.py` from `results/ablation_*.json`.
 
 ---
 
@@ -378,7 +533,7 @@ Checkable in minutes, independent of AdaDiag:
 
 ## 8. Honest scope
 
-- Two datasets completed (GAIA, Hotel Reservation); Sock Shop is the third shipped dataset
+- Two datasets completed (GAIA, Hotel Reservation); Sock Shop is bundled in `data/` but not run,
   and AIOps-22 is not distributed (§4).
 - These are **this re-implementation's** numbers, not the paper's. The defensible claim is
   the *difference between arms* under identical splits, seeds and hyperparameters; absolute
@@ -396,6 +551,13 @@ Checkable in minutes, independent of AdaDiag:
   so the next person does not repeat the arm that cannot work.
 - `v4_fusion` is exploratory and was run on Hotel only, where the prior is most wrong. Its
   negative result should not be read as a general claim about gating fused representations.
+- **Multiple comparisons.** The ablation tables (§6.8) mark significance only after
+  Holm–Bonferroni correction over every comparison of a metric. The main arm tables (§6.2,
+  §6.3) report raw paired-t p-values for four comparisons each; none is below 0.05 even
+  before correction, so correcting would not change any conclusion.
+- §6.7's per-class table is **one seed on one dataset**. The 0.0037 spread is a strong
+  negative for that run and is consistent with the five-seed collapse in §6.6, but the
+  per-class breakdown has not been repeated across seeds or on GAIA.
 
 ---
 
@@ -422,13 +584,24 @@ distinction that predicts when the fixed mapping should hold.
 
 ---
 
-## 10. Citing the base work
+## 10. Citing
+
+To cite this repository, use GitHub's **"Cite this repository"** button (generated from
+[`CITATION.cff`](CITATION.cff)). AdaDiag builds on TVDiag's method and released data, so
+please cite TVDiag as well:
 
 ```bibtex
 @article{xie2026tvdiag,
-  title   = {TVDiag: A Task-oriented and View-invariant Failure Diagnosis Framework with Multimodal Data},
+  author  = {Xie, Shuaiyu and Wang, Jian and He, Hanbin and Wang, Zhihao and
+             Zhao, Yuqi and Zhang, Neng and Li, Bing},
+  title   = {{TVDiag}: A Task-oriented and View-invariant Failure Diagnosis Framework
+             for Microservice-based Systems with Multimodal Data},
   journal = {ACM Transactions on Software Engineering and Methodology},
-  volume  = {35}, number = {2}, articleno = {40}, year = {2026}
+  volume  = {35},
+  number  = {2},
+  pages   = {1--39},
+  year    = {2026},
+  doi     = {10.1145/3734868}
 }
 ```
 
