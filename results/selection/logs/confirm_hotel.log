@@ -1,0 +1,26 @@
+  tvdiag        s5  HR@1 0.795  F1 0.815  (127 ep, 50s)
+  tvdiag        s6  HR@1 0.808  F1 0.803  (115 ep, 45s)
+  tvdiag        s7  HR@1 0.833  F1 0.802  (183 ep, 74s)
+  tvdiag        s8  HR@1 0.833  F1 0.682  (89 ep, 34s)
+  tvdiag        s9  HR@1 0.821  F1 0.813  (139 ep, 55s)
+  adadiag       s5  HR@1 0.795  F1 0.815  (127 ep, 72s) w RCL 0.69/0.31/0.00 FTI 0.46/0.00/0.54
+  adadiag       s6  HR@1 0.833  F1 0.801  (115 ep, 65s) w RCL 0.99/0.01/0.01 FTI 0.45/0.00/0.55
+  adadiag       s7  HR@1 0.833  F1 0.775  (183 ep, 102s) w RCL 0.76/0.24/0.00 FTI 0.44/0.00/0.56
+  adadiag       s8  HR@1 0.795  F1 0.717  (89 ep, 47s) w RCL 1.00/0.00/0.00 FTI 0.49/0.00/0.51
+  adadiag       s9  HR@1 0.833  F1 0.807  (167 ep, 87s) w RCL 0.95/0.05/0.00 FTI 0.44/0.00/0.56
+  align         s5  HR@1 0.795  F1 0.824  (127 ep, 109s) w RCL 0.00/1.00/0.00 FTI 0.43/0.26/0.31
+  align         s6  HR@1 0.821  F1 0.813  (115 ep, 100s) w RCL 0.35/0.65/0.00 FTI 0.45/0.34/0.22
+  align         s7  HR@1 0.833  F1 0.805  (183 ep, 171s) w RCL 0.55/0.45/0.00 FTI 0.29/0.29/0.43
+  align         s8  HR@1 0.808  F1 0.706  (89 ep, 83s) w RCL 0.42/0.58/0.00 FTI 0.51/0.35/0.14
+  align         s9  HR@1 0.795  F1 0.797  (122 ep, 115s) w RCL 0.57/0.43/0.00 FTI 0.52/0.27/0.21
+  trace_tvdiag  s5  HR@1 0.795  F1 0.825  (127 ep, 70s) w RCL 0.36/0.50/0.14 FTI 0.45/0.00/0.55
+  trace_tvdiag  s6  HR@1 0.808  F1 0.802  (115 ep, 62s) w RCL 0.50/0.50/0.00 FTI 0.47/0.00/0.53
+  trace_tvdiag  s7  HR@1 0.833  F1 0.806  (183 ep, 132s) w RCL 0.37/0.50/0.13 FTI 0.44/0.00/0.56
+  trace_tvdiag  s8  HR@1 0.808  F1 0.718  (89 ep, 76s) w RCL 0.50/0.50/0.00 FTI 0.47/0.00/0.53
+  trace_tvdiag  s9  HR@1 0.821  F1 0.803  (139 ep, 125s) w RCL 0.50/0.50/0.00 FTI 0.04/0.00/0.96
+  trace_third   s5  HR@1 0.795  F1 0.815  (127 ep, 118s) w RCL 0.61/0.33/0.06 FTI 0.30/0.33/0.37
+  trace_third   s6  HR@1 0.808  F1 0.801  (115 ep, 106s) w RCL 0.66/0.33/0.00 FTI 0.31/0.33/0.36
+  trace_third   s7  HR@1 0.833  F1 0.773  (183 ep, 168s) w RCL 0.67/0.33/0.00 FTI 0.29/0.33/0.37
+  trace_third   s8  HR@1 0.808  F1 0.716  (89 ep, 81s) w RCL 0.67/0.33/0.00 FTI 0.31/0.33/0.35
+  trace_third   s9  HR@1 0.795  F1 0.807  (122 ep, 111s) w RCL 0.67/0.33/0.00 FTI 0.03/0.33/0.64
+done /home/claude/AdaDiag/results/selection/confirm_hotel_a.json

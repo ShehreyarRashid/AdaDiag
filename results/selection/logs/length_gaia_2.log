@@ -1,0 +1,6 @@
+  TVDiag stopped at trace_tvdiag's epoch, s5 (321 ep): HR@1 0.726 F1 0.914 | trace_tvdiag HR@1 0.723 F1 0.933
+  TVDiag stopped at trace_tvdiag's epoch, s6 (221 ep): HR@1 0.750 F1 0.907 | trace_tvdiag HR@1 0.761 F1 0.915
+  TVDiag stopped at trace_tvdiag's epoch, s7 (223 ep): HR@1 0.750 F1 0.947 | trace_tvdiag HR@1 0.735 F1 0.948
+  TVDiag stopped at trace_tvdiag's epoch, s8 (208 ep): HR@1 0.749 F1 0.928 | trace_tvdiag HR@1 0.751 F1 0.932
+  TVDiag stopped at trace_tvdiag's epoch, s9 (287 ep): HR@1 0.716 F1 0.909 | trace_tvdiag HR@1 0.758 F1 0.928
+done /home/claude/AdaDiag/results/selection/length_gaia.json

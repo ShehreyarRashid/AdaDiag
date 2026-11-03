@@ -1,0 +1,4 @@
+  warmup        s0  HR@1 0.722  F1 0.938  (292 ep, 206s) w RCL 0.00/0.00/1.00 FTI 0.00/0.00/1.00
+  warmup        s1  HR@1 0.729  F1 0.921  (225 ep, 157s) w RCL 0.02/0.00/0.98 FTI 0.00/0.00/1.00
+  warmup        s2  HR@1 0.753  F1 0.940  (191 ep, 132s) w RCL 0.00/0.00/1.00 FTI 0.00/0.00/1.00
+done /home/claude/AdaDiag/results/selection/screen_gaia.json

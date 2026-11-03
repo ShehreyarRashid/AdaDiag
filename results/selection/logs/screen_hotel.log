@@ -1,0 +1,21 @@
+  adadiag_fid   s0  HR@1 0.833  F1 0.778  (160 ep, 104s) w RCL 0.94/0.04/0.02 FTI 0.47/0.00/0.53
+  adadiag_fid   s1  HR@1 0.821  F1 0.806  (113 ep, 73s) w RCL 1.00/0.00/0.00 FTI 0.49/0.00/0.51
+  adadiag_fid   s2  HR@1 0.795  F1 0.816  (163 ep, 102s) w RCL 0.97/0.03/0.00 FTI 0.41/0.00/0.59
+  adadiag_fid   s3  HR@1 0.846  F1 0.836  (158 ep, 111s) w RCL 1.00/0.00/0.00 FTI 0.43/0.00/0.57
+  adadiag_fid   s4  HR@1 0.795  F1 0.750  (94 ep, 62s) w RCL 1.00/0.00/0.00 FTI 0.00/0.00/1.00
+  trace_third   s0  HR@1 0.846  F1 0.794  (180 ep, 95s) w RCL 0.61/0.33/0.06 FTI 0.31/0.33/0.36
+  trace_third   s1  HR@1 0.821  F1 0.813  (112 ep, 58s) w RCL 0.67/0.33/0.00 FTI 0.31/0.33/0.35
+  trace_third   s2  HR@1 0.833  F1 0.800  (163 ep, 85s) w RCL 0.66/0.33/0.01 FTI 0.29/0.33/0.38
+  trace_third   s3  HR@1 0.846  F1 0.797  (153 ep, 85s) w RCL 0.67/0.33/0.00 FTI 0.29/0.33/0.38
+  trace_third   s4  HR@1 0.833  F1 0.816  (125 ep, 68s) w RCL 0.67/0.33/0.00 FTI 0.00/0.33/0.67
+  trace_tvdiag  s0  HR@1 0.821  F1 0.794  (194 ep, 112s) w RCL 0.42/0.50/0.08 FTI 0.45/0.00/0.55
+  trace_tvdiag  s1  HR@1 0.833  F1 0.773  (108 ep, 62s) w RCL 0.50/0.50/0.00 FTI 0.44/0.00/0.56
+  trace_tvdiag  s2  HR@1 0.833  F1 0.819  (163 ep, 94s) w RCL 0.48/0.50/0.02 FTI 0.44/0.00/0.56
+  trace_tvdiag  s3  HR@1 0.846  F1 0.809  (153 ep, 88s) w RCL 0.50/0.50/0.00 FTI 0.43/0.00/0.57
+  trace_tvdiag  s4  HR@1 0.833  F1 0.830  (125 ep, 72s) w RCL 0.50/0.50/0.00 FTI 0.00/0.00/1.00
+  warmup        s0  HR@1 0.846  F1 0.787  (180 ep, 102s) w RCL 0.72/0.27/0.01 FTI 0.45/0.00/0.55
+  warmup        s1  HR@1 0.808  F1 0.800  (139 ep, 80s) w RCL 1.00/0.00/0.00 FTI 0.47/0.00/0.53
+  warmup        s2  HR@1 0.833  F1 0.780  (138 ep, 73s) w RCL 0.99/0.00/0.01 FTI 0.46/0.00/0.54
+  warmup        s3  HR@1 0.846  F1 0.797  (153 ep, 84s) w RCL 0.98/0.00/0.01 FTI 0.46/0.00/0.54
+  warmup        s4  HR@1 0.833  F1 0.827  (125 ep, 67s) w RCL 0.98/0.01/0.00 FTI 0.50/0.00/0.49
+done /home/claude/AdaDiag/results/selection/screen_hotel.json

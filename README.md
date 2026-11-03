@@ -68,6 +68,13 @@ benchmarks, it cannot.
 >     published metrics and three datasets, none of 238 comparisons survives correction.
 >     Every method shares the same offset from the paper as this repository's TVDiag re-run:
 >     below on GAIA, above on RCL but below on FTI on Sock Shop and Hotel.
+> 12. **The best AdaDiag, chosen without fooling ourselves** (§6.17). Seven variants were
+>     screened against TVDiag under identical settings. A rule and four finalists were fixed in
+>     advance and confirmed on fresh seeds. None beats TVDiag (Holm p ≥ 0.42), and they tie
+>     with each other. The rule picks **Type 4** on mechanism: it learns its weights from the
+>     diagnosis losses, and they stay graded. Post-hoc checks show its GAIA edge is training
+>     length and that it costs rare failure types. The trace-fixed variant is the safest set
+>     of numbers.
 >
 > The contribution of this repository is that diagnosis, reproducibly — a negative result
 > with a mechanism, rather than an unexplained flat table.
@@ -184,6 +191,7 @@ forward path that produces predictions, so AdaDiag adds **zero inference cost**.
 | — | Hyperparameters, transcribed from TVDiag | `src/adadiag/config.py` | `get()` |
 | — | Is everything but the TO block the same? (§6.15) | `scripts/check_controlled.py`, `src/adadiag/model.py` | `isolate_weighting_rng` |
 | — | Every method against the TVDiag paper's Tables 4–5 (§6.16) | `scripts/make_paper_vs_methods.py` | `METHODS`, `collect()` |
+| — | Which AdaDiag is best: screening, pre-registered rule, fresh-seed confirmation (§6.17) | `scripts/select_adadiag.py`, `scripts/make_selection_report.py` | `VARIANTS`, `SELECTION_RULE` |
 | — | Re-run committed experiments, compare to results/ | `scripts/verify_results.py` | `main()` |
 | — | Tests (70; 64 need no data, 6 check data/) | `tests/test_supcon_equivalence.py`, `tests/test_weighting_identifiability.py`, `tests/test_ablation_switches.py`, `tests/test_paper_compare.py`, `tests/test_trace_weight.py`, `tests/test_fidelity.py`, `tests/test_oracle.py`, `tests/test_cl_variants.py`, `tests/test_fixed_trace.py`, `tests/test_controlled.py`, `tests/test_data_integrity.py` | `pytest -q` |
 
@@ -313,6 +321,13 @@ python scripts/make_controlled_report.py
 
 # every method against the TVDiag paper only (§6.16): seconds, no training
 python scripts/make_paper_vs_methods.py
+
+# which AdaDiag is best (§6.17): screening ~25 min, confirmation ~1.5 h on 2 cores
+python scripts/select_adadiag.py --stage screen  --dataset hotel     # and --dataset gaia
+python scripts/select_adadiag.py --stage confirm --dataset gaia  --variants tvdiag,adadiag,align,trace_tvdiag,trace_third
+python scripts/select_adadiag.py --stage confirm --dataset hotel --variants tvdiag,adadiag,align,trace_tvdiag,trace_third
+python scripts/select_adadiag.py --stage length  --dataset gaia  --variants align,adadiag,trace_tvdiag,trace_third
+python scripts/make_selection_report.py
 ```
 
 **CPU only. No GPU, no CUDA, and no DGL.** The incident graphs have 10–21 nodes, so the
@@ -1299,6 +1314,80 @@ correction, one-sample t-test over seeds; none survives Holm over the 238 cells)
 
 ![gap to the paper, all seven metrics](results/paper_vs_methods/fig_p2_gap.png)
 
+### 6.17 Which AdaDiag is best?
+
+Seven learned variants of AdaDiag were built in §6.2–6.15, and their differences are small,
+so picking the best on the runs that produced them would mostly pick seed noise. The
+selection was done in three steps, all in
+[`results/selection/SELECTION.md`](results/selection/SELECTION.md):
+
+1. **Screen** every variant against TVDiag trained under identical settings (same loop,
+   threads, epoch cap and seeds). Hotel runs are re-done with the random stream aligned
+   (§6.15).
+2. **Fix the rule and the finalists before confirming** ([`PLAN.md`](results/selection/PLAN.md),
+   timestamped). The score is the mean of the four paired differences from TVDiag (GAIA and
+   Hotel, HR@1 and F1). If no score is significantly above zero, performance is a tie and
+   mechanism decides: learning from the diagnosis losses with graded weights.
+3. **Confirm** the four finalists on fresh seeds 5–9, never used to rank anything.
+
+**Screening** (seeds 0–4 Hotel, 0–2 GAIA):
+
+| variant | score | worst cell |
+|---|---|---|
+| AdaDiag (learned from the contrastive term) | +0.0090 | +0.003 |
+| AdaDiag, trace fixed at TVDiag's role (§6.14) | +0.0080 | +0.000 |
+| Type 4: weights from the diagnosis losses (§6.13) | +0.0072 | −0.005 |
+| AdaDiag, trace fixed at 1/3 (§6.14) | +0.0065 | +0.003 |
+| AdaDiag, TVDiag-fidelity loop (§6.11) | +0.0054 | −0.003 |
+| AdaDiag + 100-epoch weight warm-up (§6.10) | +0.0044 | +0.000 |
+| V2-global, one learned matrix | −0.0006 | −0.005 |
+
+Finalists: AdaDiag and Type 4 by design, plus the two best of the rest.
+
+**Confirmation on fresh seeds** (5 seeds per dataset; differences from TVDiag):
+
+| finalist | score (p, Holm) | GAIA HR@1 / F1 | Hotel HR@1 / F1 | GAIA macro-F1 (not scored) |
+|---|---|---|---|---|
+| Type 4: weights from the diagnosis losses | +0.0062 (0.20, 0.60) | +0.011 / +0.015 | −0.008 / +0.006 | −0.019 (p 0.05) |
+| AdaDiag, trace fixed at TVDiag's role | +0.0051 (0.10, 0.42) | +0.008 / +0.010 | −0.005 / +0.008 | +0.005 |
+| AdaDiag | +0.0047 (0.35, 0.70) | +0.005 / +0.014 | +0.000 / −0.000 | +0.012 |
+| AdaDiag, trace fixed at 1/3 | +0.0022 (0.41, 0.70) | +0.011 / +0.009 | −0.010 / −0.001 | +0.002 |
+
+**Training length on GAIA** (TVDiag stopped, seed by seed, at the finalist's epoch):
+
+| finalist | epochs (finalist / TVDiag) | − TVDiag stopped at the same epoch: HR@1 / F1 |
+|---|---|---|
+| Type 4 | 152 / 242 | **−0.014 (p 0.04)** / +0.002 |
+| AdaDiag | 243 / 242 | −0.001 / +0.012 |
+| AdaDiag, trace fixed at TVDiag's role | 252 / 242 | +0.008 / +0.010 |
+| AdaDiag, trace fixed at 1/3 | 250 / 242 | +0.011 / +0.009 |
+
+![selection: screening and fresh-seed confirmation](results/selection/fig_selection.png)
+
+1. **No AdaDiag is better than TVDiag, and the finalists cannot be told apart.** Every
+   fresh-seed interval includes zero (Holm p ≥ 0.42).
+2. **Screening scores shrink on fresh seeds, as expected when the best is picked from
+   noise.** AdaDiag ranked first in screening (+0.0090) and third on fresh seeds (+0.0047).
+3. **By the rule fixed in advance, the selection is Type 4.** Performance is a tie, and
+   Type 4 is the only finalist that learns its weights from the diagnosis losses and keeps
+   them graded. It is also the only one with trace weight it learned (0.08–0.44), and on
+   Hotel it moves FTI toward metric, as the oracle does (§6.13).
+4. **Three checks made afterwards cut against Type 4**, each uncorrected:
+   - Its GAIA lead comes from stopping earlier: against TVDiag stopped at the same epoch it
+     is −0.014 HR@1 (p 0.04).
+   - It is the only finalist that lowers GAIA macro-F1 (−0.019, p 0.05). The cost falls on a
+     rare failure type: "file moving program", 27 incidents, FTI recall −0.24.
+   - It trains about 2.5× slower than TVDiag, against about 1.5× for AdaDiag (timings taken
+     with two jobs sharing the CPU).
+   The variant whose small gains survive every check is **AdaDiag with trace fixed at
+   TVDiag's role**: no length effect, no macro-F1 loss, positive in three of four cells.
+
+**So, which AdaDiag?** As the *method*, Type 4: it is the version that does what AdaDiag
+claims, learning per-task weights from the tasks themselves, and it was chosen by a rule set
+before the deciding runs. As a *result*, none: all four tie with TVDiag. If a single
+configuration has to be reported for its numbers, the trace-fixed variant is the safest,
+because nothing it gains depends on when training stops.
+
 
 ---
 
@@ -1381,6 +1470,10 @@ Checkable in minutes, independent of AdaDiag:
   other arms for the same seed; only AdaDiag at σ = 0.1 was re-run with the stream aligned.
   Their other Hotel comparisons carry that extra noise (up to ±0.04 F1 per seed). GAIA is
   unaffected.
+- **The selection (§6.17)** rests on 5 fresh seeds per dataset and on the one test split
+  TVDiag ships; there is no separate validation split, so the fresh seeds control seed
+  noise, not the choice of split. The post-hoc checks against Type 4 are uncorrected
+  (p 0.04–0.05).
 - §6.7's per-class table is **one seed on one dataset**. The 0.0037 spread is a strong
   negative for that run and is consistent with the five-seed collapse in §6.6, but the
   per-class breakdown has not been repeated across seeds or on GAIA.

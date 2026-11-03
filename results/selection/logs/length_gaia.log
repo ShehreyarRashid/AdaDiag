@@ -1,0 +1,11 @@
+  TVDiag stopped at align's epoch, s5 (180 ep): HR@1 0.763 F1 0.936 | align HR@1 0.743 F1 0.932
+  TVDiag stopped at align's epoch, s6 (155 ep): HR@1 0.769 F1 0.930 | align HR@1 0.764 F1 0.940
+  TVDiag stopped at align's epoch, s7 (142 ep): HR@1 0.751 F1 0.944 | align HR@1 0.722 F1 0.943
+  TVDiag stopped at align's epoch, s8 (147 ep): HR@1 0.761 F1 0.929 | align HR@1 0.755 F1 0.939
+  TVDiag stopped at align's epoch, s9 (137 ep): HR@1 0.772 F1 0.934 | align HR@1 0.763 F1 0.928
+  TVDiag stopped at adadiag's epoch, s5 (265 ep): HR@1 0.726 F1 0.914 | adadiag HR@1 0.726 F1 0.931
+  TVDiag stopped at adadiag's epoch, s6 (221 ep): HR@1 0.750 F1 0.907 | adadiag HR@1 0.757 F1 0.941
+  TVDiag stopped at adadiag's epoch, s7 (271 ep): HR@1 0.750 F1 0.947 | adadiag HR@1 0.741 F1 0.945
+  TVDiag stopped at adadiag's epoch, s8 (208 ep): HR@1 0.749 F1 0.928 | adadiag HR@1 0.750 F1 0.933
+  TVDiag stopped at adadiag's epoch, s9 (252 ep): HR@1 0.747 F1 0.923 | adadiag HR@1 0.739 F1 0.926
+done /home/claude/AdaDiag/results/selection/length_gaia.json

@@ -1,0 +1,6 @@
+  trace_third   s5  HR@1 0.737  F1 0.921  (265 ep, 285s) w RCL 0.01/0.33/0.66 FTI 0.01/0.33/0.66
+  trace_third   s6  HR@1 0.754  F1 0.918  (219 ep, 268s) w RCL 0.01/0.33/0.66 FTI 0.01/0.33/0.66
+  trace_third   s7  HR@1 0.751  F1 0.948  (271 ep, 324s) w RCL 0.02/0.33/0.65 FTI 0.01/0.33/0.66
+  trace_third   s8  HR@1 0.760  F1 0.938  (208 ep, 240s) w RCL 0.01/0.33/0.66 FTI 0.01/0.33/0.66
+  trace_third   s9  HR@1 0.743  F1 0.923  (287 ep, 315s) w RCL 0.01/0.33/0.66 FTI 0.01/0.33/0.66
+done /home/claude/AdaDiag/results/selection/confirm_gaia_b.json

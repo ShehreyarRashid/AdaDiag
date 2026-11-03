@@ -1,0 +1,8 @@
+  trace_tvdiag  s5  HR@1 0.723  F1 0.933  (321 ep, 359s) w RCL 0.01/0.50/0.49 FTI 0.01/0.00/0.99
+  trace_tvdiag  s6  HR@1 0.761  F1 0.915  (221 ep, 212s) w RCL 0.01/0.50/0.49 FTI 0.01/0.00/0.99
+  trace_tvdiag  s7  HR@1 0.735  F1 0.948  (223 ep, 160s) w RCL 0.01/0.50/0.49 FTI 0.02/0.00/0.98
+  trace_tvdiag  s8  HR@1 0.751  F1 0.932  (208 ep, 142s) w RCL 0.01/0.50/0.49 FTI 0.01/0.00/0.99
+  trace_tvdiag  s9  HR@1 0.758  F1 0.928  (287 ep, 207s) w RCL 0.01/0.50/0.49 FTI 0.01/0.00/0.99
+  trace_third   s8  HR@1 0.760  F1 0.938  (208 ep, 147s) w RCL 0.01/0.33/0.66 FTI 0.01/0.33/0.66
+  trace_third   s9  HR@1 0.743  F1 0.923  (287 ep, 210s) w RCL 0.01/0.33/0.66 FTI 0.01/0.33/0.66
+done /home/claude/AdaDiag/results/selection/confirm_gaia_b.json
