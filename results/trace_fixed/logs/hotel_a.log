@@ -1,0 +1,12 @@
+AdaDiag check: {'HR@1': (0.8461538461538461, 0.8461538461538461), 'HR@3': (0.9102564102564102, 0.9102564102564102), 'f1': (0.7340963091525076, 0.7340963091525076), 'epochs': (143, 143)} IDENTICAL
+  trace_third σ_to=0.1  s0  HR@1 0.846  F1 0.743  (143 ep, 74s) w RCL 0.66/0.33/0.00 FTI 0.33/0.33/0.34
+  trace_third σ_to=0.1  s1  HR@1 0.808  F1 0.772  (108 ep, 57s) w RCL 0.67/0.33/0.00 FTI 0.30/0.33/0.36
+  trace_third σ_to=0.1  s2  HR@1 0.846  F1 0.814  (153 ep, 79s) w RCL 0.66/0.33/0.01 FTI 0.30/0.33/0.37
+  trace_third σ_to=0.1  s3  HR@1 0.833  F1 0.779  (126 ep, 64s) w RCL 0.67/0.33/0.00 FTI 0.29/0.33/0.38
+  trace_third σ_to=0.1  s4  HR@1 0.846  F1 0.807  (142 ep, 72s) w RCL 0.67/0.33/0.00 FTI 0.01/0.33/0.65
+  trace_tvdiag σ_to=0.1  s0  HR@1 0.846  F1 0.744  (143 ep, 72s) w RCL 0.50/0.50/0.00 FTI 0.01/0.00/0.99
+  trace_tvdiag σ_to=0.1  s1  HR@1 0.808  F1 0.773  (108 ep, 56s) w RCL 0.50/0.50/0.00 FTI 0.45/0.00/0.55
+  trace_tvdiag σ_to=0.1  s2  HR@1 0.846  F1 0.814  (153 ep, 78s) w RCL 0.49/0.50/0.01 FTI 0.44/0.00/0.56
+  trace_tvdiag σ_to=0.1  s3  HR@1 0.833  F1 0.778  (126 ep, 63s) w RCL 0.50/0.50/0.00 FTI 0.44/0.00/0.56
+  trace_tvdiag σ_to=0.1  s4  HR@1 0.846  F1 0.835  (142 ep, 74s) w RCL 0.50/0.50/0.00 FTI 0.00/0.00/1.00
+done results/trace_fixed/runs_hotel_a.json

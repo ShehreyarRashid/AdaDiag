@@ -1,0 +1,6 @@
+  none       σ_to=0.5  s0  HR@1 0.833  F1 0.736  (194 ep, 70s)
+  none       σ_to=0.5  s1  HR@1 0.833  F1 0.719  (221 ep, 83s)
+  none       σ_to=0.5  s2  HR@1 0.833  F1 0.736  (197 ep, 70s)
+  none       σ_to=0.5  s3  HR@1 0.846  F1 0.694  (153 ep, 54s)
+  none       σ_to=0.5  s4  HR@1 0.833  F1 0.754  (174 ep, 65s)
+done results/cl_variants/runs_hotel_e.json

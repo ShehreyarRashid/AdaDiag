@@ -1,0 +1,8 @@
+  capped:importance σ_to=0.1  s0  HR@1 0.760  F1 0.920  (86 ep; importance: HR@1 0.760, F1 0.920)
+  capped:importance σ_to=0.1  s1  HR@1 0.741  F1 0.935  (103 ep; importance: HR@1 0.743, F1 0.922)
+  capped:importance σ_to=0.1  s2  HR@1 0.763  F1 0.908  (56 ep; importance: HR@1 0.749, F1 0.914)
+done results/cl_variants/runs_gaia_c.json
+  capped:align σ_to=0.1  s0  HR@1 0.747  F1 0.939  (135 ep; align: HR@1 0.740, F1 0.920)
+  capped:align σ_to=0.1  s1  HR@1 0.725  F1 0.928  (151 ep; align: HR@1 0.736, F1 0.937)
+  capped:align σ_to=0.1  s2  HR@1 0.748  F1 0.944  (149 ep; align: HR@1 0.758, F1 0.944)
+done results/cl_variants/runs_gaia_c.json

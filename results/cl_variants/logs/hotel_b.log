@@ -1,0 +1,26 @@
+  pos        σ_to=0.5  s0  HR@1 0.833  F1 0.751  (194 ep, 112s)
+  pos        σ_to=0.5  s1  HR@1 0.833  F1 0.717  (209 ep, 121s)
+  pos        σ_to=0.5  s2  HR@1 0.833  F1 0.754  (219 ep, 123s)
+  pos        σ_to=0.5  s3  HR@1 0.833  F1 0.697  (195 ep, 78s)
+  pos        σ_to=0.5  s4  HR@1 0.833  F1 0.723  (174 ep, 66s)
+  neg        σ_to=0.5  s0  HR@1 0.833  F1 0.742  (174 ep, 65s)
+  neg        σ_to=0.5  s1  HR@1 0.833  F1 0.707  (209 ep, 83s)
+  neg        σ_to=0.5  s2  HR@1 0.821  F1 0.727  (197 ep, 71s)
+  neg        σ_to=0.5  s3  HR@1 0.846  F1 0.681  (153 ep, 56s)
+  neg        σ_to=0.5  s4  HR@1 0.833  F1 0.756  (174 ep, 64s)
+  importance σ_to=0.5  s0  HR@1 0.821  F1 0.684  (87 ep, 34s)
+  importance σ_to=0.5  s1  HR@1 0.821  F1 0.677  (100 ep, 38s)
+  importance σ_to=0.5  s2  HR@1 0.808  F1 0.742  (103 ep, 38s)
+  importance σ_to=0.5  s3  HR@1 0.846  F1 0.757  (143 ep, 55s)
+  importance σ_to=0.5  s4  HR@1 0.808  F1 0.692  (83 ep, 31s)
+  align      σ_to=0.5  s0  HR@1 0.821  F1 0.781  (146 ep, 132s) w RCL 0.48/0.52/0.00 FTI 0.46/0.24/0.31
+  align      σ_to=0.5  s1  HR@1 0.795  F1 0.753  (108 ep, 99s) w RCL 0.39/0.61/0.00 FTI 0.54/0.13/0.33
+  align      σ_to=0.5  s2  HR@1 0.808  F1 0.706  (105 ep, 96s) w RCL 0.17/0.83/0.00 FTI 0.49/0.24/0.27
+  align      σ_to=0.5  s3  HR@1 0.821  F1 0.778  (134 ep, 127s) w RCL 0.14/0.86/0.00 FTI 0.50/0.23/0.27
+  align      σ_to=0.5  s4  HR@1 0.833  F1 0.807  (165 ep, 140s) w RCL 0.10/0.90/0.00 FTI 0.45/0.30/0.24
+  curriculum σ_to=0.5  s0  HR@1 0.846  F1 0.751  (194 ep, 67s)
+  curriculum σ_to=0.5  s1  HR@1 0.821  F1 0.697  (136 ep, 47s)
+  curriculum σ_to=0.5  s2  HR@1 0.846  F1 0.758  (218 ep, 74s)
+  curriculum σ_to=0.5  s3  HR@1 0.846  F1 0.691  (153 ep, 54s)
+  curriculum σ_to=0.5  s4  HR@1 0.821  F1 0.753  (216 ep, 74s)
+done results/cl_variants/runs_hotel_b.json

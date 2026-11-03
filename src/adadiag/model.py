@@ -36,12 +36,24 @@ class AdaDiag(nn.Module):
             raise ValueError(f"unknown modalities to drop: {sorted(unknown)}")
         self.active = tuple(m not in dropped for m in MODALITIES)
         self.detach = cfg.get("detach", True)
+        # Fidelity switch (README section 6.11): TVDiag gives every node with no in-edge a
+        # self-loop, in the raw graphs and again after AUG drops nodes.
+        self.self_loops = bool(cfg.get("self_loops", False))
         self.descriptor = cfg.get("descriptor", "full")
         if self.descriptor not in ("full", "emb", "counts"):
             raise ValueError(f"unknown descriptor {self.descriptor!r}")
 
+        # README section 6.15. Building a learned module draws from torch's random stream
+        # (its MLP initialisation), which shifts every later draw -- the encoders' dropout
+        # masks -- relative to an arm without one. `isolate_weighting_rng` rewinds the stream
+        # afterwards, so every arm trains with the same dropout masks for the same seed. Off
+        # by default: the committed results were produced without it.
+        rng_state = torch.get_rng_state() if cfg.get("isolate_weighting_rng") else None
         self.weighting = WeightingModule(arm, fuse, constraint=cfg.get("w_constraint", "simplex"),
-                                         active=self.active)
+                                         active=self.active, fixed=cfg.get("oracle_w"),
+                                         fixed_trace=cfg.get("fixed_trace"))
+        if rng_state is not None:
+            torch.set_rng_state(rng_state)
         self.d_out = d_o
 
     def forward(self, X, A, keep, counts):
@@ -50,6 +62,8 @@ class AdaDiag(nn.Module):
         A removed modality (ablation) contributes an all-zero embedding: its encoder is not
         run, so it receives no gradient, and the heads see nothing from it.
         """
+        if self.self_loops:
+            A = A + torch.diag_embed((A.sum(-1) == 0).to(A.dtype))
         fs, es = {}, {}
         for j, m in enumerate(MODALITIES):
             if self.active[j]:

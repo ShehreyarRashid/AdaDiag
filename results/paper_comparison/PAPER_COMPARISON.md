@@ -222,7 +222,7 @@ Each row is TVDiag trained on one modality, with that modality's alerts from the
 
 ![Figure 11 — task-oriented learning](fig11_task_routing.png)
 
-The paper's Fig. 11 is a diagram of TO: same-label samples of a modality are pulled together. Top: which (modality, task) pairs that pull applies to — TVDiag's fixed rule and AdaDiag's learned matrix. Bottom: whether it happened on the test split — how much closer same-label incidents sit than different-label ones in each modality's embedding.
+The paper's Fig. 11 is a diagram of TO: same-label samples of a modality are pulled together. Top: which (modality, task) pairs that pull applies to — TVDiag's fixed rule and AdaDiag's learned matrix. Bottom: whether it happened on the test split — how much closer same-label incidents sit than different-label ones in each modality's embedding. Trace's zero weight in every AdaDiag matrix is explained in README §6.10 (audited: the objective's doing, not a wiring error).
 
 - **A · GAIA** — AdaDiag's learned matrix: RCL ← log 0.99; FTI ← log 1.00.
 - **C · Sock Shop** — AdaDiag's learned matrix: RCL ← metric 1.00; FTI ← metric 0.23, log 0.77.

@@ -1,0 +1,11 @@
+  pos_strong σ_to=0.1  s0  HR@1 0.833  F1 0.807  (132 ep, 52s)
+  pos_strong σ_to=0.1  s1  HR@1 0.833  F1 0.771  (139 ep, 54s)
+  pos_strong σ_to=0.1  s2  HR@1 0.833  F1 0.791  (138 ep, 52s)
+  pos_strong σ_to=0.1  s3  HR@1 0.846  F1 0.797  (153 ep, 60s)
+  pos_strong σ_to=0.1  s4  HR@1 0.821  F1 0.809  (174 ep, 67s)
+  neg_strong σ_to=0.1  s0  HR@1 0.846  F1 0.782  (160 ep, 62s)
+  neg_strong σ_to=0.1  s1  HR@1 0.833  F1 0.771  (139 ep, 53s)
+  neg_strong σ_to=0.1  s2  HR@1 0.833  F1 0.791  (138 ep, 54s)
+  neg_strong σ_to=0.1  s3  HR@1 0.846  F1 0.809  (153 ep, 56s)
+  neg_strong σ_to=0.1  s4  HR@1 0.833  F1 0.805  (150 ep, 53s)
+done results/cl_variants/runs_hotel_d.json

@@ -1,0 +1,15 @@
+  TO off, isolate_weighting_rng=False: IDENTICAL  TVDiag HR@1 0.724 F1 0.932 (189 ep) | AdaDiag HR@1 0.724 F1 0.932 (189 ep) | max |Δparam| 0.00e+00
+  TO off, isolate_weighting_rng=True: IDENTICAL  TVDiag HR@1 0.724 F1 0.932 (189 ep) | AdaDiag HR@1 0.724 F1 0.932 (189 ep) | max |Δparam| 0.00e+00
+done /home/claude/AdaDiag/results/controlled/null_gaia.json
+  TVDiag stopped at AdaDiag's epoch, s0 (231 ep): HR@1 0.732 F1 0.923 | AdaDiag HR@1 0.743 F1 0.936
+  TVDiag stopped at AdaDiag's epoch, s1 (225 ep): HR@1 0.720 F1 0.916 | AdaDiag HR@1 0.726 F1 0.916
+  TVDiag stopped at AdaDiag's epoch, s2 (191 ep): HR@1 0.751 F1 0.939 | AdaDiag HR@1 0.750 F1 0.944
+done /home/claude/AdaDiag/results/controlled/length_gaia.json
+  TVDiag stopped at AdaDiag's epoch, s0 (143 ep): HR@1 0.846 F1 0.799 | AdaDiag HR@1 0.846 F1 0.734
+  TVDiag stopped at AdaDiag's epoch, s1 (108 ep): HR@1 0.821 F1 0.804 | AdaDiag HR@1 0.808 F1 0.764
+  TVDiag stopped at AdaDiag's epoch, s2 (153 ep): HR@1 0.833 F1 0.791 | AdaDiag HR@1 0.833 F1 0.814
+  TVDiag stopped at AdaDiag's epoch, s3 (126 ep): HR@1 0.846 F1 0.769 | AdaDiag HR@1 0.821 F1 0.779
+  TVDiag stopped at AdaDiag's epoch, s4 (142 ep): HR@1 0.833 F1 0.820 | AdaDiag HR@1 0.833 F1 0.814
+done /home/claude/AdaDiag/results/controlled/length_hotel.json
+  AdaDiag, isolated RNG, s0: HR@1 0.743 F1 0.936 (231 ep) | committed HR@1 0.743 F1 0.936 (231 ep)  IDENTICAL
+done /home/claude/AdaDiag/results/controlled/rng_gaia.json

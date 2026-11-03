@@ -32,7 +32,10 @@ VARIANTS: dict[str, dict] = {
     "no_cm": {"use_cm": False},
     "no_dw": {"dynamic_weights": False},
 }
-ABLATION_VARIANTS = ("no_aug", "no_to", "no_cm", "no_dw")
+ABLATION_VARIANTS = ("no_aug", "no_to", "no_cm", "no_dw", "fidelity")
+# README section 6.11: TVDiag's training loop reproduced more closely (config.FIDELITY)
+from .config import FIDELITY as _FIDELITY                                    # noqa: E402
+VARIANTS["fidelity"] = dict(_FIDELITY)
 #: Six of the paper's nine points per sweep -- dense around the paper's stated optima
 #: (p = 0.2, omega = 0.1, tau = 0.2), sparser above -- to keep Fig. 16 to ~2 CPU-hours.
 _GRID = [0.1, 0.2, 0.3, 0.5, 0.7, 0.9]

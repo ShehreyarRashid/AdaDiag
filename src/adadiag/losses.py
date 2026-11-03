@@ -42,6 +42,68 @@ def supcon_per_sample(emb: torch.Tensor, labels: torch.Tensor,
     return partial.sum(1), nz
 
 
+def supcon_weighted(emb: torch.Tensor, labels: torch.Tensor, temperature: float,
+                    pos_beta: float = 0.0, neg_beta: float = 0.0,
+                    keep_frac: float = 1.0) -> tuple[torch.Tensor, int]:
+    """TVDiag's SupCon with pair- and anchor-level weights (README section 6.13).
+
+    TVDiag's term for anchor i is a sum over its positives p of
+
+        l_ip = -log( e_ip / (e_ip + sum_n e_in) ),     e_ij = exp(cos(z_i, z_j) / tau)
+
+    Three weightings of it, each with weights of MEAN ONE so the term's scale is unchanged,
+    each computed from detached similarities (they choose emphasis, they are not optimised):
+
+    * `pos_beta` (type 1, weight positive pairs): l_ip -> u_ip * l_ip with
+      u_ip proportional to exp(-pos_beta * cos_ip) over i's positives -- the positives the
+      encoder still holds far away count more.
+    * `neg_beta` (type 2, weight negative samples): sum_n e_in -> sum_n v_in * e_in with
+      v_in proportional to exp(neg_beta * cos_in) over i's negatives -- the negatives that
+      already sit close count more.
+    * `keep_frac` < 1 (type 5, curriculum): only the `keep_frac` easiest anchors (lowest mean
+      l_ip) contribute, rescaled so the term stays a mean over the included positive pairs;
+      the trainer raises it to 1.
+
+    All three at their defaults returns `supcon_per_sample` itself, bit for bit.
+    """
+    if pos_beta == 0.0 and neg_beta == 0.0 and keep_frac >= 1.0:
+        return supcon_per_sample(emb, labels, temperature)
+    n = labels.shape[0]
+    z = F.normalize(emb, dim=1)
+    cos = F.cosine_similarity(z.unsqueeze(1), z.unsqueeze(0), dim=2)
+    eye = torch.eye(n, device=emb.device)
+    same = (labels.view(-1, 1) == labels.view(1, -1)).float()
+    posm, negm = same * (1.0 - eye), 1.0 - same
+    e = torch.exp(cos / temperature) * (1.0 - eye)
+    c = cos.detach()
+    if neg_beta:
+        v = torch.exp(neg_beta * c) * negm
+        v = v * (negm.sum(1, keepdim=True) / v.sum(1, keepdim=True).clamp_min(1e-12))
+    else:
+        v = negm
+    negsum = (v * e).sum(1, keepdim=True)
+    # -log(e_ip / (e_ip + negsum)) = log(e_ip + negsum) - cos_ip / tau, on positive pairs only
+    lp = (torch.log((e + negsum).clamp_min(1e-30)) - cos / temperature) * posm
+    nz = max(int((lp.detach() != 0).sum().item()), 1)
+    if pos_beta:
+        u = torch.exp(-pos_beta * c) * posm
+        u = u * (posm.sum(1, keepdim=True) / u.sum(1, keepdim=True).clamp_min(1e-12))
+        lp = lp * u
+    per = lp.sum(1)
+    if keep_frac < 1.0:
+        npos = posm.sum(1)
+        valid = npos > 0
+        n_valid = int(valid.sum())
+        if n_valid > 1:
+            lbar = per.detach() / npos.clamp_min(1.0)
+            k = max(1, int(round(keep_frac * n_valid)))
+            thr = lbar[valid].sort().values[k - 1]
+            inc = valid & (lbar <= thr)
+            # rescale so the term stays a mean over the positive pairs that are included
+            per = per * inc.to(per.dtype) * (npos[valid].sum() / npos[inc].sum())
+    return per, nz
+
+
 def uspcon(a: torch.Tensor, b: torch.Tensor, temperature: float) -> torch.Tensor:
     """Cross-modal association (CM): InfoNCE between two modality views of the same incidents."""
     za, zb = F.normalize(a, dim=1), F.normalize(b, dim=1)

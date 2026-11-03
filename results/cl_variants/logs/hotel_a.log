@@ -1,0 +1,27 @@
+TVDiag-default check: {'HR@1': (0.8461538461538461, 0.8461538461538461), 'HR@3': (0.9358974358974359, 0.9358974358974359), 'f1': (0.809276427208065, 0.809276427208065), 'epochs': (160, 160)} IDENTICAL
+  pos        σ_to=0.1  s0  HR@1 0.846  F1 0.805  (132 ep, 51s)
+  pos        σ_to=0.1  s1  HR@1 0.821  F1 0.804  (112 ep, 44s)
+  pos        σ_to=0.1  s2  HR@1 0.833  F1 0.791  (138 ep, 53s)
+  pos        σ_to=0.1  s3  HR@1 0.846  F1 0.819  (153 ep, 58s)
+  pos        σ_to=0.1  s4  HR@1 0.833  F1 0.832  (150 ep, 56s)
+  neg        σ_to=0.1  s0  HR@1 0.846  F1 0.766  (163 ep, 64s)
+  neg        σ_to=0.1  s1  HR@1 0.821  F1 0.804  (112 ep, 42s)
+  neg        σ_to=0.1  s2  HR@1 0.833  F1 0.791  (138 ep, 51s)
+  neg        σ_to=0.1  s3  HR@1 0.846  F1 0.809  (153 ep, 58s)
+  neg        σ_to=0.1  s4  HR@1 0.833  F1 0.832  (150 ep, 56s)
+  importance σ_to=0.1  s0  HR@1 0.846  F1 0.807  (132 ep, 46s)
+  importance σ_to=0.1  s1  HR@1 0.833  F1 0.758  (123 ep, 43s)
+  importance σ_to=0.1  s2  HR@1 0.821  F1 0.789  (169 ep, 62s)
+  importance σ_to=0.1  s3  HR@1 0.859  F1 0.819  (157 ep, 60s)
+  importance σ_to=0.1  s4  HR@1 0.833  F1 0.830  (150 ep, 55s)
+  align      σ_to=0.1  s0  HR@1 0.821  F1 0.815  (194 ep, 173s) w RCL 0.77/0.23/0.00 FTI 0.45/0.23/0.32
+  align      σ_to=0.1  s1  HR@1 0.821  F1 0.784  (108 ep, 136s) w RCL 0.40/0.60/0.00 FTI 0.53/0.19/0.28
+  align      σ_to=0.1  s2  HR@1 0.833  F1 0.828  (163 ep, 222s) w RCL 0.59/0.41/0.00 FTI 0.43/0.22/0.35
+  align      σ_to=0.1  s3  HR@1 0.833  F1 0.787  (121 ep, 154s) w RCL 0.24/0.38/0.38 FTI 0.69/0.20/0.12
+  align      σ_to=0.1  s4  HR@1 0.833  F1 0.805  (125 ep, 119s) w RCL 0.45/0.55/0.00 FTI 0.39/0.23/0.37
+  curriculum σ_to=0.1  s0  HR@1 0.821  F1 0.805  (132 ep, 51s)
+  curriculum σ_to=0.1  s1  HR@1 0.821  F1 0.808  (112 ep, 44s)
+  curriculum σ_to=0.1  s2  HR@1 0.846  F1 0.813  (138 ep, 54s)
+  curriculum σ_to=0.1  s3  HR@1 0.859  F1 0.799  (153 ep, 58s)
+  curriculum σ_to=0.1  s4  HR@1 0.821  F1 0.809  (174 ep, 67s)
+done results/cl_variants/runs_hotel_a.json

@@ -1,0 +1,4 @@
+  align      σ_to=0.1  s0  HR@1 0.740  F1 0.920  (135 ep, 259s) w RCL 1.00/0.00/0.00 FTI 1.00/0.00/0.00
+  align      σ_to=0.1  s1  HR@1 0.736  F1 0.937  (151 ep, 281s) w RCL 0.00/0.08/0.92 FTI 0.94/0.06/0.00
+  align      σ_to=0.1  s2  HR@1 0.758  F1 0.944  (149 ep, 206s) w RCL 0.22/0.17/0.61 FTI 0.33/0.33/0.33
+done results/cl_variants/runs_gaia_b.json

@@ -1,0 +1,7 @@
+  pos_strong σ_to=0.1  s0  HR@1 0.731  F1 0.931  (207 ep, 107s)
+  pos_strong σ_to=0.1  s1  HR@1 0.721  F1 0.922  (192 ep, 109s)
+  pos_strong σ_to=0.1  s2  HR@1 0.740  F1 0.929  (243 ep, 173s)
+  neg_strong σ_to=0.1  s0  HR@1 0.731  F1 0.938  (166 ep, 112s)
+  neg_strong σ_to=0.1  s1  HR@1 0.706  F1 0.916  (292 ep, 150s)
+  neg_strong σ_to=0.1  s2  HR@1 0.749  F1 0.944  (191 ep, 89s)
+done results/cl_variants/runs_gaia_d.json

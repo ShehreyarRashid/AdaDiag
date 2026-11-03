@@ -1,0 +1,11 @@
+  trace_third σ_to=0.5  s0  HR@1 0.795  F1 0.721  (101 ep, 52s) w RCL 0.00/0.33/0.67 FTI 0.67/0.33/0.00
+  trace_third σ_to=0.5  s1  HR@1 0.846  F1 0.726  (152 ep, 77s) w RCL 0.00/0.33/0.67 FTI 0.67/0.33/0.00
+  trace_third σ_to=0.5  s2  HR@1 0.821  F1 0.775  (174 ep, 95s) w RCL 0.00/0.33/0.67 FTI 0.67/0.33/0.00
+  trace_third σ_to=0.5  s3  HR@1 0.833  F1 0.820  (176 ep, 87s) w RCL 0.00/0.33/0.67 FTI 0.67/0.33/0.00
+  trace_third σ_to=0.5  s4  HR@1 0.808  F1 0.807  (132 ep, 68s) w RCL 0.00/0.33/0.67 FTI 0.67/0.33/0.00
+  trace_tvdiag σ_to=0.5  s0  HR@1 0.808  F1 0.739  (175 ep, 93s) w RCL 0.00/0.50/0.50 FTI 1.00/0.00/0.00
+  trace_tvdiag σ_to=0.5  s1  HR@1 0.821  F1 0.752  (152 ep, 78s) w RCL 0.36/0.50/0.14 FTI 0.45/0.00/0.55
+  trace_tvdiag σ_to=0.5  s2  HR@1 0.833  F1 0.741  (174 ep, 88s) w RCL 0.36/0.50/0.14 FTI 0.44/0.00/0.56
+  trace_tvdiag σ_to=0.5  s3  HR@1 0.846  F1 0.766  (196 ep, 101s) w RCL 0.36/0.50/0.14 FTI 0.43/0.00/0.57
+  trace_tvdiag σ_to=0.5  s4  HR@1 0.833  F1 0.829  (274 ep, 142s) w RCL 0.00/0.50/0.50 FTI 1.00/0.00/0.00
+done results/trace_fixed/runs_hotel_b.json

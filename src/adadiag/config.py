@@ -33,6 +33,17 @@ PER_DATASET = {
 }
 
 
+#: README section 6.11. Three places where the committed runs depart from TVDiag's released
+#: code, found in review; switching all three on reproduces TVDiag's training loop more
+#: closely. The committed results use the defaults (all off) and stay reproducible.
+FIDELITY = dict(
+    self_loops=True,      # TVDiag adds a self-loop to every node with no in-edge
+    aug_mode="pool",      # TVDiag samples the AUG half from a pre-built pool of copies
+    restore_best=False,   # TVDiag evaluates the final model, not the best-loss epoch
+    epochs=500,           # TVDiag's cap (the committed sweeps used 400)
+)
+
+
 def get(dataset: str, **overrides) -> dict:
     if dataset not in PER_DATASET:
         raise KeyError(f"unknown dataset {dataset!r}; expected one of {list(PER_DATASET)}")

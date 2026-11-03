@@ -22,12 +22,12 @@ that a new version removed. Updating from a Codespace has neither problem.
 
    ```bash
    git pull                                         # start from the latest version
-   unzip -q -o AdaDiag-v1.4.zip -d /tmp/new         # unpack outside the repository
+   unzip -q -o AdaDiag-v1.9.zip -d /tmp/new         # unpack outside the repository
    cp -a /tmp/new/AdaDiag/. .                       # copy everything, hidden files too
-   rm -rf /tmp/new AdaDiag-v1.4.zip                 # clean up
+   rm -rf /tmp/new AdaDiag-v1.9.zip                 # clean up
    python -m pytest tests/ -q                       # must pass before you publish
    git add -A
-   git commit -m "v1.4: comparison with the TVDiag paper"
+   git commit -m "v1.9: controlled-comparison review, random-stream fix"
    git push
    ```
 
@@ -56,10 +56,10 @@ matching the zip.
    ├── environment.yml
    ├── pyproject.toml
    ├── .gitignore
-   ├── src/adadiag/      (14 .py files)
-   ├── scripts/          (7 .py files)
-   ├── tests/            (4 .py files)
-   ├── results/          (.json files + README.md)
+   ├── src/adadiag/      (16 .py files)
+   ├── scripts/          (24 .py files, 2 .sh files)
+   ├── tests/            (11 .py files)
+   ├── results/          (.json files, reports, figures + README.md)
    ├── data/             (gaia/, hotel/, sockshop/ + README.md, LICENSE-TVDiag, SHA256SUMS)
    └── docs/             (architecture.md)
    ```
@@ -200,7 +200,7 @@ Then **Settings → General → Features** and untick *Wikis* and *Projects* if 
 them, so the tab bar stays clean.
 
 If you want a version you can cite in the report, use **Releases → Create a new release**,
-tag `v1.4.0`, and GitHub will build a permanent zip of that exact state.
+tag `v1.9.0`, and GitHub will build a permanent zip of that exact state.
 
 ---
 
@@ -213,11 +213,17 @@ pip install -r requirements.txt
 python -m pytest tests/ -q
 ```
 
-You should see `35 passed`. Those tests are what let you say in the report that the
+You should see `70 passed`. Those tests are what let you say in the report that the
 re-implementation is verified against TVDiag's own loss (4 tests), that Eq. 13 is inert as
 shipped (1), that the simplex columns are well formed (1), that the two structural claims
 in README §6.6 hold (4), that the ablation switches do what they claim and nothing at
 their defaults (12), that the numbers transcribed from the paper are self-consistent and the
-new measurements are well formed (8), and that `data/` is byte-identical to TVDiag's release and loads with
+new measurements are well formed (8), that the trace weight's zero is the objective's doing
+and not a wiring error (6), that the softened prior and the fidelity switches do what they
+claim (5), that the oracle arm of the headroom check applies exactly the matrix it is given
+(6), that the five weightings of the contrastive term are TVDiag's term when switched off
+and do what they claim when on (7), that holding trace's weight fixed holds it and leaves
+only metric and log learned (6), that every arm starts from the same encoders and,
+with the random stream aligned and the TO term off, TVDiag and AdaDiag train identically (5), and that `data/` is byte-identical to TVDiag's release and loads with
 the expected shape (5). A reader can run them straight after cloning — which is the single
 most useful thing a reviewer can do with this repository.

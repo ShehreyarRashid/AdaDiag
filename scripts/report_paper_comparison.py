@@ -407,7 +407,8 @@ def write_report(path, parts, F) -> None:
          "together. Top: which (modality, task) pairs that pull applies to — TVDiag's fixed rule "
          "and AdaDiag's learned matrix. Bottom: whether it happened on the test split — how "
          "much closer same-label incidents sit than different-label ones in each modality's "
-         "embedding."),
+         "embedding. Trace's zero weight in every AdaDiag matrix is explained in README §6.10 "
+         "(audited: the objective's doing, not a wiring error)."),
         ("f13", "Figure 13 — failure diagnosis from graph- and node-level features",
          "The paper's Fig. 13 illustrates the two heads with made-up probabilities. These are "
          "the real outputs on the first test incident of each dataset — not selected."),

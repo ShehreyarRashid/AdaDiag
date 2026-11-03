@@ -1,0 +1,6 @@
+  TVDiag stopped at AdaDiag's epoch, s0 (180 ep): HR@1 0.846 F1 0.809 | AdaDiag HR@1 0.846 F1 0.805
+  TVDiag stopped at AdaDiag's epoch, s1 (112 ep): HR@1 0.821 F1 0.811 | AdaDiag HR@1 0.821 F1 0.813
+  TVDiag stopped at AdaDiag's epoch, s2 (163 ep): HR@1 0.833 F1 0.791 | AdaDiag HR@1 0.833 F1 0.802
+  TVDiag stopped at AdaDiag's epoch, s3 (153 ep): HR@1 0.846 F1 0.819 | AdaDiag HR@1 0.846 F1 0.809
+  TVDiag stopped at AdaDiag's epoch, s4 (125 ep): HR@1 0.808 F1 0.791 | AdaDiag HR@1 0.833 F1 0.820
+done /home/claude/AdaDiag/results/controlled/length_rng_hotel.json

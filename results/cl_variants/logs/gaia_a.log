@@ -1,0 +1,14 @@
+TVDiag-default check: {'HR@1': (0.7209797657082002, 0.7209797657082002), 'HR@3': (0.8881789137380192, 0.8881789137380192), 'f1': (0.922648887451454, 0.922648887451454), 'epochs': (292, 292)} IDENTICAL
+  pos        σ_to=0.1  s0  HR@1 0.729  F1 0.930  (231 ep, 123s)
+  pos        σ_to=0.1  s1  HR@1 0.712  F1 0.905  (271 ep, 146s)
+  pos        σ_to=0.1  s2  HR@1 0.747  F1 0.940  (191 ep, 98s)
+  neg        σ_to=0.1  s0  HR@1 0.714  F1 0.930  (231 ep, 119s)
+  neg        σ_to=0.1  s1  HR@1 0.708  F1 0.905  (292 ep, 146s)
+  neg        σ_to=0.1  s2  HR@1 0.753  F1 0.941  (191 ep, 96s)
+  importance σ_to=0.1  s0  HR@1 0.760  F1 0.920  (86 ep, 43s)
+  importance σ_to=0.1  s1  HR@1 0.743  F1 0.922  (103 ep, 49s)
+  importance σ_to=0.1  s2  HR@1 0.749  F1 0.914  (56 ep, 26s)
+  curriculum σ_to=0.1  s0  HR@1 0.722  F1 0.932  (231 ep, 109s)
+  curriculum σ_to=0.1  s1  HR@1 0.707  F1 0.910  (292 ep, 143s)
+  curriculum σ_to=0.1  s2  HR@1 0.750  F1 0.943  (191 ep, 90s)
+done results/cl_variants/runs_gaia_a.json

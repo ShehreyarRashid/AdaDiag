@@ -1,0 +1,4 @@
+  AdaDiag, isolated RNG, s0: HR@1 0.743 F1 0.936 (231 ep) | committed HR@1 0.743 F1 0.936 (231 ep)  IDENTICAL
+  AdaDiag, isolated RNG, s1: HR@1 0.726 F1 0.916 (225 ep) | committed HR@1 0.726 F1 0.916 (225 ep)  IDENTICAL
+  AdaDiag, isolated RNG, s2: HR@1 0.750 F1 0.944 (191 ep) | committed HR@1 0.750 F1 0.944 (191 ep)  IDENTICAL
+done /home/claude/AdaDiag/results/controlled/rng_gaia.json

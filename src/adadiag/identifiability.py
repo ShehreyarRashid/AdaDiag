@@ -146,3 +146,79 @@ def measure_collapse(ds, cfg: dict, arm: str = "v3_incident", seed: int = 0) -> 
         }
     return {"dataset": ds.name, "arm": arm, "seed": seed,
             "HR@1": res["HR@1"], "f1": res["f1"], "columns": cols}
+
+
+# --------------------------------------------------------------------------- trace audit
+def _six_losses(fs: dict, labels: dict, temperature: float) -> np.ndarray:
+    """The six unweighted SupCon values L[m, t] that l_to weights (rows: MODALITIES)."""
+    L = np.zeros((len(MODALITIES), len(TASKS)))
+    for mi, m in enumerate(MODALITIES):
+        for ti, t in enumerate(TASKS):
+            per_sample, nz = supcon_per_sample(fs[m], labels[t], temperature)
+            L[mi, ti] = float(per_sample.sum() / nz)
+    return L
+
+
+def permute_modalities(ds, order: tuple[str, ...]):
+    """A copy of `ds` whose modality SLOTS hold the data of `order`.
+
+    order = ("trace", "metric", "log") puts the trace data in the slot the code calls
+    "metric" and vice versa. Used to show that a weight follows the data, not the slot.
+    """
+    import copy
+    idx = [MODALITIES.index(m) for m in order]
+    out = copy.copy(ds)
+    out.X = ds.X[:, idx]
+    out.cnt = ds.cnt[:, idx]
+    return out
+
+
+def initial_losses(ds, cfg: dict, arm: str = "v3_incident", seed: int = 0) -> dict:
+    """L[m, t] and w on the first training batch, before any update."""
+    from .train import make_batch, compute_terms
+    torch.manual_seed(seed); np.random.seed(seed); random.seed(seed)
+    rng = random.Random(seed)
+    model = AdaDiag(arm, len(ds.types), cfg)
+    perm = np.random.permutation(ds.train_idx)
+    batch = make_batch(ds, perm[: cfg["batch_size"]], cfg, rng)
+    cap: dict = {}
+    with torch.no_grad():
+        _, w = compute_terms(model, arm, batch, cfg, cap)
+    n = cap["fs"][MODALITIES[0]].shape[0]
+    return {"L": _six_losses(cap["fs"], cap["labels"], cfg["temperature"]).tolist(),
+            "w": w.mean(0).tolist(), "chance": float(np.log(n - 1))}
+
+
+def trace_audit(ds, cfg: dict, arm: str = "v3_incident", seed: int = 0) -> dict:
+    """Train one run and record, per epoch, the mean weight matrix and the six SupCon values.
+
+    Answers "why does trace get zero weight?" from the run itself: the weighting module's
+    only gradient is dl_to/dw[m, t] = L[m, t] (claim 1 above), so within a task column the
+    softmax logit of modality m moves against (L[m, t] - weighted mean). Whichever modality
+    has the higher contrastive loss loses weight, and a modality that loses its weight stops
+    being trained to cluster by that label, so its loss stays high (rich get richer).
+    """
+    hist: dict = {}
+
+    def monitor(epoch, cap, w):
+        h = hist.setdefault(epoch, {"w": [], "L": [], "n": []})
+        h["w"].append(w.mean(0).numpy())
+        h["L"].append(_six_losses(cap["fs"], cap["labels"], cfg["temperature"]))
+        h["n"].append(cap["fs"][MODALITIES[0]].shape[0])
+
+    res, _ = train(arm, seed, ds, cfg, monitor=monitor)
+    epochs = sorted(hist)
+    W = [np.mean(hist[e]["w"], 0).round(4).tolist() for e in epochs]
+    L = [np.mean(hist[e]["L"], 0).round(4).tolist() for e in epochs]
+    n = int(np.median([x for e in epochs for x in hist[e]["n"]]))
+    # first epoch at which each column puts >= 0.9 on one modality
+    settled = {}
+    for ti, t in enumerate(TASKS):
+        col = [np.array(w)[:, ti] for w in W]
+        hit = [e for e, c in zip(epochs, col) if c.max() >= 0.9]
+        settled[t] = {"epoch": hit[0] if hit else None,
+                      "modality": MODALITIES[int(np.argmax(col[-1]))]}
+    return {"dataset": ds.name, "arm": arm, "seed": seed, "epochs": epochs, "w": W, "L": L,
+            "chance": float(np.log(n - 1)), "batch_n": n, "settled": settled,
+            "metrics": {k: res[k] for k in ("HR@1", "HR@3", "MRR@3", "f1", "macro_f1",
+                                            "epochs")}}
