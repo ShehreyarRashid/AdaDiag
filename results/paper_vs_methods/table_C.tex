@@ -1,0 +1,21 @@
+\begin{table}[t]
+\centering\small
+\caption{Dataset C (Sock Shop): every method against TVDiag's published results (Tables 4--5). Mean over seeds, gap to the paper in parentheses; $\blacktriangle$/$\blacktriangledown$: different from the paper after Holm correction (one-sample $t$-test over seeds); $^{\dagger}$: $p<0.05$ before correction.}
+\label{tab:paper-vs-methods-C}
+\resizebox{\linewidth}{!}{%
+\begin{tabular}{l c c c c c c c c}
+\toprule
+Method & $n$ & HR@1 & HR@3 & Avg@3 & MRR@3 & P & R & F1 \\
+\midrule
+\textbf{TVDiag (paper)} & -- & \textbf{0.863} & \textbf{0.954} & \textbf{0.913} & \textbf{0.903} & \textbf{0.649} & \textbf{0.622} & \textbf{0.636} \\
+\midrule
+\multicolumn{9}{l}{\emph{AdaDiag}} \\
+AdaDiag & 5 & 0.871 ($+$0.008)$^{\dagger}$ & 0.949 ($-$0.005) & 0.917 ($+$0.004) & 0.907 ($+$0.004)$^{\dagger}$ & 0.600 ($-$0.049)$^{\dagger}$ & 0.551 ($-$0.071)$^{\dagger}$ & 0.575 ($-$0.061)$^{\dagger}$ \\
+AdaDiag, random stream aligned (\S6.15) & 5 & 0.871 ($+$0.008)$^{\dagger}$ & 0.949 ($-$0.005) & 0.917 ($+$0.004) & 0.907 ($+$0.004)$^{\dagger}$ & 0.600 ($-$0.049)$^{\dagger}$ & 0.551 ($-$0.071)$^{\dagger}$ & 0.575 ($-$0.061)$^{\dagger}$ \\
+AdaDiag, TVDiag-fidelity loop (\S6.11) & 5 & 0.879 ($+$0.016)$^{\dagger}$ & 0.948 ($-$0.006)$^{\dagger}$ & 0.918 ($+$0.005) & 0.910 ($+$0.007) & 0.608 ($-$0.041)$^{\dagger}$ & 0.565 ($-$0.057)$^{\dagger}$ & 0.586 ($-$0.050)$^{\dagger}$ \\
+\addlinespace
+\multicolumn{9}{l}{\emph{Fixed weights}} \\
+Softened prior .9/.9/.1, .1/.1/.9 (\S6.11) & 5 & 0.872 ($+$0.009) & 0.953 ($-$0.001) & 0.918 ($+$0.005) & 0.909 ($+$0.006) & 0.605 ($-$0.044)$^{\dagger}$ & 0.563 ($-$0.059)$^{\dagger}$ & 0.583 ($-$0.053)$^{\dagger}$ \\
+\bottomrule
+\end{tabular}}
+\end{table}

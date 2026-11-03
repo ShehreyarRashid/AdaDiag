@@ -1,0 +1,144 @@
+{
+ "n_cells": 238,
+ "above": 0,
+ "below": 0,
+ "raw_above": 15,
+ "raw_below": 46,
+ "counts": [
+  {
+   "method": "AdaDiag",
+   "n": 21,
+   "reach": 6,
+   "above": 0,
+   "below": 0,
+   "raw_above": 2,
+   "raw_below": 3
+  },
+  {
+   "method": "AdaDiag, random stream aligned (\u00a76.15)",
+   "n": 21,
+   "reach": 6,
+   "above": 0,
+   "below": 0,
+   "raw_above": 3,
+   "raw_below": 5
+  },
+  {
+   "method": "AdaDiag, TVDiag-fidelity loop (\u00a76.11)",
+   "n": 21,
+   "reach": 6,
+   "above": 0,
+   "below": 0,
+   "raw_above": 2,
+   "raw_below": 8
+  },
+  {
+   "method": "AdaDiag, trace fixed at 1/3 (\u00a76.14)",
+   "n": 14,
+   "reach": 3,
+   "above": 0,
+   "below": 0,
+   "raw_above": 0,
+   "raw_below": 3
+  },
+  {
+   "method": "AdaDiag, trace fixed at TVDiag's role (\u00a76.14)",
+   "n": 14,
+   "reach": 4,
+   "above": 0,
+   "below": 0,
+   "raw_above": 0,
+   "raw_below": 0
+  },
+  {
+   "method": "Softened prior .9/.9/.1, .1/.1/.9 (\u00a76.11)",
+   "n": 21,
+   "reach": 7,
+   "above": 0,
+   "below": 0,
+   "raw_above": 3,
+   "raw_below": 13
+  },
+  {
+   "method": "1 \u00b7 weight positive pairs, \u03b2 = 1 (\u00a76.13)",
+   "n": 14,
+   "reach": 3,
+   "above": 0,
+   "below": 0,
+   "raw_above": 1,
+   "raw_below": 0
+  },
+  {
+   "method": "1 \u00b7 weight positive pairs, \u03b2 = 1/\u03c4",
+   "n": 14,
+   "reach": 3,
+   "above": 0,
+   "below": 0,
+   "raw_above": 1,
+   "raw_below": 3
+  },
+  {
+   "method": "2 \u00b7 weight negative samples, \u03b2 = 1",
+   "n": 14,
+   "reach": 3,
+   "above": 0,
+   "below": 0,
+   "raw_above": 1,
+   "raw_below": 0
+  },
+  {
+   "method": "2 \u00b7 weight negative samples, \u03b2 = 1/\u03c4",
+   "n": 14,
+   "reach": 4,
+   "above": 0,
+   "below": 0,
+   "raw_above": 2,
+   "raw_below": 3
+  },
+  {
+   "method": "3 \u00b7 weight by sample importance",
+   "n": 14,
+   "reach": 3,
+   "above": 0,
+   "below": 0,
+   "raw_above": 0,
+   "raw_below": 3
+  },
+  {
+   "method": "4 \u00b7 weights from the diagnosis losses",
+   "n": 14,
+   "reach": 3,
+   "above": 0,
+   "below": 0,
+   "raw_above": 0,
+   "raw_below": 0
+  },
+  {
+   "method": "5 \u00b7 curriculum (easy \u2192 hard)",
+   "n": 14,
+   "reach": 3,
+   "above": 0,
+   "below": 0,
+   "raw_above": 0,
+   "raw_below": 2
+  },
+  {
+   "method": "Oracle, one matrix (\u00a76.12, fitted on test)",
+   "n": 14,
+   "reach": 4,
+   "above": 0,
+   "below": 0,
+   "raw_above": 0,
+   "raw_below": 2
+  },
+  {
+   "method": "Oracle, per failure type (fitted on test)",
+   "n": 14,
+   "reach": 3,
+   "above": 0,
+   "below": 0,
+   "raw_above": 0,
+   "raw_below": 1
+  }
+ ]
+}

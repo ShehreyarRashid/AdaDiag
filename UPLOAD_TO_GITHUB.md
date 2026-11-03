@@ -22,12 +22,12 @@ that a new version removed. Updating from a Codespace has neither problem.
 
    ```bash
    git pull                                         # start from the latest version
-   unzip -q -o AdaDiag-v1.9.zip -d /tmp/new         # unpack outside the repository
+   unzip -q -o AdaDiag-v1.10.zip -d /tmp/new         # unpack outside the repository
    cp -a /tmp/new/AdaDiag/. .                       # copy everything, hidden files too
-   rm -rf /tmp/new AdaDiag-v1.9.zip                 # clean up
+   rm -rf /tmp/new AdaDiag-v1.10.zip                 # clean up
    python -m pytest tests/ -q                       # must pass before you publish
    git add -A
-   git commit -m "v1.9: controlled-comparison review, random-stream fix"
+   git commit -m "v1.10: every method against the TVDiag paper"
    git push
    ```
 
@@ -57,7 +57,7 @@ matching the zip.
    ├── pyproject.toml
    ├── .gitignore
    ├── src/adadiag/      (16 .py files)
-   ├── scripts/          (24 .py files, 2 .sh files)
+   ├── scripts/          (25 .py files, 2 .sh files)
    ├── tests/            (11 .py files)
    ├── results/          (.json files, reports, figures + README.md)
    ├── data/             (gaia/, hotel/, sockshop/ + README.md, LICENSE-TVDiag, SHA256SUMS)
@@ -200,7 +200,7 @@ Then **Settings → General → Features** and untick *Wikis* and *Projects* if 
 them, so the tab bar stays clean.
 
 If you want a version you can cite in the report, use **Releases → Create a new release**,
-tag `v1.9.0`, and GitHub will build a permanent zip of that exact state.
+tag `v1.10.0`, and GitHub will build a permanent zip of that exact state.
 
 ---
 

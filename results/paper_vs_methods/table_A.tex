@@ -1,0 +1,36 @@
+\begin{table}[t]
+\centering\small
+\caption{Dataset A (GAIA): every method against TVDiag's published results (Tables 4--5). Mean over seeds, gap to the paper in parentheses; $\blacktriangle$/$\blacktriangledown$: different from the paper after Holm correction (one-sample $t$-test over seeds); $^{\dagger}$: $p<0.05$ before correction.}
+\label{tab:paper-vs-methods-A}
+\resizebox{\linewidth}{!}{%
+\begin{tabular}{l c c c c c c c c}
+\toprule
+Method & $n$ & HR@1 & HR@3 & Avg@3 & MRR@3 & P & R & F1 \\
+\midrule
+\textbf{TVDiag (paper)} & -- & \textbf{0.759} & \textbf{0.909} & \textbf{0.844} & \textbf{0.827} & \textbf{0.925} & \textbf{0.948} & \textbf{0.936} \\
+\midrule
+\multicolumn{9}{l}{\emph{AdaDiag}} \\
+AdaDiag & 3 & 0.740 ($-$0.019) & 0.895 ($-$0.014) & 0.829 ($-$0.015) & 0.810 ($-$0.017) & 0.920 ($-$0.005) & 0.944 ($-$0.004) & 0.932 ($-$0.004) \\
+AdaDiag, random stream aligned (\S6.15) & 3 & 0.740 ($-$0.019) & 0.895 ($-$0.014) & 0.829 ($-$0.015) & 0.810 ($-$0.017) & 0.920 ($-$0.005) & 0.944 ($-$0.004) & 0.932 ($-$0.004) \\
+AdaDiag, TVDiag-fidelity loop (\S6.11) & 5 & 0.740 ($-$0.019)$^{\dagger}$ & 0.898 ($-$0.011)$^{\dagger}$ & 0.831 ($-$0.013)$^{\dagger}$ & 0.812 ($-$0.015)$^{\dagger}$ & 0.924 ($-$0.001) & 0.947 ($-$0.001) & 0.935 ($-$0.001) \\
+AdaDiag, trace fixed at 1/3 (\S6.14) & 3 & 0.736 ($-$0.023) & 0.899 ($-$0.010) & 0.830 ($-$0.014) & 0.810 ($-$0.017) & 0.921 ($-$0.004) & 0.943 ($-$0.005) & 0.932 ($-$0.004) \\
+AdaDiag, trace fixed at TVDiag's role (\S6.14) & 3 & 0.739 ($-$0.020) & 0.896 ($-$0.013) & 0.829 ($-$0.015) & 0.810 ($-$0.017) & 0.924 ($-$0.001) & 0.948 ($+$0.000) & 0.936 ($-$0.000) \\
+\addlinespace
+\multicolumn{9}{l}{\emph{Fixed weights}} \\
+Softened prior .9/.9/.1, .1/.1/.9 (\S6.11) & 5 & 0.729 ($-$0.030)$^{\dagger}$ & 0.891 ($-$0.018)$^{\dagger}$ & 0.823 ($-$0.021)$^{\dagger}$ & 0.803 ($-$0.024)$^{\dagger}$ & 0.906 ($-$0.019)$^{\dagger}$ & 0.924 ($-$0.024)$^{\dagger}$ & 0.915 ($-$0.021)$^{\dagger}$ \\
+\addlinespace
+\multicolumn{9}{l}{\emph{Contrastive weighting}} \\
+1: weight positive pairs, $\beta$ = 1 (\S6.13) & 3 & 0.729 ($-$0.030) & 0.889 ($-$0.020) & 0.822 ($-$0.022) & 0.802 ($-$0.025) & 0.915 ($-$0.010) & 0.936 ($-$0.012) & 0.925 ($-$0.011) \\
+1: weight positive pairs, $\beta$ = 1/$\tau$ & 3 & 0.731 ($-$0.028)$^{\dagger}$ & 0.894 ($-$0.015) & 0.824 ($-$0.020) & 0.805 ($-$0.022) & 0.918 ($-$0.007) & 0.937 ($-$0.011) & 0.927 ($-$0.009) \\
+2: weight negative samples, $\beta$ = 1 & 3 & 0.725 ($-$0.034) & 0.891 ($-$0.018) & 0.820 ($-$0.024) & 0.800 ($-$0.027) & 0.915 ($-$0.010) & 0.936 ($-$0.012) & 0.925 ($-$0.011) \\
+2: weight negative samples, $\beta$ = 1/$\tau$ & 3 & 0.728 ($-$0.031) & 0.893 ($-$0.016) & 0.823 ($-$0.021) & 0.803 ($-$0.024) & 0.921 ($-$0.004) & 0.945 ($-$0.003) & 0.933 ($-$0.003) \\
+3: weight by sample importance & 3 & 0.751 ($-$0.008) & 0.900 ($-$0.009) & 0.838 ($-$0.006) & 0.819 ($-$0.008) & 0.908 ($-$0.017)$^{\dagger}$ & 0.930 ($-$0.018)$^{\dagger}$ & 0.919 ($-$0.017)$^{\dagger}$ \\
+4: weights from the diagnosis losses & 3 & 0.745 ($-$0.014) & 0.900 ($-$0.009) & 0.834 ($-$0.010) & 0.815 ($-$0.012) & 0.922 ($-$0.003) & 0.946 ($-$0.002) & 0.934 ($-$0.002) \\
+5: curriculum (easy $\rightarrow$ hard) & 3 & 0.726 ($-$0.033) & 0.891 ($-$0.018) & 0.822 ($-$0.022) & 0.801 ($-$0.026) & 0.917 ($-$0.008) & 0.939 ($-$0.009) & 0.928 ($-$0.008) \\
+\addlinespace
+\multicolumn{9}{l}{\emph{Upper bound}} \\
+Oracle, one matrix (\S6.12, fitted on test) & 3 & 0.737 ($-$0.022) & 0.896 ($-$0.013) & 0.829 ($-$0.015) & 0.810 ($-$0.017) & 0.920 ($-$0.005) & 0.944 ($-$0.004) & 0.932 ($-$0.004) \\
+Oracle, per failure type (fitted on test) & 3 & 0.738 ($-$0.021)$^{\dagger}$ & 0.899 ($-$0.010) & 0.831 ($-$0.013) & 0.812 ($-$0.015) & 0.920 ($-$0.005) & 0.942 ($-$0.006) & 0.931 ($-$0.005) \\
+\bottomrule
+\end{tabular}}
+\end{table}

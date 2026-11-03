@@ -1,0 +1,239 @@
+method,group,dataset,metric,n,mean,sd,paper,gap,p,holm
+AdaDiag,AdaDiag,gaia,HR@1,3,0.739794,0.012111,0.759,-0.019206,0.110929,1.0
+AdaDiag,AdaDiag,gaia,HR@3,3,0.894924,0.010667,0.909,-0.014076,0.149625,1.0
+AdaDiag,AdaDiag,gaia,Avg@3,3,0.828778,0.008206,0.844,-0.015222,0.084733,1.0
+AdaDiag,AdaDiag,gaia,MRR@3,3,0.810141,0.009776,0.827,-0.016859,0.096175,1.0
+AdaDiag,AdaDiag,gaia,P,3,0.920216,0.012631,0.925,-0.004784,0.579212,1.0
+AdaDiag,AdaDiag,gaia,R,3,0.943912,0.016544,0.948,-0.004088,0.71034,1.0
+AdaDiag,AdaDiag,gaia,F1,3,0.931911,0.014542,0.936,-0.004089,0.674393,1.0
+AdaDiag,AdaDiag,sockshop,HR@1,5,0.871369,0.005082,0.863,0.008369,0.021157,1.0
+AdaDiag,AdaDiag,sockshop,HR@3,5,0.948548,0.007538,0.954,-0.005452,0.181096,1.0
+AdaDiag,AdaDiag,sockshop,Avg@3,5,0.916736,0.00408,0.913,0.003736,0.109987,1.0
+AdaDiag,AdaDiag,sockshop,MRR@3,5,0.906916,0.002705,0.903,0.003916,0.031771,1.0
+AdaDiag,AdaDiag,sockshop,P,5,0.600401,0.026269,0.649,-0.048599,0.014415,1.0
+AdaDiag,AdaDiag,sockshop,R,5,0.551037,0.024443,0.622,-0.070963,0.002904,0.679425
+AdaDiag,AdaDiag,sockshop,F1,5,0.574562,0.023894,0.636,-0.061438,0.004537,1.0
+AdaDiag,AdaDiag,hotel,HR@1,5,0.828205,0.014618,0.821,0.007205,0.332243,1.0
+AdaDiag,AdaDiag,hotel,HR@3,5,0.920513,0.010726,0.923,-0.002487,0.63148,1.0
+AdaDiag,AdaDiag,hotel,Avg@3,5,0.876923,0.010641,0.876,0.000923,0.855649,1.0
+AdaDiag,AdaDiag,hotel,MRR@3,5,0.867949,0.010726,0.866,0.001949,0.705368,1.0
+AdaDiag,AdaDiag,hotel,P,5,0.807663,0.025196,0.836,-0.028337,0.065714,1.0
+AdaDiag,AdaDiag,hotel,R,5,0.75641,0.042521,0.808,-0.05159,0.053373,1.0
+AdaDiag,AdaDiag,hotel,F1,5,0.781054,0.034063,0.822,-0.040946,0.054779,1.0
+"AdaDiag, random stream aligned (§6.15)",AdaDiag,gaia,HR@1,3,0.739794,0.012111,0.759,-0.019206,0.110929,1.0
+"AdaDiag, random stream aligned (§6.15)",AdaDiag,gaia,HR@3,3,0.894924,0.010667,0.909,-0.014076,0.149625,1.0
+"AdaDiag, random stream aligned (§6.15)",AdaDiag,gaia,Avg@3,3,0.828778,0.008206,0.844,-0.015222,0.084733,1.0
+"AdaDiag, random stream aligned (§6.15)",AdaDiag,gaia,MRR@3,3,0.810141,0.009776,0.827,-0.016859,0.096175,1.0
+"AdaDiag, random stream aligned (§6.15)",AdaDiag,gaia,P,3,0.920216,0.012631,0.925,-0.004784,0.579212,1.0
+"AdaDiag, random stream aligned (§6.15)",AdaDiag,gaia,R,3,0.943912,0.016544,0.948,-0.004088,0.71034,1.0
+"AdaDiag, random stream aligned (§6.15)",AdaDiag,gaia,F1,3,0.931911,0.014542,0.936,-0.004089,0.674393,1.0
+"AdaDiag, random stream aligned (§6.15)",AdaDiag,sockshop,HR@1,5,0.871369,0.005082,0.863,0.008369,0.021157,1.0
+"AdaDiag, random stream aligned (§6.15)",AdaDiag,sockshop,HR@3,5,0.948548,0.007538,0.954,-0.005452,0.181096,1.0
+"AdaDiag, random stream aligned (§6.15)",AdaDiag,sockshop,Avg@3,5,0.916736,0.00408,0.913,0.003736,0.109987,1.0
+"AdaDiag, random stream aligned (§6.15)",AdaDiag,sockshop,MRR@3,5,0.906916,0.002705,0.903,0.003916,0.031771,1.0
+"AdaDiag, random stream aligned (§6.15)",AdaDiag,sockshop,P,5,0.600401,0.026269,0.649,-0.048599,0.014415,1.0
+"AdaDiag, random stream aligned (§6.15)",AdaDiag,sockshop,R,5,0.551037,0.024443,0.622,-0.070963,0.002904,0.679425
+"AdaDiag, random stream aligned (§6.15)",AdaDiag,sockshop,F1,5,0.574562,0.023894,0.636,-0.061438,0.004537,1.0
+"AdaDiag, random stream aligned (§6.15)",AdaDiag,hotel,HR@1,5,0.835897,0.010726,0.821,0.014897,0.036026,1.0
+"AdaDiag, random stream aligned (§6.15)",AdaDiag,hotel,HR@3,5,0.917949,0.007022,0.923,-0.005051,0.183008,1.0
+"AdaDiag, random stream aligned (§6.15)",AdaDiag,hotel,Avg@3,5,0.882051,0.005734,0.876,0.006051,0.077663,1.0
+"AdaDiag, random stream aligned (§6.15)",AdaDiag,hotel,MRR@3,5,0.87265,0.007183,0.866,0.00665,0.107223,1.0
+"AdaDiag, random stream aligned (§6.15)",AdaDiag,hotel,P,5,0.831662,0.00523,0.836,-0.004338,0.137256,1.0
+"AdaDiag, random stream aligned (§6.15)",AdaDiag,hotel,R,5,0.789744,0.014618,0.808,-0.018256,0.049177,1.0
+"AdaDiag, random stream aligned (§6.15)",AdaDiag,hotel,F1,5,0.810082,0.006981,0.822,-0.011918,0.018821,1.0
+"AdaDiag, TVDiag-fidelity loop (§6.11)",AdaDiag,gaia,HR@1,5,0.739723,0.015259,0.759,-0.019277,0.047594,1.0
+"AdaDiag, TVDiag-fidelity loop (§6.11)",AdaDiag,gaia,HR@3,5,0.89819,0.008671,0.909,-0.01081,0.049431,1.0
+"AdaDiag, TVDiag-fidelity loop (§6.11)",AdaDiag,gaia,Avg@3,5,0.830742,0.009691,0.844,-0.013258,0.037686,1.0
+"AdaDiag, TVDiag-fidelity loop (§6.11)",AdaDiag,gaia,MRR@3,5,0.811644,0.010874,0.827,-0.015356,0.034255,1.0
+"AdaDiag, TVDiag-fidelity loop (§6.11)",AdaDiag,gaia,P,5,0.923805,0.008718,0.925,-0.001195,0.774605,1.0
+"AdaDiag, TVDiag-fidelity loop (§6.11)",AdaDiag,gaia,R,5,0.946965,0.0085,0.948,-0.001035,0.798854,1.0
+"AdaDiag, TVDiag-fidelity loop (§6.11)",AdaDiag,gaia,F1,5,0.935239,0.008423,0.936,-0.000761,0.849764,1.0
+"AdaDiag, TVDiag-fidelity loop (§6.11)",AdaDiag,sockshop,HR@1,5,0.878838,0.009462,0.863,0.015838,0.020071,1.0
+"AdaDiag, TVDiag-fidelity loop (§6.11)",AdaDiag,sockshop,HR@3,5,0.947718,0.003711,0.954,-0.006282,0.019352,1.0
+"AdaDiag, TVDiag-fidelity loop (§6.11)",AdaDiag,sockshop,Avg@3,5,0.918119,0.007601,0.913,0.005119,0.206551,1.0
+"AdaDiag, TVDiag-fidelity loop (§6.11)",AdaDiag,sockshop,MRR@3,5,0.909958,0.00711,0.903,0.006958,0.093858,1.0
+"AdaDiag, TVDiag-fidelity loop (§6.11)",AdaDiag,sockshop,P,5,0.607736,0.017797,0.649,-0.041264,0.006586,1.0
+"AdaDiag, TVDiag-fidelity loop (§6.11)",AdaDiag,sockshop,R,5,0.565145,0.021641,0.622,-0.056855,0.004194,0.964677
+"AdaDiag, TVDiag-fidelity loop (§6.11)",AdaDiag,sockshop,F1,5,0.585592,0.018673,0.636,-0.050408,0.003797,0.877202
+"AdaDiag, TVDiag-fidelity loop (§6.11)",AdaDiag,hotel,HR@1,5,0.841026,0.011467,0.821,0.020026,0.017467,1.0
+"AdaDiag, TVDiag-fidelity loop (§6.11)",AdaDiag,hotel,HR@3,5,0.920513,0.010726,0.923,-0.002487,0.63148,1.0
+"AdaDiag, TVDiag-fidelity loop (§6.11)",AdaDiag,hotel,Avg@3,5,0.882051,0.010726,0.876,0.006051,0.275691,1.0
+"AdaDiag, TVDiag-fidelity loop (§6.11)",AdaDiag,hotel,MRR@3,5,0.874786,0.010203,0.866,0.008786,0.126452,1.0
+"AdaDiag, TVDiag-fidelity loop (§6.11)",AdaDiag,hotel,P,5,0.823312,0.024224,0.836,-0.012688,0.306511,1.0
+"AdaDiag, TVDiag-fidelity loop (§6.11)",AdaDiag,hotel,R,5,0.784615,0.021066,0.808,-0.023385,0.068054,1.0
+"AdaDiag, TVDiag-fidelity loop (§6.11)",AdaDiag,hotel,F1,5,0.803491,0.022451,0.822,-0.018509,0.139042,1.0
+"AdaDiag, trace fixed at 1/3 (§6.14)",AdaDiag,gaia,HR@1,3,0.736244,0.010343,0.759,-0.022756,0.062484,1.0
+"AdaDiag, trace fixed at 1/3 (§6.14)",AdaDiag,gaia,HR@3,3,0.899184,0.013485,0.909,-0.009816,0.33452,1.0
+"AdaDiag, trace fixed at 1/3 (§6.14)",AdaDiag,gaia,Avg@3,3,0.830079,0.011538,0.844,-0.013921,0.171811,1.0
+"AdaDiag, trace fixed at 1/3 (§6.14)",AdaDiag,gaia,MRR@3,3,0.810318,0.011415,0.827,-0.016682,0.127024,1.0
+"AdaDiag, trace fixed at 1/3 (§6.14)",AdaDiag,gaia,P,3,0.920777,0.011721,0.925,-0.004223,0.596296,1.0
+"AdaDiag, trace fixed at 1/3 (§6.14)",AdaDiag,gaia,R,3,0.942847,0.015148,0.948,-0.005153,0.615423,1.0
+"AdaDiag, trace fixed at 1/3 (§6.14)",AdaDiag,gaia,F1,3,0.931679,0.013387,0.936,-0.004321,0.63239,1.0
+"AdaDiag, trace fixed at 1/3 (§6.14)",AdaDiag,hotel,HR@1,5,0.835897,0.016716,0.821,0.014897,0.117074,1.0
+"AdaDiag, trace fixed at 1/3 (§6.14)",AdaDiag,hotel,HR@3,5,0.915385,0.007022,0.923,-0.007615,0.072371,1.0
+"AdaDiag, trace fixed at 1/3 (§6.14)",AdaDiag,hotel,Avg@3,5,0.877778,0.011144,0.876,0.001778,0.739325,1.0
+"AdaDiag, trace fixed at 1/3 (§6.14)",AdaDiag,hotel,MRR@3,5,0.870085,0.011839,0.866,0.004085,0.483397,1.0
+"AdaDiag, trace fixed at 1/3 (§6.14)",AdaDiag,hotel,P,5,0.80576,0.020496,0.836,-0.03024,0.029956,1.0
+"AdaDiag, trace fixed at 1/3 (§6.14)",AdaDiag,hotel,R,5,0.761538,0.036936,0.808,-0.046462,0.048181,1.0
+"AdaDiag, trace fixed at 1/3 (§6.14)",AdaDiag,hotel,F1,5,0.782888,0.028492,0.822,-0.039112,0.03731,1.0
+"AdaDiag, trace fixed at TVDiag's role (§6.14)",AdaDiag,gaia,HR@1,3,0.739439,0.011084,0.759,-0.019561,0.092435,1.0
+"AdaDiag, trace fixed at TVDiag's role (§6.14)",AdaDiag,gaia,HR@3,3,0.895634,0.008318,0.909,-0.013366,0.108477,1.0
+"AdaDiag, trace fixed at TVDiag's role (§6.14)",AdaDiag,gaia,Avg@3,3,0.828541,0.007412,0.844,-0.015459,0.068818,1.0
+"AdaDiag, trace fixed at TVDiag's role (§6.14)",AdaDiag,gaia,MRR@3,3,0.810022,0.008761,0.827,-0.016978,0.078459,1.0
+"AdaDiag, trace fixed at TVDiag's role (§6.14)",AdaDiag,gaia,P,3,0.923952,0.008964,0.925,-0.001048,0.858284,1.0
+"AdaDiag, trace fixed at TVDiag's role (§6.14)",AdaDiag,gaia,R,3,0.948172,0.012705,0.948,0.000172,0.98344,1.0
+"AdaDiag, trace fixed at TVDiag's role (§6.14)",AdaDiag,gaia,F1,3,0.935903,0.010769,0.936,-9.7e-05,0.988957,1.0
+"AdaDiag, trace fixed at TVDiag's role (§6.14)",AdaDiag,hotel,HR@1,5,0.835897,0.016716,0.821,0.014897,0.117074,1.0
+"AdaDiag, trace fixed at TVDiag's role (§6.14)",AdaDiag,hotel,HR@3,5,0.917949,0.007022,0.923,-0.005051,0.183008,1.0
+"AdaDiag, trace fixed at TVDiag's role (§6.14)",AdaDiag,hotel,Avg@3,5,0.878632,0.011144,0.876,0.002632,0.625297,1.0
+"AdaDiag, trace fixed at TVDiag's role (§6.14)",AdaDiag,hotel,MRR@3,5,0.87094,0.011762,0.866,0.00494,0.400813,1.0
+"AdaDiag, trace fixed at TVDiag's role (§6.14)",AdaDiag,hotel,P,5,0.812337,0.027524,0.836,-0.023663,0.126925,1.0
+"AdaDiag, trace fixed at TVDiag's role (§6.14)",AdaDiag,hotel,R,5,0.766667,0.043853,0.808,-0.041333,0.102769,1.0
+"AdaDiag, trace fixed at TVDiag's role (§6.14)",AdaDiag,hotel,F1,5,0.788699,0.035606,0.822,-0.033301,0.104674,1.0
+"Softened prior .9/.9/.1, .1/.1/.9 (§6.11)",Fixed weights,gaia,HR@1,5,0.729286,0.019278,0.759,-0.029714,0.02614,1.0
+"Softened prior .9/.9/.1, .1/.1/.9 (§6.11)",Fixed weights,gaia,HR@3,5,0.891374,0.012668,0.909,-0.017626,0.035829,1.0
+"Softened prior .9/.9/.1, .1/.1/.9 (§6.11)",Fixed weights,gaia,Avg@3,5,0.823216,0.01246,0.844,-0.020784,0.020299,1.0
+"Softened prior .9/.9/.1, .1/.1/.9 (§6.11)",Fixed weights,gaia,MRR@3,5,0.803266,0.013335,0.827,-0.023734,0.016403,1.0
+"Softened prior .9/.9/.1, .1/.1/.9 (§6.11)",Fixed weights,gaia,P,5,0.905807,0.011692,0.925,-0.019193,0.02138,1.0
+"Softened prior .9/.9/.1, .1/.1/.9 (§6.11)",Fixed weights,gaia,R,5,0.923749,0.01473,0.948,-0.024251,0.021175,1.0
+"Softened prior .9/.9/.1, .1/.1/.9 (§6.11)",Fixed weights,gaia,F1,5,0.914687,0.013107,0.936,-0.021313,0.022042,1.0
+"Softened prior .9/.9/.1, .1/.1/.9 (§6.11)",Fixed weights,sockshop,HR@1,5,0.872199,0.016441,0.863,0.009199,0.27907,1.0
+"Softened prior .9/.9/.1, .1/.1/.9 (§6.11)",Fixed weights,sockshop,HR@3,5,0.952697,0.003711,0.954,-0.001303,0.47634,1.0
+"Softened prior .9/.9/.1, .1/.1/.9 (§6.11)",Fixed weights,sockshop,Avg@3,5,0.918396,0.008299,0.913,0.005396,0.219669,1.0
+"Softened prior .9/.9/.1, .1/.1/.9 (§6.11)",Fixed weights,sockshop,MRR@3,5,0.908714,0.01001,0.903,0.005714,0.270893,1.0
+"Softened prior .9/.9/.1, .1/.1/.9 (§6.11)",Fixed weights,sockshop,P,5,0.60472,0.023323,0.649,-0.04428,0.013207,1.0
+"Softened prior .9/.9/.1, .1/.1/.9 (§6.11)",Fixed weights,sockshop,R,5,0.563485,0.019105,0.622,-0.058515,0.002379,0.561477
+"Softened prior .9/.9/.1, .1/.1/.9 (§6.11)",Fixed weights,sockshop,F1,5,0.583246,0.018737,0.636,-0.052754,0.003253,0.754658
+"Softened prior .9/.9/.1, .1/.1/.9 (§6.11)",Fixed weights,hotel,HR@1,5,0.838462,0.007022,0.821,0.017462,0.005122,1.0
+"Softened prior .9/.9/.1, .1/.1/.9 (§6.11)",Fixed weights,hotel,HR@3,5,0.923077,0.012821,0.923,7.7e-05,0.989938,1.0
+"Softened prior .9/.9/.1, .1/.1/.9 (§6.11)",Fixed weights,hotel,Avg@3,5,0.884615,0.006757,0.876,0.008615,0.046346,1.0
+"Softened prior .9/.9/.1, .1/.1/.9 (§6.11)",Fixed weights,hotel,MRR@3,5,0.875641,0.006481,0.866,0.009641,0.029207,1.0
+"Softened prior .9/.9/.1, .1/.1/.9 (§6.11)",Fixed weights,hotel,P,5,0.81415,0.009846,0.836,-0.02185,0.007694,1.0
+"Softened prior .9/.9/.1, .1/.1/.9 (§6.11)",Fixed weights,hotel,R,5,0.764103,0.019443,0.808,-0.043897,0.007239,1.0
+"Softened prior .9/.9/.1, .1/.1/.9 (§6.11)",Fixed weights,hotel,F1,5,0.788195,0.010754,0.822,-0.033805,0.002158,0.511447
+"1 · weight positive pairs, β = 1 (§6.13)",Contrastive weighting,gaia,HR@1,3,0.729499,0.017039,0.759,-0.029501,0.095536,1.0
+"1 · weight positive pairs, β = 1 (§6.13)",Contrastive weighting,gaia,HR@3,3,0.888534,0.013316,0.909,-0.020466,0.116876,1.0
+"1 · weight positive pairs, β = 1 (§6.13)",Contrastive weighting,gaia,Avg@3,3,0.821796,0.014909,0.844,-0.022204,0.123142,1.0
+"1 · weight positive pairs, β = 1 (§6.13)",Contrastive weighting,gaia,MRR@3,3,0.802154,0.015353,0.827,-0.024846,0.107198,1.0
+"1 · weight positive pairs, β = 1 (§6.13)",Contrastive weighting,gaia,P,3,0.915069,0.016168,0.925,-0.009931,0.398826,1.0
+"1 · weight positive pairs, β = 1 (§6.13)",Contrastive weighting,gaia,R,3,0.936102,0.019952,0.948,-0.011898,0.410211,1.0
+"1 · weight positive pairs, β = 1 (§6.13)",Contrastive weighting,gaia,F1,3,0.925463,0.018007,0.936,-0.010537,0.417488,1.0
+"1 · weight positive pairs, β = 1 (§6.13)",Contrastive weighting,hotel,HR@1,5,0.835897,0.010726,0.821,0.014897,0.036026,1.0
+"1 · weight positive pairs, β = 1 (§6.13)",Contrastive weighting,hotel,HR@3,5,0.917949,0.007022,0.923,-0.005051,0.183008,1.0
+"1 · weight positive pairs, β = 1 (§6.13)",Contrastive weighting,hotel,Avg@3,5,0.882051,0.008862,0.876,0.006051,0.201492,1.0
+"1 · weight positive pairs, β = 1 (§6.13)",Contrastive weighting,hotel,MRR@3,5,0.87265,0.008627,0.866,0.00665,0.159881,1.0
+"1 · weight positive pairs, β = 1 (§6.13)",Contrastive weighting,hotel,P,5,0.832006,0.006388,0.836,-0.003994,0.234659,1.0
+"1 · weight positive pairs, β = 1 (§6.13)",Contrastive weighting,hotel,R,5,0.789744,0.024992,0.808,-0.018256,0.177714,1.0
+"1 · weight positive pairs, β = 1 (§6.13)",Contrastive weighting,hotel,F1,5,0.810208,0.015511,0.822,-0.011792,0.164376,1.0
+"1 · weight positive pairs, β = 1/τ",Contrastive weighting,gaia,HR@1,3,0.730564,0.009585,0.759,-0.028436,0.035847,1.0
+"1 · weight positive pairs, β = 1/τ",Contrastive weighting,gaia,HR@3,3,0.893859,0.014061,0.909,-0.015141,0.203169,1.0
+"1 · weight positive pairs, β = 1/τ",Contrastive weighting,gaia,Avg@3,3,0.824044,0.012592,0.844,-0.019956,0.111054,1.0
+"1 · weight positive pairs, β = 1/τ",Contrastive weighting,gaia,MRR@3,3,0.80452,0.011802,0.827,-0.02248,0.080887,1.0
+"1 · weight positive pairs, β = 1/τ",Contrastive weighting,gaia,P,3,0.917821,0.004949,0.925,-0.007179,0.12858,1.0
+"1 · weight positive pairs, β = 1/τ",Contrastive weighting,gaia,R,3,0.937167,0.00488,0.948,-0.010833,0.06148,1.0
+"1 · weight positive pairs, β = 1/τ",Contrastive weighting,gaia,F1,3,0.927393,0.004911,0.936,-0.008607,0.093537,1.0
+"1 · weight positive pairs, β = 1/τ",Contrastive weighting,hotel,HR@1,5,0.833333,0.009065,0.821,0.012333,0.038323,1.0
+"1 · weight positive pairs, β = 1/τ",Contrastive weighting,hotel,HR@3,5,0.917949,0.007022,0.923,-0.005051,0.183008,1.0
+"1 · weight positive pairs, β = 1/τ",Contrastive weighting,hotel,Avg@3,5,0.882051,0.008331,0.876,0.006051,0.179643,1.0
+"1 · weight positive pairs, β = 1/τ",Contrastive weighting,hotel,MRR@3,5,0.871795,0.007995,0.866,0.005795,0.180394,1.0
+"1 · weight positive pairs, β = 1/τ",Contrastive weighting,hotel,P,5,0.820407,0.013049,0.836,-0.015593,0.055698,1.0
+"1 · weight positive pairs, β = 1/τ",Contrastive weighting,hotel,R,5,0.771795,0.021066,0.808,-0.036205,0.018413,1.0
+"1 · weight positive pairs, β = 1/τ",Contrastive weighting,hotel,F1,5,0.795268,0.015165,0.822,-0.026732,0.016939,1.0
+"2 · weight negative samples, β = 1",Contrastive weighting,gaia,HR@1,3,0.724885,0.024432,0.759,-0.034115,0.136753,1.0
+"2 · weight negative samples, β = 1",Contrastive weighting,gaia,HR@3,3,0.890664,0.016268,0.909,-0.018336,0.190152,1.0
+"2 · weight negative samples, β = 1",Contrastive weighting,gaia,Avg@3,3,0.819903,0.018563,0.844,-0.024097,0.153515,1.0
+"2 · weight negative samples, β = 1",Contrastive weighting,gaia,MRR@3,3,0.800024,0.020063,0.827,-0.026976,0.145248,1.0
+"2 · weight negative samples, β = 1",Contrastive weighting,gaia,P,3,0.915312,0.014991,0.925,-0.009688,0.379395,1.0
+"2 · weight negative samples, β = 1",Contrastive weighting,gaia,R,3,0.935747,0.02186,0.948,-0.012253,0.434039,1.0
+"2 · weight negative samples, β = 1",Contrastive weighting,gaia,F1,3,0.925409,0.018345,0.936,-0.010591,0.422679,1.0
+"2 · weight negative samples, β = 1",Contrastive weighting,hotel,HR@1,5,0.835897,0.010726,0.821,0.014897,0.036026,1.0
+"2 · weight negative samples, β = 1",Contrastive weighting,hotel,HR@3,5,0.920513,0.010726,0.923,-0.002487,0.63148,1.0
+"2 · weight negative samples, β = 1",Contrastive weighting,hotel,Avg@3,5,0.883761,0.008758,0.876,0.007761,0.118609,1.0
+"2 · weight negative samples, β = 1",Contrastive weighting,hotel,MRR@3,5,0.873932,0.009314,0.866,0.007932,0.129609,1.0
+"2 · weight negative samples, β = 1",Contrastive weighting,hotel,P,5,0.819626,0.02592,0.836,-0.016374,0.230641,1.0
+"2 · weight negative samples, β = 1",Contrastive weighting,hotel,R,5,0.782051,0.027196,0.808,-0.025949,0.099816,1.0
+"2 · weight negative samples, β = 1",Contrastive weighting,hotel,F1,5,0.800272,0.024228,0.822,-0.021728,0.115413,1.0
+"2 · weight negative samples, β = 1/τ",Contrastive weighting,gaia,HR@1,3,0.728435,0.021379,0.759,-0.030565,0.131633,1.0
+"2 · weight negative samples, β = 1/τ",Contrastive weighting,gaia,HR@3,3,0.893149,0.014459,0.909,-0.015851,0.197994,1.0
+"2 · weight negative samples, β = 1/τ",Contrastive weighting,gaia,Avg@3,3,0.823216,0.014735,0.844,-0.020784,0.134547,1.0
+"2 · weight negative samples, β = 1/τ",Contrastive weighting,gaia,MRR@3,3,0.803278,0.01687,0.827,-0.023722,0.135209,1.0
+"2 · weight negative samples, β = 1/τ",Contrastive weighting,gaia,P,3,0.921447,0.012468,0.925,-0.003553,0.67048,1.0
+"2 · weight negative samples, β = 1/τ",Contrastive weighting,gaia,R,3,0.944622,0.016906,0.948,-0.003378,0.76229,1.0
+"2 · weight negative samples, β = 1/τ",Contrastive weighting,gaia,F1,3,0.932888,0.014636,0.936,-0.003112,0.747963,1.0
+"2 · weight negative samples, β = 1/τ",Contrastive weighting,hotel,HR@1,5,0.838462,0.007022,0.821,0.017462,0.005122,1.0
+"2 · weight negative samples, β = 1/τ",Contrastive weighting,hotel,HR@3,5,0.925641,0.010726,0.923,0.002641,0.611238,1.0
+"2 · weight negative samples, β = 1/τ",Contrastive weighting,hotel,Avg@3,5,0.88547,0.008758,0.876,0.00947,0.072932,1.0
+"2 · weight negative samples, β = 1/τ",Contrastive weighting,hotel,MRR@3,5,0.876496,0.007615,0.866,0.010496,0.036858,1.0
+"2 · weight negative samples, β = 1/τ",Contrastive weighting,hotel,P,5,0.813079,0.014592,0.836,-0.022921,0.024621,1.0
+"2 · weight negative samples, β = 1/τ",Contrastive weighting,hotel,R,5,0.771795,0.022934,0.808,-0.036205,0.024231,1.0
+"2 · weight negative samples, β = 1/τ",Contrastive weighting,hotel,F1,5,0.791761,0.015651,0.822,-0.030239,0.012443,1.0
+3 · weight by sample importance,Contrastive weighting,gaia,HR@1,3,0.750799,0.008717,0.759,-0.008201,0.244753,1.0
+3 · weight by sample importance,Contrastive weighting,gaia,HR@3,3,0.900248,0.00785,0.909,-0.008752,0.19323,1.0
+3 · weight by sample importance,Contrastive weighting,gaia,Avg@3,3,0.837771,0.007438,0.844,-0.006229,0.283963,1.0
+3 · weight by sample importance,Contrastive weighting,gaia,MRR@3,3,0.819193,0.007525,0.827,-0.007807,0.21417,1.0
+3 · weight by sample importance,Contrastive weighting,gaia,P,3,0.908296,0.003811,0.925,-0.016704,0.016911,1.0
+3 · weight by sample importance,Contrastive weighting,gaia,R,3,0.929712,0.004642,0.948,-0.018288,0.02081,1.0
+3 · weight by sample importance,Contrastive weighting,gaia,F1,3,0.918879,0.004183,0.936,-0.017121,0.019321,1.0
+3 · weight by sample importance,Contrastive weighting,hotel,HR@1,5,0.838462,0.014618,0.821,0.017462,0.055742,1.0
+3 · weight by sample importance,Contrastive weighting,hotel,HR@3,5,0.920513,0.014044,0.923,-0.002487,0.712319,1.0
+3 · weight by sample importance,Contrastive weighting,hotel,Avg@3,5,0.883761,0.011062,0.876,0.007761,0.191777,1.0
+3 · weight by sample importance,Contrastive weighting,hotel,MRR@3,5,0.874786,0.010853,0.866,0.008786,0.144514,1.0
+3 · weight by sample importance,Contrastive weighting,hotel,P,5,0.823049,0.020209,0.836,-0.012951,0.225145,1.0
+3 · weight by sample importance,Contrastive weighting,hotel,R,5,0.779487,0.036712,0.808,-0.028513,0.157453,1.0
+3 · weight by sample importance,Contrastive weighting,hotel,F1,5,0.800549,0.028079,0.822,-0.021451,0.162773,1.0
+4 · weights from the diagnosis losses,Contrastive weighting,gaia,HR@1,3,0.744764,0.011875,0.759,-0.014236,0.173485,1.0
+4 · weights from the diagnosis losses,Contrastive weighting,gaia,HR@3,3,0.899894,0.007378,0.909,-0.009106,0.165983,1.0
+4 · weights from the diagnosis losses,Contrastive weighting,gaia,Avg@3,3,0.833511,0.007555,0.844,-0.010489,0.138027,1.0
+4 · weights from the diagnosis losses,Contrastive weighting,gaia,MRR@3,3,0.814992,0.00852,0.827,-0.012008,0.134729,1.0
+4 · weights from the diagnosis losses,Contrastive weighting,gaia,P,3,0.922067,0.010754,0.925,-0.002933,0.683214,1.0
+4 · weights from the diagnosis losses,Contrastive weighting,gaia,R,3,0.945687,0.014328,0.948,-0.002313,0.806028,1.0
+4 · weights from the diagnosis losses,Contrastive weighting,gaia,F1,3,0.933726,0.012499,0.936,-0.002274,0.782494,1.0
+4 · weights from the diagnosis losses,Contrastive weighting,hotel,HR@1,5,0.828205,0.007022,0.821,0.007205,0.083456,1.0
+4 · weights from the diagnosis losses,Contrastive weighting,hotel,HR@3,5,0.917949,0.011467,0.923,-0.005051,0.380389,1.0
+4 · weights from the diagnosis losses,Contrastive weighting,hotel,Avg@3,5,0.878632,0.006481,0.876,0.002632,0.415122,1.0
+4 · weights from the diagnosis losses,Contrastive weighting,hotel,MRR@3,5,0.868376,0.006858,0.866,0.002376,0.481733,1.0
+4 · weights from the diagnosis losses,Contrastive weighting,hotel,P,5,0.821001,0.021179,0.836,-0.014999,0.188455,1.0
+4 · weights from the diagnosis losses,Contrastive weighting,hotel,R,5,0.787179,0.017201,0.808,-0.020821,0.053722,1.0
+4 · weights from the diagnosis losses,Contrastive weighting,hotel,F1,5,0.803717,0.0187,0.822,-0.018283,0.094083,1.0
+5 · curriculum (easy → hard),Contrastive weighting,gaia,HR@1,3,0.726305,0.021616,0.759,-0.032695,0.120029,1.0
+5 · curriculum (easy → hard),Contrastive weighting,gaia,HR@3,3,0.891374,0.012912,0.909,-0.017626,0.141796,1.0
+5 · curriculum (easy → hard),Contrastive weighting,gaia,Avg@3,3,0.82156,0.016689,0.844,-0.02244,0.145252,1.0
+5 · curriculum (easy → hard),Contrastive weighting,gaia,MRR@3,3,0.801444,0.017608,0.827,-0.025556,0.128445,1.0
+5 · curriculum (easy → hard),Contrastive weighting,gaia,P,3,0.9172,0.014571,0.925,-0.0078,0.451745,1.0
+5 · curriculum (easy → hard),Contrastive weighting,gaia,R,3,0.939297,0.019521,0.948,-0.008703,0.520769,1.0
+5 · curriculum (easy → hard),Contrastive weighting,gaia,F1,3,0.928113,0.016991,0.936,-0.007887,0.505797,1.0
+5 · curriculum (easy → hard),Contrastive weighting,hotel,HR@1,5,0.833333,0.018131,0.821,0.012333,0.20289,1.0
+5 · curriculum (easy → hard),Contrastive weighting,hotel,HR@3,5,0.917949,0.007022,0.923,-0.005051,0.183008,1.0
+5 · curriculum (easy → hard),Contrastive weighting,hotel,Avg@3,5,0.881197,0.009745,0.876,0.005197,0.29901,1.0
+5 · curriculum (easy → hard),Contrastive weighting,hotel,MRR@3,5,0.871367,0.011645,0.866,0.005367,0.360931,1.0
+5 · curriculum (easy → hard),Contrastive weighting,hotel,P,5,0.830273,0.011527,0.836,-0.005727,0.328875,1.0
+5 · curriculum (easy → hard),Contrastive weighting,hotel,R,5,0.784615,0.005734,0.808,-0.023385,0.000802,0.190861
+5 · curriculum (easy → hard),Contrastive weighting,hotel,F1,5,0.806747,0.005131,0.822,-0.015253,0.002659,0.62481
+"Oracle, one matrix (§6.12, fitted on test)",Upper bound,gaia,HR@1,3,0.737309,0.009304,0.759,-0.021691,0.056213,1.0
+"Oracle, one matrix (§6.12, fitted on test)",Upper bound,gaia,HR@3,3,0.895634,0.015359,0.909,-0.013366,0.270727,1.0
+"Oracle, one matrix (§6.12, fitted on test)",Upper bound,gaia,Avg@3,3,0.829133,0.013959,0.844,-0.014867,0.206379,1.0
+"Oracle, one matrix (§6.12, fitted on test)",Upper bound,gaia,MRR@3,3,0.809608,0.012634,0.827,-0.017392,0.139908,1.0
+"Oracle, one matrix (§6.12, fitted on test)",Upper bound,gaia,P,3,0.919944,0.008182,0.925,-0.005056,0.396518,1.0
+"Oracle, one matrix (§6.12, fitted on test)",Upper bound,gaia,R,3,0.943557,0.011119,0.948,-0.004443,0.560409,1.0
+"Oracle, one matrix (§6.12, fitted on test)",Upper bound,gaia,F1,3,0.931599,0.009613,0.936,-0.004401,0.510961,1.0
+"Oracle, one matrix (§6.12, fitted on test)",Upper bound,hotel,HR@1,5,0.828205,0.011467,0.821,0.007205,0.232721,1.0
+"Oracle, one matrix (§6.12, fitted on test)",Upper bound,hotel,HR@3,5,0.925641,0.010726,0.923,0.002641,0.611238,1.0
+"Oracle, one matrix (§6.12, fitted on test)",Upper bound,hotel,Avg@3,5,0.880342,0.009556,0.876,0.004342,0.367087,1.0
+"Oracle, one matrix (§6.12, fitted on test)",Upper bound,hotel,MRR@3,5,0.870513,0.009141,0.866,0.004513,0.331555,1.0
+"Oracle, one matrix (§6.12, fitted on test)",Upper bound,hotel,P,5,0.811588,0.021729,0.836,-0.024412,0.065905,1.0
+"Oracle, one matrix (§6.12, fitted on test)",Upper bound,hotel,R,5,0.779487,0.021066,0.808,-0.028513,0.038915,1.0
+"Oracle, one matrix (§6.12, fitted on test)",Upper bound,hotel,F1,5,0.795082,0.018163,0.822,-0.026918,0.029544,1.0
+"Oracle, per failure type (fitted on test)",Upper bound,gaia,HR@1,3,0.738019,0.007378,0.759,-0.020981,0.038838,1.0
+"Oracle, per failure type (fitted on test)",Upper bound,gaia,HR@3,3,0.899184,0.012251,0.909,-0.009816,0.299573,1.0
+"Oracle, per failure type (fitted on test)",Upper bound,gaia,Avg@3,3,0.831263,0.009501,0.844,-0.012737,0.145931,1.0
+"Oracle, per failure type (fitted on test)",Upper bound,gaia,MRR@3,3,0.811502,0.009083,0.827,-0.015498,0.097963,1.0
+"Oracle, per failure type (fitted on test)",Upper bound,gaia,P,3,0.919713,0.012976,0.925,-0.005287,0.553505,1.0
+"Oracle, per failure type (fitted on test)",Upper bound,gaia,R,3,0.941782,0.017117,0.948,-0.006218,0.593509,1.0
+"Oracle, per failure type (fitted on test)",Upper bound,gaia,F1,3,0.930614,0.014992,0.936,-0.005386,0.597267,1.0
+"Oracle, per failure type (fitted on test)",Upper bound,hotel,HR@1,5,0.828205,0.011467,0.821,0.007205,0.232721,1.0
+"Oracle, per failure type (fitted on test)",Upper bound,hotel,HR@3,5,0.915385,0.011467,0.923,-0.007615,0.21172,1.0
+"Oracle, per failure type (fitted on test)",Upper bound,hotel,Avg@3,5,0.877778,0.009838,0.876,0.001778,0.706843,1.0
+"Oracle, per failure type (fitted on test)",Upper bound,hotel,MRR@3,5,0.867521,0.010022,0.866,0.001521,0.751362,1.0
+"Oracle, per failure type (fitted on test)",Upper bound,hotel,P,5,0.81554,0.0253,0.836,-0.02046,0.144826,1.0
+"Oracle, per failure type (fitted on test)",Upper bound,hotel,R,5,0.784615,0.030609,0.808,-0.023385,0.162758,1.0
+"Oracle, per failure type (fitted on test)",Upper bound,hotel,F1,5,0.799635,0.025607,0.822,-0.022365,0.12254,1.0

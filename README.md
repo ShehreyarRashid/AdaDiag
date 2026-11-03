@@ -64,6 +64,10 @@ benchmarks, it cannot.
 >     Hotel's dropout masks differed (worth up to 0.044 F1 with no TO term at all). With the
 >     stream aligned, the two arms match bit-for-bit when the TO term is off. AdaDiag on Hotel
 >     then moves from −0.017 to +0.012 F1 against TVDiag, still not significant.
+> 11. **Against the paper's own numbers, no method beats TVDiag** (§6.16). On all seven
+>     published metrics and three datasets, none of 238 comparisons survives correction.
+>     Every method shares the same offset from the paper as this repository's TVDiag re-run:
+>     below on GAIA, above on RCL but below on FTI on Sock Shop and Hotel.
 >
 > The contribution of this repository is that diagnosis, reproducibly — a negative result
 > with a mechanism, rather than an unexplained flat table.
@@ -179,6 +183,7 @@ forward path that produces predictions, so AdaDiag adds **zero inference cost**.
 | 12 | Comparison with the TVDiag paper (Tables 3–7, Figs. 11, 13–18) | `src/adadiag/paper_compare.py`, `src/adadiag/paper_numbers.py` | `per_class_k()`, `modality_shapley()`, `to_agreement()`, `VARIANTS` |
 | — | Hyperparameters, transcribed from TVDiag | `src/adadiag/config.py` | `get()` |
 | — | Is everything but the TO block the same? (§6.15) | `scripts/check_controlled.py`, `src/adadiag/model.py` | `isolate_weighting_rng` |
+| — | Every method against the TVDiag paper's Tables 4–5 (§6.16) | `scripts/make_paper_vs_methods.py` | `METHODS`, `collect()` |
 | — | Re-run committed experiments, compare to results/ | `scripts/verify_results.py` | `main()` |
 | — | Tests (70; 64 need no data, 6 check data/) | `tests/test_supcon_equivalence.py`, `tests/test_weighting_identifiability.py`, `tests/test_ablation_switches.py`, `tests/test_paper_compare.py`, `tests/test_trace_weight.py`, `tests/test_fidelity.py`, `tests/test_oracle.py`, `tests/test_cl_variants.py`, `tests/test_fixed_trace.py`, `tests/test_controlled.py`, `tests/test_data_integrity.py` | `pytest -q` |
 
@@ -305,6 +310,9 @@ python scripts/check_controlled.py --part rng    --dataset hotel --seeds 5
 python scripts/check_controlled.py --part length --dataset hotel --seeds 5 --epochs-from rng
 python scripts/check_controlled.py --part length --dataset gaia  --seeds 3
 python scripts/make_controlled_report.py
+
+# every method against the TVDiag paper only (§6.16): seconds, no training
+python scripts/make_paper_vs_methods.py
 ```
 
 **CPU only. No GPU, no CUDA, and no DGL.** The incident graphs have 10–21 nodes, so the
@@ -1236,6 +1244,60 @@ So, verified bit-for-bit, AdaDiag and TVDiag now differ only in the TO block, an
 conclusion does not change: AdaDiag is within noise of TVDiag on both datasets. The Hotel
 numbers for V3 and V4 in §6.3, §6.8 and §6.12–6.14 carry the dropout-mask noise described
 here (up to ±0.04 F1 per seed). For new runs, set `isolate_weighting_rng=True`.
+
+### 6.16 Every method against the TVDiag paper
+
+The same methods, compared this time **with the paper's published TVDiag numbers only**:
+its Table 4 (RCL: HR@1, HR@3, Avg@3, MRR@3) and Table 5 (FTI: P, R, F1). Nothing is
+re-trained, and no re-run of TVDiag is used as the reference. Full tables, one per dataset
+with all seven metrics: [`results/paper_vs_methods/PAPER_VS_METHODS.md`](results/paper_vs_methods/PAPER_VS_METHODS.md).
+They also come as LaTeX (`table_A.tex`, `table_C.tex`, `table_D.tex`) and as a CSV with every
+p-value.
+
+**Gap to the paper, HR@1 / F1** (method mean − published TVDiag; † p < 0.05 before
+correction, one-sample t-test over seeds; none survives Holm over the 238 cells):
+
+| method | A · GAIA | C · Sock Shop | D · Hotel |
+|---|---|---|---|
+| **TVDiag (paper)** | **0.759 / 0.936** | **0.863 / 0.636** | **0.821 / 0.822** |
+| AdaDiag | −0.019 / −0.004 | +0.008 † / −0.061 † | +0.007 / −0.041 |
+| AdaDiag, random stream aligned (§6.15) | −0.019 / −0.004 | +0.008 † / −0.061 † | +0.015 † / −0.012 † |
+| AdaDiag, TVDiag-fidelity loop (§6.11) | −0.019 † / −0.001 | +0.016 † / −0.050 † | +0.020 † / −0.019 |
+| AdaDiag, trace fixed at 1/3 (§6.14) | −0.023 / −0.004 | — | +0.015 / −0.039 † |
+| AdaDiag, trace fixed at TVDiag's role (§6.14) | −0.020 / −0.000 | — | +0.015 / −0.033 |
+| Softened prior .9/.9/.1, .1/.1/.9 (§6.11) | −0.030 † / −0.021 † | +0.009 / −0.053 † | +0.017 † / −0.034 † |
+| 1 · weight positive pairs, β = 1 (§6.13) | −0.030 / −0.011 | — | +0.015 † / −0.012 |
+| 1 · weight positive pairs, β = 1/τ | −0.028 † / −0.009 | — | +0.012 † / −0.027 † |
+| 2 · weight negative samples, β = 1 | −0.034 / −0.011 | — | +0.015 † / −0.022 |
+| 2 · weight negative samples, β = 1/τ | −0.031 / −0.003 | — | +0.017 † / −0.030 † |
+| 3 · weight by sample importance | −0.008 / −0.017 † | — | +0.017 / −0.021 |
+| 4 · weights from the diagnosis losses | −0.014 / −0.002 | — | +0.007 / −0.018 |
+| 5 · curriculum (easy → hard) | −0.033 / −0.008 | — | +0.012 / −0.015 † |
+| Oracle, one matrix (§6.12, fitted on test) | −0.022 / −0.004 | — | +0.007 / −0.027 † |
+| Oracle, per failure type (fitted on test) | −0.021 † / −0.005 | — | +0.007 / −0.022 |
+
+1. **No method beats the paper's TVDiag.** No cell differs from the paper after Holm
+   correction (0 of 238). Before correction, 15 cells are above and 46 below.
+2. **Every method shows the same pattern, set by the dataset:**
+   - **GAIA:** all below the paper on every metric (HR@1 −0.008 to −0.034, F1 −0.000 to
+     −0.021).
+   - **Sock Shop:** RCL at or above the paper (HR@1 +0.008 to +0.016), FTI well below (F1
+     −0.050 to −0.061).
+   - **Hotel:** the same pattern, milder: HR@1 +0.007 to +0.020, F1 −0.012 to −0.041.
+3. **That pattern is the re-implementation's, not any method's.** This repository's own
+   TVDiag re-run shows it too: −0.033 / −0.012 on GAIA, +0.005 / −0.064 on Sock Shop and
+   +0.012 / −0.024 on Hotel (HR@1 / F1). The methods cluster around those offsets. On GAIA
+   HR@1, from −0.034 to −0.008 around the re-run's −0.033. On Sock Shop F1, from −0.061 to
+   −0.050 around −0.064. On Hotel F1, from −0.041 to −0.012 around −0.024. The differences
+   between methods, measured with paired seeds, are in §6.12–6.15. The shared offset is how
+   far this re-implementation sits from the published numbers.
+4. **The closest to the paper are explained elsewhere.** On GAIA, type 3 (−0.008 HR@1) gets
+   there by stopping earlier (§6.13). The fidelity-loop AdaDiag and the trace-fixed variant
+   come within 0.001 on F1. On Hotel, the aligned AdaDiag and type 1 get within −0.012 F1.
+
+![every method against the paper's TVDiag](results/paper_vs_methods/fig_p1_values.png)
+
+![gap to the paper, all seven metrics](results/paper_vs_methods/fig_p2_gap.png)
 
 
 ---
