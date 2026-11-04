@@ -95,6 +95,13 @@ benchmarks, it cannot.
 >     zero both ways when computed as Eq. 17 defines it. The published FTI → RCL value comes
 >     from a bug that re-evaluates the wrong model copy. Table 9: AdaDiag costs nothing at
 >     inference, and an epoch takes 1.4–2.7× as long to train.
+> 16. **Improving RCL and FTI** (§6.21). Eight changes were screened on development seeds,
+>     by a rule fixed in advance. The winner, scoring each instance against its neighbours'
+>     mean in the RCL head, was confirmed on fresh seeds. It raises TVDiag's F1 on all
+>     three datasets (+0.012 / +0.020 / +0.037) and costs nothing, but leaves HR@1 where it
+>     was. With AdaDiag-DL it reaches Sock Shop F1 0.619, against the paper's 0.636 and the
+>     released re-run's 0.563, at the cost of GAIA's rare types. RCL appears limited by the
+>     released features.
 >
 > The contribution of this repository is that diagnosis, reproducibly — a negative result
 > with a mechanism, rather than an unexplained flat table.
@@ -215,8 +222,9 @@ forward path that produces predictions, so AdaDiag adds **zero inference cost**.
 | — | Which AdaDiag is best: screening, pre-registered rule, fresh-seed confirmation (§6.17) | `scripts/select_adadiag.py`, `scripts/make_selection_report.py` | `VARIANTS`, `SELECTION_RULE` |
 | — | What the TVDiag paper specifies and its code does not do, as switches (§6.19) | `src/adadiag/config.py`, `scripts/make_paper_features_report.py` | `PAPER`, `to_term()`, `make_batch_union()` |
 | — | The paper's Tables 8–9: inter-task affinity (Eq. 17, and as TVDiag computes it) and efficiency (§6.20) | `src/adadiag/affinity.py`, `scripts/run_tables_8_9.py` | `task_affinity()` |
+| — | Improving RCL and FTI: eight switches, screened then confirmed on fresh seeds (§6.21) | `scripts/improve.py`, `scripts/make_improve_report.py`, `src/adadiag/model.py`, `src/adadiag/augment.py` | `CANDIDATES`, `RULE`, `rcl_context`, `fti_readout`, `drop_modality()`, `fti_class_weights()` |
 | — | Re-run committed experiments, compare to results/ | `scripts/verify_results.py` | `main()` |
-| — | Tests (87; 74 need no data, 13 use data/) | `tests/test_supcon_equivalence.py`, `tests/test_weighting_identifiability.py`, `tests/test_ablation_switches.py`, `tests/test_paper_compare.py`, `tests/test_trace_weight.py`, `tests/test_fidelity.py`, `tests/test_oracle.py`, `tests/test_cl_variants.py`, `tests/test_fixed_trace.py`, `tests/test_controlled.py`, `tests/test_lstm_aggregator.py`, `tests/test_paper_features.py`, `tests/test_affinity.py`, `tests/test_data_integrity.py` | `pytest -q` |
+| — | Tests (100; 87 need no data, 13 use data/) | `tests/test_supcon_equivalence.py`, `tests/test_weighting_identifiability.py`, `tests/test_ablation_switches.py`, `tests/test_paper_compare.py`, `tests/test_trace_weight.py`, `tests/test_fidelity.py`, `tests/test_oracle.py`, `tests/test_cl_variants.py`, `tests/test_fixed_trace.py`, `tests/test_controlled.py`, `tests/test_lstm_aggregator.py`, `tests/test_paper_features.py`, `tests/test_affinity.py`, `tests/test_improve.py`, `tests/test_data_integrity.py` | `pytest -q` |
 
 Model assembly lives in `src/adadiag/model.py`; the runnable entry points are in `scripts/`.
 
@@ -283,7 +291,7 @@ Per dataset the loader reads `data/<ds>/tmp/{metric,trace,log}.pkl` (embeddings)
 git clone https://github.com/ShehreyarRashid/AdaDiag.git && cd AdaDiag
 pip install -r requirements.txt            # or: conda env create -f environment.yml
 
-pytest -q                                  # 87 tests, incl. checksums of data/; run first
+pytest -q                                  # 100 tests, incl. checksums of data/; run first
 
 # the five-arm, five-seed sweep (2 CPU cores, no GPU: ~16 min Hotel, ~34 min GAIA)
 python scripts/run_sweep.py       --dataset gaia
@@ -372,6 +380,13 @@ python scripts/make_paper_features_report.py       # and --dataset sockshop / ho
 
 # the paper's Tables 8-9 (§6.20): affinity takes one epoch per seed; ~5 min in all
 python scripts/run_tables_8_9.py
+
+# improving RCL and FTI (§6.21): screen ~1.5 h, confirmation ~1.5 h on 2 cores
+python scripts/improve.py --stage screen  --dataset gaia        # and sockshop, hotel
+python scripts/improve.py --stage combine                       # writes PLAN.md: rule + decision
+python scripts/improve.py --stage screen  --dataset gaia --variants combination
+python scripts/improve.py --stage confirm --dataset gaia        # fresh seeds 10-14
+python scripts/make_improve_report.py
 ```
 
 **CPU only. No GPU, no CUDA, and no DGL.** The incident graphs have 10–21 nodes, so the
@@ -1653,6 +1668,72 @@ latter including alert extraction.
    (§6.13). AdaDiag-DL stops earlier on GAIA and Sock Shop, so a whole run costs 1.7× and
    1.3× TVDiag's there, and 2.2× on Hotel.
 
+### 6.21 Improving RCL and FTI
+
+**Where the errors are** (TVDiag, seeds 5–9, per failure type):
+- **RCL misses network faults.** Hotel network-delay has HR@1 0.27 and network-loss 0.69,
+  and Sock Shop's network-delay and network-loss are about 0.75. Every other type on those
+  two datasets is at least 0.88.
+- **Sock Shop's FTI is weak for every type** (recall 0.41–0.75), so it is not class
+  imbalance.
+- **GAIA's two rare types score 0.** One of them has no training example at all.
+
+Eight changes were tried, each a switch that is off by default
+(`tests/test_improve.py`):
+
+1. Learnable Eq. 13 weights (`theta`).
+2. Early stopping on RCL + FTI instead of the total loss (`es_diag`).
+3. Square-root class weights in the FTI loss (`cw_sqrt`).
+4. TVDiag's own unused modality-dropout augmentation (`moddrop`).
+5. Two augmented copies per incident (`aug2`).
+6. RCL scoring each instance with the incident's fused feature as well (`rcl_global`).
+7. RCL scoring each instance with its features minus its neighbours' mean (`rcl_neigh`),
+   aimed at network faults, which show at the culprit's neighbours.
+8. FTI reading the node embeddings pooled by the RCL scores (`fti_root`).
+
+**Protocol** (`scripts/improve.py`, full tables in
+[`results/improve/IMPROVE.md`](results/improve/IMPROVE.md)):
+- Each change was screened in TVDiag on development seeds 0–2, on all three datasets.
+- A rule fixed in advance kept a change if the mean of its HR@1 and F1 gains over the
+  datasets exceeded +0.005 and no dataset lost more than 0.015.
+- The rule and the decision were written to `PLAN.md` before any confirmation run.
+- Two changes were kept: neighbour contrast (+0.013) and modality dropout (+0.006).
+  Combined they scored lower (+0.0085), so the **final change is the neighbour contrast
+  alone** (`rcl_context="neighbour"`).
+- It was then confirmed on **fresh seeds 10–14**, for TVDiag and AdaDiag-DL, each against
+  itself as released.
+
+| dataset | TVDiag | TVDiag + change | AdaDiag-DL | AdaDiag-DL + change | published |
+|---|---|---|---|---|---|
+| A · GAIA | 0.736 / 0.918 | 0.739 / 0.930 | 0.754 / 0.941 | 0.736 / 0.934 | 0.759 / 0.936 |
+| C · Sock Shop | 0.865 / 0.563 | 0.867 / 0.583 | 0.870 / 0.591 | 0.880 / 0.619 | 0.863 / 0.636 |
+| D · Hotel | 0.828 / 0.789 | 0.831 / 0.826 | 0.828 / 0.788 | 0.836 / 0.815 | 0.821 / 0.822 |
+
+HR@1 / F1, mean over seeds 10–14.
+
+1. **FTI improves; RCL does not.** For TVDiag the change raises F1 on all three datasets:
+   +0.012 on GAIA (higher on every seed, p 0.02), +0.020 on Sock Shop and +0.037 on Hotel.
+   None of these survives Holm over the six primary cells. HR@1 moves by only +0.002 to
+   +0.003, and the ranking metrics by +0.003 to +0.011 (Sock Shop HR@3 +0.011, p 0.03).
+   The target did not move: Hotel network-delay HR@1 stays at 0.31. The gain lands on FTI
+   instead, presumably through the shared encoders. No dataset gets worse for TVDiag, so
+   **TVDiag + neighbour contrast is the safe improvement**.
+2. **For AdaDiag-DL the change is mixed.** It helps on Sock Shop (F1 +0.027, p 0.03) and
+   Hotel (+0.026, n.s.), and hurts GAIA (HR@1 −0.018, F1 −0.007).
+3. **Best numbers.** Against the released TVDiag, AdaDiag-DL + change raises F1 on all
+   three datasets; GAIA +0.016 and Sock Shop +0.056 survive Holm. HR@1 is flat (0.000,
+   +0.015, +0.008). It closes most of Sock Shop's F1 gap to the paper: 0.619 against the
+   published 0.636, where the released re-run gets 0.563. Part of that gain is
+   AdaDiag-DL's own, since on these seeds it already leads TVDiag on F1 (GAIA +0.022,
+   Sock Shop +0.028). The cost is rare types: GAIA macro-F1 falls 0.040 (p 0.05), as in
+   §6.17.
+4. **RCL appears limited by the features, not the head.** No change moved HR@1 by more than
+   0.019 on any dataset in the screen, and the confirmed one by at most 0.003. Fixing the
+   network-fault errors likely needs inputs the release does not have, such as the raw
+   traces that alert extraction starts from (§6.19).
+
+![Improving RCL and FTI](results/improve/fig_improve.png)
+
 
 ---
 
@@ -1756,6 +1837,11 @@ Checkable in minutes, independent of AdaDiag:
   5 fresh seeds; Eq. 13 alone was also run for AdaDiag-DL. Other combinations were not run.
   The Eq. 13 runs for AdaDiag-DL were chosen after the single-feature results, so they are
   exploratory, not a pre-registered test like §6.17.
+- **The improvements (§6.21)** were screened on 3 development seeds, at one setting each
+  (modality dropout 0.2, no tuning of the others). The rule and the decision were fixed
+  before the fresh seeds 10–14 were run, but all runs use TVDiag's single test split, so
+  the fresh seeds control seed noise, not the choice of split. Only the final change was
+  confirmed; a change the rule dropped could still help with a better setting.
 - **Tables 8–9 (§6.20)** compare the model only: alert extraction, and so the paper's
   offline and online totals, cannot be re-run, and times are CPU, not GPU. Affinity is
   measured in the first epoch only, as TVDiag measures it. The baseline is the

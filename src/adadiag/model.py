@@ -28,8 +28,23 @@ class AdaDiag(nn.Module):
             for m in MODALITIES
         })
         fuse = len(MODALITIES) * d_o
-        self.locator = Locator(fuse, cfg["linear_hidden"])
-        self.classifier = TypeClassifier(fuse, cfg["linear_hidden"], n_types)
+        # README section 6.21 (both off by default):
+        #   rcl_context  "global": each node is also scored with the incident's fused graph
+        #                feature; "neighbour": with its own features minus its neighbours'
+        #                mean (a root differs from the services its fault spreads to);
+        #                "both".
+        #   fti_readout  "root_attn": FTI also reads the node embeddings pooled by the RCL
+        #                softmax, i.e. the failure type is read off the likely culprit.
+        self.rcl_context = cfg.get("rcl_context", "none") or "none"
+        if self.rcl_context not in ("none", "global", "neighbour", "both"):
+            raise ValueError(f"unknown rcl_context {self.rcl_context!r}")
+        self.fti_readout = cfg.get("fti_readout", "max") or "max"
+        if self.fti_readout not in ("max", "root_attn"):
+            raise ValueError(f"unknown fti_readout {self.fti_readout!r}")
+        k_rcl = 1 + (self.rcl_context in ("global", "both")) + (self.rcl_context in ("neighbour", "both"))
+        k_fti = 2 if self.fti_readout == "root_attn" else 1
+        self.locator = Locator(fuse * k_rcl, cfg["linear_hidden"])
+        self.classifier = TypeClassifier(fuse * k_fti, cfg["linear_hidden"], n_types)
 
         # Ablation switches (see ablation.py). Every default reproduces the method exactly.
         dropped = set(cfg.get("drop_modalities", ()) or ())
@@ -91,7 +106,17 @@ class AdaDiag(nn.Module):
             e = e * (w[:, :, 0].repeat_interleave(rep, 1) * len(MODALITIES))[:, None, :]
             f_fti = f * (w[:, :, 1].repeat_interleave(rep, 1) * len(MODALITIES))
 
-        return fs, f, self.locator(e), self.classifier(f_fti)
+        e_in = e
+        if self.rcl_context in ("global", "both"):
+            e_in = torch.cat([e_in, f[:, None, :].expand(-1, e.shape[1], -1)], dim=-1)
+        if self.rcl_context in ("neighbour", "both"):
+            deg = A.sum(-1, keepdim=True).clamp(min=1.0)
+            e_in = torch.cat([e_in, e - torch.bmm(A, e) / deg], dim=-1)
+        node_logits = self.locator(e_in)
+        if self.fti_readout == "root_attn":
+            p = torch.softmax(node_logits.masked_fill(~keep, float("-inf")), dim=1)
+            f_fti = torch.cat([f_fti, (p[..., None] * e).sum(1)], dim=-1)
+        return fs, f, node_logits, self.classifier(f_fti)
 
     def weights(self, f: torch.Tensor, counts: torch.Tensor) -> torch.Tensor:
         """The 3x2 weight matrix for this batch. Detached input for the conditioned arms.

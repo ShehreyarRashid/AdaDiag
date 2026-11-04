@@ -2,6 +2,6 @@
 from . import (ablation, config, data, diagnostics, evaluate, identifiability, losses, model,
                paper_compare, paper_numbers, train, weighting)
 
-__version__ = "1.16.0"
+__version__ = "1.17.0"
 __all__ = ["ablation", "config", "data", "diagnostics", "evaluate", "identifiability",
            "losses", "model", "paper_compare", "paper_numbers", "train", "weighting"]

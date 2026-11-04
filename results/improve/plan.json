@@ -1,0 +1,192 @@
+{
+ "rule": "On the development seeds 0-2, each candidate's score is the mean over the three datasets of (dHR@1 + dF1) / 2, paired against TVDiag on the same seeds. A candidate is kept if its score is above +0.005 and no dataset loses more than 0.015 on HR@1 or F1. The kept candidates are combined (if both RCL-context variants are kept, rcl_context='both'). The combination is screened on the same seeds; the final change is the combination if its score is at least the best kept candidate's, otherwise the best kept candidate alone. If no candidate is kept, nothing is confirmed. The final change is then confirmed on fresh seeds 10-14 for TVDiag and AdaDiag-DL, against each as released.",
+ "written": "2026-11-04T07:29:22",
+ "kept": [
+  "moddrop",
+  "rcl_neigh"
+ ],
+ "combination": {
+  "aug_modality_drop": 0.2,
+  "rcl_context": "neighbour"
+ },
+ "best_single": "rcl_neigh",
+ "screen": {
+  "theta": {
+   "score": 0.0011119720509790941,
+   "worst": -0.017076203625805458,
+   "per": {
+    "gaia": {
+     "dHR1": 0.007099751508697201,
+     "dF1": -0.0027088728997072633,
+     "n": 3
+    },
+    "sockshop": {
+     "dHR1": 0.009681881051175623,
+     "dF1": 0.02249578909202728,
+     "n": 3
+    },
+    "hotel": {
+     "dHR1": -0.012820512820512811,
+     "dF1": -0.017076203625805458,
+     "n": 3
+    }
+   }
+  },
+  "es_diag": {
+   "score": 0.0037456430633113955,
+   "worst": -0.011365163871190945,
+   "per": {
+    "gaia": {
+     "dHR1": 0.009229676961306351,
+     "dF1": 0.012299058265208681,
+     "n": 3
+    },
+    "sockshop": {
+     "dHR1": 0.0013831258644536604,
+     "dF1": -0.011365163871190945,
+     "n": 3
+    },
+    "hotel": {
+     "dHR1": 0.0,
+     "dF1": 0.010927161160090626,
+     "n": 3
+    }
+   }
+  },
+  "cw_sqrt": {
+   "score": -0.005457334891959246,
+   "worst": -0.019746429531637005,
+   "per": {
+    "gaia": {
+     "dHR1": -0.0067447639332623615,
+     "dF1": -0.0016071829674286036,
+     "n": 3
+    },
+    "sockshop": {
+     "dHR1": 0.0152143845089903,
+     "dF1": -0.019746429531637005,
+     "n": 3
+    },
+    "hotel": {
+     "dHR1": -0.004273504273504258,
+     "dF1": -0.01558651315491355,
+     "n": 3
+    }
+   }
+  },
+  "moddrop": {
+   "score": 0.00605392716743558,
+   "worst": -0.004273504273504258,
+   "per": {
+    "gaia": {
+     "dHR1": 0.006034788782392608,
+     "dF1": 0.013233888458284918,
+     "n": 3
+    },
+    "sockshop": {
+     "dHR1": 0.017980636237897623,
+     "dF1": 0.004340895128235249,
+     "n": 3
+    },
+    "hotel": {
+     "dHR1": -0.004273504273504258,
+     "dF1": -0.0009931413286926594,
+     "n": 3
+    }
+   }
+  },
+  "aug2": {
+   "score": -0.00313685118504793,
+   "worst": -0.01712612595248249,
+   "per": {
+    "gaia": {
+     "dHR1": -0.009229676961306351,
+     "dF1": -0.005866297242430189,
+     "n": 3
+    },
+    "sockshop": {
+     "dHR1": 0.0013831258644536233,
+     "dF1": 0.003470858634469276,
+     "n": 3
+    },
+    "hotel": {
+     "dHR1": 0.008547008547008553,
+     "dF1": -0.01712612595248249,
+     "n": 3
+    }
+   }
+  },
+  "rcl_global": {
+   "score": 0.004780010728013249,
+   "worst": -0.005025151781645754,
+   "per": {
+    "gaia": {
+     "dHR1": 0.012424565140220093,
+     "dF1": -0.003170617247599742,
+     "n": 3
+    },
+    "sockshop": {
+     "dHR1": 0.01106500691562932,
+     "dF1": -0.005025151781645754,
+     "n": 3
+    },
+    "hotel": {
+     "dHR1": 3.700743415417188e-17,
+     "dF1": 0.013386261341475544,
+     "n": 3
+    }
+   }
+  },
+  "rcl_neigh": {
+   "score": 0.013258383621875721,
+   "worst": -0.008547008547008553,
+   "per": {
+    "gaia": {
+     "dHR1": 0.005679801206957731,
+     "dF1": 0.015934600376578012,
+     "n": 3
+    },
+    "sockshop": {
+     "dHR1": 0.01244813278008298,
+     "dF1": 0.013424018835935506,
+     "n": 3
+    },
+    "hotel": {
+     "dHR1": -0.008547008547008553,
+     "dF1": 0.04061075707870865,
+     "n": 3
+    }
+   }
+  },
+  "fti_root": {
+   "score": -0.00025895470375875634,
+   "worst": -0.023615218938384214,
+   "per": {
+    "gaia": {
+     "dHR1": 0.0007099751508697164,
+     "dF1": -0.023615218938384214,
+     "n": 3
+    },
+    "sockshop": {
+     "dHR1": 0.019363762102351283,
+     "dF1": 0.012932220064650224,
+     "n": 3
+    },
+    "hotel": {
+     "dHR1": -0.008547008547008553,
+     "dF1": -0.0023974580550309987,
+     "n": 3
+    }
+   }
+  }
+ },
+ "decision": {
+  "combination_score": 0.008547534310001992,
+  "combination_worst": -0.019524316648917295,
+  "best_single_score": 0.013258383621875721,
+  "final": {
+   "rcl_context": "neighbour"
+  },
+  "written": "2026-11-04T07:40:11"
+ }
+}

@@ -31,3 +31,17 @@ def drop_non_root(X: torch.Tensor, A: torch.Tensor, root: torch.Tensor,
             keep[b, j] = False
     m = keep.float()
     return X * m[:, None, :, None], A * m[:, None, :] * m[:, :, None], keep
+
+
+def drop_modality(X: torch.Tensor, start: int, pct: float, rng: random.Random) -> torch.Tensor:
+    """README section 6.21: TVDiag's unused `aug_loss_modality` (core/aug.py), applied to the
+    augmented rows X[start:]. In each, int(N * pct) instances, any instance including the
+    root, each lose one modality chosen at random: its features are zeroed. The graph and
+    the instance stay, so the model must diagnose from the other two sources."""
+    X = X.clone()
+    _, M, N, _ = X.shape
+    k = int(N * pct)
+    for b in range(start, X.shape[0]):
+        for j in rng.sample(range(N), k):
+            X[b, rng.randint(0, M - 1), j] = 0.0
+    return X

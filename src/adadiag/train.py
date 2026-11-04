@@ -15,7 +15,7 @@ import numpy as np
 import torch
 import torch.nn.functional as F
 
-from .augment import drop_non_root
+from .augment import drop_modality, drop_non_root
 from .losses import (AutomaticWeightedLoss, cm_paper, supcon_anchor_mean, supcon_per_sample,
                      supcon_weighted, uspcon)
 from .model import AdaDiag
@@ -165,11 +165,33 @@ def make_batch(ds, b, cfg, rng, pool=None):
         yt = torch.cat([yt, ds.ytype[idx]])
         cnt = torch.cat([cnt, ds.cnt[idx]])
     elif cfg["aug_times"] > 0:                     # TVDiag mixes AUG copies into the batch
-        Xa, Aa, ka = drop_non_root(X, A, root, cfg["aug_percent"], rng)
-        X, A = torch.cat([X, Xa]), torch.cat([A, Aa])
-        keep = torch.cat([keep, ka])
-        root, yt, cnt = torch.cat([root] * 2), torch.cat([yt] * 2), torch.cat([cnt] * 2)
+        # `aug_copies` (README section 6.21): augmented copies per incident, default 1
+        copies = int(cfg.get("aug_copies", 1) or 1)
+        Xs, As, ks = [X], [A], [keep]
+        for _ in range(copies):
+            Xa, Aa, ka = drop_non_root(X, A, root, cfg["aug_percent"], rng)
+            Xs.append(Xa); As.append(Aa); ks.append(ka)
+        X, A, keep = torch.cat(Xs), torch.cat(As), torch.cat(ks)
+        root, yt, cnt = (torch.cat([root] * (copies + 1)), torch.cat([yt] * (copies + 1)),
+                         torch.cat([cnt] * (copies + 1)))
+    pm = float(cfg.get("aug_modality_drop", 0.0) or 0.0)
+    if pm and cfg["aug_times"] > 0:               # README section 6.21: modality dropout
+        X = drop_modality(X, len(b), pm, rng)
     return X, A, keep, root, yt, cnt
+
+
+def fti_class_weights(ds, mode) -> torch.Tensor | None:
+    """README section 6.21: FTI loss weights from the TRAIN split's type counts, scaled so
+    the mean weight per training incident is 1. "sqrt": w_c ~ n_c^-1/2; "balanced":
+    w_c ~ 1 / n_c. A type absent from training gets weight 0 (it has no samples)."""
+    if not mode:
+        return None
+    if mode not in ("sqrt", "balanced"):
+        raise ValueError(f"unknown fti_class_weight {mode!r}; expected 'sqrt' or 'balanced'")
+    n = torch.bincount(ds.ytype[ds.train_idx], minlength=len(ds.types)).double()
+    w = torch.where(n > 0, n.clamp_min(1) ** (-0.5 if mode == "sqrt" else -1.0),
+                    torch.zeros_like(n))
+    return (w * n.sum() / (w * n).sum()).float()
 
 
 def make_batch_union(ds, idx: torch.Tensor, keep: torch.Tensor):
@@ -220,7 +242,7 @@ def compute_terms(model, arm, batch, cfg, capture: dict | None = None,
     l_rcl = l_fti = None
     if arm == "v5_align" and model.training and torch.is_grad_enabled():
         l_rcl = F.cross_entropy(node_logits.masked_fill(~keep, float("-inf")), root)
-        l_fti = F.cross_entropy(type_logits, yt)
+        l_fti = F.cross_entropy(type_logits, yt, weight=cfg.get("_fti_weight"))
         align_weights(model, fs, labels, {"rcl": l_rcl, "fti": l_fti}, cfg)
     w = model.weights(f, cnt)
     if arm == "v4_fusion":
@@ -269,7 +291,7 @@ def compute_terms(model, arm, batch, cfg, capture: dict | None = None,
         l_cm = zero
     if l_rcl is None:          # created here, after l_to and l_cm, exactly as before
         l_rcl = F.cross_entropy(node_logits.masked_fill(~keep, float("-inf")), root)
-        l_fti = F.cross_entropy(type_logits, yt)
+        l_fti = F.cross_entropy(type_logits, yt, weight=cfg.get("_fti_weight"))
 
     terms = {"l_rcl": l_rcl, "l_fti": l_fti, "l_to": l_to, "l_cm": l_cm}
     if cfg.get("entropy_reg", 0.0) and model.weighting.is_learned:
@@ -308,6 +330,14 @@ def train(arm: str, seed: int, ds, cfg: dict,
     np.random.seed(seed)
     random.seed(seed)
     rng = random.Random(seed)
+    w_fti = fti_class_weights(ds, cfg.get("fti_class_weight"))
+    if w_fti is not None:
+        cfg = dict(cfg, _fti_weight=w_fti)
+    es_on = cfg.get("early_stop_on", "total")     # README section 6.21: "diag" = RCL + FTI
+    if es_on not in ("total", "diag"):
+        raise ValueError(f"unknown early_stop_on {es_on!r}; expected 'total' or 'diag'")
+    if cfg.get("aug_modality_drop") and cfg.get("aug_mode") == "paper":
+        raise ValueError("aug_modality_drop is not combined with aug_mode='paper'")
 
     model = AdaDiag(arm, len(ds.types), cfg)
     # Eq. 13's outer weighting. Reproduced INERT, exactly as TVDiag ships it -- see
@@ -375,7 +405,8 @@ def train(arm: str, seed: int, ds, cfg: dict,
             if monitor is not None:
                 monitor(epoch, capture, w.detach())
 
-            running += float(loss.detach())
+            running += float(loss.detach() if es_on == "total" else
+                             (terms["l_rcl"] + terms["l_fti"]).detach())
             nb += 1
             if model.weighting.is_learned or arm == "v5_align":
                 w_trace.append(w.mean(0).detach().tolist())

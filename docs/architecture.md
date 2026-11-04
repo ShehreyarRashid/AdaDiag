@@ -92,3 +92,12 @@ learnable Eq. 13 (`awl_learnable`), Algorithm 1's per-layer activation and norma
 switch defaults to the code's behaviour, checked bit for bit against committed runs.
 `adadiag.affinity` adds Eq. 17's inter-task affinity (§6.20), measured on model copies so
 training is unchanged.
+
+## Changes aimed at RCL and FTI
+
+README §6.21 adds six more switches, all off by default: `early_stop_on`,
+`fti_class_weight`, `aug_modality_drop`, `aug_copies`, `rcl_context` (the locator also sees
+the incident's fused feature, or each node's difference from its neighbours' mean) and
+`fti_readout` (the classifier also reads the node embeddings pooled by the RCL softmax).
+The one confirmed on fresh seeds is `rcl_context="neighbour"`; it widens the locator's
+input only, so the encoders and their initialisation are unchanged.

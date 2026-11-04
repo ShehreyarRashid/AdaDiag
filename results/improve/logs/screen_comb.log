@@ -1,0 +1,12 @@
+  gaia     combination            s0  HR@1 0.737  F1 0.946  macro-F1 0.582  (146 ep, 65s)
+  gaia     combination            s1  HR@1 0.694  F1 0.933  macro-F1 0.546  (163 ep, 73s)
+  gaia     combination            s2  HR@1 0.689  F1 0.935  macro-F1 0.530  (115 ep, 51s)
+done
+  sockshop combination            s0  HR@1 0.867  F1 0.571  macro-F1 0.555  (132 ep, 77s)
+  sockshop combination            s1  HR@1 0.880  F1 0.611  macro-F1 0.594  (220 ep, 133s)
+  sockshop combination            s2  HR@1 0.892  F1 0.570  macro-F1 0.545  (116 ep, 72s)
+done
+  hotel    combination            s0  HR@1 0.821  F1 0.808  macro-F1 0.775  (143 ep, 49s)
+  hotel    combination            s1  HR@1 0.808  F1 0.844  macro-F1 0.840  (121 ep, 42s)
+  hotel    combination            s2  HR@1 0.833  F1 0.834  macro-F1 0.825  (149 ep, 51s)
+done
