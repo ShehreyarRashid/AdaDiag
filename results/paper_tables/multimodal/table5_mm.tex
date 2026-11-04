@@ -1,0 +1,49 @@
+\begin{table}[!ht]
+\centering
+\caption{Failure Type Identification Comparison (multimodal methods)}\label{tab:mm5}
+\small\setlength{\tabcolsep}{3.6pt}
+\begin{tabular}{c l c c c c c c c}
+\toprule
+Dataset & Method & p-value & \textit{Precision} & $\Uparrow$ \textit{Precision} & \textit{Recall} & $\Uparrow$ \textit{Recall} & F1-score & $\Uparrow$ F1-score \\
+\midrule
+\multirow{7}{*}{$\mathcal{A}$} & DiagFusion & 3.3E-04 & 0.852 & 8.568\% & 0.838 & 13.126\% & 0.840 & 11.429\% \\
+ & Medicine & 4.1E-06 & 0.669 & 38.266\% & 0.667 & 42.129\% & 0.648 & 44.444\% \\
+ & DT-FTI & 9.4E-03 & 0.889 & 4.049\% & 0.892 & 6.278\% & 0.890 & 5.169\% \\
+ & SVM-FTI & 9.9E-02 & 0.883 & 4.757\% & 0.935 & 1.390\% & 0.908 & 3.084\% \\
+ & LGB-FTI & 5.2E-02 & 0.892 & 3.700\% & 0.928 & 2.155\% & 0.907 & 3.197\% \\
+ & \textbf{\textit{TVDiag}} & - & 0.925 & - & 0.948 & - & 0.936 & - \\
+\cdashline{2-9}
+ & \textbf{AdaDiag (best)}$^\dagger$ & 2.5E-01 & \textbf{0.930} & $-$0.575\% & \textbf{0.953} & $-$0.495\% & \textbf{0.941} & $-$0.573\% \\
+\midrule
+\multirow{7}{*}{$\mathcal{B}$} & DiagFusion & 3.4E-04 & 0.533 & 65.478\% & 0.489 & 78.119\% & 0.505 & 73.465\% \\
+ & Medicine & 4.7E-04 & 0.307 & 187.296\% & 0.244 & 256.967\% & 0.244 & 259.016\% \\
+ & DT-FTI & 5.0E-05 & 0.448 & 96.875\% & 0.420 & 107.381\% & 0.422 & 107.583\% \\
+ & SVM-FTI & 3.6E-03 & 0.807 & 9.294\% & 0.784 & 11.097\% & 0.774 & 13.178\% \\
+ & LGB-FTI & 7.0E-04 & 0.604 & 46.026\% & 0.580 & 50.172\% & 0.556 & 57.554\% \\
+ & \textbf{\textit{TVDiag}} & - & \textbf{0.882} & - & \textbf{0.871} & - & \textbf{0.876} & - \\
+ & \multicolumn{8}{l}{\footnotesize\itshape AdaDiag: not run, dataset $\mathcal{B}$ (AIOps-22) is not released} \\
+\midrule
+\multirow{7}{*}{$\mathcal{C}$} & DiagFusion & 7.9E-05 & 0.338 & 92.012\% & 0.332 & 87.349\% & 0.328 & 93.902\% \\
+ & Medicine & 5.0E-04 & 0.497 & 30.584\% & 0.469 & 32.623\% & 0.454 & 40.088\% \\
+ & DT-FTI & 6.4E-05 & 0.376 & 72.606\% & 0.365 & 70.411\% & 0.366 & 73.770\% \\
+ & SVM-FTI & 3.2E-03 & 0.384 & 69.010\% & 0.315 & 97.460\% & 0.282 & 125.532\% \\
+ & LGB-FTI & 9.7E-04 & 0.442 & 46.833\% & 0.390 & 59.487\% & 0.388 & 63.918\% \\
+ & \textbf{\textit{TVDiag}} & - & \textbf{0.649} & - & \textbf{0.622} & - & \textbf{0.636} & - \\
+\cdashline{2-9}
+ & \textbf{AdaDiag (best)}$^\dagger$ & 1.3E-02 & 0.629 & 3.148\% & 0.575 & 8.154\% & 0.601 & 5.859\% \\
+\midrule
+\multirow{7}{*}{$\mathcal{D}$} & DiagFusion & 3.2E-05 & 0.618 & 35.275\% & 0.603 & 33.997\% & 0.600 & 37.000\% \\
+ & Medicine & 1.9E-02 & 0.782 & 6.905\% & 0.725 & 11.448\% & 0.728 & 12.912\% \\
+ & DT-FTI & 5.2E-03 & 0.676 & 23.669\% & 0.603 & 33.997\% & 0.598 & 37.458\% \\
+ & SVM-FTI & 9.5E-03 & 0.488 & 71.311\% & 0.628 & 28.662\% & 0.540 & 52.222\% \\
+ & LGB-FTI & 4.1E-02 & 0.809 & 3.337\% & 0.769 & 5.072\% & 0.764 & 7.592\% \\
+ & \textbf{\textit{TVDiag}} & - & 0.836 & - & 0.808 & - & 0.822 & - \\
+\cdashline{2-9}
+ & \textbf{AdaDiag (best)}$^\dagger$ & 1.8E-01 & \textbf{0.852} & $-$1.930\% & \textbf{0.823} & $-$1.832\% & \textbf{0.837} & $-$1.848\% \\
+\bottomrule
+\end{tabular}
+\par\vspace{4pt}
+\begin{minipage}{\linewidth}\footnotesize
+$\Uparrow$ indicates the improvement rate of \textit{TVDiag} compared to other methods, as in the paper (negative: the row is above \textit{TVDiag}). The best result in each metric is shown in bold. Rows without $\dagger$ are copied from the paper (Xie et al., \textit{TVDiag}, ACM TOSEM 35(2), Art.~40, 2026, Table 5); the single-modality baselines are omitted. $^\dagger$\textbf{AdaDiag (best)}: AdaDiag-DL (weights learned from the diagnosis losses, README \S6.17) with Eq.~13's learnable loss weights (\S6.19), mean over 5 seeds (5--9); p-value: two-sided one-sample $t$-test of the seeds against \textit{TVDiag}'s published F1-score.
+\end{minipage}
+\end{table}

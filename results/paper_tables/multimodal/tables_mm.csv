@@ -1,0 +1,47 @@
+table,dataset,method,source,p_value,HR@1,HR@3,Avg@3,MRR@3,Precision,Recall,F1-score
+4,A,Eadro,paper,1.6e-03,0.304,0.592,0.473,0.437,,,
+4,A,DiagFusion,paper,3.1e-02,0.404,0.801,0.636,0.586,,,
+4,A,RF-RCL,paper,3.4e-02,0.573,0.815,0.719,0.686,,,
+4,A,TVDiag,paper,-,0.759,0.909,0.844,0.827,,,
+4,A,AdaDiag (best),this repository,2.0E-01,0.749308,0.898616,0.835996,0.817536,,,
+4,B,Eadro,paper,6.3e-04,0.226,0.478,0.367,0.339,,,
+4,B,DiagFusion,paper,4.3e-08,0.205,0.273,0.239,0.229,,,
+4,B,RF-RCL,paper,7.5e-03,0.635,0.829,0.739,0.719,,,
+4,B,TVDiag,paper,-,0.894,0.941,0.924,0.917,,,
+4,C,Eadro,paper,1.4E-04,0.191,0.415,0.317,0.291,,,
+4,C,DiagFusion,paper,9.0E-04,0.519,0.71,0.612,0.597,,,
+4,C,RF-RCL,paper,5.1E-03,0.622,0.817,0.715,0.701,,,
+4,C,TVDiag,paper,-,0.863,0.954,0.913,0.903,,,
+4,C,AdaDiag (best),this repository,4.7E-02,0.877178,0.948548,0.918949,0.909959,,,
+4,D,Eadro,paper,2.6E-03,0.244,0.59,0.419,0.389,,,
+4,D,DiagFusion,paper,4.5E-03,0.513,0.744,0.645,0.618,,,
+4,D,RF-RCL,paper,4.6E-02,0.744,0.872,0.804,0.795,,,
+4,D,TVDiag,paper,-,0.821,0.923,0.876,0.866,,,
+4,D,AdaDiag (best),this repository,2.1E-01,0.825641,0.915385,0.871795,0.863675,,,
+5,A,DiagFusion,paper,3.3E-04,,,,,0.852,0.838,0.84
+5,A,Medicine,paper,4.1E-06,,,,,0.669,0.667,0.648
+5,A,DT-FTI,paper,9.4E-03,,,,,0.889,0.892,0.89
+5,A,SVM-FTI,paper,9.9E-02,,,,,0.883,0.935,0.908
+5,A,LGB-FTI,paper,5.2E-02,,,,,0.892,0.928,0.907
+5,A,TVDiag,paper,-,,,,,0.925,0.948,0.936
+5,A,AdaDiag (best),this repository,2.5E-01,,,,,0.930348,0.952716,0.941397
+5,B,DiagFusion,paper,3.4E-04,,,,,0.533,0.489,0.505
+5,B,Medicine,paper,4.7E-04,,,,,0.307,0.244,0.244
+5,B,DT-FTI,paper,5.0E-05,,,,,0.448,0.42,0.422
+5,B,SVM-FTI,paper,3.6E-03,,,,,0.807,0.784,0.774
+5,B,LGB-FTI,paper,7.0E-04,,,,,0.604,0.58,0.556
+5,B,TVDiag,paper,-,,,,,0.882,0.871,0.876
+5,C,DiagFusion,paper,7.9E-05,,,,,0.338,0.332,0.328
+5,C,Medicine,paper,5.0E-04,,,,,0.497,0.469,0.454
+5,C,DT-FTI,paper,6.4E-05,,,,,0.376,0.365,0.366
+5,C,SVM-FTI,paper,3.2E-03,,,,,0.384,0.315,0.282
+5,C,LGB-FTI,paper,9.7E-04,,,,,0.442,0.39,0.388
+5,C,TVDiag,paper,-,,,,,0.649,0.622,0.636
+5,C,AdaDiag (best),this repository,1.3E-02,,,,,0.629191,0.575104,0.6008
+5,D,DiagFusion,paper,3.2E-05,,,,,0.618,0.603,0.6
+5,D,Medicine,paper,1.9E-02,,,,,0.782,0.725,0.728
+5,D,DT-FTI,paper,5.2E-03,,,,,0.676,0.603,0.598
+5,D,SVM-FTI,paper,9.5E-03,,,,,0.488,0.628,0.54
+5,D,LGB-FTI,paper,4.1E-02,,,,,0.809,0.769,0.764
+5,D,TVDiag,paper,-,,,,,0.836,0.808,0.822
+5,D,AdaDiag (best),this repository,1.8E-01,,,,,0.852455,0.823077,0.837477

@@ -218,7 +218,7 @@ forward path that produces predictions, so AdaDiag adds **zero inference cost**.
 | — | Hyperparameters, transcribed from TVDiag | `src/adadiag/config.py` | `get()` |
 | — | Is everything but the TO block the same? (§6.15) | `scripts/check_controlled.py`, `src/adadiag/model.py` | `isolate_weighting_rng` |
 | — | Every method against the TVDiag paper's Tables 4–5 (§6.16) | `scripts/make_paper_vs_methods.py` | `METHODS`, `collect()` |
-| — | The paper's Tables 4–5 in its own layout, with AdaDiag rows (§6.16) | `scripts/make_paper_tables.py` | `tex_table()`, `tex_paired()` |
+| — | The paper's Tables 4–5 in its own layout, with AdaDiag rows (§6.16) | `scripts/make_paper_tables.py`, `scripts/make_multimodal_tables.py` | `tex_table()`, `tex_paired()`, `best()` |
 | — | Which AdaDiag is best: screening, pre-registered rule, fresh-seed confirmation (§6.17) | `scripts/select_adadiag.py`, `scripts/make_selection_report.py` | `VARIANTS`, `SELECTION_RULE` |
 | — | What the TVDiag paper specifies and its code does not do, as switches (§6.19) | `src/adadiag/config.py`, `scripts/make_paper_features_report.py` | `PAPER`, `to_term()`, `make_batch_union()` |
 | — | The paper's Tables 8–9: inter-task affinity (Eq. 17, and as TVDiag computes it) and efficiency (§6.20) | `src/adadiag/affinity.py`, `scripts/run_tables_8_9.py` | `task_affinity()` |
@@ -363,6 +363,7 @@ python scripts/make_selection_report.py
 # the paper's Tables 4-5 in its own layout, with AdaDiag rows (needs the confirmation runs,
 # plus Sock Shop: --stage confirm --dataset sockshop --variants tvdiag,adadiag,align)
 python scripts/make_paper_tables.py                # writes results/paper_tables/tables.pdf
+python scripts/make_multimodal_tables.py           # multimodal methods + best AdaDiag only
 
 # the LSTM aggregator (§6.18): 3-13x slower than mean; ~6 h for all three datasets on 2 cores
 python scripts/select_adadiag.py --stage confirm --dataset gaia --variants tvdiag_lstm,align_lstm
@@ -1382,7 +1383,12 @@ proposed) and AdaDiag-DL (weights learned from the diagnosis losses, selected in
 then the same pair with the paper's LSTM aggregator (-LSTM, §6.18) and with the six
 features the paper specifies and its code omits (-Spec, §6.19). All come from the same
 fresh seeds 5–9 and the same code. A Table 6 gives the paired comparison with the matching
-re-run, plus a block with Eq. 13's learnable weights alone (-θ, §6.19). LaTeX
+re-run, plus a block with Eq. 13's learnable weights alone (-θ, §6.19). A shorter version,
+[`results/paper_tables/multimodal/tables_mm.pdf`](results/paper_tables/multimodal/tables_mm.pdf)
+(`scripts/make_multimodal_tables.py`), keeps only the paper's multimodal methods, as
+printed, and adds one row: the best AdaDiag configuration run on fresh seeds (highest mean
+of HR@1 and F1 over the three datasets, chosen after the runs), AdaDiag-DL with Eq. 13's
+learnable weights. LaTeX
 sources: `table4.tex`, `table5.tex`, `table6.tex`, `tables.tex`
 (`scripts/make_paper_tables.py`).
 

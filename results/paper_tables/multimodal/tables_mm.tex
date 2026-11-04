@@ -1,0 +1,22 @@
+\documentclass[10pt]{article}
+\usepackage[a4paper,margin=1.8cm]{geometry}
+\usepackage{libertine}
+\usepackage[libertine]{newtxmath}
+\usepackage{booktabs,multirow,arydshln}
+\usepackage[labelfont=rm,textfont=rm,labelsep=period,skip=4pt]{caption}
+\setlength\dashlinedash{2pt}\setlength\dashlinegap{2pt}
+\makeatletter\setlength{\@fptop}{0pt}\makeatother
+\setcounter{table}{3}
+\begin{document}
+\begin{center}
+{\large\textbf{Multimodal methods and AdaDiag in the format of the TVDiag paper: Tables 4 and 5}}\\[2pt]
+{\small Shehreyar Rashid (26I-9004) \quad Research Topics in Cloud Computing \quad
+github.com/ShehreyarRashid/AdaDiag}
+\end{center}
+\noindent\small Baselines and \textit{TVDiag}: the paper's own numbers. AdaDiag: this
+repository, on the released datasets $\mathcal{A}$ (GAIA), $\mathcal{C}$ (Sock Shop) and
+$\mathcal{D}$ (Hotel Reservation). AdaDiag (best) is the AdaDiag configuration with the highest mean of HR@1 and F1 over $\mathcal{A}$, $\mathcal{C}$ and $\mathcal{D}$ among the 5 run on fresh seeds; the choice was made after the runs. Against \textit{TVDiag} re-run under identical conditions it is not significantly different (README \S6.19), so the gaps to the published \textit{TVDiag} also reflect the re-implementation (README \S6.1, \S6.9).
+\normalsize
+\input{table4_mm.tex}
+\input{table5_mm.tex}
+\end{document}

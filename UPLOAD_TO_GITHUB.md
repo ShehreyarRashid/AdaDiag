@@ -22,12 +22,12 @@ that a new version removed. Updating from a Codespace has neither problem.
 
    ```bash
    git pull                                         # start from the latest version
-   unzip -q -o AdaDiag-v1.17.zip -d /tmp/new         # unpack outside the repository
+   unzip -q -o AdaDiag-v1.18.zip -d /tmp/new         # unpack outside the repository
    cp -a /tmp/new/AdaDiag/. .                       # copy everything, hidden files too
-   rm -rf /tmp/new AdaDiag-v1.17.zip                 # clean up
+   rm -rf /tmp/new AdaDiag-v1.18.zip                 # clean up
    python -m pytest tests/ -q                       # must pass before you publish
    git add -A
-   git commit -m "v1.17: improving RCL and FTI (neighbour contrast); Tables 8-9; paper features"
+   git commit -m "v1.18: Tables 4-5 with multimodal methods and the best AdaDiag; RCL/FTI improvements"
    git push
    ```
 
@@ -57,7 +57,7 @@ matching the zip.
    ├── pyproject.toml
    ├── .gitignore
    ├── src/adadiag/      (17 .py files)
-   ├── scripts/          (33 .py files, 2 .sh files)
+   ├── scripts/          (34 .py files, 2 .sh files)
    ├── tests/            (15 .py files)
    ├── results/          (.json files, reports, figures + README.md)
    ├── data/             (gaia/, hotel/, sockshop/ + README.md, LICENSE-TVDiag, SHA256SUMS)
@@ -200,7 +200,7 @@ Then **Settings → General → Features** and untick *Wikis* and *Projects* if 
 them, so the tab bar stays clean.
 
 If you want a version you can cite in the report, use **Releases → Create a new release**,
-tag `v1.17.0`, and GitHub will build a permanent zip of that exact state.
+tag `v1.18.0`, and GitHub will build a permanent zip of that exact state.
 
 ---
 

@@ -1,0 +1,41 @@
+\begin{table}[!ht]
+\centering
+\caption{Root Cause Localization Comparison (multimodal methods)}\label{tab:mm4}
+\small\setlength{\tabcolsep}{3.6pt}
+\begin{tabular}{c l c c c c c c c c c}
+\toprule
+Dataset & Method & p-value & \textit{HR}@1 & $\Uparrow$ \textit{HR}@1 & \textit{HR}@3 & $\Uparrow$ \textit{HR}@3 & \textit{Avg}@3 & $\Uparrow$ \textit{Avg}@3 & \textit{MRR}@3 & $\Uparrow$ \textit{MRR}@3 \\
+\midrule
+\multirow{5}{*}{$\mathcal{A}$} & Eadro & 1.6e-03 & 0.304 & 149.671\% & 0.592 & 53.547\% & 0.473 & 78.436\% & 0.437 & 89.245\% \\
+ & DiagFusion & 3.1e-02 & 0.404 & 87.871\% & 0.801 & 13.483\% & 0.636 & 32.704\% & 0.586 & 41.126\% \\
+ & RF-RCL & 3.4e-02 & 0.573 & 32.461\% & 0.815 & 11.534\% & 0.719 & 17.385\% & 0.686 & 20.554\% \\
+ & \textbf{\textit{TVDiag}} & - & \textbf{0.759} & - & \textbf{0.909} & - & \textbf{0.844} & - & \textbf{0.827} & - \\
+\cdashline{2-11}
+ & \textbf{AdaDiag (best)}$^\dagger$ & 2.0E-01 & 0.749 & 1.293\% & 0.899 & 1.156\% & 0.836 & 0.957\% & 0.818 & 1.158\% \\
+\midrule
+\multirow{5}{*}{$\mathcal{B}$} & Eadro & 6.3e-04 & 0.226 & 295.575\% & 0.478 & 96.862\% & 0.367 & 151.771\% & 0.339 & 170.501\% \\
+ & DiagFusion & 4.3e-08 & 0.205 & 336.098\% & 0.273 & 244.689\% & 0.239 & 286.611\% & 0.229 & 300.437\% \\
+ & RF-RCL & 7.5e-03 & 0.635 & 40.787\% & 0.829 & 13.510\% & 0.739 & 25.034\% & 0.719 & 27.538\% \\
+ & \textbf{\textit{TVDiag}} & - & \textbf{0.894} & - & \textbf{0.941} & - & \textbf{0.924} & - & \textbf{0.917} & - \\
+ & \multicolumn{10}{l}{\footnotesize\itshape AdaDiag: not run, dataset $\mathcal{B}$ (AIOps-22) is not released} \\
+\midrule
+\multirow{5}{*}{$\mathcal{C}$} & Eadro & 1.4E-04 & 0.191 & 351.832\% & 0.415 & 129.880\% & 0.317 & 188.013\% & 0.291 & 210.309\% \\
+ & DiagFusion & 9.0E-04 & 0.519 & 66.281\% & 0.710 & 34.366\% & 0.612 & 49.183\% & 0.597 & 51.256\% \\
+ & RF-RCL & 5.1E-03 & 0.622 & 38.746\% & 0.817 & 16.769\% & 0.715 & 27.692\% & 0.701 & 28.816\% \\
+ & \textbf{\textit{TVDiag}} & - & 0.863 & - & \textbf{0.954} & - & 0.913 & - & 0.903 & - \\
+\cdashline{2-11}
+ & \textbf{AdaDiag (best)}$^\dagger$ & 4.7E-02 & \textbf{0.877} & $-$1.616\% & 0.949 & 0.575\% & \textbf{0.919} & $-$0.647\% & \textbf{0.910} & $-$0.765\% \\
+\midrule
+\multirow{5}{*}{$\mathcal{D}$} & Eadro & 2.6E-03 & 0.244 & 236.475\% & 0.590 & 56.441\% & 0.419 & 109.069\% & 0.389 & 122.622\% \\
+ & DiagFusion & 4.5E-03 & 0.513 & 60.039\% & 0.744 & 24.059\% & 0.645 & 35.814\% & 0.618 & 40.129\% \\
+ & RF-RCL & 4.6E-02 & 0.744 & 10.349\% & 0.872 & 5.849\% & 0.804 & 8.955\% & 0.795 & 8.931\% \\
+ & \textbf{\textit{TVDiag}} & - & 0.821 & - & \textbf{0.923} & - & \textbf{0.876} & - & \textbf{0.866} & - \\
+\cdashline{2-11}
+ & \textbf{AdaDiag (best)}$^\dagger$ & 2.1E-01 & \textbf{0.826} & $-$0.562\% & 0.915 & 0.832\% & 0.872 & 0.482\% & 0.864 & 0.269\% \\
+\bottomrule
+\end{tabular}
+\par\vspace{4pt}
+\begin{minipage}{\linewidth}\footnotesize
+$\Uparrow$ indicates the improvement rate of \textit{TVDiag} compared to other methods, as in the paper (negative: the row is above \textit{TVDiag}). The best result in each metric is shown in bold. Rows without $\dagger$ are copied from the paper (Xie et al., \textit{TVDiag}, ACM TOSEM 35(2), Art.~40, 2026, Table 4); the single-modality baselines are omitted. $^\dagger$\textbf{AdaDiag (best)}: AdaDiag-DL (weights learned from the diagnosis losses, README \S6.17) with Eq.~13's learnable loss weights (\S6.19), mean over 5 seeds (5--9); p-value: two-sided one-sample $t$-test of the seeds against \textit{TVDiag}'s published HR@1.
+\end{minipage}
+\end{table}
