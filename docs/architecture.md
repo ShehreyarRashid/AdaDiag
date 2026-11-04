@@ -78,6 +78,17 @@ becomes uniform over the rest).
 ## What is deliberately *not* fixed
 
 `AutomaticWeightedLoss` is reproduced **inert**, because that is what TVDiag ships (see
-README §7.2). Making it learnable is a one-argument change
-(`AutomaticWeightedLoss(4, learnable=True)`) but it is no longer a reproduction, so it is
-off by default and is not used in any reported arm.
+README §7, finding 2). Making it learnable (`awl_learnable=True`) is no longer a
+reproduction, so it is off by default. README §6.19 tests it, as one of six features the
+paper's text specifies and its code omits; it is the one that does not hurt.
+
+## The paper's version, as switches
+
+`config.PAPER` turns on everything the TVDiag paper specifies that its released code does
+not do (README §6.19): Eq. 3 per anchor (`to_norm`), Eqs. 5–6 symmetric CM (`cm_mode`),
+learnable Eq. 13 (`awl_learnable`), Algorithm 1's per-layer activation and normalisation
+(`sage_alg1`), bidirectional edges (`bidirectional`) and one fixed AUG copy per sample
+(`aug_mode="paper"`). The LSTM aggregator (`aggregator="lstm"`, §6.18) is the seventh. Every
+switch defaults to the code's behaviour, checked bit for bit against committed runs.
+`adadiag.affinity` adds Eq. 17's inter-task affinity (§6.20), measured on model copies so
+training is unchanged.

@@ -1,0 +1,12 @@
+  align+awl_learnable s5  HR@1 0.871  F1 0.598  (398 ep, 699s) w RCL 0.81/0.19/0.00 FTI 0.37/0.27/0.37
+  align+awl_learnable s6  HR@1 0.876  F1 0.581  (331 ep, 517s) w RCL 0.33/0.33/0.33 FTI 0.43/0.26/0.31
+  align+awl_learnable s7  HR@1 0.892  F1 0.597  (327 ep, 517s) w RCL 0.54/0.00/0.46 FTI 0.17/0.46/0.37
+  align+awl_learnable s8  HR@1 0.863  F1 0.631  (444 ep, 706s) w RCL 0.00/0.80/0.20 FTI 0.34/0.31/0.34
+  align+awl_learnable s9  HR@1 0.884  F1 0.597  (194 ep, 317s) w RCL 0.00/1.00/0.00 FTI 0.40/0.12/0.49
+done /home/claude/AdaDiag/results/selection/confirm_sockshop_awl_b.json
+  TVDiag stopped at align+awl_learnable's epoch, s5 (398 ep): HR@1 0.863 F1 0.534 | align+awl_learnable HR@1 0.871 F1 0.598
+  TVDiag stopped at align+awl_learnable's epoch, s6 (331 ep): HR@1 0.851 F1 0.597 | align+awl_learnable HR@1 0.876 F1 0.581
+  TVDiag stopped at align+awl_learnable's epoch, s7 (327 ep): HR@1 0.884 F1 0.610 | align+awl_learnable HR@1 0.892 F1 0.597
+  TVDiag stopped at align+awl_learnable's epoch, s8 (444 ep): HR@1 0.863 F1 0.606 | align+awl_learnable HR@1 0.863 F1 0.631
+  TVDiag stopped at align+awl_learnable's epoch, s9 (194 ep): HR@1 0.888 F1 0.573 | align+awl_learnable HR@1 0.884 F1 0.597
+done /home/claude/AdaDiag/results/selection/length_sockshop.json

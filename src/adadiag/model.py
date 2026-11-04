@@ -22,7 +22,9 @@ class AdaDiag(nn.Module):
         self.arm = arm
         d_in, d_h, d_o = cfg["alert_embedding_dim"], cfg["graph_hidden_dim"], cfg["graph_out"]
         self.encoders = nn.ModuleDict({
-            m: SAGEEncoder([d_in] + [d_h] * (cfg["graph_layers"] - 1) + [d_o], cfg["feat_drop"])
+            m: SAGEEncoder([d_in] + [d_h] * (cfg["graph_layers"] - 1) + [d_o], cfg["feat_drop"],
+                           aggregator=cfg.get("aggregator", "mean"),
+                           alg1=bool(cfg.get("sage_alg1", False)))
             for m in MODALITIES
         })
         fuse = len(MODALITIES) * d_o
@@ -39,6 +41,9 @@ class AdaDiag(nn.Module):
         # Fidelity switch (README section 6.11): TVDiag gives every node with no in-edge a
         # self-loop, in the raw graphs and again after AUG drops nodes.
         self.self_loops = bool(cfg.get("self_loops", False))
+        # Paper switch (README section 6.19): "the edges in E are bidirectional" (TVDiag
+        # paper, Sec. 4.2). The released graphs are used as given; GAIA's are half one-way.
+        self.bidirectional = bool(cfg.get("bidirectional", False))
         self.descriptor = cfg.get("descriptor", "full")
         if self.descriptor not in ("full", "emb", "counts"):
             raise ValueError(f"unknown descriptor {self.descriptor!r}")
@@ -62,6 +67,8 @@ class AdaDiag(nn.Module):
         A removed modality (ablation) contributes an all-zero embedding: its encoder is not
         run, so it receives no gradient, and the heads see nothing from it.
         """
+        if self.bidirectional:
+            A = torch.maximum(A, A.transpose(1, 2))
         if self.self_loops:
             A = A + torch.diag_embed((A.sum(-1) == 0).to(A.dtype))
         fs, es = {}, {}

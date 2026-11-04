@@ -1,0 +1,6 @@
+  align         s5  HR@1 0.888  F1 0.568  (139 ep, 258s) w RCL 0.33/0.33/0.33 FTI 0.44/0.34/0.22
+  align         s6  HR@1 0.871  F1 0.581  (164 ep, 286s) w RCL 0.00/1.00/0.00 FTI 0.56/0.39/0.05
+  align         s7  HR@1 0.867  F1 0.523  (127 ep, 213s) w RCL 0.27/0.35/0.38 FTI 0.38/0.37/0.25
+  align         s8  HR@1 0.871  F1 0.553  (179 ep, 330s) w RCL 0.33/0.33/0.33 FTI 0.29/0.50/0.21
+  align         s9  HR@1 0.863  F1 0.596  (127 ep, 236s) w RCL 0.00/1.00/0.00 FTI 0.40/0.27/0.33
+done /home/claude/AdaDiag/results/selection/confirm_sockshop_a.json

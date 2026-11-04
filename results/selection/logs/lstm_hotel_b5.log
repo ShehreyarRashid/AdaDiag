@@ -1,0 +1,2 @@
+  align_lstm    s5  HR@1 0.833  F1 0.811  (121 ep, 1465s) w RCL 0.00/1.00/0.00 FTI 0.42/0.41/0.17
+done /home/claude/AdaDiag/results/selection/confirm_hotel_lstm_b5.json

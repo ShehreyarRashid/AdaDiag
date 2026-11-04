@@ -1,0 +1,99 @@
+  tvdiag_paper  s5  HR@1 0.833  F1 0.736  (500 ep, 197s)
+  tvdiag_paper  s6  HR@1 0.808  F1 0.674  (397 ep, 153s)
+  tvdiag_paper  s7  HR@1 0.846  F1 0.668  (357 ep, 140s)
+  tvdiag_paper  s8  HR@1 0.833  F1 0.714  (398 ep, 156s)
+  tvdiag_paper  s9  HR@1 0.808  F1 0.742  (404 ep, 164s)
+done /home/claude/AdaDiag/results/selection/confirm_hotel_paper_a.json
+  tvdiag_paper  s5  HR@1 0.671  F1 0.936  (481 ep, 247s)
+  tvdiag_paper  s6  HR@1 0.673  F1 0.920  (441 ep, 220s)
+  tvdiag_paper  s7  HR@1 0.701  F1 0.927  (349 ep, 176s)
+  tvdiag_paper  s8  HR@1 0.679  F1 0.925  (358 ep, 182s)
+  tvdiag_paper  s9  HR@1 0.698  F1 0.918  (248 ep, 123s)
+done /home/claude/AdaDiag/results/selection/confirm_gaia_paper_a.json
+  tvdiag_paper  s5  HR@1 0.797  F1 0.396  (219 ep, 134s)
+  tvdiag_paper  s6  HR@1 0.809  F1 0.397  (245 ep, 142s)
+  tvdiag_paper  s7  HR@1 0.797  F1 0.430  (216 ep, 132s)
+  tvdiag_paper  s8  HR@1 0.817  F1 0.420  (229 ep, 140s)
+  tvdiag_paper  s9  HR@1 0.830  F1 0.435  (222 ep, 139s)
+done /home/claude/AdaDiag/results/selection/confirm_sockshop_paper_a.json
+  align_paper   s5  HR@1 0.826  F1 0.430  (223 ep, 415s) w RCL 0.92/0.08/0.00 FTI 0.34/0.41/0.25
+  align_paper   s6  HR@1 0.809  F1 0.400  (276 ep, 530s) w RCL 0.76/0.00/0.24 FTI 0.29/0.37/0.34
+  align_paper   s7  HR@1 0.788  F1 0.447  (318 ep, 619s) w RCL 1.00/0.00/0.00 FTI 0.36/0.40/0.25
+  align_paper   s8  HR@1 0.830  F1 0.498  (200 ep, 395s) w RCL 0.60/0.32/0.08 FTI 0.34/0.40/0.27
+  align_paper   s9  HR@1 0.805  F1 0.408  (204 ep, 414s) w RCL 0.65/0.35/0.00 FTI 0.35/0.40/0.25
+done /home/claude/AdaDiag/results/selection/confirm_sockshop_paper_c.json
+  tvdiag+to_norm s5  HR@1 0.725  F1 0.913  (265 ep, 143s)
+  tvdiag+to_norm s6  HR@1 0.758  F1 0.912  (221 ep, 102s)
+  tvdiag+to_norm s7  HR@1 0.747  F1 0.935  (271 ep, 121s)
+  tvdiag+to_norm s8  HR@1 0.748  F1 0.932  (208 ep, 94s)
+  tvdiag+to_norm s9  HR@1 0.724  F1 0.913  (287 ep, 131s)
+  tvdiag+cm_mode s5  HR@1 0.751  F1 0.930  (265 ep, 125s)
+  tvdiag+cm_mode s6  HR@1 0.771  F1 0.927  (221 ep, 102s)
+  tvdiag+cm_mode s7  HR@1 0.754  F1 0.924  (316 ep, 149s)
+  tvdiag+cm_mode s8  HR@1 0.743  F1 0.934  (208 ep, 97s)
+  tvdiag+cm_mode s9  HR@1 0.739  F1 0.908  (284 ep, 129s)
+  tvdiag+sage_alg1 s5  HR@1 0.654  F1 0.923  (166 ep, 78s)
+  tvdiag+sage_alg1 s6  HR@1 0.654  F1 0.923  (124 ep, 58s)
+  tvdiag+sage_alg1 s7  HR@1 0.654  F1 0.925  (150 ep, 71s)
+  tvdiag+sage_alg1 s8  HR@1 0.654  F1 0.931  (196 ep, 90s)
+  tvdiag+sage_alg1 s9  HR@1 0.636  F1 0.930  (182 ep, 87s)
+  tvdiag+aug_mode s5  HR@1 0.602  F1 0.891  (479 ep, 225s)
+  tvdiag+aug_mode s6  HR@1 0.651  F1 0.912  (338 ep, 170s)
+  tvdiag+aug_mode s7  HR@1 0.700  F1 0.888  (497 ep, 246s)
+  tvdiag+aug_mode s8  HR@1 0.589  F1 0.895  (500 ep, 245s)
+  tvdiag+aug_mode s9  HR@1 0.644  F1 0.903  (500 ep, 246s)
+  tvdiag+bidirectional s5  HR@1 0.705  F1 0.915  (257 ep, 108s)
+  tvdiag+bidirectional s6  HR@1 0.699  F1 0.910  (347 ep, 148s)
+  tvdiag+bidirectional s7  HR@1 0.710  F1 0.950  (265 ep, 112s)
+  tvdiag+bidirectional s8  HR@1 0.742  F1 0.931  (178 ep, 90s)
+  tvdiag+bidirectional s9  HR@1 0.712  F1 0.920  (229 ep, 124s)
+  tvdiag+awl_learnable s5  HR@1 0.724  F1 0.935  (488 ep, 250s)
+  tvdiag+awl_learnable s6  HR@1 0.752  F1 0.906  (305 ep, 148s)
+  tvdiag+awl_learnable s7  HR@1 0.749  F1 0.931  (500 ep, 252s)
+  tvdiag+awl_learnable s8  HR@1 0.761  F1 0.921  (460 ep, 239s)
+  tvdiag+awl_learnable s9  HR@1 0.739  F1 0.923  (388 ep, 218s)
+done /home/claude/AdaDiag/results/selection/confirm_gaia_paper_s.json
+  tvdiag+to_norm s5  HR@1 0.795  F1 0.803  (127 ep, 53s)
+  tvdiag+to_norm s6  HR@1 0.808  F1 0.814  (115 ep, 50s)
+  tvdiag+to_norm s7  HR@1 0.833  F1 0.783  (183 ep, 75s)
+  tvdiag+to_norm s8  HR@1 0.808  F1 0.696  (89 ep, 37s)
+  tvdiag+to_norm s9  HR@1 0.821  F1 0.803  (139 ep, 57s)
+  tvdiag+cm_mode s5  HR@1 0.821  F1 0.832  (125 ep, 49s)
+  tvdiag+cm_mode s6  HR@1 0.821  F1 0.781  (115 ep, 44s)
+  tvdiag+cm_mode s7  HR@1 0.821  F1 0.778  (183 ep, 73s)
+  tvdiag+cm_mode s8  HR@1 0.795  F1 0.816  (128 ep, 47s)
+  tvdiag+cm_mode s9  HR@1 0.808  F1 0.786  (122 ep, 46s)
+  tvdiag+sage_alg1 s5  HR@1 0.846  F1 0.726  (251 ep, 98s)
+  tvdiag+sage_alg1 s6  HR@1 0.808  F1 0.706  (199 ep, 77s)
+  tvdiag+sage_alg1 s7  HR@1 0.808  F1 0.673  (243 ep, 95s)
+  tvdiag+sage_alg1 s8  HR@1 0.821  F1 0.728  (217 ep, 82s)
+  tvdiag+sage_alg1 s9  HR@1 0.833  F1 0.704  (247 ep, 98s)
+  tvdiag+aug_mode s5  HR@1 0.821  F1 0.789  (144 ep, 54s)
+  tvdiag+aug_mode s6  HR@1 0.833  F1 0.780  (141 ep, 53s)
+  tvdiag+aug_mode s7  HR@1 0.833  F1 0.760  (162 ep, 61s)
+  tvdiag+aug_mode s8  HR@1 0.821  F1 0.792  (185 ep, 70s)
+  tvdiag+aug_mode s9  HR@1 0.833  F1 0.793  (142 ep, 52s)
+  tvdiag+awl_learnable s5  HR@1 0.833  F1 0.857  (206 ep, 75s)
+  tvdiag+awl_learnable s6  HR@1 0.821  F1 0.815  (200 ep, 74s)
+  tvdiag+awl_learnable s7  HR@1 0.833  F1 0.781  (183 ep, 71s)
+  tvdiag+awl_learnable s8  HR@1 0.821  F1 0.771  (174 ep, 64s)
+  tvdiag+awl_learnable s9  HR@1 0.821  F1 0.847  (244 ep, 94s)
+done /home/claude/AdaDiag/results/selection/confirm_hotel_paper_s.json
+  TVDiag stopped at align_paper's epoch, s5 (427 ep): HR@1 0.671 F1 0.934 | align_paper HR@1 0.678 F1 0.918
+  TVDiag stopped at align_paper's epoch, s6 (126 ep): HR@1 0.681 F1 0.922 | align_paper HR@1 0.684 F1 0.923
+  TVDiag stopped at align_paper's epoch, s7 (281 ep): HR@1 0.705 F1 0.923 | align_paper HR@1 0.688 F1 0.924
+  TVDiag stopped at align_paper's epoch, s8 (258 ep): HR@1 0.671 F1 0.928 | align_paper HR@1 0.691 F1 0.922
+  TVDiag stopped at align_paper's epoch, s9 (397 ep): HR@1 0.698 F1 0.918 | align_paper HR@1 0.652 F1 0.917
+done /home/claude/AdaDiag/results/selection/length_gaia.json
+  TVDiag stopped at align_paper's epoch, s5 (223 ep): HR@1 0.797 F1 0.396 | align_paper HR@1 0.826 F1 0.430
+  TVDiag stopped at align_paper's epoch, s6 (276 ep): HR@1 0.809 F1 0.397 | align_paper HR@1 0.809 F1 0.400
+  TVDiag stopped at align_paper's epoch, s7 (318 ep): HR@1 0.797 F1 0.430 | align_paper HR@1 0.788 F1 0.447
+  TVDiag stopped at align_paper's epoch, s8 (200 ep): HR@1 0.838 F1 0.404 | align_paper HR@1 0.830 F1 0.498
+  TVDiag stopped at align_paper's epoch, s9 (204 ep): HR@1 0.805 F1 0.420 | align_paper HR@1 0.805 F1 0.408
+done /home/claude/AdaDiag/results/selection/length_sockshop.json
+  TVDiag stopped at align_paper's epoch, s5 (393 ep): HR@1 0.846 F1 0.742 | align_paper HR@1 0.821 F1 0.700
+  TVDiag stopped at align_paper's epoch, s6 (474 ep): HR@1 0.808 F1 0.674 | align_paper HR@1 0.821 F1 0.704
+  TVDiag stopped at align_paper's epoch, s7 (434 ep): HR@1 0.846 F1 0.668 | align_paper HR@1 0.859 F1 0.702
+  TVDiag stopped at align_paper's epoch, s8 (500 ep): HR@1 0.833 F1 0.714 | align_paper HR@1 0.833 F1 0.735
+  TVDiag stopped at align_paper's epoch, s9 (500 ep): HR@1 0.808 F1 0.742 | align_paper HR@1 0.795 F1 0.742
+done /home/claude/AdaDiag/results/selection/length_hotel.json

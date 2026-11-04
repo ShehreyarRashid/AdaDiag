@@ -44,6 +44,22 @@ VARIANTS = {
     "trace_third":  ("v3_incident", dict(fixed_trace=[1 / 3, 1 / 3]), "tvdiag"),
     "trace_tvdiag": ("v3_incident", dict(fixed_trace=[0.5, 0.0]), "tvdiag"),
     "align":        ("v5_align", {}, "tvdiag"),
+    # README section 6.18: the LSTM aggregator the TVDiag paper describes, for both arms
+    "tvdiag_lstm":  ("v0_raw", dict(aggregator="lstm"), None),
+    "adadiag_lstm": ("v3_incident", dict(aggregator="lstm"), "tvdiag_lstm"),
+    "align_lstm":   ("v5_align", dict(aggregator="lstm"), "tvdiag_lstm"),
+    # README section 6.19: what the TVDiag paper specifies and its code does not do
+    # (config.PAPER), all together for both arms, then one at a time for TVDiag
+    "tvdiag_paper": ("v0_raw", dict(config.PAPER), None),
+    "align_paper":  ("v5_align", dict(config.PAPER), "tvdiag_paper"),
+    **{f"tvdiag+{k}": ("v0_raw", {k: v}, None) for k, v in config.PAPER.items()},
+    # control: with theta learnable the loss never stops falling, so early stopping never
+    # fires and every paper run trains to the 500-epoch cap; this is TVDiag (code) trained
+    # to the same cap, to separate "theta learned" from "trained longer"
+    "tvdiag_noes":  ("v0_raw", dict(patience=10 ** 6), None),
+    # README section 6.19: AdaDiag-DL with only Eq. 13's learnable theta, the one paper
+    # feature that did not hurt TVDiag; matched against TVDiag with the same switch
+    "align+awl_learnable": ("v5_align", dict(awl_learnable=True), "tvdiag+awl_learnable"),
 }
 SELECTION_RULE = (
     "Score = mean of the four paired differences from the matched TVDiag (GAIA HR@1, GAIA F1, "
@@ -84,7 +100,7 @@ def main() -> None:
     ap = argparse.ArgumentParser(description=__doc__,
                                  formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("--stage", required=True, choices=["screen", "confirm", "length"])
-    ap.add_argument("--dataset", required=True, choices=["gaia", "hotel"])
+    ap.add_argument("--dataset", required=True, choices=["gaia", "hotel", "sockshop"])
     ap.add_argument("--variants", default=None, help="confirm: comma-separated finalists")
     ap.add_argument("--seeds", default="5-9", help="confirm: seed range, e.g. 5-9")
     ap.add_argument("--threads", type=int, default=1)
@@ -108,8 +124,12 @@ def main() -> None:
             for r0 in sorted([r for r in conf if r["variant"] == v], key=lambda r: r["seed"]):
                 if (f"capped:{v}", r0["seed"]) in done:
                     continue
-                cfg = config.get(ds.name, isolate_weighting_rng=True, epochs=r0["epochs"])
-                res, _ = train("v0_raw", r0["seed"], ds, cfg)
+                # the finalist's matched TVDiag, with its settings (e.g. the LSTM aggregator)
+                ref = VARIANTS[v][2] or "tvdiag"
+                arm_r, over_r, _ = VARIANTS[ref]
+                cfg = config.get(ds.name, isolate_weighting_rng=True, **over_r)
+                cfg["epochs"] = r0["epochs"]
+                res, _ = train(arm_r, r0["seed"], ds, cfg)
                 res.update(variant=f"capped:{v}", cap=r0["epochs"])
                 recs = json.load(open(out)) if out.exists() else []
                 recs.append(res)

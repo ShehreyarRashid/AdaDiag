@@ -104,11 +104,55 @@ def supcon_weighted(emb: torch.Tensor, labels: torch.Tensor, temperature: float,
     return per, nz
 
 
+def supcon_anchor_mean(emb: torch.Tensor, labels: torch.Tensor,
+                       temperature: float) -> tuple[torch.Tensor, int]:
+    """Eq. 3 as the TVDiag PAPER writes it (README section 6.19, `to_norm="paper"`).
+
+    The paper's term for anchor i is -1/|P_i| * sum_{j in P_i} log(...): a mean over i's OWN
+    positives. The released code divides the sum over all positive pairs by their count
+    instead, so an anchor with many positives counts for more. Same numerator and
+    denominator; only the normalisation differs.
+
+    Returns per_sample (n,) = each anchor's mean over its positives (0 for an anchor with
+    none), and nz = the number of anchors that have a positive, so per_sample.sum() / nz is
+    the mean over anchors. (Eq. 3 literally SUMS over anchors, i.e. n times this; with
+    TVDiag's omega = 0.1 that would scale the term by the batch size, 256-1024x, which the
+    1/2n of Eq. 5 suggests is not intended. A constant factor, recorded here.)
+    """
+    per, _ = supcon_per_sample(emb, labels, temperature)
+    npos = (labels.view(-1, 1) == labels.view(1, -1)).sum(1) - 1
+    valid = npos > 0
+    per = torch.where(valid, per / npos.clamp_min(1).to(per.dtype), torch.zeros_like(per))
+    return per, max(int(valid.sum()), 1)
+
+
 def uspcon(a: torch.Tensor, b: torch.Tensor, temperature: float) -> torch.Tensor:
     """Cross-modal association (CM): InfoNCE between two modality views of the same incidents."""
     za, zb = F.normalize(a, dim=1), F.normalize(b, dim=1)
     logits = za @ zb.T / temperature
     return F.cross_entropy(logits, torch.arange(za.shape[0], device=a.device))
+
+
+def cm_paper(a: torch.Tensor, b: torch.Tensor, temperature: float) -> torch.Tensor:
+    """Eqs. 5-6 of the TVDiag PAPER (README section 6.19, `cm_mode="paper"`).
+
+        L^{D1~D2} = 1/(2n) sum_i [ l(F_i^D1, F_i^D2) + l(F_i^D2, F_i^D1) ]
+        l(F_i^D1, F_i^D2) = -log  phi(i1, i2) /
+                                  ( sum_{a != i} phi(i1, a1) + sum_b phi(i1, b2) )
+
+    with phi = exp(cos / tau). Two things the released `uspcon` leaves out: the second
+    direction, and the intra-modal negatives sum_{a != i} phi(i1, a1).
+    """
+    za, zb = F.normalize(a, dim=1), F.normalize(b, dim=1)
+    n = za.shape[0]
+    eye = torch.eye(n, dtype=torch.bool, device=a.device)
+    target = torch.arange(n, device=a.device) + n
+
+    def one(x, y):
+        intra = (x @ x.T / temperature).masked_fill(eye, float("-inf"))
+        return F.cross_entropy(torch.cat([intra, x @ y.T / temperature], 1), target)
+
+    return 0.5 * (one(za, zb) + one(zb, za))
 
 
 class AutomaticWeightedLoss(nn.Module):
@@ -125,6 +169,9 @@ class AutomaticWeightedLoss(nn.Module):
     nothing in the released implementation. We reproduce that behaviour exactly -- adding
     these parameters to the optimizer would mean no longer reproducing TVDiag -- and keep it
     identical across every arm so the comparison stays controlled.
+
+    `learnable=True` (README section 6.19, `awl_learnable`) is Eq. 13 as the PAPER states
+    it: `train` then adds these parameters to the optimizer.
     """
 
     def __init__(self, n: int = 4, learnable: bool = False):

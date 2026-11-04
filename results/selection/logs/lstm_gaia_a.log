@@ -1,0 +1,6 @@
+  tvdiag_lstm   s5  HR@1 0.739  F1 0.947  (215 ep, 315s)
+  tvdiag_lstm   s6  HR@1 0.758  F1 0.939  (142 ep, 196s)
+  tvdiag_lstm   s7  HR@1 0.721  F1 0.938  (162 ep, 222s)
+  tvdiag_lstm   s8  HR@1 0.666  F1 0.949  (284 ep, 392s)
+  tvdiag_lstm   s9  HR@1 0.684  F1 0.947  (171 ep, 239s)
+done /home/claude/AdaDiag/results/selection/confirm_gaia_lstm_a.json

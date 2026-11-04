@@ -1,0 +1,2 @@
+  align_lstm    s9  HR@1 0.826  F1 0.576  (111 ep, 1939s) w RCL 0.00/1.00/0.00 FTI 0.20/0.45/0.35
+done /home/claude/AdaDiag/results/selection/confirm_sockshop_lstm_b5.json

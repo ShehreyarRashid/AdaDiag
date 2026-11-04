@@ -1,0 +1,5 @@
+  TVDiag stopped at align_lstm's epoch, s5 (118 ep): HR@1 0.851 F1 0.571 | align_lstm HR@1 0.817 F1 0.559
+  TVDiag stopped at align_lstm's epoch, s6 (147 ep): HR@1 0.822 F1 0.516 | align_lstm HR@1 0.809 F1 0.561
+  TVDiag stopped at align_lstm's epoch, s7 (155 ep): HR@1 0.867 F1 0.476 | align_lstm HR@1 0.846 F1 0.582
+  TVDiag stopped at align_lstm's epoch, s8 (148 ep): HR@1 0.851 F1 0.531 | align_lstm HR@1 0.846 F1 0.557
+done /home/claude/AdaDiag/results/selection/length_sockshop.json

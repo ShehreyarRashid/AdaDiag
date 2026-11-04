@@ -1,0 +1,24 @@
+  align+awl_learnable s5  HR@1 0.737  F1 0.931  (203 ep, 261s) w RCL 0.09/0.86/0.05 FTI 1.00/0.00/0.00
+  align+awl_learnable s6  HR@1 0.758  F1 0.947  (186 ep, 239s) w RCL 0.17/0.14/0.69 FTI 0.33/0.33/0.33
+  align+awl_learnable s7  HR@1 0.733  F1 0.953  (223 ep, 285s) w RCL 1.00/0.00/0.00 FTI 0.33/0.33/0.33
+  align+awl_learnable s8  HR@1 0.767  F1 0.941  (188 ep, 228s) w RCL 0.01/0.16/0.83 FTI 0.33/0.67/0.00
+  align+awl_learnable s9  HR@1 0.752  F1 0.934  (173 ep, 221s) w RCL 0.24/0.16/0.61 FTI 0.66/0.34/0.00
+done /home/claude/AdaDiag/results/selection/confirm_gaia_awl_a.json
+  align+awl_learnable s5  HR@1 0.821  F1 0.829  (241 ep, 200s) w RCL 0.28/0.72/0.00 FTI 0.44/0.40/0.16
+  align+awl_learnable s6  HR@1 0.821  F1 0.847  (184 ep, 153s) w RCL 0.35/0.65/0.00 FTI 0.51/0.33/0.16
+  align+awl_learnable s7  HR@1 0.833  F1 0.825  (225 ep, 187s) w RCL 0.14/0.86/0.00 FTI 0.43/0.11/0.46
+  align+awl_learnable s8  HR@1 0.821  F1 0.870  (257 ep, 213s) w RCL 0.00/1.00/0.00 FTI 0.71/0.13/0.15
+  align+awl_learnable s9  HR@1 0.833  F1 0.816  (167 ep, 140s) w RCL 0.18/0.27/0.55 FTI 0.40/0.48/0.13
+done /home/claude/AdaDiag/results/selection/confirm_hotel_awl_a.json
+  TVDiag stopped at align+awl_learnable's epoch, s5 (203 ep): HR@1 0.751 F1 0.935 | align+awl_learnable HR@1 0.737 F1 0.931
+  TVDiag stopped at align+awl_learnable's epoch, s6 (186 ep): HR@1 0.764 F1 0.927 | align+awl_learnable HR@1 0.758 F1 0.947
+  TVDiag stopped at align+awl_learnable's epoch, s7 (223 ep): HR@1 0.733 F1 0.948 | align+awl_learnable HR@1 0.733 F1 0.953
+  TVDiag stopped at align+awl_learnable's epoch, s8 (188 ep): HR@1 0.754 F1 0.928 | align+awl_learnable HR@1 0.767 F1 0.941
+  TVDiag stopped at align+awl_learnable's epoch, s9 (173 ep): HR@1 0.758 F1 0.938 | align+awl_learnable HR@1 0.752 F1 0.934
+done /home/claude/AdaDiag/results/selection/length_gaia.json
+  TVDiag stopped at align+awl_learnable's epoch, s5 (241 ep): HR@1 0.833 F1 0.857 | align+awl_learnable HR@1 0.821 F1 0.829
+  TVDiag stopped at align+awl_learnable's epoch, s6 (184 ep): HR@1 0.808 F1 0.799 | align+awl_learnable HR@1 0.821 F1 0.847
+  TVDiag stopped at align+awl_learnable's epoch, s7 (225 ep): HR@1 0.833 F1 0.781 | align+awl_learnable HR@1 0.833 F1 0.825
+  TVDiag stopped at align+awl_learnable's epoch, s8 (257 ep): HR@1 0.821 F1 0.771 | align+awl_learnable HR@1 0.821 F1 0.870
+  TVDiag stopped at align+awl_learnable's epoch, s9 (167 ep): HR@1 0.833 F1 0.839 | align+awl_learnable HR@1 0.833 F1 0.816
+done /home/claude/AdaDiag/results/selection/length_hotel.json

@@ -1,0 +1,11 @@
+  tvdiag        s5  HR@1 0.876  F1 0.540  (235 ep, 157s)
+  tvdiag        s6  HR@1 0.842  F1 0.555  (300 ep, 200s)
+  tvdiag        s7  HR@1 0.876  F1 0.585  (176 ep, 113s)
+  tvdiag        s8  HR@1 0.892  F1 0.544  (419 ep, 275s)
+  tvdiag        s9  HR@1 0.859  F1 0.544  (398 ep, 268s)
+  adadiag       s5  HR@1 0.876  F1 0.559  (218 ep, 234s) w RCL 1.00/0.00/0.00 FTI 0.12/0.00/0.87
+  adadiag       s6  HR@1 0.859  F1 0.561  (273 ep, 294s) w RCL 1.00/0.00/0.00 FTI 0.06/0.00/0.94
+  adadiag       s7  HR@1 0.867  F1 0.545  (150 ep, 159s) w RCL 1.00/0.00/0.00 FTI 0.00/0.00/1.00
+  adadiag       s8  HR@1 0.876  F1 0.580  (276 ep, 294s) w RCL 1.00/0.00/0.00 FTI 0.14/0.00/0.86
+  adadiag       s9  HR@1 0.871  F1 0.567  (335 ep, 361s) w RCL 1.00/0.00/0.00 FTI 0.10/0.00/0.90
+done /home/claude/AdaDiag/results/selection/confirm_sockshop_b.json

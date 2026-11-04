@@ -1,0 +1,6 @@
+  TVDiag stopped at align_lstm's epoch, s5 (137 ep): HR@1 0.717 F1 0.945 | align_lstm HR@1 0.724 F1 0.944
+  TVDiag stopped at align_lstm's epoch, s6 (119 ep): HR@1 0.757 F1 0.940 | align_lstm HR@1 0.763 F1 0.935
+  TVDiag stopped at align_lstm's epoch, s7 (102 ep): HR@1 0.728 F1 0.922 | align_lstm HR@1 0.745 F1 0.920
+  TVDiag stopped at align_lstm's epoch, s8 (104 ep): HR@1 0.720 F1 0.942 | align_lstm HR@1 0.737 F1 0.938
+  TVDiag stopped at align_lstm's epoch, s9 (130 ep): HR@1 0.714 F1 0.941 | align_lstm HR@1 0.739 F1 0.934
+done /home/claude/AdaDiag/results/selection/length_gaia.json

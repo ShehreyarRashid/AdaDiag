@@ -1,0 +1,76 @@
+\begin{table}[!ht]
+\centering
+\caption{Root Cause Localization Comparison}\label{tab:rcl}
+\footnotesize\setlength{\tabcolsep}{3.2pt}
+\begin{tabular}{c c l c c c c c c c c c}
+\toprule
+Dataset & Modality & Method & p-value & \textit{HR}@1 & $\Uparrow$ \textit{HR}@1 & \textit{HR}@3 & $\Uparrow$ \textit{HR}@3 & \textit{Avg}@3 & $\Uparrow$ \textit{Avg}@3 & \textit{MRR}@3 & $\Uparrow$ \textit{MRR}@3 \\
+\midrule
+\multirow{15}{*}{$\mathcal{A}$} & Metric & MicroRCA & 3.4e-05 & 0.181 & 319.337\% & 0.385 & 136.104\% & 0.287 & 194.077\% & 0.268 & 208.582\% \\
+ & Metric & MicroHECL & 2.4e-06 & 0.118 & 543.220\% & 0.233 & 290.129\% & 0.177 & 376.836\% & 0.167 & 395.210\% \\
+ & Trace & TraceRCA & 1.3e-05 & 0.192 & 295.312\% & 0.364 & 149.725\% & 0.291 & 190.034\% & 0.270 & 206.296\% \\
+ & Trace & MicroRank & 8.6e-05 & 0.192 & 295.312\% & 0.419 & 116.945\% & 0.308 & 174.026\% & 0.288 & 187.153\% \\
+ & Multimodality & Eadro & 1.6e-03 & 0.304 & 149.671\% & 0.592 & 53.547\% & 0.473 & 78.436\% & 0.437 & 89.245\% \\
+ & Multimodality & DiagFusion & 3.1e-02 & 0.404 & 87.871\% & 0.801 & 13.483\% & 0.636 & 32.704\% & 0.586 & 41.126\% \\
+ & Multimodality & RF-RCL & 3.4e-02 & 0.573 & 32.461\% & 0.815 & 11.534\% & 0.719 & 17.385\% & 0.686 & 20.554\% \\
+ & Multimodality & \textbf{\textit{TVDiag}} & - & \textbf{0.759} & - & \textbf{0.909} & - & \textbf{0.844} & - & \textbf{0.827} & - \\
+\cdashline{2-12}
+ & Multimodality & TVDiag (re-run)$^\dagger$ & 4.3E-02 & 0.738 & 2.843\% & 0.894 & 1.710\% & 0.828 & 1.901\% & 0.809 & 2.214\% \\
+ & Multimodality & AdaDiag-CL$^\dagger$ & 3.5E-02 & 0.743 & 2.194\% & 0.898 & 1.276\% & 0.834 & 1.258\% & 0.814 & 1.608\% \\
+ & Multimodality & \textbf{AdaDiag-DL}$^\dagger$ & 2.8E-01 & 0.749 & 1.293\% & 0.901 & 0.869\% & 0.837 & 0.846\% & 0.818 & 1.048\% \\
+ & Multimodality & TVDiag-LSTM (re-run)$^\dagger$ & 5.7E-02 & 0.714 & 6.373\% & 0.886 & 2.615\% & 0.812 & 3.996\% & 0.791 & 4.516\% \\
+ & Multimodality & \textbf{AdaDiag-DL-LSTM}$^\dagger$ & 5.0E-02 & 0.742 & 2.341\% & 0.895 & 1.517\% & 0.830 & 1.744\% & 0.811 & 1.946\% \\
+ & Multimodality & TVDiag-Spec (re-run)$^\dagger$ & 2.8E-04 & 0.684 & 10.909\% & 0.870 & 4.474\% & 0.791 & 6.693\% & 0.769 & 7.591\% \\
+ & Multimodality & AdaDiag-DL-Spec$^\dagger$ & 3.4E-04 & 0.679 & 11.849\% & 0.871 & 4.423\% & 0.787 & 7.213\% & 0.765 & 8.120\% \\
+\midrule
+\multirow{9}{*}{$\mathcal{B}$} & Metric & MicroRCA & 6.7e-07 & 0.058 & 1441.379\% & 0.155 & 507.097\% & 0.107 & 763.551\% & 0.099 & 826.263\% \\
+ & Metric & MicroHECL & 6.8e-07 & 0.044 & 1931.818\% & 0.142 & 562.676\% & 0.094 & 882.979\% & 0.085 & 978.824\% \\
+ & Trace & TraceRCA & 2.8e-09 & 0.150 & 496.000\% & 0.204 & 361.275\% & 0.183 & 404.918\% & 0.176 & 421.023\% \\
+ & Trace & MicroRank & 4.4e-09 & 0.171 & 422.807\% & 0.227 & 314.537\% & 0.205 & 350.732\% & 0.197 & 365.482\% \\
+ & Multimodality & Eadro & 6.3e-04 & 0.226 & 295.575\% & 0.478 & 96.862\% & 0.367 & 151.771\% & 0.339 & 170.501\% \\
+ & Multimodality & DiagFusion & 4.3e-08 & 0.205 & 336.098\% & 0.273 & 244.689\% & 0.239 & 286.611\% & 0.229 & 300.437\% \\
+ & Multimodality & RF-RCL & 7.5e-03 & 0.635 & 40.787\% & 0.829 & 13.510\% & 0.739 & 25.034\% & 0.719 & 27.538\% \\
+ & Multimodality & \textbf{\textit{TVDiag}} & - & \textbf{0.894} & - & \textbf{0.941} & - & \textbf{0.924} & - & \textbf{0.917} & - \\
+ & \multicolumn{11}{l}{\footnotesize\itshape AdaDiag: not run, dataset $\mathcal{B}$ (AIOps-22) is not distributed with TVDiag's code} \\
+\midrule
+\multirow{15}{*}{$\mathcal{C}$} & Metric & MicroRCA & 6.4E-06 & 0.063 & 1269.841\% & 0.231 & 312.987\% & 0.145 & 529.655\% & 0.132 & 584.091\% \\
+ & Metric & MicroHECL & 1.8E-05 & 0.054 & 1498.148\% & 0.245 & 289.388\% & 0.147 & 521.088\% & 0.132 & 584.091\% \\
+ & Trace & TraceRCA & 1.3E-07 & 0.116 & 643.966\% & 0.220 & 333.636\% & 0.171 & 433.918\% & 0.161 & 460.870\% \\
+ & Trace & MicroRank & 1.7E-06 & 0.054 & 1498.148\% & 0.200 & 377.000\% & 0.140 & 552.143\% & 0.121 & 646.281\% \\
+ & Multimodality & Eadro & 1.4E-04 & 0.191 & 351.832\% & 0.415 & 129.880\% & 0.317 & 188.013\% & 0.291 & 210.309\% \\
+ & Multimodality & DiagFusion & 9.0E-04 & 0.519 & 66.281\% & 0.710 & 34.366\% & 0.612 & 49.183\% & 0.597 & 51.256\% \\
+ & Multimodality & RF-RCL & 5.1E-03 & 0.622 & 38.746\% & 0.817 & 16.769\% & 0.715 & 27.692\% & 0.701 & 28.816\% \\
+ & Multimodality & \textbf{\textit{TVDiag}} & - & 0.863 & - & \textbf{0.954} & - & 0.913 & - & 0.903 & - \\
+\cdashline{2-12}
+ & Multimodality & TVDiag (re-run)$^\dagger$ & 5.3E-01 & 0.869 & $-$0.677\% & 0.948 & 0.663\% & 0.915 & $-$0.167\% & 0.905 & $-$0.203\% \\
+ & Multimodality & AdaDiag-CL$^\dagger$ & 9.7E-02 & 0.870 & $-$0.771\% & 0.947 & 0.751\% & \textbf{0.917} & $-$0.408\% & \textbf{0.906} & $-$0.341\% \\
+ & Multimodality & \textbf{AdaDiag-DL}$^\dagger$ & 9.5E-02 & \textbf{0.872} & $-$1.055\% & 0.945 & 0.928\% & 0.916 & $-$0.347\% & \textbf{0.906} & $-$0.371\% \\
+ & Multimodality & TVDiag-LSTM (re-run)$^\dagger$ & 4.7E-02 & 0.851 & 1.455\% & 0.935 & 2.003\% & 0.901 & 1.304\% & 0.890 & 1.456\% \\
+ & Multimodality & \textbf{AdaDiag-DL-LSTM}$^\dagger$ & 1.1E-02 & 0.829 & 4.096\% & 0.936 & 1.912\% & 0.893 & 2.214\% & 0.879 & 2.733\% \\
+ & Multimodality & TVDiag-Spec (re-run)$^\dagger$ & 1.1E-03 & 0.810 & 6.549\% & 0.919 & 3.846\% & 0.871 & 4.878\% & 0.858 & 5.200\% \\
+ & Multimodality & AdaDiag-DL-Spec$^\dagger$ & 2.4E-03 & 0.812 & 6.331\% & 0.917 & 4.033\% & 0.874 & 4.479\% & 0.860 & 4.963\% \\
+\midrule
+\multirow{15}{*}{$\mathcal{D}$} & Metric & MicroRCA & 7.9E-04 & 0.150 & 447.333\% & 0.460 & 100.652\% & 0.317 & 176.341\% & 0.285 & 203.860\% \\
+ & Metric & MicroHECL & 2.3E-04 & 0.129 & 536.434\% & 0.387 & 138.501\% & 0.269 & 225.651\% & 0.242 & 257.851\% \\
+ & Trace & TraceRCA & 2.9E-07 & 0.151 & 443.709\% & 0.258 & 257.752\% & 0.197 & 344.670\% & 0.192 & 351.042\% \\
+ & Trace & MicroRank & 1.2E-04 & 0.172 & 377.326\% & 0.398 & 131.910\% & 0.283 & 209.541\% & 0.265 & 226.792\% \\
+ & Multimodality & Eadro & 2.6E-03 & 0.244 & 236.475\% & 0.590 & 56.441\% & 0.419 & 109.069\% & 0.389 & 122.622\% \\
+ & Multimodality & DiagFusion & 4.5E-03 & 0.513 & 60.039\% & 0.744 & 24.059\% & 0.645 & 35.814\% & 0.618 & 40.129\% \\
+ & Multimodality & RF-RCL & 4.6E-02 & 0.744 & 10.349\% & 0.872 & 5.849\% & 0.804 & 8.955\% & 0.795 & 8.931\% \\
+ & Multimodality & \textbf{\textit{TVDiag}} & - & 0.821 & - & 0.923 & - & 0.876 & - & 0.866 & - \\
+\cdashline{2-12}
+ & Multimodality & TVDiag (re-run)$^\dagger$ & 7.0E-01 & 0.818 & 0.373\% & 0.910 & 1.400\% & 0.864 & 1.377\% & 0.856 & 1.120\% \\
+ & Multimodality & AdaDiag-CL$^\dagger$ & 7.6E-01 & 0.818 & 0.373\% & 0.915 & 0.832\% & 0.867 & 1.077\% & 0.859 & 0.868\% \\
+ & Multimodality & \textbf{AdaDiag-DL}$^\dagger$ & 2.2E-01 & 0.810 & 1.326\% & 0.910 & 1.400\% & 0.860 & 1.881\% & 0.852 & 1.678\% \\
+ & Multimodality & TVDiag-LSTM (re-run)$^\dagger$ & 7.0E-01 & 0.818 & 0.373\% & 0.941 & $-$1.916\% & 0.882 & $-$0.686\% & 0.871 & $-$0.518\% \\
+ & Multimodality & \textbf{AdaDiag-DL-LSTM}$^\dagger$ & 9.6E-01 & 0.821 & 0.059\% & \textbf{0.944} & $-$2.182\% & 0.883 & $-$0.782\% & \textbf{0.872} & $-$0.713\% \\
+ & Multimodality & TVDiag-Spec (re-run)$^\dagger$ & 5.8E-01 & \textbf{0.826} & $-$0.562\% & 0.923 & $-$0.008\% & \textbf{0.885} & $-$1.069\% & \textbf{0.872} & $-$0.665\% \\
+ & Multimodality & AdaDiag-DL-Spec$^\dagger$ & 6.8E-01 & \textbf{0.826} & $-$0.562\% & 0.918 & 0.550\% & 0.880 & $-$0.493\% & 0.868 & $-$0.274\% \\
+\bottomrule
+\end{tabular}
+\par\vspace{4pt}
+\begin{minipage}{\linewidth}\footnotesize
+$\Uparrow$ indicates the improvement rate of \textit{TVDiag} compared to other methods (as in the paper; negative: the row is above \textit{TVDiag}). For clarity, the best result in each metric is shown in bold.
+ Rows without $\dagger$ are copied from the paper (Table 4). $^\dagger$Rows below the dashed line are from this repository: mean over 5 fresh seeds (5--9), same code for all three; p-value: two-sided one-sample $t$-test of the seeds against \textit{TVDiag}'s published HR@1. AdaDiag-CL: weights learned from the contrastive term (as proposed). \textbf{AdaDiag-DL}: weights learned from the diagnosis losses (the variant selected in README \S6.17). Rows marked -LSTM: the same two arms with the LSTM neighbour aggregator the paper describes (its released code uses mean; README \S6.18). Rows marked -Spec: the same two arms with the six features the paper's text specifies and its released code omits (Eq.~3 per anchor, Eqs.~5--6 symmetric, Eq.~13 learnable, Algorithm~1's per-layer normalisation, bidirectional edges, one AUG copy per sample; README \S6.19). The paired comparison with the re-run is Table~\ref{tab:paired}.
+\end{minipage}
+\end{table}

@@ -1,0 +1,89 @@
+{
+ "gaia": {
+  "tvdiag": {
+   "train_per_epoch": 0.49509309253649975,
+   "train_total": 120.04,
+   "epochs": 242.2,
+   "infer_per_case": 0.001176880286473626,
+   "params": 74246,
+   "weighting_params": 0,
+   "n": 5
+  },
+  "adadiag": {
+   "train_per_epoch": 0.7423893292741273,
+   "train_total": 180.35999999999999,
+   "epochs": 243.4,
+   "infer_per_case": 0.0011709659403621247,
+   "params": 81036,
+   "weighting_params": 6790,
+   "n": 5
+  },
+  "align": {
+   "train_per_epoch": 1.3212773586890811,
+   "train_total": 200.48000000000002,
+   "epochs": 152.2,
+   "infer_per_case": 0.0010661227987217015,
+   "params": 74246,
+   "weighting_params": 0,
+   "n": 5
+  }
+ },
+ "sockshop": {
+  "tvdiag": {
+   "train_per_epoch": 0.6610805588236411,
+   "train_total": 202.61999999999998,
+   "epochs": 305.6,
+   "infer_per_case": 0.0011622503609963913,
+   "params": 74376,
+   "weighting_params": 0,
+   "n": 5
+  },
+  "adadiag": {
+   "train_per_epoch": 1.0720077048012762,
+   "train_total": 268.71999999999997,
+   "epochs": 250.4,
+   "infer_per_case": 0.0012532981742725418,
+   "params": 81166,
+   "weighting_params": 6790,
+   "n": 5
+  },
+  "align": {
+   "train_per_epoch": 1.795320665912667,
+   "train_total": 264.54,
+   "epochs": 147.2,
+   "infer_per_case": 0.0012112351203345743,
+   "params": 74376,
+   "weighting_params": 0,
+   "n": 5
+  }
+ },
+ "hotel": {
+  "tvdiag": {
+   "train_per_epoch": 0.39396018864659244,
+   "train_total": 51.6,
+   "epochs": 130.6,
+   "infer_per_case": 0.0011341766025645063,
+   "params": 74246,
+   "weighting_params": 0,
+   "n": 5
+  },
+  "adadiag": {
+   "train_per_epoch": 0.5488030617626646,
+   "train_total": 74.75999999999999,
+   "epochs": 136.2,
+   "infer_per_case": 0.0011784731538495973,
+   "params": 81036,
+   "weighting_params": 6790,
+   "n": 5
+  },
+  "align": {
+   "train_per_epoch": 0.9081208969282949,
+   "train_total": 115.7,
+   "epochs": 127.2,
+   "infer_per_case": 0.0011459103846177116,
+   "params": 74246,
+   "weighting_params": 0,
+   "n": 5
+  }
+ }
+}

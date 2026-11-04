@@ -44,6 +44,21 @@ FIDELITY = dict(
 )
 
 
+#: README section 6.19. What the TVDiag PAPER specifies and its released code does not do.
+#: Each switch alone, or all together, applies the paper's version; the defaults (the code's
+#: version) are untouched, so every committed result reproduces bit for bit. The paper's
+#: LSTM aggregator is the seventh (`aggregator="lstm"`, section 6.18) and is left out of this
+#: preset: it was tested on its own there and costs 3.6-13x the training time.
+PAPER = dict(
+    to_norm="paper",       # Eq. 3: each anchor's mean over its own positives
+    cm_mode="paper",       # Eqs. 5-6: symmetric, with intra-modal negatives
+    awl_learnable=True,    # Eq. 13: theta learnable (the code never optimises it)
+    sage_alg1=True,        # Algorithm 1, lines 6-7: sigma and L2-normalise at every layer
+    bidirectional=True,    # Sec. 4.2: edges are bidirectional (changes GAIA only)
+    aug_mode="paper",      # Sec. 4.3: one augmented copy per incident, added to the train set
+)
+
+
 def get(dataset: str, **overrides) -> dict:
     if dataset not in PER_DATASET:
         raise KeyError(f"unknown dataset {dataset!r}; expected one of {list(PER_DATASET)}")

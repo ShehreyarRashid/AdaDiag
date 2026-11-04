@@ -16,15 +16,30 @@ import torch
 import torch.nn.functional as F
 
 from .augment import drop_non_root
-from .losses import AutomaticWeightedLoss, supcon_per_sample, supcon_weighted, uspcon
+from .losses import (AutomaticWeightedLoss, cm_paper, supcon_anchor_mean, supcon_per_sample,
+                     supcon_weighted, uspcon)
 from .model import AdaDiag
+from .affinity import task_affinity
 from .evaluate import evaluate
 from .weighting import MODALITIES, PRIOR_SIMPLEX, TASKS
 
 
+def to_term(emb, labels, temperature, to_norm: str = "code", pos_beta: float = 0.0,
+            neg_beta: float = 0.0, keep_frac: float = 1.0):
+    """One SupCon term, (per_sample, divisor). `to_norm="paper"` is Eq. 3's per-anchor mean
+    (README section 6.19); "code" is the released global mean, with the section 6.13 options."""
+    if to_norm == "paper":
+        if pos_beta or neg_beta or keep_frac < 1.0:
+            raise ValueError("to_norm='paper' is not combined with the section 6.13 weightings")
+        return supcon_anchor_mean(emb, labels, temperature)
+    if to_norm != "code":
+        raise ValueError(f"unknown to_norm {to_norm!r}; expected 'code' or 'paper'")
+    return supcon_weighted(emb, labels, temperature, pos_beta, neg_beta, keep_frac)
+
+
 def task_oriented_loss(model, fs, labels, w, temperature, active=None,
                        pos_beta: float = 0.0, neg_beta: float = 0.0,
-                       keep_frac: float = 1.0) -> torch.Tensor:
+                       keep_frac: float = 1.0, to_norm: str = "code") -> torch.Tensor:
     """Six weighted terms in place of TVDiag's three unit-weight ones.
 
     TVDiag::
@@ -41,6 +56,7 @@ def task_oriented_loss(model, fs, labels, w, temperature, active=None,
     `active` (ablation) skips removed modalities outright. `pos_beta`, `neg_beta` and
     `keep_frac` are the pair- and anchor-level weightings of README section 6.13
     (`losses.supcon_weighted`); at their defaults the term is TVDiag's, bit for bit.
+    `to_norm="paper"` (section 6.19) normalises each term per anchor, as Eq. 3 is written.
     """
     total = torch.zeros((), dtype=torch.float32, device=w.device)
     for mi, m in enumerate(MODALITIES):
@@ -53,8 +69,8 @@ def task_oriented_loss(model, fs, labels, w, temperature, active=None,
             # (all rows, not row 0: v0_oracle's per-class matrix varies across the batch)
             if not model.weighting.is_learned and float(w[:, mi, ti].detach().abs().sum()) == 0.0:
                 continue
-            per_sample, nz = supcon_weighted(fs[m], labels[t], temperature,
-                                             pos_beta, neg_beta, keep_frac)
+            per_sample, nz = to_term(fs[m], labels[t], temperature, to_norm,
+                                     pos_beta, neg_beta, keep_frac)
             total = total + (w[:, mi, ti] * per_sample).sum() / nz
     return total
 
@@ -103,7 +119,7 @@ def align_weights(model, fs, labels, diag, cfg) -> torch.Tensor:
             ps = groups[m]
             g_task = _flat(gd[k:k + len(ps)], ps)
             k += len(ps)
-            per, nz = supcon_per_sample(fs[m], labels[t], cfg["temperature"])
+            per, nz = to_term(fs[m], labels[t], cfg["temperature"], cfg.get("to_norm", "code"))
             g_term = _flat(torch.autograd.grad(per.sum() / nz, ps, retain_graph=True,
                                                allow_unused=True), ps)
             if g_task.norm() > 0 and g_term.norm() > 0:
@@ -154,6 +170,17 @@ def make_batch(ds, b, cfg, rng, pool=None):
         keep = torch.cat([keep, ka])
         root, yt, cnt = torch.cat([root] * 2), torch.cat([yt] * 2), torch.cat([cnt] * 2)
     return X, A, keep, root, yt, cnt
+
+
+def make_batch_union(ds, idx: torch.Tensor, keep: torch.Tensor):
+    """aug_mode "paper" (README section 6.19): a batch drawn from the training set with one
+    augmented copy of every incident ADDED to it, as TVDiag's paper describes AUG (Sec. 4.3:
+    "apply the AUG strategy to each sample ... incorporating G^ into the training dataset").
+    `idx` are incident indices, `keep` their node masks (all True for a raw incident)."""
+    m = keep.float()
+    X = ds.X[idx] * m[:, None, :, None]
+    A = ds.A[idx] * m[:, None, :] * m[:, :, None]
+    return X, A, keep, ds.root[idx], ds.ytype[idx], ds.cnt[idx]
 
 
 def compute_terms(model, arm, batch, cfg, capture: dict | None = None,
@@ -225,14 +252,19 @@ def compute_terms(model, arm, batch, cfg, capture: dict | None = None,
     active = None if all(model.active) else model.active
     l_to = (task_oriented_loss(model, fs, labels, w_loss, cfg["temperature"], active,
                                float(cfg.get("cl_pos_beta", 0.0) or 0.0),
-                               float(cfg.get("cl_neg_beta", 0.0) or 0.0), keep_frac)
+                               float(cfg.get("cl_neg_beta", 0.0) or 0.0), keep_frac,
+                               cfg.get("to_norm", "code"))
             if cfg.get("use_to", True) else zero)
     # ------------------------------------------------------------------------
 
     present = [m for m, a in zip(MODALITIES, model.active) if a]
     if cfg.get("use_cm", True) and len(present) > 1:
         anchor = present[0]                         # "metric" unless metric was removed
-        l_cm = sum(uspcon(fs[anchor], fs[m], cfg["temperature"]) for m in present[1:])
+        mode = cfg.get("cm_mode", "code")           # "paper": Eqs. 5-6 (section 6.19)
+        if mode not in ("code", "paper"):
+            raise ValueError(f"unknown cm_mode {mode!r}; expected 'code' or 'paper'")
+        cm = cm_paper if mode == "paper" else uspcon
+        l_cm = sum(cm(fs[anchor], fs[m], cfg["temperature"]) for m in present[1:])
     else:
         l_cm = zero
     if l_rcl is None:          # created here, after l_to and l_cm, exactly as before
@@ -279,9 +311,19 @@ def train(arm: str, seed: int, ds, cfg: dict,
 
     model = AdaDiag(arm, len(ds.types), cfg)
     # Eq. 13's outer weighting. Reproduced INERT, exactly as TVDiag ships it -- see
-    # losses.AutomaticWeightedLoss. Its parameters are deliberately not optimised.
-    awl = AutomaticWeightedLoss(4, learnable=False)
-    opt = torch.optim.Adam(model.parameters(), lr=cfg["lr"], weight_decay=cfg["weight_decay"])
+    # losses.AutomaticWeightedLoss. Its parameters are deliberately not optimised, unless
+    # `awl_learnable` (README section 6.19: Eq. 13 as the paper states it), which adds them to
+    # the optimizer in their own group, without weight decay (decay would pull theta to 0,
+    # i.e. push every weight 0.5 / theta^2 up; at 1e-4 it is negligible either way).
+    learn_awl = bool(cfg.get("awl_learnable", False))
+    awl = AutomaticWeightedLoss(4, learnable=learn_awl)
+    if learn_awl:
+        opt = torch.optim.Adam([{"params": model.parameters()},
+                                {"params": awl.parameters(), "weight_decay": 0.0}],
+                               lr=cfg["lr"], weight_decay=cfg["weight_decay"])
+    else:
+        opt = torch.optim.Adam(model.parameters(), lr=cfg["lr"],
+                               weight_decay=cfg["weight_decay"])
 
     tr = ds.train_idx
     best, bad, state = None, 0, copy.deepcopy(model.state_dict())
@@ -289,18 +331,40 @@ def train(arm: str, seed: int, ds, cfg: dict,
     warm_n = int(cfg.get("weight_warmup", 0) or 0)     # 0 = the method as published here
     # early stopping is paused while the objective is still changing (warm-up, curriculum)
     pause_n = max(warm_n, int(cfg.get("cl_curriculum", 0) or 0))
+    aug_mode = cfg.get("aug_mode", "paired")
+    if aug_mode not in ("paired", "pool", "paper"):
+        raise ValueError(f"unknown aug_mode {aug_mode!r}; expected 'paired', 'pool' or 'paper'")
     pool = (build_aug_pool(ds, cfg, rng)
-            if cfg["aug_times"] > 0 and cfg.get("aug_mode", "paired") == "pool" else None)
+            if cfg["aug_times"] > 0 and aug_mode == "pool" else None)
+    union = None
+    if cfg["aug_times"] > 0 and aug_mode == "paper":
+        # one augmented copy per training incident, made once and added to the training set;
+        # a step takes 2 x batch_size graphs from the union, as many as the other modes do
+        one = build_aug_pool(ds, dict(cfg, aug_times=1), rng)
+        union = (torch.tensor([int(i) for i in tr] + [i for i, _ in one]),
+                 torch.cat([torch.ones(len(tr), ds.n_nodes, dtype=torch.bool),
+                            torch.stack([k for _, k in one])]))
+
+    # README section 6.20: Eq. 17's inter-task affinity at every step of the first epoch, as
+    # TVDiag measures it (Table 8). Measured on copies, so training is unchanged.
+    measure_aff = bool(cfg.get("measure_affinity", False))
+    aff = []
 
     for epoch in range(cfg["epochs"]):
         model.train()
         in_warmup = epoch < warm_n
         in_pause = epoch < pause_n
-        perm = np.random.permutation(tr)
+        if union is None:
+            perm, step = np.random.permutation(tr), cfg["batch_size"]
+        else:
+            perm, step = np.random.permutation(len(union[0])), 2 * cfg["batch_size"]
         running, nb = 0.0, 0
-        for s in range(0, len(perm), cfg["batch_size"]):
-            b = perm[s:s + cfg["batch_size"]]
-            batch = make_batch(ds, b, cfg, rng, pool)
+        for s in range(0, len(perm), step):
+            b = perm[s:s + step]
+            batch = (make_batch(ds, b, cfg, rng, pool) if union is None else
+                     make_batch_union(ds, union[0][b], union[1][b]))
+            if measure_aff and epoch == 0:
+                aff.append(task_affinity(model, batch, cfg))
             capture = {} if monitor is not None else None
             terms, w = compute_terms(model, arm, batch, cfg, capture, warmup=in_warmup,
                                      epoch=epoch)
@@ -337,4 +401,11 @@ def train(arm: str, seed: int, ds, cfg: dict,
                env={"torch": torch.__version__, "threads": torch.get_num_threads()})
     if w_trace:
         res["w_final"] = w_trace[-1]
+    if aff:
+        res["affinity"] = {k: float(np.mean([a[k] for a in aff])) for k in aff[0]}
+        res["affinity_steps"] = len(aff)
+    if learn_awl:      # Eq. 13's learned theta, and the weight 0.5 / theta^2 each term ends at
+        th = awl.p.detach()
+        res["awl_theta"] = th.tolist()
+        res["awl_weight"] = (0.5 / th ** 2).tolist()
     return res, model

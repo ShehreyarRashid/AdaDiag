@@ -1,0 +1,6 @@
+  tvdiag_lstm   s5  HR@1 0.808  F1 0.802  (121 ep, 445s)
+  tvdiag_lstm   s6  HR@1 0.808  F1 0.761  (137 ep, 496s)
+  tvdiag_lstm   s7  HR@1 0.846  F1 0.730  (138 ep, 515s)
+  tvdiag_lstm   s8  HR@1 0.821  F1 0.756  (126 ep, 491s)
+  tvdiag_lstm   s9  HR@1 0.808  F1 0.736  (176 ep, 674s)
+done /home/claude/AdaDiag/results/selection/confirm_hotel_lstm_a.json

@@ -1,0 +1,103 @@
+table,dataset,modality,method,source,p_value,HR@1,HR@3,Avg@3,MRR@3,Precision,Recall,F1-score
+4,A,Metric,MicroRCA,paper,3.4e-05,0.181,0.385,0.287,0.268,,,
+4,A,Metric,MicroHECL,paper,2.4e-06,0.118,0.233,0.177,0.167,,,
+4,A,Trace,TraceRCA,paper,1.3e-05,0.192,0.364,0.291,0.27,,,
+4,A,Trace,MicroRank,paper,8.6e-05,0.192,0.419,0.308,0.288,,,
+4,A,Multimodality,Eadro,paper,1.6e-03,0.304,0.592,0.473,0.437,,,
+4,A,Multimodality,DiagFusion,paper,3.1e-02,0.404,0.801,0.636,0.586,,,
+4,A,Multimodality,RF-RCL,paper,3.4e-02,0.573,0.815,0.719,0.686,,,
+4,A,Multimodality,TVDiag,paper,-,0.759,0.909,0.844,0.827,,,
+4,A,Multimodality,TVDiag (re-run),this repository,4.3E-02,0.738019,0.893717,0.828257,0.809088,,,
+4,A,Multimodality,AdaDiag-CL,this repository,3.5E-02,0.742705,0.897551,0.833511,0.813916,,,
+4,A,Multimodality,AdaDiag-DL,this repository,2.8E-01,0.749308,0.901171,0.836919,0.818424,,,
+4,A,Multimodality,TVDiag-LSTM (re-run),this repository,5.7E-02,0.713525,0.885836,0.811573,0.791267,,,
+4,A,Multimodality,AdaDiag-DL-LSTM,this repository,5.0E-02,0.74164,0.895421,0.829535,0.811218,,,
+4,A,Multimodality,TVDiag-Spec (re-run),this repository,2.8E-04,0.684345,0.870075,0.791054,0.768655,,,
+4,A,Multimodality,AdaDiag-DL-Spec,this repository,3.4E-04,0.678594,0.870501,0.78722,0.764892,,,
+4,B,Metric,MicroRCA,paper,6.7e-07,0.058,0.155,0.107,0.099,,,
+4,B,Metric,MicroHECL,paper,6.8e-07,0.044,0.142,0.094,0.085,,,
+4,B,Trace,TraceRCA,paper,2.8e-09,0.15,0.204,0.183,0.176,,,
+4,B,Trace,MicroRank,paper,4.4e-09,0.171,0.227,0.205,0.197,,,
+4,B,Multimodality,Eadro,paper,6.3e-04,0.226,0.478,0.367,0.339,,,
+4,B,Multimodality,DiagFusion,paper,4.3e-08,0.205,0.273,0.239,0.229,,,
+4,B,Multimodality,RF-RCL,paper,7.5e-03,0.635,0.829,0.739,0.719,,,
+4,B,Multimodality,TVDiag,paper,-,0.894,0.941,0.924,0.917,,,
+4,C,Metric,MicroRCA,paper,6.4E-06,0.063,0.231,0.145,0.132,,,
+4,C,Metric,MicroHECL,paper,1.8E-05,0.054,0.245,0.147,0.132,,,
+4,C,Trace,TraceRCA,paper,1.3E-07,0.116,0.22,0.171,0.161,,,
+4,C,Trace,MicroRank,paper,1.7E-06,0.054,0.2,0.14,0.121,,,
+4,C,Multimodality,Eadro,paper,1.4E-04,0.191,0.415,0.317,0.291,,,
+4,C,Multimodality,DiagFusion,paper,9.0E-04,0.519,0.71,0.612,0.597,,,
+4,C,Multimodality,RF-RCL,paper,5.1E-03,0.622,0.817,0.715,0.701,,,
+4,C,Multimodality,TVDiag,paper,-,0.863,0.954,0.913,0.903,,,
+4,C,Multimodality,TVDiag (re-run),this repository,5.3E-01,0.86888,0.947718,0.914523,0.904841,,,
+4,C,Multimodality,AdaDiag-CL,this repository,9.7E-02,0.86971,0.946888,0.916736,0.906086,,,
+4,C,Multimodality,AdaDiag-DL,this repository,9.5E-02,0.872199,0.945228,0.916183,0.906362,,,
+4,C,Multimodality,TVDiag-LSTM (re-run),this repository,4.7E-02,0.850622,0.93527,0.901245,0.890041,,,
+4,C,Multimodality,AdaDiag-DL-LSTM,this repository,1.1E-02,0.829046,0.9361,0.893223,0.878976,,,
+4,C,Multimodality,TVDiag-Spec (re-run),this repository,1.1E-03,0.809959,0.918672,0.870539,0.858368,,,
+4,C,Multimodality,AdaDiag-DL-Spec,this repository,2.4E-03,0.811618,0.917012,0.873859,0.860304,,,
+4,D,Metric,MicroRCA,paper,7.9E-04,0.15,0.46,0.317,0.285,,,
+4,D,Metric,MicroHECL,paper,2.3E-04,0.129,0.387,0.269,0.242,,,
+4,D,Trace,TraceRCA,paper,2.9E-07,0.151,0.258,0.197,0.192,,,
+4,D,Trace,MicroRank,paper,1.2E-04,0.172,0.398,0.283,0.265,,,
+4,D,Multimodality,Eadro,paper,2.6E-03,0.244,0.59,0.419,0.389,,,
+4,D,Multimodality,DiagFusion,paper,4.5E-03,0.513,0.744,0.645,0.618,,,
+4,D,Multimodality,RF-RCL,paper,4.6E-02,0.744,0.872,0.804,0.795,,,
+4,D,Multimodality,TVDiag,paper,-,0.821,0.923,0.876,0.866,,,
+4,D,Multimodality,TVDiag (re-run),this repository,7.0E-01,0.817949,0.910256,0.864103,0.85641,,,
+4,D,Multimodality,AdaDiag-CL,this repository,7.6E-01,0.817949,0.915385,0.866667,0.858547,,,
+4,D,Multimodality,AdaDiag-DL,this repository,2.2E-01,0.810256,0.910256,0.859829,0.851709,,,
+4,D,Multimodality,TVDiag-LSTM (re-run),this repository,7.0E-01,0.817949,0.941026,0.882051,0.870513,,,
+4,D,Multimodality,AdaDiag-DL-LSTM,this repository,9.6E-01,0.820513,0.94359,0.882906,0.872222,,,
+4,D,Multimodality,TVDiag-Spec (re-run),this repository,5.8E-01,0.825641,0.923077,0.88547,0.871795,,,
+4,D,Multimodality,AdaDiag-DL-Spec,this repository,6.8E-01,0.825641,0.917949,0.880342,0.868376,,,
+5,A,Log,LogCluster,paper,1.4E-02,,,,,0.888,0.915,0.901
+5,A,Multimodality,DiagFusion,paper,3.3E-04,,,,,0.852,0.838,0.84
+5,A,Multimodality,Medicine,paper,4.1E-06,,,,,0.669,0.667,0.648
+5,A,Multimodality,DT-FTI,paper,9.4E-03,,,,,0.889,0.892,0.89
+5,A,Multimodality,SVM-FTI,paper,9.9E-02,,,,,0.883,0.935,0.908
+5,A,Multimodality,LGB-FTI,paper,5.2E-02,,,,,0.892,0.928,0.907
+5,A,Multimodality,TVDiag,paper,-,,,,,0.925,0.948,0.936
+5,A,Multimodality,TVDiag (re-run),this repository,1.1E-01,,,,,0.910937,0.931203,0.920955
+5,A,Multimodality,AdaDiag-CL,this repository,8.6E-01,,,,,0.9245,0.946539,0.935382
+5,A,Multimodality,AdaDiag-DL,this repository,9.2E-01,,,,,0.924898,0.94803,0.93632
+5,A,Multimodality,TVDiag-LSTM (re-run),this repository,2.4E-02,,,,,0.931436,0.956763,0.943929
+5,A,Multimodality,AdaDiag-DL-LSTM,this repository,6.8E-01,,,,,0.923437,0.945261,0.93422
+5,A,Multimodality,TVDiag-Spec (re-run),this repository,2.9E-02,,,,,0.913113,0.938019,0.925398
+5,A,Multimodality,AdaDiag-DL-Spec,this repository,4.8E-04,,,,,0.908728,0.933546,0.920968
+5,B,Log,LogCluster,paper,1.1E-02,,,,,0.434,0.159,0.147
+5,B,Multimodality,DiagFusion,paper,3.4E-04,,,,,0.533,0.489,0.505
+5,B,Multimodality,Medicine,paper,4.7E-04,,,,,0.307,0.244,0.244
+5,B,Multimodality,DT-FTI,paper,5.0E-05,,,,,0.448,0.42,0.422
+5,B,Multimodality,SVM-FTI,paper,3.6E-03,,,,,0.807,0.784,0.774
+5,B,Multimodality,LGB-FTI,paper,7.0E-04,,,,,0.604,0.58,0.556
+5,B,Multimodality,TVDiag,paper,-,,,,,0.882,0.871,0.876
+5,C,Log,LogCluster,paper,1.9E-06,,,,,0.233,0.228,0.213
+5,C,Multimodality,DiagFusion,paper,7.9E-05,,,,,0.338,0.332,0.328
+5,C,Multimodality,Medicine,paper,5.0E-04,,,,,0.497,0.469,0.454
+5,C,Multimodality,DT-FTI,paper,6.4E-05,,,,,0.376,0.365,0.366
+5,C,Multimodality,SVM-FTI,paper,3.2E-03,,,,,0.384,0.315,0.282
+5,C,Multimodality,LGB-FTI,paper,9.7E-04,,,,,0.442,0.39,0.388
+5,C,Multimodality,TVDiag,paper,-,,,,,0.649,0.622,0.636
+5,C,Multimodality,TVDiag (re-run),this repository,5.5E-04,,,,,0.573352,0.53527,0.553574
+5,C,Multimodality,AdaDiag-CL,this repository,2.2E-04,,,,,0.583724,0.542739,0.562425
+5,C,Multimodality,AdaDiag-DL,this repository,4.7E-03,,,,,0.583692,0.546058,0.564119
+5,C,Multimodality,TVDiag-LSTM (re-run),this repository,2.6E-04,,,,,0.526492,0.495436,0.510454
+5,C,Multimodality,AdaDiag-DL-LSTM,this repository,1.7E-04,,,,,0.587106,0.548548,0.566982
+5,C,Multimodality,TVDiag-Spec (re-run),this repository,1.0E-05,,,,,0.434532,0.39834,0.415544
+5,C,Multimodality,AdaDiag-DL-Spec,this repository,3.3E-04,,,,,0.45031,0.424066,0.436713
+5,D,Log,LogCluster,paper,4.5E-03,,,,,0.396,0.282,0.212
+5,D,Multimodality,DiagFusion,paper,3.2E-05,,,,,0.618,0.603,0.6
+5,D,Multimodality,Medicine,paper,1.9E-02,,,,,0.782,0.725,0.728
+5,D,Multimodality,DT-FTI,paper,5.2E-03,,,,,0.676,0.603,0.598
+5,D,Multimodality,SVM-FTI,paper,9.5E-03,,,,,0.488,0.628,0.54
+5,D,Multimodality,LGB-FTI,paper,4.1E-02,,,,,0.809,0.769,0.764
+5,D,Multimodality,TVDiag,paper,-,,,,,0.836,0.808,0.822
+5,D,Multimodality,TVDiag (re-run),this repository,2.0E-01,,,,,0.802912,0.764103,0.783024
+5,D,Multimodality,AdaDiag-CL,this repository,9.2E-02,,,,,0.802508,0.764103,0.782818
+5,D,Multimodality,AdaDiag-DL,this repository,1.9E-01,,,,,0.809969,0.769231,0.789043
+5,D,Multimodality,TVDiag-LSTM (re-run),this repository,6.7E-03,,,,,0.770767,0.74359,0.756861
+5,D,Multimodality,AdaDiag-DL-LSTM,this repository,1.7E-02,,,,,0.795595,0.771795,0.783464
+5,D,Multimodality,TVDiag-Spec (re-run),this repository,1.7E-03,,,,,0.727627,0.687179,0.706536
+5,D,Multimodality,AdaDiag-DL-Spec,this repository,3.2E-04,,,,,0.731681,0.702564,0.716749

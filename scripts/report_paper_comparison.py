@@ -442,6 +442,6 @@ def write_report(path, parts, F) -> None:
     L.append("""- **Dataset B (AIOps-22)** — not distributed with TVDiag's code.
 - **The baselines** in Tables 4–5 and Fig. 14 — not re-run; their numbers are the paper's.
 - **Table 7's 3-sigma and sampling extractors** — need raw telemetry the release omits.
-- **Table 8** (inter-task affinity) and **Table 9** (efficiency) — outside the set compared here.
+- **Table 8** (inter-task affinity) and **Table 9** (efficiency) — outside the set compared here; README §6.20 and `results/tables_8_9/` compare both.
 """)
     path.write_text("\n".join(L))

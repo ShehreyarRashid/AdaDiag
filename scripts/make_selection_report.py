@@ -123,7 +123,8 @@ def confirm_rows():
     out = {}
     for v, recs in conf["gaia"].items():
         ref = S.VARIANTS[v][2]
-        if ref is None or v not in conf["hotel"] or ref not in conf["gaia"]:
+        if (v not in LABEL or ref is None or v not in conf["hotel"]
+                or ref not in conf["gaia"]):          # the §6.17 finalists only (not §6.18 LSTM)
             continue
         cells, per_seed = {}, []
         for ds, k in CELLS:

@@ -1,0 +1,39 @@
+\documentclass[10pt]{article}
+\usepackage[a4paper,margin=1.6cm]{geometry}
+\usepackage{libertine}
+\usepackage[libertine]{newtxmath}
+\usepackage{booktabs,multirow,arydshln,graphicx}
+\usepackage[labelfont=rm,textfont=rm,labelsep=period,skip=4pt]{caption}
+\setlength\dashlinedash{2pt}\setlength\dashlinegap{2pt}
+\makeatletter\setlength{\@fptop}{0pt}\makeatother
+\setcounter{table}{3}
+\begin{document}
+\begin{center}
+{\large\textbf{AdaDiag in the format of the TVDiag paper: Tables 4 and 5}}\\[2pt]
+{\small Shehreyar Rashid (26I-9004) \quad Research Topics in Cloud Computing \quad
+github.com/ShehreyarRashid/AdaDiag}
+\end{center}
+\noindent\small Baselines and \textit{TVDiag} are copied from Xie et al., \textit{TVDiag}, ACM TOSEM
+35(2), Art.~40, 2026 (Tables 4--5). Rows marked $\dagger$ are this repository's re-implementation on
+the released datasets $\mathcal{A}$ (GAIA), $\mathcal{C}$ (Sock Shop) and $\mathcal{D}$ (Hotel
+Reservation). Table~\ref{tab:paired} compares AdaDiag with \textit{TVDiag} under identical code and
+seeds, which is the comparison that isolates AdaDiag's effect; the gap between the re-run and the
+published \textit{TVDiag} reflects the re-implementation (README \S6.1, \S6.9).
+\normalsize
+\input{table4.tex}
+\clearpage
+\input{table5.tex}
+\clearpage
+\noindent\textbf{Key results.}
+\begin{itemize}\setlength\itemsep{1pt}
+\item \textbf{Against TVDiag under identical conditions} (Table~6), AdaDiag-DL changes HR@1 by $\mathcal{A}$ $+$0.011, $\mathcal{C}$ $+$0.003, $\mathcal{D}$ $-$0.008 and F1 by $\mathcal{A}$ $+$0.015, $\mathcal{C}$ $+$0.011, $\mathcal{D}$ $+$0.006; none of these differences is significant (paired $t$-test, $p\geq 0.05$).
+\item \textbf{Against the published TVDiag} (Tables 4--5), AdaDiag-DL is within 1.4\% on HR@1 for $\mathcal{A}$ and $\mathcal{D}$, and it has the highest HR@1 on $\mathcal{C}$ (0.872 against 0.863). Its F1 on $\mathcal{C}$ (0.564) is below the paper's 0.636, as is the TVDiag re-run's (0.554); that gap is the re-implementation's, not AdaDiag's.
+\item \textbf{Every AdaDiag row beats every baseline in the paper} on HR@1, HR@3, Avg@3, MRR@3, F1 on $\mathcal{A}$, $\mathcal{C}$ and $\mathcal{D}$, and on every other metric except Precision and Recall on $\mathcal{D}$, where AdaDiag-CL and AdaDiag-DL-LSTM are at most 0.014 below the best baseline. Like TVDiag, AdaDiag clears the baselines. It keeps TVDiag's accuracy without adding to it.
+\item \textbf{With the LSTM aggregator the paper describes} (rows -LSTM; Table~6, lower blocks). The aggregator alone changes TVDiag's HR@1 / F1 by $\mathcal{A}$ $-$0.024 / $+$0.023, $\mathcal{C}$ $-$0.018 / $-$0.043, $\mathcal{D}$ $+$0.000 / $-$0.026. AdaDiag-DL-LSTM against TVDiag-LSTM (same seeds): $\mathcal{A}$ $+$0.028 / $-$0.010$^{*}$, $\mathcal{C}$ $-$0.022 / $+$0.057$^{*}$, $\mathcal{D}$ $+$0.003 / $+$0.027 ($^{*}$: paired $p<0.05$, uncorrected). It stops earlier than TVDiag-LSTM on $\mathcal{A}$ and $\mathcal{C}$; against TVDiag-LSTM stopped at the same epoch, HR@1 / F1: $\mathcal{A}$ $+$0.014$^{*}$ / $-$0.004$^{*}$, $\mathcal{C}$ $-$0.016$^{*}$ / $+$0.040. After Holm correction over the 6 comparisons, only $\mathcal{C}$ F1 ($+$0.057, adjusted $p=0.04$) remains significant; the training-length control above shrinks it. With the mean aggregator AdaDiag-DL is at least as accurate and trains several times faster.
+\item \textbf{As the paper's text specifies it} (rows -Spec), TVDiag is worse than its released code: HR@1 / F1 change by $\mathcal{A}$ $-$0.054$^{*}$ / $+$0.004, $\mathcal{C}$ $-$0.059$^{*}$ / $-$0.138$^{*}$, $\mathcal{D}$ $+$0.008 / $-$0.076 ($^{*}$: paired $p<0.05$). Most of the loss comes from Algorithm~1's per-layer normalisation and from the single AUG copy per sample (README \S6.19). It moves the re-run further from the published HR@1 / F1 in 5 of 6 cells. AdaDiag-DL-Spec against TVDiag-Spec: $\mathcal{A}$ $-$0.006 / $-$0.004, $\mathcal{C}$ $+$0.002 / $+$0.021, $\mathcal{D}$ 0.000 / $+$0.010; none is significant even before correction (smallest $p=0.29$).
+\item \textbf{With only Eq.~13's learnable weights} (rows -$\theta$; Table~6, last block), the one paper feature that does not hurt TVDiag: it changes TVDiag's HR@1 / F1 by $\mathcal{A}$ $+$0.007 / $+$0.002, $\mathcal{C}$ $-$0.005 / $+$0.043$^{*}$, $\mathcal{D}$ $+$0.008 / $+$0.031. AdaDiag-DL-$\theta$ against TVDiag-$\theta$: $\mathcal{A}$ $+$0.004 / $+$0.018, $\mathcal{C}$ $+$0.013$^{*}$ / $+$0.004, $\mathcal{D}$ 0.000 / $+$0.023 ($^{*}$: paired $p<0.05$, uncorrected); no difference survives Holm correction over the 6 comparisons (smallest adjusted $p=0.21$). Of AdaDiag-DL-$\theta$'s F1 gain over the released TVDiag ($\mathcal{A}$ $+$0.020, $\mathcal{C}$ $+$0.047, $\mathcal{D}$ $+$0.054), $\theta$ alone gives TVDiag $+$0.002, $+$0.043, $+$0.031.
+\end{itemize}
+
+\setcounter{table}{5}
+\input{table6.tex}
+\end{document}

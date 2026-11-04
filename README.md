@@ -43,7 +43,8 @@ benchmarks, it cannot.
 >    (ω = 0) is as good as the default.
 > 6. **A code review found three departures from TVDiag's training loop** — missing
 >    self-loops, how the augmented half of a batch is drawn, which epoch is evaluated — and
->    no error in the formulas. Re-running with all three fixed changes no conclusion, and a
+>    no error in the formulas against TVDiag's code (where that code departs from its own
+>    paper is §6.19). Re-running with all three fixed changes no conclusion, and a
 >    softened version of TVDiag's rule (.9 / .9 / .1, .1 / .1 / .9) scores the same as every
 >    other weighting (§6.11).
 > 7. **Even the right weights don't help** (§6.12). An oracle matrix read off the test-set
@@ -75,6 +76,25 @@ benchmarks, it cannot.
 >     diagnosis losses, and they stay graded. Post-hoc checks show its GAIA edge is training
 >     length and that it costs rare failure types. The trace-fixed variant is the safest set
 >     of numbers.
+> 13. **The LSTM aggregator the paper describes does not help** (§6.18). It is now
+>     implemented, matching dgl's reducer, and given to both arms. TVDiag with it is no better
+>     than with mean, the released code's choice. AdaDiag-DL with it partly repairs the F1 that
+>     LSTM costs TVDiag on Sock Shop and Hotel. One gain survives correction, Sock Shop F1
+>     +0.057, but part of it is training length, and AdaDiag-DL-LSTM is no better than
+>     AdaDiag-DL with mean. It trains up to 13× slower, so AdaDiag keeps the mean aggregator.
+> 14. **TVDiag as its paper describes it does worse than its released code** (§6.19). Six
+>     features the paper specifies and the code omits are now switches. Together they cost
+>     HR@1 on GAIA (−0.054) and Sock Shop (−0.059), and F1 on Sock Shop (−0.138) and Hotel
+>     (−0.076), and they move the re-run further from the published numbers. Algorithm 1's
+>     per-layer normalisation and the single AUG copy cause most of it; only Eq. 13's
+>     learnable weights do not hurt. AdaDiag-DL still ties TVDiag under the paper's
+>     specification. With Eq. 13 alone switched on, AdaDiag-DL reaches its best F1 (0.941 /
+>     0.601 / 0.837), but TVDiag gains nearly as much from it and the two still tie. So
+>     AdaDiag keeps the released code's defaults, plus learnable θ for new runs.
+> 15. **The paper's last two result tables, re-run** (§6.20). Table 8's inter-task affinity is
+>     zero both ways when computed as Eq. 17 defines it. The published FTI → RCL value comes
+>     from a bug that re-evaluates the wrong model copy. Table 9: AdaDiag costs nothing at
+>     inference, and an epoch takes 1.4–2.7× as long to train.
 >
 > The contribution of this repository is that diagnosis, reproducibly — a negative result
 > with a mechanism, rather than an unexplained flat table.
@@ -178,9 +198,9 @@ forward path that produces predictions, so AdaDiag adds **zero inference cost**.
 |---|---|---|---|
 | 1 | Load alerts, graphs, labels, official splits | `src/adadiag/data.py` | `load()`, `Dataset` |
 | 2 | Graph augmentation (drop non-root instances) | `src/adadiag/augment.py` | `drop_non_root()` |
-| 3 | Per-modality graph encoders + readout | `src/adadiag/encoders.py` | `SAGEEncoder`, `max_pool()` |
+| 3 | Per-modality graph encoders + readout (mean aggregator, or the paper's LSTM aggregator, §6.18; the paper's Algorithm 1, `sage_alg1`, §6.19) | `src/adadiag/encoders.py` | `SAGEEncoder`, `lstm_neighbours()`, `max_pool()` |
 | 4 | The two diagnosis heads | `src/adadiag/heads.py` | `Locator`, `TypeClassifier` |
-| 5 | Losses (per-sample SupCon, CM, Eq. 13; SupCon with pair/anchor weights, §6.13) | `src/adadiag/losses.py` | `supcon_per_sample()`, `supcon_weighted()`, `uspcon()`, `AutomaticWeightedLoss` |
+| 5 | Losses (per-sample SupCon, CM, Eq. 13; SupCon with pair/anchor weights, §6.13; Eqs. 3, 5–6 as the paper writes them, §6.19) | `src/adadiag/losses.py` | `supcon_per_sample()`, `supcon_weighted()`, `supcon_anchor_mean()`, `uspcon()`, `cm_paper()`, `AutomaticWeightedLoss` |
 | **6** | **The contribution: the 3×2 weighting module and all arms** (incl. the softened prior `v0_soft`, §6.11; the oracle `v0_oracle`, §6.12; `v5_align`, §6.13; trace held fixed, `fixed_trace`, §6.14) | **`src/adadiag/weighting.py`** | **`WeightingModule`** |
 | 7 | Training loop; the replaced task-oriented block; weights from the diagnosis losses (§6.13) | `src/adadiag/train.py` | `task_oriented_loss()`, `align_weights()`, `train()` |
 | 8 | Evaluation (HR@k, MRR@3, F1, per class) | `src/adadiag/evaluate.py` | `evaluate()`, `per_class()` |
@@ -191,9 +211,12 @@ forward path that produces predictions, so AdaDiag adds **zero inference cost**.
 | — | Hyperparameters, transcribed from TVDiag | `src/adadiag/config.py` | `get()` |
 | — | Is everything but the TO block the same? (§6.15) | `scripts/check_controlled.py`, `src/adadiag/model.py` | `isolate_weighting_rng` |
 | — | Every method against the TVDiag paper's Tables 4–5 (§6.16) | `scripts/make_paper_vs_methods.py` | `METHODS`, `collect()` |
+| — | The paper's Tables 4–5 in its own layout, with AdaDiag rows (§6.16) | `scripts/make_paper_tables.py` | `tex_table()`, `tex_paired()` |
 | — | Which AdaDiag is best: screening, pre-registered rule, fresh-seed confirmation (§6.17) | `scripts/select_adadiag.py`, `scripts/make_selection_report.py` | `VARIANTS`, `SELECTION_RULE` |
+| — | What the TVDiag paper specifies and its code does not do, as switches (§6.19) | `src/adadiag/config.py`, `scripts/make_paper_features_report.py` | `PAPER`, `to_term()`, `make_batch_union()` |
+| — | The paper's Tables 8–9: inter-task affinity (Eq. 17, and as TVDiag computes it) and efficiency (§6.20) | `src/adadiag/affinity.py`, `scripts/run_tables_8_9.py` | `task_affinity()` |
 | — | Re-run committed experiments, compare to results/ | `scripts/verify_results.py` | `main()` |
-| — | Tests (70; 64 need no data, 6 check data/) | `tests/test_supcon_equivalence.py`, `tests/test_weighting_identifiability.py`, `tests/test_ablation_switches.py`, `tests/test_paper_compare.py`, `tests/test_trace_weight.py`, `tests/test_fidelity.py`, `tests/test_oracle.py`, `tests/test_cl_variants.py`, `tests/test_fixed_trace.py`, `tests/test_controlled.py`, `tests/test_data_integrity.py` | `pytest -q` |
+| — | Tests (87; 74 need no data, 13 use data/) | `tests/test_supcon_equivalence.py`, `tests/test_weighting_identifiability.py`, `tests/test_ablation_switches.py`, `tests/test_paper_compare.py`, `tests/test_trace_weight.py`, `tests/test_fidelity.py`, `tests/test_oracle.py`, `tests/test_cl_variants.py`, `tests/test_fixed_trace.py`, `tests/test_controlled.py`, `tests/test_lstm_aggregator.py`, `tests/test_paper_features.py`, `tests/test_affinity.py`, `tests/test_data_integrity.py` | `pytest -q` |
 
 Model assembly lives in `src/adadiag/model.py`; the runnable entry points are in `scripts/`.
 
@@ -260,7 +283,7 @@ Per dataset the loader reads `data/<ds>/tmp/{metric,trace,log}.pkl` (embeddings)
 git clone https://github.com/ShehreyarRashid/AdaDiag.git && cd AdaDiag
 pip install -r requirements.txt            # or: conda env create -f environment.yml
 
-pytest -q                                  # 70 tests, incl. checksums of data/; run first
+pytest -q                                  # 87 tests, incl. checksums of data/; run first
 
 # the five-arm, five-seed sweep (2 CPU cores, no GPU: ~16 min Hotel, ~34 min GAIA)
 python scripts/run_sweep.py       --dataset gaia
@@ -328,6 +351,27 @@ python scripts/select_adadiag.py --stage confirm --dataset gaia  --variants tvdi
 python scripts/select_adadiag.py --stage confirm --dataset hotel --variants tvdiag,adadiag,align,trace_tvdiag,trace_third
 python scripts/select_adadiag.py --stage length  --dataset gaia  --variants align,adadiag,trace_tvdiag,trace_third
 python scripts/make_selection_report.py
+
+# the paper's Tables 4-5 in its own layout, with AdaDiag rows (needs the confirmation runs,
+# plus Sock Shop: --stage confirm --dataset sockshop --variants tvdiag,adadiag,align)
+python scripts/make_paper_tables.py                # writes results/paper_tables/tables.pdf
+
+# the LSTM aggregator (§6.18): 3-13x slower than mean; ~6 h for all three datasets on 2 cores
+python scripts/select_adadiag.py --stage confirm --dataset gaia --variants tvdiag_lstm,align_lstm
+python scripts/select_adadiag.py --stage length  --dataset gaia --variants align_lstm
+python scripts/make_lstm_report.py                 # and --dataset sockshop / hotel above
+
+# what the TVDiag paper specifies and its code does not do (§6.19): ~3 h on 2 cores
+python scripts/select_adadiag.py --stage confirm --dataset gaia --variants tvdiag_paper,align_paper
+python scripts/select_adadiag.py --stage confirm --dataset gaia \
+    --variants tvdiag+to_norm,tvdiag+cm_mode,tvdiag+awl_learnable,tvdiag+sage_alg1,tvdiag+bidirectional,tvdiag+aug_mode
+python scripts/select_adadiag.py --stage length  --dataset gaia --variants align_paper
+python scripts/select_adadiag.py --stage confirm --dataset gaia --variants tvdiag_noes,align+awl_learnable
+python scripts/select_adadiag.py --stage length  --dataset gaia --variants align+awl_learnable
+python scripts/make_paper_features_report.py       # and --dataset sockshop / hotel above
+
+# the paper's Tables 8-9 (§6.20): affinity takes one epoch per seed; ~5 min in all
+python scripts/run_tables_8_9.py
 ```
 
 **CPU only. No GPU, no CUDA, and no DGL.** The incident graphs have 10–21 nodes, so the
@@ -960,7 +1004,7 @@ TVDiag's released code:
 | cross-modal term (Eq. 5–7) | symmetric, intra-modal negatives too | one-way InfoNCE, metric as anchor | = code |
 | overall loss (Eq. 12–13) | learnable task weights | weights never optimised | = code (§7) |
 | RCL / FTI losses (Eq. 10–11), HR@k, MRR@3, F1 | — | per-graph CE; F1 = harmonic mean of weighted P, R | = code |
-| GraphSAGE aggregator | LSTM | mean | = code |
+| GraphSAGE aggregator | LSTM | mean | = code (LSTM available as `aggregator="lstm"`, §6.18) |
 | AdaDiag's `l_to` | Σ w[m,t] · L[m,t], columns on the simplex; ∂l_to/∂w = L | — | checked; no sign error |
 
 Where the paper and its code disagree, this repository follows the code, as it must to
@@ -1314,6 +1358,19 @@ correction, one-sample t-test over seeds; none survives Holm over the 238 cells)
 
 ![gap to the paper, all seven metrics](results/paper_vs_methods/fig_p2_gap.png)
 
+**The paper's own Tables 4 and 5, with AdaDiag added.**
+[`results/paper_tables/tables.pdf`](results/paper_tables/tables.pdf) reproduces both tables
+in the paper's layout: every published baseline and TVDiag, the ⇑ improvement-rate columns,
+and bests in bold. Below a dashed line, it adds this repository's rows for each released
+dataset: TVDiag (re-run), AdaDiag-CL (weights learned from the contrastive term, as
+proposed) and AdaDiag-DL (weights learned from the diagnosis losses, selected in §6.17);
+then the same pair with the paper's LSTM aggregator (-LSTM, §6.18) and with the six
+features the paper specifies and its code omits (-Spec, §6.19). All come from the same
+fresh seeds 5–9 and the same code. A Table 6 gives the paired comparison with the matching
+re-run, plus a block with Eq. 13's learnable weights alone (-θ, §6.19). LaTeX
+sources: `table4.tex`, `table5.tex`, `table6.tex`, `tables.tex`
+(`scripts/make_paper_tables.py`).
+
 ### 6.17 Which AdaDiag is best?
 
 Seven learned variants of AdaDiag were built in §6.2–6.15, and their differences are small,
@@ -1388,10 +1445,218 @@ before the deciding runs. As a *result*, none: all four tie with TVDiag. If a si
 configuration has to be reported for its numbers, the trace-fixed variant is the safest,
 because nothing it gains depends on when training stops.
 
+### 6.18 The LSTM aggregator
+
+TVDiag's paper specifies GraphSAGE with an **LSTM aggregator**; its released code, and so
+every run above, uses **mean**. `aggregator="lstm"` now reproduces dgl's LSTM reducer. Each
+node's in-neighbours are fed, in index order, through an LSTM with hidden size equal to input
+size, and its final state replaces the mean; nodes with no in-neighbour get zero
+(`encoders.lstm_neighbours`, checked against a node-by-node loop in
+`tests/test_lstm_aggregator.py`). The default stays mean, so nothing above changes. Both
+arms get the same aggregator, so the comparison stays controlled. TVDiag and AdaDiag-DL (the
+variant selected in §6.17) were run on the fresh seeds 5–9 of all three datasets, with the
+same settings as §6.17. Full tables:
+[`results/selection/LSTM.md`](results/selection/LSTM.md); the LSTM rows are also in the
+paper-format Tables 4–6 (`results/paper_tables/tables.pdf`).
+
+| dataset | TVDiag, mean | TVDiag-LSTM | AdaDiag-DL, mean | AdaDiag-DL-LSTM |
+|---|---|---|---|---|
+| A · GAIA | 0.738 / 0.921 | 0.714 / 0.944 | 0.749 / 0.936 | 0.742 / 0.934 |
+| C · Sock Shop | 0.869 / 0.554 | 0.851 / 0.510 | 0.872 / 0.564 | 0.829 / 0.567 |
+| D · Hotel | 0.818 / 0.783 | 0.818 / 0.757 | 0.810 / 0.789 | 0.821 / 0.783 |
+
+HR@1 / F1, mean over seeds 5–9. Paired differences (uncorrected p in parentheses):
+
+| dataset | metric | LSTM vs mean, TVDiag | AdaDiag-DL-LSTM − TVDiag-LSTM | − TVDiag-LSTM stopped at the same epoch |
+|---|---|---|---|---|
+| A · GAIA | HR@1 | −0.024 (0.23) | +0.028 (0.15) | +0.014 (0.02) |
+| A · GAIA | F1 | +0.023 (0.05) | −0.010 (0.02) | −0.004 (0.02) |
+| C · Sock Shop | HR@1 | −0.018 (0.11) | −0.022 (0.08) | −0.016 (0.04) |
+| C · Sock Shop | F1 | −0.043 (0.01) | +0.057 (0.01) | +0.040 (0.11) |
+| D · Hotel | HR@1 | +0.000 (1.00) | +0.003 (0.70) | (same epochs) |
+| D · Hotel | F1 | −0.026 (0.39) | +0.027 (0.09) | (same epochs) |
+
+1. **The LSTM aggregator does not help TVDiag.** It raises GAIA's F1 (+0.023) and lowers
+   Sock Shop's (−0.043) and Hotel's (−0.026); HR@1 falls or stays put everywhere. The paper's
+   stated configuration is not better than its released one on these data.
+2. **With LSTM, AdaDiag-DL partly repairs what the aggregator breaks, and pays for it
+   elsewhere.** Against TVDiag-LSTM it wins F1 where LSTM cost TVDiag F1 (Sock Shop +0.057,
+   Hotel +0.027) and HR@1 on GAIA. It loses F1 on GAIA (−0.010) and HR@1 on Sock Shop. Part
+   of each gain is training length: on GAIA and Sock Shop, AdaDiag-DL-LSTM stops at 118 and
+   136 epochs on average, where TVDiag-LSTM runs 195 and 199. With TVDiag-LSTM stopped at the same epoch, the gains shrink to +0.014
+   HR@1 on GAIA and +0.040 F1 on Sock Shop. **One difference survives Holm correction**
+   over the six comparisons: Sock Shop F1, +0.057 (adjusted p = 0.04). About a third of it
+   is training length; against the same-epoch control it is +0.040 (p 0.11).
+3. **LSTM does not improve AdaDiag either.** On HR@1 and F1, AdaDiag-DL-LSTM is within
+   ±0.010 of AdaDiag-DL with mean everywhere except Sock Shop HR@1 (−0.043, p 0.01). It
+   trains 3.6× (GAIA) to 13× (Hotel) slower per epoch.
+
+So the LSTM aggregator is available and tested, but **AdaDiag should keep the mean
+aggregator**. It is TVDiag's released configuration, it is at least as accurate here, and on
+the two dense datasets it is about ten times cheaper. The LSTM results show the same pattern as §6.8 and §6.12:
+the learned weighting protects against a configuration that hurts TVDiag, and does not
+improve on TVDiag's best configuration.
+
+### 6.19 The TVDiag paper versus its released code
+
+What the paper's text specifies that its released code does not do, checked line by line
+against §4.2–4.5, Algorithms 1–2 and Eqs. 2–16. Six features can be applied to the released
+data. Each is now a switch, off by default (`config.PAPER` turns on all six), so every result
+above is unchanged: the defaults re-train committed records bit for bit
+(`results/paper_features/logs/check_defaults.log`), and `tests/test_paper_features.py`
+checks each switch against a literal transcription of the paper's equation. Full tables:
+[`results/paper_features/PAPER_FEATURES.md`](results/paper_features/PAPER_FEATURES.md).
+
+| # | the paper says | the released code does | switch |
+|---|---|---|---|
+| 1 | Eq. 3: each anchor's TO loss is the mean over its own positives | one mean over all positive pairs in the batch | `to_norm="paper"` |
+| 2 | Eqs. 5–6: CM is symmetric, and same-modality samples are negatives too | one direction, cross-modal negatives only | `cm_mode="paper"` |
+| 3 | Eq. 13: θ is learnable | θ is never added to the optimizer (§7, finding 2) | `awl_learnable=True` |
+| 4 | Algorithm 1: σ, then L2-normalise, after every layer | ReLU after layer 1 only, no normalisation | `sage_alg1=True` |
+| 5 | §4.2: edges are bidirectional | edges as given; 19,462 of GAIA's 38,614 are one-way (Sock Shop and Hotel: none) | `bidirectional=True` |
+| 6 | §4.3: one augmented graph per training sample, added to the training set | a pool of 10 copies per sample (the committed loop draws a fresh copy each step, §6.11) | `aug_mode="paper"` |
+
+The LSTM aggregator is the seventh (§6.18). Two things cannot be applied: the alert
+extraction of §4.1 (3-sigma, IForest, Drain, the log rules, fastText) needs raw telemetry the
+release omits, and dataset B is not released. One reading is ours: Eq. 3 literally sums
+over anchors, which would scale the term by the batch size (256–1,024×) against ω = 0.1;
+`to_norm="paper"` averages, matching Eq. 5's 1/2n. The paper also disagrees with itself in
+two places: its RQ3 text says τ = 0.2 performs best (Fig. 16) while §5.1 and the code use
+0.3, and Fig. 16's text calls the contrastive scale δ, Eq. 12's name for the CM weight,
+where Eq. 12 calls it ω. Both are left as the code has them.
+
+Fresh seeds 5–9, the §6.17 protocol, HR@1 / F1:
+
+| dataset | TVDiag, published | TVDiag, code | TVDiag, paper | AdaDiag-DL, code | AdaDiag-DL, paper |
+|---|---|---|---|---|---|
+| A · GAIA | 0.759 / 0.936 | 0.738 / 0.921 | 0.684 / 0.925 | 0.749 / 0.936 | 0.679 / 0.921 |
+| C · Sock Shop | 0.863 / 0.636 | 0.869 / 0.554 | 0.810 / 0.416 | 0.872 / 0.564 | 0.812 / 0.437 |
+| D · Hotel | 0.821 / 0.822 | 0.818 / 0.783 | 0.826 / 0.707 | 0.810 / 0.789 | 0.826 / 0.717 |
+
+One feature at a time, in TVDiag (difference from TVDiag, code; HR@1 / F1; † survives Holm
+over all single-feature cells):
+
+| feature | A · GAIA | C · Sock Shop | D · Hotel |
+|---|---|---|---|
+| 1 · Eq. 3 per anchor | +0.002 / +0.000 | +0.008 / +0.013 | −0.005 / −0.003 |
+| 2 · Eqs. 5–6 symmetric CM | +0.014 / +0.004 | +0.005 / +0.016 | −0.005 / +0.016 |
+| 3 · Eq. 13 learnable θ | +0.007 / +0.002 | −0.005 / +0.043 (p 0.05) | +0.008 / +0.031 |
+| 4 · Algorithm 1 normalisation | **−0.088**† / +0.005 | **−0.040**† / **−0.063** (p 0.01) | +0.005 / −0.076 (p 0.07) |
+| 5 · bidirectional edges | −0.024 (p 0.06) / +0.004 | identical | identical |
+| 6 · one AUG copy | **−0.101** (p 0.01) / −0.023 | −0.012 / **−0.084** (p 0.04) | +0.010 / 0.000 |
+| all six | **−0.054** (p 0.01) / +0.004 | **−0.059** (p 0.01) / **−0.138** (p < 0.01) | +0.008 / −0.076 (p 0.06) |
+
+1. **TVDiag as its paper specifies it is worse than its released code.** HR@1 falls on GAIA
+   and Sock Shop, F1 on Sock Shop and Hotel (p 0.06 on Hotel). Learnable θ keeps the loss falling, so these
+   runs train longer (336 epochs on average, against 184), but length is not the cause:
+   against the code trained to the same 500-epoch cap, Sock Shop's drops (−0.068 HR@1,
+   −0.147 F1) survive Holm and Hotel's F1 drop is −0.069 (adjusted p 0.05). Only GAIA's
+   HR@1 gap halves (−0.024, p 0.06), because training the code that long costs GAIA HR@1
+   on its own (−0.030). The paper version is further from the published HR@1 / F1 in 5 of
+   6 cells, so the published numbers match the released code better than the paper's text.
+2. **Two features cause most of the loss.** Algorithm 1's normalisation at every layer
+   costs HR@1 on GAIA and Sock Shop (both survive Holm) and F1 on Sock Shop and Hotel. The
+   single fixed AUG copy costs GAIA HR@1 and Sock Shop F1. It gives each incident one
+   augmented graph for the whole run, where the committed loop draws a new one every step
+   and TVDiag's code draws from ten per incident.
+   Bidirectional edges lean negative on GAIA. Eqs. 3 and 5–6 change nothing (|Δ| ≤ 0.016),
+   consistent with §6.9: the contrastive terms contribute little.
+3. **Eq. 13 with learnable θ is the one paper feature that does not hurt.** It moves weight
+   from the contrastive terms to the diagnosis losses: 0.5 / θ² ends at 0.7–4.2 for RCL and
+   FTI and 0.37–0.51 for TO and CM, where the code leaves all four at 0.5. Against the code
+   trained for the same 500 epochs it gains GAIA HR@1 +0.037 and MRR@3 +0.026 (both survive
+   Holm over its 12 cells). Its other gains are small and uncorrected.
+4. **AdaDiag's verdict does not change.** Under the paper's specification AdaDiag-DL ties
+   TVDiag: the one uncorrected difference is GAIA macro-F1, −0.040 (p 0.047, adjusted
+   0.56), and with TVDiag stopped at the same epoch nothing reaches p < 0.05.
+5. **Eq. 13 alone, for AdaDiag-DL** (`align+awl_learnable`, matched against TVDiag with the
+   same switch, HR@1 / F1):
+
+   | dataset | TVDiag, code | TVDiag + θ | AdaDiag-DL, code | AdaDiag-DL + θ |
+   |---|---|---|---|---|
+   | A · GAIA | 0.738 / 0.921 | 0.745 / 0.923 | 0.749 / 0.936 | 0.749 / 0.941 |
+   | C · Sock Shop | 0.869 / 0.554 | 0.864 / 0.597 | 0.872 / 0.564 | 0.877 / 0.601 |
+   | D · Hotel | 0.818 / 0.783 | 0.826 / 0.814 | 0.810 / 0.789 | 0.826 / 0.837 |
+
+   It gives AdaDiag-DL its best F1. On Sock Shop and Hotel that is the highest mean F1 of
+   every configuration run on seeds 5–9; on GAIA it is second, behind TVDiag-LSTM. θ raises
+   F1 in all six arm × dataset cells, though only two are significant on their own (TVDiag
+   on Sock Shop and AdaDiag-DL on GAIA, p 0.04–0.05, uncorrected). But the gain is mostly θ's, not AdaDiag's. Against TVDiag + θ,
+   AdaDiag-DL + θ changes HR@1 / F1 by +0.004 / +0.018 on GAIA, +0.013 / +0.004 on Sock Shop
+   and 0.000 / +0.023 on Hotel. None of these six survives Holm (smallest adjusted p 0.21), and
+   against TVDiag + θ stopped at the same epoch nothing reaches p < 0.05.
+
+So **AdaDiag keeps the released code's defaults, with one recommended exception: Eq. 13's
+learnable weights.** It is the only paper feature that does not hurt, and with it AdaDiag-DL
+reaches its highest F1. It belongs in TVDiag's half of the comparison too, since most of the
+gain is θ's: with both arms matched, AdaDiag-DL still ties TVDiag. The committed results
+keep θ off so every earlier comparison stays reproducible; `awl_learnable=True` is the
+setting for new runs. The -Spec and -θ rows of the paper-format tables
+(`results/paper_tables/tables.pdf`; -θ in Table 6) show the same runs.
+
+![Each paper feature in TVDiag](results/paper_features/fig_paper_features.png)
+
+### 6.20 The paper's Tables 8 and 9: inter-task affinity and efficiency
+
+The two result tables §6.9 left out. Seeds 5–9, TVDiag's settings, 1 CPU thread
+(`scripts/run_tables_8_9.py`); full tables in
+[`results/tables_8_9/TABLES_8_9.md`](results/tables_8_9/TABLES_8_9.md).
+
+**Table 8, inter-task affinity (Eq. 17).** Take one optimiser step on one task's loss and
+measure how much the other task's loss falls, at every step of the first epoch, as TVDiag
+does. TVDiag's `core/ita.py` has a bug in the FTI → RCL half: it steps the second model copy
+on the FTI loss, then re-evaluates the **first** copy, the one stepped on the RCL loss. So
+the published Z_FTI→RCL measures how an RCL step changes the RCL loss. `adadiag.affinity`
+computes both; `tests/test_affinity.py` checks the released computation is that quantity.
+
+| dataset | Z_RCL→FTI | Z_FTI→RCL, Eq. 17 | Z_FTI→RCL, as TVDiag computes it | paper |
+|---|---|---|---|---|
+| A · GAIA | 0.03 ± 2.95 (p 0.98) | −0.20 ± 1.62 (p 0.79) | **24.8 ± 4.4** (p < 0.001) | 9.12 / 87.7 |
+| C · Sock Shop | −0.26 ± 0.24 (p 0.08) | −0.34 ± 0.45 (p 0.17) | **28.5 ± 2.1** (p < 0.001) | not reported |
+| D · Hotel | 0.31 ± 2.67 (p 0.81) | 1.58 ± 1.38 (p 0.06) | **22.6 ± 3.8** (p < 0.001) | not reported |
+
+×10⁻³, mean ± sd over seeds; p against zero; TVDiag's own loop (§6.11). The committed loop
+gives the same picture (`TABLES_8_9.md`).
+
+1. **Computed as Eq. 17 defines it, the affinity is zero in both directions** on all three
+   datasets: no mean differs from zero, and none is larger than 0.002.
+2. **The as-coded FTI → RCL value is positive on every dataset, and 14× or more above
+   either real value**, the same pattern as the paper's Table 8 (87.7 against 9.12 on A). The paper's answer to RQ4,
+   that the two tasks "manifest a strong inter-task affinity, ensuring the plausibility of
+   joint learning", rests on that quantity.
+
+**Table 9, efficiency.** The paper's offline and online times include alert extraction from
+raw telemetry, which the release omits, and were measured on a GPU. What can be compared is
+the model's share:
+
+| dataset | | training per epoch (s) | training per run (s) | inference per case (ms) | parameters |
+|---|---|---|---|---|---|
+| A · GAIA | TVDiag | 0.495 | 120 | 1.18 | 74,246 |
+| | AdaDiag-CL | 0.742 (1.5×) | 180 | 1.17 | 81,036 |
+| | AdaDiag-DL | 1.321 (2.7×) | 200 | 1.07 | 74,246 |
+| C · Sock Shop | TVDiag | 0.661 | 203 | 1.16 | 74,376 |
+| | AdaDiag-CL | 1.072 (1.6×) | 269 | 1.25 | 81,166 |
+| | AdaDiag-DL | 1.795 (2.7×) | 265 | 1.21 | 74,376 |
+| D · Hotel | TVDiag | 0.394 | 52 | 1.13 | 74,246 |
+| | AdaDiag-CL | 0.549 (1.4×) | 75 | 1.18 | 81,036 |
+| | AdaDiag-DL | 0.908 (2.3×) | 116 | 1.15 | 74,246 |
+
+For comparison, the paper reports 0.654 s per epoch and 3,075 ms online per case on A, the
+latter including alert extraction.
+
+3. **AdaDiag adds nothing at inference.** All three run the same prediction network: the
+   per-case times agree within timing noise. AdaDiag-CL's weighting module (6,790
+   parameters, 8% of the network) is used only in training, and AdaDiag-DL has no trainable weights of its
+   own.
+4. **It costs training time.** An epoch takes 1.4–1.6× as long for AdaDiag-CL and
+   2.3–2.7× for AdaDiag-DL, which computes extra gradients every step to set its weights
+   (§6.13). AdaDiag-DL stops earlier on GAIA and Sock Shop, so a whole run costs 1.7× and
+   1.3× TVDiag's there, and 2.2× on Hotel.
+
 
 ---
 
-## 7. Four findings about the TVDiag artefact
+## 7. Five findings about the TVDiag artefact
 
 Checkable in minutes, independent of AdaDiag:
 
@@ -1402,7 +1667,9 @@ Checkable in minutes, independent of AdaDiag:
    is never added as a param group — its parameters receive gradients but are never stepped.
    They stay at 1.0, so the term reduces to `0.5·Σlᵢ + 4·log 2`, i.e. plain equal weighting
    plus a constant. Reproduced deliberately (`losses.AutomaticWeightedLoss`, and asserted in
-   `tests/`); "fixing" it would mean no longer reproducing TVDiag.
+   `tests/`); "fixing" it would mean no longer reproducing TVDiag. `awl_learnable=True`
+   makes θ learnable, as Eq. 13 states (§6.19). It moves weight to the two diagnosis losses
+   and does not hurt.
 3. **Their F1 is not sklearn's weighted F1** — `helper/eval.py` takes the harmonic mean of
    *weighted* precision and *weighted* recall. The published figures are that quantity, so
    `evaluate.py` reports it their way and `f1_sklearn_weighted` alongside. The paper's
@@ -1413,14 +1680,18 @@ Checkable in minutes, independent of AdaDiag:
    embedding code drops field index 3 of a metric alert, which is the direction on GAIA's
    4-field alerts but does not exist on Hotel's and Sock Shop's 3-field ones
    (`scripts/reembed_alerts.py` drops the last field instead).
+5. **Table 8's Z_FTI→RCL is computed on the wrong model.** `core/ita.py` steps `model2` on
+   the FTI loss and then evaluates `model1`, which was stepped on the RCL loss. Computed as
+   Eq. 17 defines it, the affinity is zero both ways; the published value is RCL's response
+   to its own step (§6.20).
 
 ---
 
 ## 8. Honest scope
 
-- The arm comparison and the ablations cover two datasets (GAIA, Hotel Reservation). Sock
-  Shop is run only for the paper comparison (§6.9: TVDiag, V0-simplex and AdaDiag at the
-  default settings, 5 seeds). AIOps-22 is not distributed (§4).
+- The arm comparison and the ablations (§6.2–6.15) cover two datasets (GAIA, Hotel
+  Reservation). Sock Shop joins from the paper comparison on (§6.9), and the fresh-seed
+  results (§6.16–6.20) cover all three released datasets. AIOps-22 is not distributed (§4).
 - **Training-loop fidelity (§6.11).** Every committed result uses a loop with three small
   departures from TVDiag's released code (self-loops, AUG sampling, the evaluated
   checkpoint; also a 400-epoch cap). They are kept so the committed numbers stay
@@ -1474,6 +1745,21 @@ Checkable in minutes, independent of AdaDiag:
   TVDiag ships; there is no separate validation split, so the fresh seeds control seed
   noise, not the choice of split. The post-hoc checks against Type 4 are uncorrected
   (p 0.04–0.05).
+- **The LSTM aggregator (§6.18)** follows dgl's reducer, with neighbours in index order (dgl
+  uses edge order; the GraphSAGE paper permutes them randomly). It was run for TVDiag and
+  AdaDiag-DL only, on 5 fresh seeds, and not for the other variants or σ_to > 0.1.
+- **The paper's features (§6.19)** are implemented from the paper's text, which leaves
+  choices open: Eq. 3's sum over anchors is read as a mean, σ in Algorithm 1 as ReLU (the
+  code's activation), and θ is kept out of weight decay. In AUG paper mode a step takes
+  2 × batch-size graphs from the enlarged training set, as many as the code's batches hold.
+  Each feature was run alone for TVDiag, and all six together for TVDiag and AdaDiag-DL, on
+  5 fresh seeds; Eq. 13 alone was also run for AdaDiag-DL. Other combinations were not run.
+  The Eq. 13 runs for AdaDiag-DL were chosen after the single-feature results, so they are
+  exploratory, not a pre-registered test like §6.17.
+- **Tables 8–9 (§6.20)** compare the model only: alert extraction, and so the paper's
+  offline and online totals, cannot be re-run, and times are CPU, not GPU. Affinity is
+  measured in the first epoch only, as TVDiag measures it. The baseline is the
+  committed loop (§6.11), not TVDiag's 10-copy AUG pool.
 - §6.7's per-class table is **one seed on one dataset**. The 0.0037 spread is a strong
   negative for that run and is consistent with the five-seed collapse in §6.6, but the
   per-class breakdown has not been repeated across seeds or on GAIA.
