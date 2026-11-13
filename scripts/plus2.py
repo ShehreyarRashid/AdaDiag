@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""README section 6.25: improving AdaDiag+ -- round 4, screened then confirmed.
+"""v1.22 README section 6.25: improving AdaDiag+ -- round 4, screened then confirmed.
 
 Starting point: AdaDiag+ (section 6.24) = AdaDiag-DL + alert-type counts + Eq. 13's learnable
 theta. Candidates, all off by default, each at one setting fixed in advance:
@@ -300,7 +300,7 @@ def main() -> None:
     if a.stage == "rule":
         if not (OUT / "PLAN.md").exists():
             (OUT / "PLAN.md").write_text(
-                f"# Improving AdaDiag+: the rule and the screen (README §6.25)\n\n"
+                f"# Improving AdaDiag+: the rule and the screen (v1.22 README §6.25)\n\n"
                 f"Rule written {stamp()}, before any run.\n\n**Rule.** {RULE}\n")
         print((OUT / "PLAN.md").read_text()); return
     if not (OUT / "PLAN.md").exists():

@@ -1,7 +1,7 @@
-"""AdaDiag — adaptive modality x task weighting for multimodal failure diagnosis."""
-from . import (ablation, config, data, diagnostics, evaluate, identifiability, losses, model,
-               paper_compare, paper_numbers, train, weighting)
+"""AdaDiag++ — adaptive multimodal failure diagnosis for microservices (built on TVDiag)."""
+from . import (alerts, config, data, ensemble, evaluate, losses, model, paper_numbers, train,
+               weighting)
 
-__version__ = "1.22.0"
-__all__ = ["ablation", "config", "data", "diagnostics", "evaluate", "identifiability",
-           "losses", "model", "paper_compare", "paper_numbers", "train", "weighting"]
+__version__ = "2.0.0"
+__all__ = ["alerts", "config", "data", "ensemble", "evaluate", "losses", "model",
+           "paper_numbers", "train", "weighting"]

@@ -24,11 +24,11 @@ sigma decides how loud the loss is, ``w`` decides who speaks.
 Arms
 ----
 ``v0_raw``       the three unit-weight terms exactly as TVDiag ships them.
-``v0_soft``      TVDiag's prior softened (README section 6.11): 0.9 where it has 1 and 0.1
+``v0_soft``      TVDiag's prior softened (v1.22 README section 6.11): 0.9 where it has 1 and 0.1
                  where it has 0, unnormalised like v0_raw -- RCL = [.9, .9, .1],
                  FTI = [.1, .1, .9]. A fixed matrix, proposed for testing in review.
 ``v0_simplex``   the same prior written on the simplex: RCL = [.5, .5, 0], FTI = [0, 0, 1].
-``v0_oracle``    a matrix read off the source-removal ablations (README section 6.12), given
+``v0_oracle``    a matrix read off the source-removal ablations (v1.22 README section 6.12), given
                  in the config: one per dataset (`oracle_w`) or one per failure type
                  (`oracle_class_w`, applied by the incident's training label). An upper-bound
                  probe built from test-split evidence, not a method.
@@ -37,7 +37,7 @@ Arms
 ``v3_incident``  full AdaDiag: w = softmax_col(MLP(e)), conditioned on the incident.
 ``v4_fusion``    exploratory: the same per-incident matrix applied to the FUSION path
                  instead of the contrastive loss (see README, "Why V4 exists").
-``v5_align``     README section 6.13: one matrix set from the DIAGNOSIS losses. Each step,
+``v5_align``     v1.22 README section 6.13: one matrix set from the DIAGNOSIS losses. Each step,
                  w[m, t] is proportional to the positive part of a running mean of
                  cos(grad L_t, grad L_supcon(f_m, y_t)) over modality m's encoder, i.e. how
                  much a step on that term also lowers task t's diagnosis loss (to first
@@ -94,7 +94,7 @@ class WeightingModule(nn.Module):
                 Tests the identifiability argument of README section 1.
             active: which modalities are present; ABLATION ONLY (modality removal). A removed
                 modality gets weight exactly 0 in every arm.
-            fixed_trace: README section 6.14, learned arms only. [t_rcl, t_fti]: trace's
+            fixed_trace: v1.22 README section 6.14, learned arms only. [t_rcl, t_fti]: trace's
                 weight in each task column is held at t, never learned, and the module
                 learns how to split the remaining 1 - t between metric and log.
         """

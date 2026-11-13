@@ -5,7 +5,7 @@ The three datasets TVDiag releases, copied **unchanged** from
 [`cf6f334`](https://github.com/WHU-AISE/TVDiag/tree/cf6f334887036f363807bac1b8995c3b6f47c5db/data)
 (28 April 2025). They are redistributed under TVDiag's MIT licence, reproduced in
 [`LICENSE-TVDiag`](LICENSE-TVDiag). The data and its preparation are the TVDiag authors'
-work; cite their paper (README section 10) if you use it.
+work; cite their paper (top-level README, "Cite") if you use it.
 
 | folder | system | incidents | instances | failure types | train / test | size |
 |---|---|---|---|---|---|---|
@@ -13,8 +13,7 @@ work; cite their paper (README section 10) if you use it.
 | `hotel/` | Hotel Reservation | 200 | 18 | 5 | 122 / 78 | 6.5 MB |
 | `sockshop/` | Sock Shop | 489 | 21 | 7 | 248 / 241 | 19 MB |
 
-AIOps-22 is not included because TVDiag does not distribute it (see the top-level README,
-section 4).
+AIOps-22 is not included because TVDiag does not distribute it (see the top-level README).
 
 ## Layout (identical for each dataset)
 

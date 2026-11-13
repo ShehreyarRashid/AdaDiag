@@ -33,7 +33,7 @@ PER_DATASET = {
 }
 
 
-#: README section 6.11. Three places where the committed runs depart from TVDiag's released
+#: v1.22 README section 6.11. Three places where the committed runs depart from TVDiag's released
 #: code, found in review; switching all three on reproduces TVDiag's training loop more
 #: closely. The committed results use the defaults (all off) and stay reproducible.
 FIDELITY = dict(
@@ -44,7 +44,7 @@ FIDELITY = dict(
 )
 
 
-#: README section 6.19. What the TVDiag PAPER specifies and its released code does not do.
+#: v1.22 README section 6.19. What the TVDiag PAPER specifies and its released code does not do.
 #: Each switch alone, or all together, applies the paper's version; the defaults (the code's
 #: version) are untouched, so every committed result reproduces bit for bit. The paper's
 #: LSTM aggregator is the seventh (`aggregator="lstm"`, section 6.18) and is left out of this

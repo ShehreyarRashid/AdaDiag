@@ -1,230 +1,29 @@
-# How to put this on GitHub
+# How to push this version to GitHub
 
-Written for someone doing this for the first time. Two routes — pick **Route A** if you
-just want it online in ten minutes, **Route B** if you want the normal workflow that lets
-you update it easily later. You can start with A and move to B whenever.
+This version (v2.0) keeps only AdaDiag++ and what belongs to it. Many old files are removed,
+so the steps below also delete them from the repository. Delete this file afterwards if you
+like; it is instructions for you, not part of the project.
 
-Delete this file before (or after) uploading — it is instructions for you, not part of the
-project.
-
----
-
-## Updating a repository that already exists (recommended: from your Codespace)
-
-The browser's drag-and-drop **cannot upload hidden files or folders** — anything whose name
-starts with a dot: `.gitignore`, `.gitattributes`, `.github/`. It also cannot delete files
-that a new version removed. Updating from a Codespace has neither problem.
-
-1. Open your repository on GitHub → **Code** → **Codespaces** → open your codespace (or
-   create one).
-2. Drag the new zip from your computer onto the file list on the left of the Codespace.
-3. In the terminal at the bottom (replace the zip name if yours differs):
-
-   ```bash
-   git pull                                         # start from the latest version
-   unzip -q -o AdaDiag-v1.22.zip -d /tmp/new         # unpack outside the repository
-   cp -a /tmp/new/AdaDiag/. .                       # copy everything, hidden files too
-   rm -rf /tmp/new AdaDiag-v1.22.zip                 # clean up
-   python -m pytest tests/ -q                       # must pass before you publish
-   git add -A
-   git commit -m "v1.22: AdaDiag++ (three AdaDiag+ models averaged, round 4), README 6.25"
-   git push
-   ```
-
-4. On GitHub open the **Actions** tab: the `tests` workflow runs on every push and turns the
-   README badge green when it passes (~5 minutes).
-
-`git add -A` stages new, changed **and deleted** files, so the repository ends up exactly
-matching the zip.
-
----
-
-## Before you start
-
-1. **Make a GitHub account** at <https://github.com> if you don't have one. Use your
-   university email if you want the free Pro features via
-   [GitHub Education](https://education.github.com/pack).
-2. **Download and unzip `AdaDiag.zip`.** You should end up with a folder called `AdaDiag`
-   containing `README.md`, `src/`, `scripts/`, `tests/`, `results/`, `docs/`, `data/`.
-3. **Check the folder looks right** before uploading:
-
-   ```
-   AdaDiag/
-   ├── README.md
-   ├── LICENSE
-   ├── requirements.txt
-   ├── environment.yml
-   ├── pyproject.toml
-   ├── .gitignore
-   ├── src/adadiag/      (19 .py files)
-   ├── scripts/          (42 .py files, 2 .sh files)
-   ├── tests/            (19 .py files)
-   ├── results/          (.json files, reports, figures + README.md)
-   ├── data/             (gaia/, hotel/, sockshop/ + README.md, LICENSE-TVDiag, SHA256SUMS)
-   └── docs/             (architecture.md)
-   ```
-
----
-
-## Route A — the web browser (no software to install)
-
-**Step 1 — create the empty repository.**
-
-- Go to <https://github.com/new>.
-- **Repository name:** `AdaDiag`
-- **Description:** `Adaptive modality × task weighting for multimodal microservice failure diagnosis`
-- Choose **Public** (so your professor can see it without being added).
-- **Do not** tick "Add a README file", "Add .gitignore" or "Choose a license" — the project
-  already has all three, and ticking them creates conflicts you'd have to resolve.
-- Click **Create repository**.
-
-**Step 2 — upload the files.**
-
-- On the new empty repo page, click the **uploading an existing file** link
-  (or go to `https://github.com/<your-username>/AdaDiag/upload/main`).
-- Open your `AdaDiag` folder on your computer, select **everything inside it**
-  (`Ctrl+A` on Windows / `Cmd+A` on Mac) and **drag it onto the browser window**.
-  - Drag the *contents*, not the `AdaDiag` folder itself — otherwise you get
-    `AdaDiag/AdaDiag/README.md`.
-  - Chrome and Edge preserve subfolders when you drag. Safari sometimes does not — if the
-    subfolders don't appear, use Route B instead.
-- Wait for every file to finish uploading (you'll see them listed).
-- In **Commit changes** at the bottom, type `Initial commit: AdaDiag implementation and results`.
-- Click **Commit changes**.
-
-**Step 3 — check it.** Visit `https://github.com/<your-username>/AdaDiag`. The README should
-render automatically, and the workflow diagram should appear as a picture (GitHub renders
-Mermaid diagrams natively). If the diagram shows as a code block instead, the file was
-uploaded as something other than `README.md` — check the name.
-
-Done. Send your professor the URL.
-
----
-
-## Route B — Git on your computer (the normal way)
-
-Worth doing once: after this, publishing a change is three commands.
-
-**Step 1 — install Git.**
-
-- **Windows:** <https://git-scm.com/download/win>, accept all defaults. Then open
-  **Git Bash** from the Start menu.
-- **macOS:** open Terminal and type `git --version`; it offers to install if missing.
-- **Linux:** `sudo apt install git`
-
-**Step 2 — tell Git who you are** (once per computer):
+In your Codespace (GitHub → your repository → **Code** → **Codespaces**), drag
+`AdaDiag-v2.0.zip` onto the file list, then run in the terminal:
 
 ```bash
-git config --global user.name "Shehreyar Rashid"
-git config --global user.email "your-github-email@example.com"
-```
+git pull                                      # start from the latest version
+git tag before-cleanup                        # bookmark the full research version
+git push origin before-cleanup
 
-Use the same email as your GitHub account, or your commits won't be linked to your profile.
+git ls-files -z | xargs -0 rm -f              # remove every tracked file
+unzip -q -o AdaDiag-v2.0.zip -d /tmp/new      # unpack outside the repository
+cp -a /tmp/new/AdaDiag/. .                    # copy the new version, hidden files too
+rm -rf /tmp/new AdaDiag-v2.0.zip
 
-**Step 3 — create the empty repository on GitHub** exactly as in Route A Step 1 (public,
-nothing ticked).
-
-**Step 4 — upload from your computer.** Open a terminal **inside the `AdaDiag` folder**
-(Windows: right-click the folder → *Open Git Bash here*), then:
-
-```bash
-git init                      # start tracking this folder
-git add .                     # stage every file
-git commit -m "Initial commit: AdaDiag implementation and results"
-git branch -M main            # name the branch 'main'
-git remote add origin https://github.com/<your-username>/AdaDiag.git
-git push -u origin main       # upload
-```
-
-Replace `<your-username>` with your actual GitHub username.
-
-**Step 5 — the password prompt.** GitHub **does not accept your account password here**.
-When it asks:
-
-- **Username:** your GitHub username
-- **Password:** a **Personal Access Token**, not your password.
-
-To make one: GitHub → your avatar (top right) → **Settings** → **Developer settings** →
-**Personal access tokens** → **Tokens (classic)** → **Generate new token (classic)**. Give
-it a name, set an expiry, tick the **`repo`** checkbox, generate, and **copy it immediately** —
-it is shown only once. Paste it as the password.
-
-(On Windows, Git Credential Manager usually opens a browser window instead and you can just
-sign in. Easier — take that if offered.)
-
-**Step 6 — later changes.** Any time you edit something:
-
-```bash
-git add .
-git commit -m "describe what changed"
+python -m pytest tests/ -q                    # should print: 36 passed
+git add -A                                    # stages new, changed and deleted files
+git commit -m "v2.0: keep AdaDiag++ only"
 git push
 ```
 
----
+Afterwards the **Actions** tab runs the tests and turns the README badge green.
 
-## Things that commonly go wrong
-
-| Symptom | Cause and fix |
-|---|---|
-| `fatal: not a git repository` | You're not inside the `AdaDiag` folder. `cd` into it first. |
-| `Authentication failed` on push | You used your password. Use a Personal Access Token (Step 5). |
-| `Updates were rejected... fetch first` | You ticked "Add a README" when creating the repo, so GitHub and your folder both have commits. Fix: `git pull --rebase origin main` then `git push`. |
-| `remote origin already exists` | You ran `git remote add` twice. Use `git remote set-url origin <url>`. |
-| README shows raw text, diagram as code | The file isn't named exactly `README.md`, or the ```` ```mermaid ```` fence got mangled. |
-| `__pycache__` folders appear on GitHub | They were committed before `.gitignore` applied. `git rm -r --cached __pycache__` then commit. |
-
----
-
-## Two things to check before you share the link
-
-1. **`data/` is meant to be committed.** It is TVDiag's released data (MIT licence), 48 MB
-   in 27 files, the largest 5.8 MB, so it is under GitHub's 25 MB per-file browser limit
-   and 100-file per-upload limit. Keep `data/LICENSE-TVDiag` and `data/README.md` with it:
-   the licence requires the copyright notice to travel with the data.
-2. **Nothing private.** No API tokens, no passwords, no unpublished material from anyone
-   else. Once a public repo exists, assume anything in it has been seen. If you ever do
-   commit a secret, deleting the file is **not** enough — the history keeps it; you must
-   revoke the secret itself.
-
----
-
-## Making it look professional (optional, 5 minutes)
-
-On the repo page, click the **gear icon** next to *About* on the right:
-
-- **Description:** `Adaptive modality × task weighting for multimodal microservice failure diagnosis`
-- **Topics:** `aiops`, `microservices`, `failure-diagnosis`, `multimodal`, `graph-neural-networks`, `pytorch`, `reproducibility`
-- Tick **Releases** off if you have none.
-
-Then **Settings → General → Features** and untick *Wikis* and *Projects* if you won't use
-them, so the tab bar stays clean.
-
-If you want a version you can cite in the report, use **Releases → Create a new release**,
-tag `v1.22.0`, and GitHub will build a permanent zip of that exact state.
-
----
-
-## One last sanity check
-
-From inside the folder, run:
-
-```bash
-pip install -r requirements.txt
-python -m pytest tests/ -q
-```
-
-You should see `117 passed`. Those tests are what let you say in the report that the
-re-implementation is verified against TVDiag's own loss (4 tests), that Eq. 13 is inert as
-shipped (1), that the simplex columns are well formed (1), that the two structural claims
-in README §6.6 hold (4), that the ablation switches do what they claim and nothing at
-their defaults (12), that the numbers transcribed from the paper are self-consistent and the
-new measurements are well formed (8), that the trace weight's zero is the objective's doing
-and not a wiring error (6), that the softened prior and the fidelity switches do what they
-claim (5), that the oracle arm of the headroom check applies exactly the matrix it is given
-(6), that the five weightings of the contrastive term are TVDiag's term when switched off
-and do what they claim when on (7), that holding trace's weight fixed holds it and leaves
-only metric and log learned (6), that every arm starts from the same encoders and,
-with the random stream aligned and the TO term off, TVDiag and AdaDiag train identically (5), that the LSTM aggregator matches a
-node-by-node LSTM and leaves the mean aggregator untouched (4), that each feature the paper specifies and its code omits matches the paper's own equation and changes nothing when off (11), that measuring inter-task affinity leaves training unchanged and reproduces TVDiag's own computation (2), that the RCL/FTI improvement switches do what they claim and change nothing when off (13), that TVDiag's own logs are read back correctly (2), and that `data/` is byte-identical to TVDiag's release and loads with
-the expected shape (5). A reader can run them straight after cloning — which is the single
-most useful thing a reviewer can do with this repository.
+Nothing is lost: the old version stays in the history, and the tag `before-cleanup` takes
+you back to it (`git checkout before-cleanup`).

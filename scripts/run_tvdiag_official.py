@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Run TVDiag's released code (github.com/WHU-AISE/TVDiag) unchanged and record its results.
 
-README section 6.22. Nothing in the TVDiag checkout is edited. Three interventions, all from
+v1.22 README section 6.22. Nothing in the TVDiag checkout is edited. Three interventions, all from
 outside its files:
 
 * Missing modules. `core/model/Encoder.py` imports `core.model.backbone.tag` and

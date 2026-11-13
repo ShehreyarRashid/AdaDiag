@@ -4,7 +4,7 @@ table,dataset,method,source,p_value,HR@1,HR@3,Avg@3,MRR@3,Precision,Recall,F1-sc
 4,A,RF-RCL,paper,3.4e-02,0.573,0.815,0.719,0.686,,,
 4,A,TVDiag,paper,-,0.759,0.909,0.844,0.827,,,
 4,A,TVDiag (released code),this repository,1.1E-01,0.739936,0.897764,0.831523,0.812034,,,
-4,A,AdaDiag (best),this repository,5.5E-02,0.768051,0.906496,0.848846,0.831523,,,
+4,A,AdaDiag++,this repository,5.5E-02,0.768051,0.906496,0.848846,0.831523,,,
 4,B,Eadro,paper,6.3e-04,0.226,0.478,0.367,0.339,,,
 4,B,DiagFusion,paper,4.3e-08,0.205,0.273,0.239,0.229,,,
 4,B,RF-RCL,paper,7.5e-03,0.635,0.829,0.739,0.719,,,
@@ -14,13 +14,13 @@ table,dataset,method,source,p_value,HR@1,HR@3,Avg@3,MRR@3,Precision,Recall,F1-sc
 4,C,RF-RCL,paper,5.1E-03,0.622,0.817,0.715,0.701,,,
 4,C,TVDiag,paper,-,0.863,0.954,0.913,0.903,,,
 4,C,TVDiag (released code),this repository,5.1E-02,0.875519,0.946058,0.918119,0.908575,,,
-4,C,AdaDiag (best),this repository,1.6E-01,0.86971,0.953527,0.920609,0.909129,,,
+4,C,AdaDiag++,this repository,1.6E-01,0.86971,0.953527,0.920609,0.909129,,,
 4,D,Eadro,paper,2.6E-03,0.244,0.59,0.419,0.389,,,
 4,D,DiagFusion,paper,4.5E-03,0.513,0.744,0.645,0.618,,,
 4,D,RF-RCL,paper,4.6E-02,0.744,0.872,0.804,0.795,,,
 4,D,TVDiag,paper,-,0.821,0.923,0.876,0.866,,,
 4,D,TVDiag (released code),this repository,9.8E-02,0.833333,0.910256,0.876068,0.867521,,,
-4,D,AdaDiag (best),this repository,9.2E-03,0.84359,0.938462,0.892308,0.883761,,,
+4,D,AdaDiag++,this repository,9.2E-03,0.84359,0.938462,0.892308,0.883761,,,
 5,A,DiagFusion,paper,3.3E-04,,,,,0.852,0.838,0.84
 5,A,Medicine,paper,4.1E-06,,,,,0.669,0.667,0.648
 5,A,DT-FTI,paper,9.4E-03,,,,,0.889,0.892,0.89
@@ -28,7 +28,7 @@ table,dataset,method,source,p_value,HR@1,HR@3,Avg@3,MRR@3,Precision,Recall,F1-sc
 5,A,LGB-FTI,paper,5.2E-02,,,,,0.892,0.928,0.907
 5,A,TVDiag,paper,-,,,,,0.925,0.948,0.936
 5,A,TVDiag (released code),this repository,2.4E-01,,,,,0.921846,0.944409,0.932991
-5,A,AdaDiag (best),this repository,7.0E-03,,,,,0.934472,0.961022,0.947561
+5,A,AdaDiag++,this repository,7.0E-03,,,,,0.934472,0.961022,0.947561
 5,B,DiagFusion,paper,3.4E-04,,,,,0.533,0.489,0.505
 5,B,Medicine,paper,4.7E-04,,,,,0.307,0.244,0.244
 5,B,DT-FTI,paper,5.0E-05,,,,,0.448,0.42,0.422
@@ -42,7 +42,7 @@ table,dataset,method,source,p_value,HR@1,HR@3,Avg@3,MRR@3,Precision,Recall,F1-sc
 5,C,LGB-FTI,paper,9.7E-04,,,,,0.442,0.39,0.388
 5,C,TVDiag,paper,-,,,,,0.649,0.622,0.636
 5,C,TVDiag (released code),this repository,2.0E-03,,,,,0.562934,0.524481,0.542979
-5,C,AdaDiag (best),this repository,8.0E-02,,,,,0.677508,0.635685,0.655719
+5,C,AdaDiag++,this repository,8.0E-02,,,,,0.677508,0.635685,0.655719
 5,D,DiagFusion,paper,3.2E-05,,,,,0.618,0.603,0.6
 5,D,Medicine,paper,1.9E-02,,,,,0.782,0.725,0.728
 5,D,DT-FTI,paper,5.2E-03,,,,,0.676,0.603,0.598
@@ -50,4 +50,4 @@ table,dataset,method,source,p_value,HR@1,HR@3,Avg@3,MRR@3,Precision,Recall,F1-sc
 5,D,LGB-FTI,paper,4.1E-02,,,,,0.809,0.769,0.764
 5,D,TVDiag,paper,-,,,,,0.836,0.808,0.822
 5,D,TVDiag (released code),this repository,1.3E-01,,,,,0.759617,0.725641,0.742096
-5,D,AdaDiag (best),this repository,2.1E-04,,,,,0.872137,0.851282,0.861582
+5,D,AdaDiag++,this repository,2.1E-04,,,,,0.872137,0.851282,0.861582

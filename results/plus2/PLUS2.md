@@ -1,6 +1,6 @@
-# Improving AdaDiag+ (README §6.25)
+# AdaDiag++: results
 
-Screened on development seeds 0–2 against AdaDiag+; the rule and every decision were written to `PLAN.md` before the confirmation runs; confirmed on fresh seeds 30–34. Settings as §6.17.
+Screened on development seeds 0–2 against AdaDiag+; the rule and every decision were written to `PLAN.md` before the confirmation runs; confirmed on fresh seeds 30–34. Settings: 1 thread, 500-epoch cap, `isolate_weighting_rng`.
 
 **Final configuration:** `plus|ens3`.
 

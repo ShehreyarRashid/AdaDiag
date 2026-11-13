@@ -1,4 +1,4 @@
-"""README section 6.22: reading TVDiag's own logs (no data or TVDiag checkout needed)."""
+"""v1.22 README section 6.22: reading TVDiag's own logs (no data or TVDiag checkout needed)."""
 import sys
 from pathlib import Path
 

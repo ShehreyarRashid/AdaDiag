@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""README section 6.24: do the alert-type counts carry information the embeddings lose?
+"""v1.22 README section 6.24: do the alert-type counts carry information the embeddings lose?
 
 Simple probes, no graph and no training of AdaDiag. Features per instance: TVDiag's three
 128-d embeddings ("emb"), the alert-type counts of src/adadiag/alerts.py ("bag"), or both.
@@ -8,7 +8,7 @@ Simple probes, no graph and no training of AdaDiag. Features per instance: TVDia
   FTI at the true root (an upper bound for a perfect RCL): random forest on the root's bag
 One fixed setting each (C = 0.1, standardised on the training split; 500 trees), not tuned.
 Trained on the training split, scored on the test split, with TVDiag's metric definitions.
-Writes results/stronger/probe.json.
+Writes results/plus2/probe.json.
 
     python scripts/feature_probe.py
 """
@@ -74,8 +74,8 @@ def main():
               f"both {o['fti_f1']['both']:.3f} | at the true root {o['fti_f1_root_bag_rf']:.3f}")
         print(f"{name:8s} RCL HR@1 emb {o['rcl_hr1']['emb']:.3f}  bag {o['rcl_hr1']['bag']:.3f}  "
               f"both {o['rcl_hr1']['both']:.3f}", flush=True)
-    (ROOT / "results" / "stronger").mkdir(parents=True, exist_ok=True)
-    json.dump(out, open(ROOT / "results" / "stronger" / "probe.json", "w"), indent=1)
+    (ROOT / "results" / "plus2").mkdir(parents=True, exist_ok=True)
+    json.dump(out, open(ROOT / "results" / "plus2" / "probe.json", "w"), indent=1)
 
 
 if __name__ == "__main__":

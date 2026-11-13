@@ -1,4 +1,4 @@
-"""Inter-task affinity, Eq. 17 of the TVDiag paper (Table 8; README section 6.20).
+"""Inter-task affinity, Eq. 17 of the TVDiag paper (Table 8; v1.22 README section 6.20).
 
     Z_{T1 -> T2} = 1 - L_T2(f, theta_s|T1, theta_T2) / L_T2(f, theta_s, theta_T2)
 

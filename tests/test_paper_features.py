@@ -1,4 +1,4 @@
-"""README section 6.19: what the TVDiag paper specifies and its released code does not do.
+"""v1.22 README section 6.19: what the TVDiag paper specifies and its released code does not do.
 
 Each paper switch is checked against a literal transcription of the paper's equation, and
 each default is checked to be the released code's behaviour.

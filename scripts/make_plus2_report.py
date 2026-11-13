@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
-"""README section 6.25: improving AdaDiag+ -- the rule, the screen, the fresh-seed result.
+"""v1.22 README section 6.25: improving AdaDiag+ -- the rule, the screen, the fresh-seed result.
 
 Reads results/plus2/ (plan.json, PLAN.md, runs/<ds>/*.json|npz) and, for AdaDiag-DL and TVDiag
-on seeds 5-9, results/selection/confirm_<ds>*.json. Writes results/plus2/PLUS2.md,
+on seeds 5-9, results/baselines/seeds5-9_<ds>.json. Writes results/plus2/PLUS2.md,
 readme_table.md, summary.json, confirm_<ds>.json (one record per arm and seed, ensembles
 included) and fig_plus2.png.
 
@@ -32,11 +32,11 @@ PRIMARY = ("HR@1", "F1")
 
 
 def selection(ds: str, name: str, seed: int):
-    """AdaDiag-DL / TVDiag on seeds 5-9 from the section 6.17 runs (same settings)."""
-    for f in sorted(glob.glob(str(ROOT / "results" / "selection" / f"confirm_{ds}*.json"))):
-        for r in json.load(open(f)):
-            if r["seed"] == seed and r["variant"] == name:
-                return r
+    """AdaDiag-DL / TVDiag on seeds 5-9 (same settings, run before round 4)."""
+    f = ROOT / "results" / "baselines" / f"seeds5-9_{ds}.json"
+    for r in json.load(open(f)):
+        if r["seed"] == seed and r["variant"] == name:
+            return r
     return None
 
 
@@ -167,10 +167,10 @@ def main() -> None:
                     recs.append(dict(r, variant=tag, seed=s))
         json.dump(recs, open(OUT / f"confirm_{ds}.json", "w"))
 
-    md = ["# Improving AdaDiag+ (README §6.25)\n",
+    md = ["# AdaDiag++: results\n",
           "Screened on development seeds 0–2 against AdaDiag+; the rule and every decision were "
           "written to `PLAN.md` before the confirmation runs; confirmed on fresh seeds 30–34. "
-          "Settings as §6.17.\n", f"**Final configuration:** `{final}`.\n",
+          "Settings: 1 thread, 500-epoch cap, `isolate_weighting_rng`.\n", f"**Final configuration:** `{final}`.\n",
           (OUT / "PLAN.md").read_text().split("\n", 1)[1], *body,
           "\n![paired differences](fig_plus2.png)\n"]
     figure(F, comps, OUT / "fig_plus2.png", "10 seeds" if have59 else "fresh seeds 30–34")

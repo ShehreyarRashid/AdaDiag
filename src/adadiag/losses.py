@@ -45,7 +45,7 @@ def supcon_per_sample(emb: torch.Tensor, labels: torch.Tensor,
 def supcon_weighted(emb: torch.Tensor, labels: torch.Tensor, temperature: float,
                     pos_beta: float = 0.0, neg_beta: float = 0.0,
                     keep_frac: float = 1.0) -> tuple[torch.Tensor, int]:
-    """TVDiag's SupCon with pair- and anchor-level weights (README section 6.13).
+    """TVDiag's SupCon with pair- and anchor-level weights (v1.22 README section 6.13).
 
     TVDiag's term for anchor i is a sum over its positives p of
 
@@ -106,7 +106,7 @@ def supcon_weighted(emb: torch.Tensor, labels: torch.Tensor, temperature: float,
 
 def supcon_anchor_mean(emb: torch.Tensor, labels: torch.Tensor,
                        temperature: float) -> tuple[torch.Tensor, int]:
-    """Eq. 3 as the TVDiag PAPER writes it (README section 6.19, `to_norm="paper"`).
+    """Eq. 3 as the TVDiag PAPER writes it (v1.22 README section 6.19, `to_norm="paper"`).
 
     The paper's term for anchor i is -1/|P_i| * sum_{j in P_i} log(...): a mean over i's OWN
     positives. The released code divides the sum over all positive pairs by their count
@@ -134,7 +134,7 @@ def uspcon(a: torch.Tensor, b: torch.Tensor, temperature: float) -> torch.Tensor
 
 
 def cm_paper(a: torch.Tensor, b: torch.Tensor, temperature: float) -> torch.Tensor:
-    """Eqs. 5-6 of the TVDiag PAPER (README section 6.19, `cm_mode="paper"`).
+    """Eqs. 5-6 of the TVDiag PAPER (v1.22 README section 6.19, `cm_mode="paper"`).
 
         L^{D1~D2} = 1/(2n) sum_i [ l(F_i^D1, F_i^D2) + l(F_i^D2, F_i^D1) ]
         l(F_i^D1, F_i^D2) = -log  phi(i1, i2) /
@@ -170,7 +170,7 @@ class AutomaticWeightedLoss(nn.Module):
     these parameters to the optimizer would mean no longer reproducing TVDiag -- and keep it
     identical across every arm so the comparison stays controlled.
 
-    `learnable=True` (README section 6.19, `awl_learnable`) is Eq. 13 as the PAPER states
+    `learnable=True` (v1.22 README section 6.19, `awl_learnable`) is Eq. 13 as the PAPER states
     it: `train` then adds these parameters to the optimizer.
     """
 

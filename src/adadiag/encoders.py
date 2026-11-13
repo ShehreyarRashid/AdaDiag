@@ -9,7 +9,7 @@ dgl's SAGEConv(aggregator_type='mean', bias=False) computes
     h' = W_self . h + W_neigh . mean_{u in N(v)} h_u
 which is what `SAGEEncoder` implements below.
 
-`aggregator="lstm"` (README section 6.18) is the aggregator the TVDiag PAPER describes; its
+`aggregator="lstm"` (v1.22 README section 6.18) is the aggregator the TVDiag PAPER describes; its
 released code uses "mean". It reproduces dgl's SAGEConv(aggregator_type='lstm'): each node's
 in-neighbours, in index order, are fed through an LSTM whose hidden size equals its input
 size, from a zero initial state, and the final hidden state replaces the mean:
@@ -17,7 +17,7 @@ size, from a zero initial state, and the final hidden state replaces the mean:
 A node with no in-neighbour gets a zero message, as in dgl. The default stays "mean", so
 every committed result is unchanged.
 
-`aggregator="attn"` (README section 6.24) replaces the mean with GATv2-style attention
+`aggregator="attn"` (v1.22 README section 6.24) replaces the mean with GATv2-style attention
 (Brody et al., ICLR 2022) over the same in-neighbours:
     e_ij = a . LeakyReLU(W_l h_i + W_r h_j),  alpha_ij = softmax_j(e_ij),
     h' = W_self . h + W_neigh . sum_j alpha_ij h_j
@@ -61,7 +61,7 @@ def lstm_neighbours(lstm: nn.LSTM, h: torch.Tensor, A: torch.Tensor) -> torch.Te
 
 
 class SAGEEncoder(nn.Module):
-    """`alg1=True` (README section 6.19) is Algorithm 1 of the TVDiag PAPER, lines 6-7:
+    """`alg1=True` (v1.22 README section 6.19) is Algorithm 1 of the TVDiag PAPER, lines 6-7:
     sigma after EVERY layer, then each node embedding L2-normalised, at every layer. The
     released code (and the default here) applies ReLU between layers only and never
     normalises. The weights and their initialisation are the same either way."""

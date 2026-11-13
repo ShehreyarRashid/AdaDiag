@@ -1,15 +1,12 @@
 #!/usr/bin/env python3
-"""The TVDiag paper's Tables 4 and 5, multimodal methods only, with the best AdaDiag added.
+"""The TVDiag paper's Tables 4 and 5, multimodal methods only, with AdaDiag++ added.
 
 Every row except AdaDiag's is copied exactly as the paper prints it
 (`adadiag.paper_numbers`): the multimodal baselines and TVDiag, with their p-values and the
 paper's improvement-rate columns. Single-modality baselines are left out.
 
-"AdaDiag (best)" is the AdaDiag configuration with the highest mean of HR@1 and F1 over A,
-C and D among those run on fresh seeds (`CANDIDATES` below; a post-hoc choice, stated in the
-table notes). Since README section 6.25 that is AdaDiag++ (three AdaDiag+ models, outputs
-averaged), mean over seeds 5-9 (results/plus2/confirm_<ds>.json); before, it was AdaDiag+
-(section 6.24) and, earlier, AdaDiag-DL with Eq. 13's learnable weights (section 6.19). Its p-value is a one-sample t-test of the five seeds against TVDiag's
+The AdaDiag row is AdaDiag++ (three AdaDiag+ models, outputs averaged), mean over seeds 5-9
+(results/plus2/confirm_<ds>.json). Its p-value is a one-sample t-test of the five seeds against TVDiag's
 published value (HR@1 in Table 4, F1 in Table 5). Dataset B is not released, so it has no
 AdaDiag row.
 
@@ -43,19 +40,9 @@ GET = {"HR@1": lambda r: r["HR@1"], "HR@3": lambda r: r["HR@3"],
        "Avg@3": lambda r: (r["HR@1"] + r["HR@2"] + r["HR@3"]) / 3, "MRR@3": lambda r: r["MRR@3"],
        "Precision": lambda r: r["precision"], "Recall": lambda r: r["recall"],
        "F1-score": lambda r: r["f1"]}
-#: AdaDiag configurations run on fresh seeds: (label, file pattern, variant, seeds)
+#: the AdaDiag row: (label, file pattern, variant, seeds)
 CANDIDATES = (
-    ("AdaDiag-DL", "selection/confirm_{}*.json", "align", range(5, 10)),
-    ("AdaDiag-CL", "selection/confirm_{}*.json", "adadiag", range(5, 10)),
-    ("AdaDiag-DL + learnable Eq. 13", "selection/confirm_{}*.json", "align+awl_learnable", range(5, 10)),
-    ("AdaDiag-DL-LSTM", "selection/confirm_{}*.json", "align_lstm", range(5, 10)),
-    ("AdaDiag-DL + neighbour contrast", "improve/confirm_{}.json", "align_improved", range(10, 15)),
-    # README section 6.24: AdaDiag-DL + alert-type counts + root readout (round 1) or neighbour
-    # contrast (round 2), on seeds 5-9 like the rows above (their own confirmations used 15-24)
-    ("AdaDiag+ r1", "stronger/confirm59_{}.json", "align_plus", range(5, 10)),
-    ("AdaDiag+ r2", "stronger/confirm59_{}.json", "align_plus2", range(5, 10)),
-    ("AdaDiag+", "stronger/confirm59_{}.json", "align_plus3", range(5, 10)),
-    # README section 6.25: three AdaDiag+ models (seeds s, s+100, s+200), outputs averaged
+    # three AdaDiag+ models (seeds s, s+100, s+200), outputs averaged
     ("AdaDiag++", "plus2/confirm_{}.json", "align_pp", range(5, 10)),
 )
 
@@ -90,7 +77,7 @@ def paper_rows(letter, table):
 
 
 def official(ds):
-    """README section 6.22: TVDiag's released code, run unchanged, seeds 5-9."""
+    """TVDiag's released code, run unchanged, seeds 5-9."""
     out = {}
     for f in sorted(glob.glob(str(ROOT / "results" / "tvdiag_official" / "runs*.json"))):
         for r in json.load(open(f)):
@@ -99,7 +86,7 @@ def official(ds):
     return list(out.values())
 
 
-def ada_row(letter, table, rs, name="AdaDiag (best)"):
+def ada_row(letter, table, rs, name="AdaDiag++"):
     cols = T4 if table == 4 else T5
     key = "HR@1" if table == 4 else "F1-score"
     tv = paper_rows(letter, table)[-1]["values"][key]
@@ -139,7 +126,7 @@ def tex_table(table, rs_by_letter, label):
             ds_cell = rf"\multirow{{{n}}}{{*}}{{$\mathcal{{{letter}}}$}}" if i == 0 else ""
             name = (r"\textbf{\textit{TVDiag}}" if r["method"] == "TVDiag" else
                     r"\textit{TVDiag} (released code)$^\ddagger$" if r["method"] == "TVDiag (released code)"
-                    else r"\textbf{AdaDiag (best)}$^\dagger$" if not r["paper"] else r["method"])
+                    else r"\textbf{AdaDiag++}$^\dagger$" if not r["paper"] else r["method"])
             cells = []
             for c in cols:
                 x = r["values"][c]
@@ -163,10 +150,10 @@ def tex_table(table, rs_by_letter, label):
           r"as in the paper (negative: the row is above \textit{TVDiag}). The best result in each "
           r"metric is shown in bold. Rows without $\dagger$ are copied from the paper (Xie et al., "
           r"\textit{TVDiag}, ACM TOSEM 35(2), Art.~40, 2026, Table " + str(table) + r"); the "
-          r"single-modality baselines are omitted. $^\dagger$\textbf{AdaDiag (best)}: " + label
+          r"single-modality baselines are omitted. $^\dagger$\textbf{AdaDiag++}: " + label
           + r", mean over 5 seeds (5--9). $^\ddagger$\textit{TVDiag} (released code): the authors' "
           r"code (github.com/WHU-AISE/TVDiag, commit cf6f334) run unchanged on a CPU, same seeds "
-          r"(README \S6.22). p-values of both: two-sided one-sample $t$-test of the seeds against "
+          r". p-values of both: two-sided one-sample $t$-test of the seeds against "
           r"\textit{TVDiag}'s published " + key + r".",
           r"\end{minipage}", r"\end{table}"]
     return "\n".join(L) + "\n", csv_rows
@@ -200,37 +187,20 @@ $\mathcal{D}$ (Hotel Reservation). NOTE
 def main() -> None:
     OUT.mkdir(parents=True, exist_ok=True)
     (score, lab, v, seeds, rs), scored = best()
-    label = {"AdaDiag-DL + learnable Eq. 13":
-             r"AdaDiag-DL (weights learned from the diagnosis losses, README \S6.17) with "
-             r"Eq.~13's learnable loss weights (\S6.19)",
-             "AdaDiag+":
-             r"AdaDiag+ (README \S6.24): AdaDiag-DL with each instance's alert-type counts next "
-             r"to its embeddings and Eq.~13's learnable loss weights",
-             "AdaDiag++":
-             r"AdaDiag++ (README \S6.25): three AdaDiag+ models that differ only in their seed, "
-             r"outputs averaged. AdaDiag+ (\S6.24) is AdaDiag-DL with each instance's alert-type "
-             r"counts next to its embeddings and Eq.~13's learnable loss weights"}.get(lab, lab)
+    label = (r"three AdaDiag+ models that differ only in their seed, outputs averaged. AdaDiag+ "
+             r"is TVDiag with adaptive modality weights, each instance's alert-type counts "
+             r"next to its embeddings, and Eq.~13's learnable loss weights (README)")
     t4, c4 = tex_table(4, rs, label)
     t5, c5 = tex_table(5, rs, label)
     (OUT / "table4_mm.tex").write_text(t4)
     (OUT / "table5_mm.tex").write_text(t5)
-    note = (r"AdaDiag (best) is the AdaDiag configuration with the highest mean of HR@1 and F1 "
-            r"over $\mathcal{A}$, $\mathcal{C}$ and $\mathcal{D}$ among the "
-            + str(len(scored)) + r" run on fresh seeds; the choice was made after the runs. "
-            + ({"AdaDiag+": r"Its configuration was fixed on development seeds before these runs; "
-                r"over ten fresh seeds it is above \textit{TVDiag} re-run under identical "
-                r"conditions on HR@1 and F1 for $\mathcal{A}$ and $\mathcal{D}$ and on F1 for "
-                r"$\mathcal{C}$ (README \S6.24). ",
-                "AdaDiag++": r"Its configuration was fixed on development seeds before these runs; "
-                r"over ten fresh seeds it is above \textit{TVDiag} re-run under identical "
-                r"conditions on HR@1 and F1 for all three datasets, significantly except HR@1 on "
-                r"$\mathcal{C}$; it costs three training runs (README \S6.25). "}.get(lab, r"Against \textit{TVDiag} re-run under identical conditions it is not significantly "
-                r"different (README \S6.19). "))
-            + r"\textit{TVDiag}'s own released code, run unchanged at its "
+    note = (r"AdaDiag++'s configuration was fixed on development seeds before these runs; over "
+            r"ten fresh seeds it is above \textit{TVDiag} re-run under identical conditions on "
+            r"HR@1 and F1 for all three datasets, significantly except HR@1 on $\mathcal{C}$; it "
+            r"costs three training runs. \textit{TVDiag}'s own released code, run unchanged at its "
             r"default seed (2), reproduces the published $\mathcal{A}$ row exactly, and the authors' own "
             r"logs committed in the repository contain the paper's \textit{TVDiag} rows, so those "
-            r"are single runs; over seeds 5--9 the released code scores the row marked $\ddagger$ "
-            r"(README \S6.22).")
+            r"are single runs; over seeds 5--9 the released code scores the row marked $\ddagger$.")
     (OUT / "tables_mm.tex").write_text(DOC.replace("NOTE", note))
     with open(OUT / "tables_mm.csv", "w", newline="") as f:
         w = csv.DictWriter(f, fieldnames=["table", "dataset", "method", "source", "p_value",

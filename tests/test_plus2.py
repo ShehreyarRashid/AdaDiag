@@ -1,4 +1,4 @@
-"""README section 6.25: the round-4 switches and the ensemble metrics (no data needed)."""
+"""v1.22 README section 6.25: the round-4 switches and the ensemble metrics (no data needed)."""
 import sys
 from pathlib import Path
 

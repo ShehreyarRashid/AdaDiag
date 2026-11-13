@@ -1,4 +1,4 @@
-"""README section 6.24: alert-type counts per instance, next to TVDiag's event embeddings.
+"""v1.22 README section 6.24: alert-type counts per instance, next to TVDiag's event embeddings.
 
 TVDiag's node features are DiagFusion's: each instance's events are embedded with fastText
 and AVERAGED (DiagFusion, IEEE TSC 2023, Eq. 2). An average keeps the mix of events but loses

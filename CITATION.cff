@@ -3,15 +3,14 @@ message: >-
   If you use this software, please cite it as below. AdaDiag builds on TVDiag, whose
   method and released data it uses: please cite TVDiag as well (see references).
 title: >-
-  AdaDiag: Adaptive modality × task weighting for multimodal microservice failure
-  diagnosis
+  AdaDiag++: Adaptive multimodal failure diagnosis for microservices
 type: software
 authors:
   - family-names: Rashid
     given-names: Shehreyar
     affiliation: National University of Computer and Emerging Sciences (FAST-NUCES)
-version: 1.22.0
-date-released: 2026-11-12
+version: 2.0.0
+date-released: 2026-11-13
 license: MIT
 repository-code: https://github.com/ShehreyarRashid/AdaDiag
 keywords:

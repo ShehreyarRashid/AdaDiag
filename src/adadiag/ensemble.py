@@ -1,4 +1,4 @@
-"""README section 6.25: AdaDiag++ -- several AdaDiag+ models that differ only in their seed.
+"""v1.22 README section 6.25: AdaDiag++ -- several AdaDiag+ models that differ only in their seed.
 
 Each member is trained independently (`train(arm, seed, ...)`). At diagnosis time every member
 scores the incident and the softmax outputs are averaged: over instances for root cause

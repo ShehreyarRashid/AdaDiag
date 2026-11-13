@@ -28,7 +28,7 @@ class AdaDiag(nn.Module):
             for m in MODALITIES
         })
         fuse = len(MODALITIES) * d_o
-        # README section 6.21 (both off by default):
+        # v1.22 README section 6.21 (both off by default):
         #   rcl_context  "global": each node is also scored with the incident's fused graph
         #                feature; "neighbour": with its own features minus its neighbours'
         #                mean (a root differs from the services its fault spreads to);
@@ -41,13 +41,13 @@ class AdaDiag(nn.Module):
         self.fti_readout = cfg.get("fti_readout", "max") or "max"
         if self.fti_readout not in ("max", "root_attn"):
             raise ValueError(f"unknown fti_readout {self.fti_readout!r}")
-        # README section 6.24: with "root_attn", `root_detach` stops the FTI loss from reaching the
+        # v1.22 README section 6.24: with "root_attn", `root_detach` stops the FTI loss from reaching the
         # RCL scores through the readout's softmax, so FTI reads the culprit without reshaping
         # the ranking
         self.root_detach = bool(cfg.get("root_detach", False))
         k_rcl = 1 + (self.rcl_context in ("global", "both")) + (self.rcl_context in ("neighbour", "both"))
         k_fti = 2 if self.fti_readout == "root_attn" else 1
-        # README section 6.25 (both off by default; both need alert_bag, section 6.24):
+        # v1.22 README section 6.25 (both off by default; both need alert_bag, section 6.24):
         #   bag_drop  dropout on the alert-type count columns of X during training
         #   bag_head  the heads also read the raw counts: the locator each instance's own
         #             counts, the classifier their max and mean over instances (a wide path
@@ -70,16 +70,16 @@ class AdaDiag(nn.Module):
             raise ValueError(f"unknown modalities to drop: {sorted(unknown)}")
         self.active = tuple(m not in dropped for m in MODALITIES)
         self.detach = cfg.get("detach", True)
-        # Fidelity switch (README section 6.11): TVDiag gives every node with no in-edge a
+        # Fidelity switch (v1.22 README section 6.11): TVDiag gives every node with no in-edge a
         # self-loop, in the raw graphs and again after AUG drops nodes.
         self.self_loops = bool(cfg.get("self_loops", False))
-        # Paper switch (README section 6.19): "the edges in E are bidirectional" (TVDiag
+        # Paper switch (v1.22 README section 6.19): "the edges in E are bidirectional" (TVDiag
         # paper, Sec. 4.2). The released graphs are used as given; GAIA's are half one-way.
         self.bidirectional = bool(cfg.get("bidirectional", False))
-        # Encoder analysis (README section 6.23): drop every edge, so each instance is encoded
+        # Encoder analysis (v1.22 README section 6.23): drop every edge, so each instance is encoded
         # from its own alerts only -- how much does the encoder use the service graph?
         self.no_edges = bool(cfg.get("no_edges", False))
-        # README section 6.24: a linear path from each instance's own features straight to
+        # v1.22 README section 6.24: a linear path from each instance's own features straight to
         # its embedding (a skip around the graph layers), so a local fault is not averaged
         # away by its neighbours. Built after everything else, so nothing else's
         # initialisation moves.
@@ -88,7 +88,7 @@ class AdaDiag(nn.Module):
         if self.descriptor not in ("full", "emb", "counts"):
             raise ValueError(f"unknown descriptor {self.descriptor!r}")
 
-        # README section 6.15. Building a learned module draws from torch's random stream
+        # v1.22 README section 6.15. Building a learned module draws from torch's random stream
         # (its MLP initialisation), which shifts every later draw -- the encoders' dropout
         # masks -- relative to an arm without one. `isolate_weighting_rng` rewinds the stream
         # afterwards, so every arm trains with the same dropout masks for the same seed. Off

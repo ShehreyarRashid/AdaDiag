@@ -1,4 +1,4 @@
-# Exact versions that produced results/ (see results/ENVIRONMENT.md).
+# Exact versions that produced results/.
 #
 # requirements.txt gives lower bounds so the code installs anywhere; this file pins what
 # was actually used, for bit-for-bit reproduction:

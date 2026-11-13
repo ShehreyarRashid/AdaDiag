@@ -48,7 +48,7 @@ class Dataset:
     types: list[str]
     instances: list[str]
     name: str
-    keys: list[str] | None = None    # incident ids in label.csv, row order (README section 6.24)
+    keys: list[str] | None = None    # incident ids in label.csv, row order (v1.22 README section 6.24)
     root_dir: Path | None = None     # data/<name>/, for reading the raw alerts
 
     @property

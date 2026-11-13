@@ -1,4 +1,4 @@
-"""README section 6.24: the switches of a stronger AdaDiag."""
+"""v1.22 README section 6.24: the switches of a stronger AdaDiag."""
 import sys
 from pathlib import Path
 

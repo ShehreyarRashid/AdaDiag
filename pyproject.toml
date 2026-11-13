@@ -4,8 +4,8 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "adadiag"
-version = "1.22.0"
-description = "Adaptive modality x task weighting for multimodal microservice failure diagnosis"
+version = "2.0.0"
+description = "AdaDiag++: adaptive multimodal failure diagnosis for microservices (built on TVDiag)"
 readme = "README.md"
 requires-python = ">=3.10"
 license = {text = "MIT"}
