@@ -48,6 +48,8 @@ class Dataset:
     types: list[str]
     instances: list[str]
     name: str
+    keys: list[str] | None = None    # incident ids in label.csv, row order (README section 6.24)
+    root_dir: Path | None = None     # data/<name>/, for reading the raw alerts
 
     @property
     def n_nodes(self) -> int:
@@ -108,7 +110,7 @@ def load(name: str, repo: str | Path | None = None, strict: bool = True) -> Data
     instance_names = list(next(iter(orderings)))
     n_nodes = len(instance_names)
 
-    X, A, root, ytype, cnt, split = [], [], [], [], [], []
+    X, A, root, ytype, cnt, split, keys = [], [], [], [], [], [], []
     skipped = 0
     for r in rows:
         i = r["index"]
@@ -129,6 +131,7 @@ def load(name: str, repo: str | Path | None = None, strict: bool = True) -> Data
         ytype.append(types.index(r["anomaly_type"]))
         cnt.append([len(alerts[m].get(i, [])) for m in MODALITIES])
         split.append(r["data_type"])
+        keys.append(i)
 
     split = np.asarray(split)
     counts = torch.tensor(np.asarray(cnt, dtype=np.float32))
@@ -142,6 +145,7 @@ def load(name: str, repo: str | Path | None = None, strict: bool = True) -> Data
         X=torch.tensor(np.stack(X)), A=torch.tensor(np.stack(A)),
         root=torch.tensor(root), ytype=torch.tensor(ytype), cnt=counts,
         split=split, types=types, instances=instance_names, name=name,
+        keys=keys, root_dir=root_dir,
     )
     if strict and name in EXPECTED:
         e = EXPECTED[name]

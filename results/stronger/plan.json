@@ -1,0 +1,214 @@
+{
+ "anchor": [
+  "bag"
+ ],
+ "stage_a": {
+  "bag": {
+   "score": 0.006459585189262183,
+   "worst": -0.01282051282051285,
+   "per": {
+    "gaia": [
+     0.02449414270500531,
+     0.004987960770081641
+    ],
+    "sockshop": [
+     0.006915629322268339,
+     0.012317806584027036
+    ],
+    "hotel": [
+     -0.01282051282051285,
+     0.0028624845747036165
+    ]
+   }
+  },
+  "attn": {
+   "score": -0.015278993120569491,
+   "worst": -0.06578011499447307,
+   "per": {
+    "gaia": [
+     0.0003549875754348397,
+     0.002744752750909648
+    ],
+    "sockshop": [
+     0.0,
+     -0.016173071234775554
+    ],
+    "hotel": [
+     -0.012820512820512811,
+     -0.06578011499447307
+    ]
+   }
+  },
+  "selfres": {
+   "score": -0.007981676822323827,
+   "worst": -0.0707577377991691,
+   "per": {
+    "gaia": [
+     0.020944266950656692,
+     0.00035049579079456567
+    ],
+    "sockshop": [
+     0.0013831258644536974,
+     0.00018978825932118118
+    ],
+    "hotel": [
+     0.0,
+     -0.0707577377991691
+    ]
+   }
+  },
+  "ema": {
+   "score": -0.0018455143548458182,
+   "worst": -0.005805743390237539,
+   "per": {
+    "gaia": [
+     -0.00035498757543487674,
+     0.002228905289667238
+    ],
+    "sockshop": [
+     -0.004149377593360981,
+     0.0012816214137955455
+    ],
+    "hotel": [
+     -0.004273504273504296,
+     -0.005805743390237539
+    ]
+   }
+  }
+ },
+ "written_b": "2026-11-10T14:48:53",
+ "kept_b": [
+  "root",
+  "neigh"
+ ],
+ "stage_b": {
+  "attn": {
+   "score": -0.023154524023286965,
+   "worst": -0.06312141360372099,
+   "per": {
+    "gaia": [
+     -0.02591409300674478,
+     -0.010193651168614407
+    ],
+    "sockshop": [
+     -0.03734439834024894,
+     0.0019199162531116087
+    ],
+    "hotel": [
+     -0.004273504273504258,
+     -0.06312141360372099
+    ]
+   }
+  },
+  "selfres": {
+   "score": -0.010064425672489977,
+   "worst": -0.05611783893483827,
+   "per": {
+    "gaia": [
+     0.006389776357827448,
+     -0.002648033652486448
+    ],
+    "sockshop": [
+     -0.008298755186721962,
+     -0.016805719712737737
+    ],
+    "hotel": [
+     0.017094017094017106,
+     -0.05611783893483827
+    ]
+   }
+  },
+  "ema": {
+   "score": -0.0020188117380632313,
+   "worst": -0.009681881051175659,
+   "per": {
+    "gaia": [
+     0.0017749378771743096,
+     -0.0009705500184381913
+    ],
+    "sockshop": [
+     -0.009681881051175659,
+     -0.007737065030620845
+    ],
+    "hotel": [
+     -0.004273504273504258,
+     0.008775192068185259
+    ]
+   }
+  },
+  "root": {
+   "score": 0.008768297507957186,
+   "worst": -0.01347535460337416,
+   "per": {
+    "gaia": [
+     -0.002484913028044026,
+     -0.01347535460337416
+    ],
+    "sockshop": [
+     -0.0027662517289073207,
+     0.03989058338856899
+    ],
+    "hotel": [
+     0.017094017094017144,
+     0.014351703925482498
+    ]
+   }
+  },
+  "neigh": {
+   "score": 0.005642957030704876,
+   "worst": -0.008509371257524156,
+   "per": {
+    "gaia": [
+     -0.008164714235001758,
+     -0.008509371257524156
+    ],
+    "sockshop": [
+     -0.008298755186721999,
+     0.014022779348317083
+    ],
+    "hotel": [
+     0.012820512820512886,
+     0.031987290694647195
+    ]
+   }
+  }
+ },
+ "written_c": "2026-11-10T15:39:05",
+ "stage_c": {
+  "score": -0.008191576051627292,
+  "worst": -0.02994589558944157,
+  "per": {
+   "gaia": [
+    -0.024849130280440185,
+    -0.02994589558944157
+   ],
+   "sockshop": [
+    -0.0055325034578146415,
+    0.03768020970233225
+   ],
+   "hotel": [
+    -0.004273504273504221,
+    -0.022228632410895382
+   ]
+  }
+ },
+ "final": [
+  "bag",
+  "root"
+ ],
+ "written_final": "2026-11-10T15:47:25",
+ "rule2": "Round 2, added after round 1's confirmation (seeds 15-19) left two cells below AdaDiag-DL (GAIA F1 -0.009, Hotel HR@1 -0.008). The selection criterion changes from the mean score to balance, because the goal is to improve every dataset. One new candidate is screened on the development seeds 0-2: bag+rootd (the root readout with its softmax detached, so the FTI loss cannot reshape the RCL ranking). Eligible: every variant with bag screened on the development seeds (bag, bag+attn, bag+selfres, bag+ema, bag+root, bag+neigh, bag+root+neigh, bag+rootd). For each, the six development-seed differences against AdaDiag-DL (HR@1 and F1 x 3 datasets) are computed; among those with a score of at least +0.005, the winner is the one whose smallest difference is largest. It is confirmed on fresh seeds 20-24, never used before, against AdaDiag-DL and TVDiag as released, with round 1's final change alongside.",
+ "written_rule2": "2026-11-10T16:40:47",
+ "final2": [
+  "bag",
+  "neigh"
+ ],
+ "written_final2": "2026-11-10T16:50:23",
+ "rule3": "Round 3, the last, added after both rounds' changes were run on seeds 5-9: there AdaDiag-DL with Eq. 13's learnable theta (section 6.19) scores as high as round 1's change, and higher than AdaDiag-DL on all six cells, while theta acts on the loss weights rather than the features. Screened on the development seeds 0-2: theta alone, bag+theta, bag+root+theta and bag+neigh+theta. Eligible: these four and every variant eligible in round 2. Selection as round 2: among variants with a score of at least +0.005 against AdaDiag-DL, the one whose smallest of the six differences is largest. Confirmed on fresh seeds 25-29, never used before, against AdaDiag-DL and TVDiag as released. Whatever round 3 yields is reported; there is no round 4.",
+ "written_rule3": "2026-11-10T18:32:55",
+ "final3": [
+  "bag",
+  "theta"
+ ],
+ "written_final3": "2026-11-10T19:55:41"
+}

@@ -102,6 +102,35 @@ benchmarks, it cannot.
 >     was. With AdaDiag-DL it reaches Sock Shop F1 0.619, against the paper's 0.636 and the
 >     released re-run's 0.563, at the cost of GAIA's rare types. RCL appears limited by the
 >     released features.
+> 17. **TVDiag's own code, run unchanged** (§6.22). It needed three workarounds from outside
+>     its files: two modules that were never committed, a hard-coded `.cuda()`, and an
+>     unguarded division. With them, its default seed reproduces the authors' own logged
+>     GAIA run exactly. Those committed logs contain the paper's TVDiag rows (20 of 21
+>     values), so the paper reports single runs. Over five seeds the code matches this
+>     repository's re-implementation on every metric, and its FTI is well below the
+>     published values on Sock Shop and Hotel.
+> 18. **What a stronger encoder would have to fix** (§6.23). Removing every edge costs HR@1
+>     on GAIA (−0.067) and Hotel (−0.043) and nothing on Sock Shop. The graph helps faults
+>     that spread (Hotel network-delay) and can hurt local ones (GAIA access permission).
+>     The remaining errors are mostly network faults and, on GAIA, often guesses where
+>     the symptom shows. A node prior and call direction alone do not fix them. The first
+>     proposal, a self path plus attention over neighbours, was then tested (§6.24) and does
+>     not help; direction-aware aggregation is not tested.
+> 19. **A stronger AdaDiag** (§6.24). TVDiag's node features average each instance's alert
+>     embeddings, which loses which alerts fired and how often. Counting them back from the
+>     released raw alerts is the lever. Three pre-registered rounds, each confirmed on unused
+>     seeds, give **AdaDiag+**: AdaDiag-DL + alert-type counts + Eq. 13's learnable weights.
+>     Over ten fresh seeds against AdaDiag-DL, F1 rises on all three datasets (+0.007,
+>     +0.051†, +0.035) and HR@1 on GAIA and Hotel (+0.008, +0.009); Sock Shop HR@1 is
+>     −0.008. Against TVDiag re-run it is ahead on five of six HR@1 / F1 cells. Attention
+>     over neighbours and a self path did not help.
+> 20. **AdaDiag++** (§6.25). A fourth pre-registered round against AdaDiag+: label smoothing,
+>     dropout on the counts and a wide head reading the counts all failed the rule; an
+>     ensemble of three AdaDiag+ models that differ only in their seed passed it. Over ten
+>     fresh seeds it is above AdaDiag+ on every HR@1 / F1 cell (GAIA +0.008 / +0.004†,
+>     Sock Shop +0.011† / +0.024†, Hotel +0.005 / +0.027†) and above TVDiag re-run on every
+>     cell, significantly on five. It recovers the Sock Shop HR@1 that AdaDiag+ had lost.
+>     The price is three training runs and three forward passes per diagnosis.
 >
 > The contribution of this repository is that diagnosis, reproducibly — a negative result
 > with a mechanism, rather than an unexplained flat table.
@@ -223,8 +252,12 @@ forward path that produces predictions, so AdaDiag adds **zero inference cost**.
 | — | What the TVDiag paper specifies and its code does not do, as switches (§6.19) | `src/adadiag/config.py`, `scripts/make_paper_features_report.py` | `PAPER`, `to_term()`, `make_batch_union()` |
 | — | The paper's Tables 8–9: inter-task affinity (Eq. 17, and as TVDiag computes it) and efficiency (§6.20) | `src/adadiag/affinity.py`, `scripts/run_tables_8_9.py` | `task_affinity()` |
 | — | Improving RCL and FTI: eight switches, screened then confirmed on fresh seeds (§6.21) | `scripts/improve.py`, `scripts/make_improve_report.py`, `src/adadiag/model.py`, `src/adadiag/augment.py` | `CANDIDATES`, `RULE`, `rcl_context`, `fti_readout`, `drop_modality()`, `fti_class_weights()` |
+| — | TVDiag's released code, run unchanged (§6.22) | `scripts/run_tvdiag_official.py` | `setup()`, `run_main()`, `run_seeds()` |
+| — | Encoder diagnostics (§6.23) | `scripts/encoder_pilot.py`, `scripts/encoder_diagnose.py`; `no_edges` in `src/adadiag/model.py` | `trace_rule()`, `errors()` |
+| — | A stronger AdaDiag (§6.24): alert-type counts, screened switches, three pre-registered rounds | `src/adadiag/alerts.py`; `scripts/stronger.py`, `scripts/feature_probe.py`, `scripts/make_stronger_report.py`; switches in `model.py`, `encoders.py`, `train.py` | `with_alert_bag()`, `run()`, `decide2()`, `decide3()` |
+| — | AdaDiag++ (§6.25): round 4, three AdaDiag+ models averaged | `src/adadiag/ensemble.py`; `scripts/plus2.py`, `scripts/make_plus2_report.py`; switches `fti_smooth`, `bag_drop`, `bag_head` in `train.py`, `model.py` | `predict()`, `ensemble()`, `decide()` |
 | — | Re-run committed experiments, compare to results/ | `scripts/verify_results.py` | `main()` |
-| — | Tests (100; 87 need no data, 13 use data/) | `tests/test_supcon_equivalence.py`, `tests/test_weighting_identifiability.py`, `tests/test_ablation_switches.py`, `tests/test_paper_compare.py`, `tests/test_trace_weight.py`, `tests/test_fidelity.py`, `tests/test_oracle.py`, `tests/test_cl_variants.py`, `tests/test_fixed_trace.py`, `tests/test_controlled.py`, `tests/test_lstm_aggregator.py`, `tests/test_paper_features.py`, `tests/test_affinity.py`, `tests/test_improve.py`, `tests/test_data_integrity.py` | `pytest -q` |
+| — | Tests (117; 102 need no data, 15 use data/) | `tests/test_supcon_equivalence.py`, `tests/test_weighting_identifiability.py`, `tests/test_ablation_switches.py`, `tests/test_paper_compare.py`, `tests/test_trace_weight.py`, `tests/test_fidelity.py`, `tests/test_oracle.py`, `tests/test_cl_variants.py`, `tests/test_fixed_trace.py`, `tests/test_controlled.py`, `tests/test_lstm_aggregator.py`, `tests/test_paper_features.py`, `tests/test_affinity.py`, `tests/test_improve.py`, `tests/test_tvdiag_official.py`, `tests/test_encoder.py`, `tests/test_stronger.py`, `tests/test_plus2.py`, `tests/test_data_integrity.py` | `pytest -q` |
 
 Model assembly lives in `src/adadiag/model.py`; the runnable entry points are in `scripts/`.
 
@@ -291,7 +324,7 @@ Per dataset the loader reads `data/<ds>/tmp/{metric,trace,log}.pkl` (embeddings)
 git clone https://github.com/ShehreyarRashid/AdaDiag.git && cd AdaDiag
 pip install -r requirements.txt            # or: conda env create -f environment.yml
 
-pytest -q                                  # 100 tests, incl. checksums of data/; run first
+pytest -q                                  # 117 tests, incl. checksums of data/; run first
 
 # the five-arm, five-seed sweep (2 CPU cores, no GPU: ~16 min Hotel, ~34 min GAIA)
 python scripts/run_sweep.py       --dataset gaia
@@ -388,6 +421,34 @@ python scripts/improve.py --stage combine                       # writes PLAN.md
 python scripts/improve.py --stage screen  --dataset gaia --variants combination
 python scripts/improve.py --stage confirm --dataset gaia        # fresh seeds 10-14
 python scripts/make_improve_report.py
+
+# TVDiag's released code, run unchanged (§6.22): its own environment, ~15 min on 2 cores
+git clone https://github.com/WHU-AISE/TVDiag.git && uv venv -p python3.11 tvenv
+uv pip install --python tvenv/bin/python -r results/tvdiag_official/requirements-tvdiag.txt
+tvenv/bin/python scripts/run_tvdiag_official.py --repo TVDiag --mode main
+tvenv/bin/python scripts/run_tvdiag_official.py --repo TVDiag --mode seeds --seeds 2,5,6,7,8,9
+
+# encoder diagnostics (§6.23): TVDiag without edges on dev seeds 0-2 (~25 min), evidence, errors
+python scripts/encoder_pilot.py --dataset hotel        # also gaia, sockshop
+python scripts/encoder_diagnose.py --part evidence     # no training, seconds
+python scripts/encoder_diagnose.py --part errors --dataset hotel
+
+# a stronger AdaDiag (§6.24): probe in seconds; each round ~1-2 h on 2 cores
+python scripts/feature_probe.py
+python scripts/stronger.py --stage rule                     # writes the rule before any run
+python scripts/stronger.py --stage A --dataset gaia         # and sockshop, hotel
+python scripts/stronger.py --stage plan-b                   # then B, plan-c, C, decide
+python scripts/stronger.py --stage confirm --dataset gaia   # fresh seeds 15-19
+# rounds 2 and 3: rule2, screen2, decide2, confirm2 (20-24); rule3, screen3, decide3, confirm3 (25-29)
+python scripts/stronger.py --stage seeds5-9 --dataset gaia  # the tables' seeds
+python scripts/make_stronger_report.py
+
+# AdaDiag++ (§6.25): start two copies of a stage to use two cores; ~7 h in all on 2 cores
+python scripts/plus2.py --stage rule                        # writes the rule before any run
+python scripts/plus2.py --stage S                           # then decide-s, E, decide
+python scripts/plus2.py --stage confirm                     # fresh seeds 30-34
+python scripts/plus2.py --stage seeds5-9                    # the tables' seeds
+python scripts/make_plus2_report.py
 ```
 
 **CPU only. No GPU, no CUDA, and no DGL.** The incident graphs have 10–21 nodes, so the
@@ -1740,10 +1801,340 @@ HR@1 / F1, mean over seeds 10–14.
 
 ![Improving RCL and FTI](results/improve/fig_improve.png)
 
+### 6.22 TVDiag's released code, run unchanged
+
+The authors' repository ([WHU-AISE/TVDiag](https://github.com/WHU-AISE/TVDiag), commit
+`cf6f334`, 28 April 2025) was run with its own data by `scripts/run_tvdiag_official.py`. The
+environment follows its README: PyTorch 2.1.1 and DGL 2.1.0, with Python 3.11 because 3.8 is
+not available here, on a CPU. The pinned packages are in
+[`results/tvdiag_official/requirements-tvdiag.txt`](results/tvdiag_official/requirements-tvdiag.txt).
+
+No source file was edited. The only tracked files that changed are the two logs `main.py`
+writes, which were restored afterwards. Three things stop it running as published, and each
+was worked around from outside its files:
+1. **It does not import.** `core/model/Encoder.py` imports `core.model.backbone.tag` and
+   `.SGC`, which have never been in the repository. Both classes are used only in
+   commented-out code, so empty placeholders are registered.
+2. **It needs a GPU.** `UnsupervisedContrastiveLoss` calls `.cuda()`; it is redirected to
+   the CPU.
+3. **It can crash.** `helper/eval.py`'s `FTI_eval` divides by precision + recall without a
+   guard. On GAIA seed 8 it raised `ZeroDivisionError` on a training batch, in a metric that
+   feeds only TensorBoard. That seed was re-run with a guarded copy of the function, which
+   leaves training unchanged (`failures_a.json`).
+
+Two dependency substitutions were also needed. fastText 0.9.2 does not build here, so
+`fasttext-wheel` 0.9.2, the same library, is used; this code path imports it but never calls
+it. DGL 2.1 also needs `torchdata` 0.7.1, which the README does not list.
+
+`main.py` was run as released (GAIA and Sock Shop, seed 2). Its functions were then called
+with seeds 5–9 and for Hotel; that loop reproduces `main.py`'s seed 2 exactly. HR@1 / F1:
+
+| dataset | published | released code, seed 2 (`main.py`) | released code, seeds 5–9 | this repository's TVDiag, seeds 5–9 |
+|---|---|---|---|---|
+| A · GAIA | 0.759 / 0.936 | **0.759 / 0.936** | 0.740 ± 0.021 / 0.933 ± 0.005 | 0.738 ± 0.016 / 0.921 ± 0.017 |
+| C · Sock Shop | 0.863 / 0.636 | 0.867 / 0.635 | 0.876 ± 0.010 / 0.543 ± 0.029 | 0.869 ± 0.019 / 0.554 ± 0.018 |
+| D · Hotel | 0.821 / 0.822 | 0.821 / 0.798 | 0.833 ± 0.013 / 0.742 ± 0.095 | 0.818 ± 0.017 / 0.783 ± 0.057 |
+
+1. **The published TVDiag rows are single runs.** The repository ships the authors' own
+   logs of `main.py`: GPU, March and April 2025, seed 2, copied to
+   [`results/tvdiag_official/authors_logs/`](results/tvdiag_official/authors_logs/). Their
+   final lines are the paper's TVDiag rows in Tables 4–5. 20 of the 21 values match to three
+   decimals; the last, Hotel MRR@3, differs by 0.001. Run here on a CPU at the same seed, the
+   code reproduces the authors' GAIA run exactly, all nine logged values. Sock Shop matches
+   to within one test incident. Hotel uses dropout, whose random masks differ between GPU
+   and CPU.
+2. **Seed 2 is a favourable seed for FTI.** Over seeds 5–9 the released code's F1 is well
+   below the published values on Sock Shop (0.543 against 0.636) and Hotel (0.742 against
+   0.822). Its Sock Shop F1 at seed 2 is 3.2 standard deviations above its five-seed mean.
+   HR@1 is close to, or above, the published values.
+3. **This repository's re-implementation matches the released code.** No HR@1 or F1
+   difference on any dataset (Welch t-test, p 0.14–0.87). So the gaps to the paper in §6.1,
+   §6.9 and §6.16 are explained by the paper's single seed rather than by the
+   re-implementation.
+
+The released code's row is in both paper-format tables (`results/paper_tables/tables.pdf`
+and `multimodal/tables_mm.pdf`); runs and logs are in `results/tvdiag_official/`.
+
+### 6.23 What a stronger encoder would have to fix
+
+Before proposing a new encoder, three checks of the current one (TVDiag's two-layer
+GraphSAGE, mean aggregator), all on the development seeds 0–2 and settings of §6.21:
+`scripts/encoder_pilot.py` (TVDiag with every edge removed, `no_edges`) and
+`scripts/encoder_diagnose.py` (where the evidence and the errors are). Results in
+`results/encoder/`. Nothing here changes AdaDiag.
+
+**1. How much does the encoder use the graph?** HR@1 / F1, TVDiag with and without edges:
+
+| dataset | with edges | no edges | HR@1 difference | F1 difference |
+|---|---|---|---|---|
+| A · GAIA | 0.726 / 0.924 | 0.660 / 0.920 | **−0.067** (0 of 3 seeds better, p 0.01) | −0.004 |
+| C · Sock Shop | 0.859 / 0.572 | 0.863 / 0.582 | +0.004 (2 of 3) | +0.010 |
+| D · Hotel | 0.833 / 0.790 | 0.791 / 0.744 | −0.043 (0 of 3, p 0.06) | −0.046 (0 of 3) |
+
+The graph helps faults that spread and can hurt faults that stay local. Without edges, HR@1
+falls for GAIA login failure (0.82 → 0.70), Hotel network-delay (0.36 → 0.19) and Hotel
+network-loss (0.69 → 0.62). It rises for GAIA access-permission denied (0.09 → 0.47, 15
+incidents). Sock Shop's classes all move by 0.05 or less, so there the graph adds nothing.
+
+**2. Where are the remaining errors?** Network faults are all of Hotel's RCL errors and 65%
+of Sock Shop's; on GAIA, memory anomalies (57%) and login failure (32%). The graphs are
+dense: Hotel's mean degree is 9.3 of 18 instances, and every wrong guess on Hotel and GAIA
+is within two hops of the root. A wrong guess is the root's direct neighbour more often than
+chance only on Sock Shop (0.58–0.73 against 0.42–0.44). On GAIA the most frequent wrong
+guesses are where the symptom shows: the other replica of the same service (login failure,
+mobservice2 → mobservice1) or the entry service (memory anomalies, → webservice1). The eight
+most frequent pairs are 31% of GAIA's errors on seed 0.
+
+**3. What is not the problem.**
+- *A missing node prior.* 10 of Hotel's 18 instances and 7 of Sock Shop's 21 are never a
+  root in training. TVDiag never ranks them first anyway; masking them changes HR@1 by 0.000.
+- *Call direction alone.* Trace alerts are records of calls (caller, callee, PD/500/ERROR),
+  so direction can be recovered on Sock Shop and Hotel, whose released edges are symmetric.
+  A fixed rule, "the instance that receives anomalous calls but makes none", finds the root
+  with test HR@1 0.05 (GAIA), 0.24 (Sock Shop) and 0.12 (Hotel). Direction is a useful
+  input at most, not the answer.
+- *Capacity.* The LSTM aggregator (§6.18) and Algorithm 1's normalisation (§6.19) did not
+  help, and the neighbour contrast of §6.21 raised F1 but not HR@1.
+
+**4. Headroom.** Choosing, per failure type, the better of the two encoders above (a bound
+read from test labels) gains only +0.008 / +0.018 / 0.000 HR@1. So an encoder that merely
+switches the graph on or off per fault cannot do much; it has to decide per instance and
+per incident how much to listen to which neighbour.
+
+**What follows for a stronger encoder** (proposed, not run):
+1. *Keep a self path next to the graph path, and attend over neighbours.* Concatenate each
+   instance's own, un-propagated embedding with its graph embedding, and replace the mean
+   aggregator with attention, so an instance can weigh one anomalous neighbour above many
+   normal ones. It targets the two patterns above: local faults hurt by mixing, and errors
+   on neighbours in a dense graph. Small cost.
+2. *Direction-aware aggregation* (separate weights for in- and out-neighbours), on GAIA
+   directly and on Sock Shop and Hotel from the call direction in their trace alerts. It
+   targets the symptom-side guesses on GAIA, where making edges two-way already cost HR@1
+   (−0.024, §6.19).
+3. *Not recommended:* more layers (two already reach almost every instance), a graph transformer
+   (122–248 training incidents), or a learned node prior (no effect, above).
+
+Any of these would be screened and confirmed as in §6.21: a rule fixed on the development
+seeds, then fresh seeds against TVDiag and AdaDiag-DL, with HR@1 per network-fault class and
+training cost reported. §6.24 runs the first proposal: neither attention nor the self path
+helps, and the gain comes from the node features instead.
+
+### 6.24 A stronger AdaDiag
+
+**What limits it.** TVDiag's node features are DiagFusion's: each instance's events are
+embedded with fastText and *averaged* (DiagFusion, IEEE TSC 2023, Eq. 2). An average keeps the
+mix of events. It loses how many there were and, once several alert types share an instance,
+which ones. The raw alerts behind the embeddings ship with the data as short records, so
+`src/adadiag/alerts.py` counts them back. It produces one count per instance and alert type:
+- metrics, by name and direction;
+- traces, by status (PD, 500, 400, ERROR), split into calls received, calls made, and calls
+  to itself;
+- logs, by template.
+
+The vocabulary comes from the training incidents only. Counts are log1p-scaled to [0, 1] on
+the training split and appended to the 128-d embeddings (`alert_bag=True`). A simple probe
+(`scripts/feature_probe.py`, linear models, no graph, no tuning) shows the counts carry what
+the averages lose:
+
+| probe | A · GAIA | C · Sock Shop | D · Hotel |
+|---|---|---|---|
+| FTI F1, embeddings → embeddings + counts | 0.931 → 0.948 | 0.505 → 0.525 | 0.738 → 0.857 |
+| RCL HR@1, embeddings → embeddings + counts | 0.685 → 0.738 | 0.763 → 0.822 | 0.821 → 0.821 |
+| FTI F1 read at the true root (counts, random forest) | 0.872 | 0.712 | 0.824 |
+
+The last row is why reading the failure type off the likely culprit (`fti_readout="root_attn"`,
+§6.21) is a candidate: on Sock Shop, the root's own counts identify the type far better than
+the whole incident does (0.712 against 0.525).
+
+**Candidates and protocol** (`scripts/stronger.py`). The base is AdaDiag-DL, and there are six
+candidate switches, all off by default:
+- `bag`: the alert-type counts;
+- `attn`: GATv2-style attention over neighbours (Brody et al., ICLR 2022);
+- `selfres`: a linear skip from each instance's own features;
+- `ema`: evaluate a moving average of the weights, because TVDiag stops on the training loss;
+- `root`: the root readout;
+- `neigh`: the neighbour contrast of §6.21.
+
+Each round's rule was written to [`results/stronger/PLAN.md`](results/stronger/PLAN.md),
+timestamped, before its runs. Screening used the development seeds 0–2; each round's
+choice was confirmed on five fresh seeds never used before. A variant's score is the mean over
+the three datasets of (ΔHR@1 + ΔF1)/2 against its reference. The settings are those of §6.17.
+
+**Round 1 (score rule).**
+- Stage A tried each candidate alone. Only `bag` was kept (+0.0065). Attention, the self path
+  and weight averaging all failed, the first two by costing Hotel F1 (−0.066 and −0.071).
+  The encoder ideas of §6.23 do not help.
+- Stage B added each other candidate to `bag`. `root` (+0.0088) and `neigh` (+0.0056) were
+  kept. Together they scored worse, so round 1's change is **`bag+root`**.
+- On fresh seeds 15–19 against AdaDiag-DL:
+  - GAIA HR@1 rose by +0.019 (5 of 5 seeds, p 0.01), and Sock Shop F1 by +0.043 (5 of 5,
+    survives Holm).
+  - Hotel F1 rose by +0.013, but GAIA F1 fell by −0.009 and Hotel HR@1 by −0.008 (0 of 5).
+
+**Round 2 (balance rule).** Two cells had fallen, so a second round changed the criterion,
+before its runs, to the one the goal asks for. The pick is the variant whose smallest of the
+six development-seed differences against AdaDiag-DL is largest, among those scoring at least
++0.005. One new candidate was screened: the root readout with its softmax detached
+(`root_detach`). The rule picked **`bag+neigh`** (smallest difference −0.004). On fresh seeds
+20–24 against AdaDiag-DL it was +0.005 / −0.005 (GAIA HR@1 / F1), +0.003 / +0.011
+(Sock Shop) and −0.013 / +0.041 (Hotel); none of these is significant.
+
+**Round 3 (balance rule, the last).**
+- *Why it was added.* Both rounds' changes were run on seeds 5–9, the seeds of the
+  paper-format tables. There, AdaDiag-DL with Eq. 13's learnable θ (§6.19) scored as well as
+  round 1's change. θ acts on the loss weights rather than the features, so round 3 combined
+  the two.
+- *What was screened.* θ alone, `bag+θ`, `bag+root+θ` and `bag+neigh+θ`, with round 2's rule.
+- *The pick.* **`bag+θ`**, the only variant with no negative development-seed difference.
+  Its smallest difference is 0.000 and its score, +0.019, is the highest.
+- *Confirmation.* Fresh seeds 25–29. The runs were interrupted once by a time limit and
+  resumed; every run is deterministic by seed.
+
+This is **AdaDiag+**: AdaDiag-DL with `alert_bag=True` and `awl_learnable=True`.
+
+**All fresh seeds together.** The table pairs each change with the same seeds, HR@1 / F1:
+- AdaDiag+ has 10 seeds (5–9 and 25–29);
+- round 1's change has 15 (5–9, 15–19, 20–24);
+- round 2's has 10 (5–9, 20–24).
+
+Seeds 5–9 shaped which candidates round 3 tried, but not the choice among them. So the clean
+test of AdaDiag+ is seeds 25–29 alone; it points the same way on every cell except Sock Shop
+HR@1.
+
+| comparison (paired, same seeds) | A · GAIA | C · Sock Shop | D · Hotel |
+|---|---|---|---|
+| **AdaDiag+ − AdaDiag-DL** (10 seeds) | +0.008 / +0.007 | −0.008 / **+0.051**† | +0.009 / **+0.035** |
+| **AdaDiag+ − TVDiag re-run** (10 seeds) | **+0.020**† / **+0.019**† | −0.004 / **+0.064**† | +0.003 / **+0.041**† |
+| round 1 (`bag+root`) − AdaDiag-DL (15 seeds) | **+0.017**† / **−0.013**† | +0.003 / **+0.046**† | −0.006 / +0.019 |
+| round 2 (`bag+neigh`) − AdaDiag-DL (10 seeds) | +0.003 / −0.002 | −0.001 / +0.021 | −0.001 / +0.035 |
+
+**Bold**: p < 0.05 (paired t-test, uncorrected); †: survives Holm over the six cells of its
+row. Means over the ten seeds, HR@1 / F1:
+
+| method | A · GAIA | C · Sock Shop | D · Hotel |
+|---|---|---|---|
+| TVDiag, published (one run, seed 2) | 0.759 / 0.936 | 0.863 / 0.636 | 0.821 / 0.822 |
+| TVDiag, re-run | 0.736 / 0.923 | 0.870 / 0.561 | 0.827 / 0.784 |
+| AdaDiag-DL | 0.748 / 0.935 | 0.874 / 0.573 | 0.821 / 0.791 |
+| **AdaDiag+** | **0.756 / 0.942** | 0.866 / 0.625 | **0.829 / 0.825** |
+
+Full tables, per-class results and the figure are in
+[`results/stronger/STRONGER.md`](results/stronger/STRONGER.md). AdaDiag+ is the "AdaDiag
+(best)" row of both paper-format tables now. It has the highest mean of HR@1 and F1 on seeds
+5–9 among the eight AdaDiag configurations run on fresh seeds (0.808, against 0.805 for
+AdaDiag-DL-θ).
+
+What this shows:
+1. **The lever is the node features, not the encoder.** Counting alerts back gives the
+   largest and most consistent gains. Every variant that won a round contains them, and
+   neither attention nor the self path ever met a round's rule.
+2. **AdaDiag+ improves FTI on all three datasets** against AdaDiag-DL: F1 +0.007, +0.051 and
+   +0.035. It also improves RCL on GAIA and Hotel (+0.008, +0.009 HR@1).
+   - Against TVDiag re-run under identical conditions, it is ahead on five of the six
+     HR@1 / F1 cells, four of them after Holm correction.
+   - Against TVDiag's *published* single runs, it is ahead on GAIA F1 and on both Hotel
+     metrics. It is close on GAIA HR@1 (0.756 against 0.759) and below on Sock Shop F1
+     (0.625 against 0.636; the released code's own five-seed mean is 0.543, §6.22).
+3. **Not every metric improved.**
+   - Sock Shop HR@1 is lower by 0.008 (2 of 10 seeds better; p 0.04 uncorrected, not
+     significant after Holm). That is about two of its 241 test incidents.
+   - Hotel's network-delay class stays at HR@1 0.33. No change in any round moved it (§6.23).
+   - Of the earlier rounds' changes, round 1's buys GAIA RCL at a significant cost to GAIA F1.
+     Round 2's is the most even, but small.
+4. **The cost is training time.** θ lengthens training: 1.5× AdaDiag-DL's wall time on GAIA
+   and Hotel, 1.9× on Sock Shop (seeds 25–29). Inference is unchanged, apart from the wider
+   input.
+5. **The selection criterion changed after round 1.** That was a choice made after seeing
+   results. It is recorded in `PLAN.md` with its reason, and each round was confirmed on seeds
+   no earlier round had touched. Five-seed confirmations resolve differences of about ±0.01;
+   Hotel's 78 test incidents make one incident 0.013 of HR@1.
+
+### 6.25 AdaDiag++: improving AdaDiag+
+
+![AdaDiag++ architecture](docs/figures/architecture.png)
+
+**Where AdaDiag+ stood.** It has 122–248 training incidents per dataset, and its
+seed-to-seed spread is as large as the gains of §6.24: Sock Shop F1 has a standard deviation
+of about 0.02 and Hotel F1 about 0.02. It also lost 0.008 HR@1 on Sock Shop. Both point at
+variance, so round 4 tried three regularisers and one variance reducer
+(`scripts/plus2.py`), each at one setting fixed in advance:
+- `smooth`: label smoothing 0.1 on the FTI loss (`fti_smooth`);
+- `bagdrop`: dropout 0.2 on the alert-type count columns during training (`bag_drop`);
+- `baghead`: both heads also read the raw counts, a wide path beside the graph encoders
+  (`bag_head`);
+- `ens3`: three models that differ only in their seed (s, s + 100, s + 200), with their
+  softmax outputs averaged for RCL and for FTI (`src/adadiag/ensemble.py`).
+
+**Protocol.** As §6.24: the rule was written to
+[`results/plus2/PLAN.md`](results/plus2/PLAN.md), timestamped, before any run. The reference
+is AdaDiag+ on the development seeds 0–2. A variant passes with a mean of its six differences
+(HR@1 and F1 × 3 datasets) of at least +0.005 and no difference below −0.010. Every run
+stores its test logits, so ensembles are computed from finished runs.
+
+**Screen (development seeds).**
+
+| variant against AdaDiag+ | A · GAIA ΔHR@1 / ΔF1 | C · Sock Shop | D · Hotel | score | passes |
+|---|---|---|---|---|---|
+| + `smooth` | −0.008 / +0.006 | +0.004 / +0.012 | +0.004 / −0.032 | −0.002 | no |
+| + `bagdrop` | −0.005 / −0.004 | +0.011 / +0.020 | +0.004 / +0.002 | +0.005 | no (score +0.0048) |
+| + `baghead` | −0.016 / −0.009 | −0.004 / +0.011 | +0.009 / +0.027 | +0.003 | no |
+| `ens3` of AdaDiag+ | −0.001 / +0.000 | +0.001 / +0.034 | +0.009 / −0.009 | +0.006 | yes |
+
+No single change passed, so the single model stays AdaDiag+. The ensemble passed, narrowly.
+The final configuration, **AdaDiag++**, is three AdaDiag+ models averaged.
+
+**Confirmation.** Fresh seeds 30–34, never used before, and the tables' seeds 5–9 (AdaDiag+
+re-run there reproduces §6.24's numbers exactly). Means over the ten seeds, HR@1 / F1:
+
+| method | A · GAIA | C · Sock Shop | D · Hotel |
+|---|---|---|---|
+| TVDiag, published (one run, seed 2) | 0.759 / 0.936 | 0.863 / 0.636 | 0.821 / 0.822 |
+| TVDiag, re-run | 0.738 / 0.921 | 0.869 / 0.552 | 0.821 / 0.781 |
+| AdaDiag-DL | 0.750 / 0.937 | 0.869 / 0.571 | 0.817 / 0.797 |
+| AdaDiag+ | 0.759 / 0.944 | 0.860 / 0.624 | 0.836 / 0.833 |
+| **AdaDiag++** | **0.767 / 0.948** | **0.871 / 0.648** | **0.841 / 0.860** |
+
+Paired differences over the same ten seeds, HR@1 / F1:
+
+| comparison | A · GAIA | C · Sock Shop | D · Hotel |
+|---|---|---|---|
+| **AdaDiag++ − AdaDiag+** | **+0.008** / **+0.004**† | **+0.011**† / **+0.024**† | +0.005 / **+0.027**† |
+| AdaDiag++ − AdaDiag-DL | **+0.017**† / **+0.011**† | +0.002 / **+0.076**† | **+0.024**† / **+0.062**† |
+| AdaDiag++ − TVDiag re-run | **+0.029**† / **+0.026**† | +0.002 / **+0.096**† | **+0.021**† / **+0.078**† |
+| AdaDiag++ − TVDiag × 3 (seeds 30–34 only) | +0.012 / **+0.022** | −0.002 / **+0.054**† | +0.005 / **+0.025** |
+
+**Bold**: p < 0.05 (paired t-test, uncorrected); †: survives Holm over the six cells of its
+row. Full tables, per-class results and the figure are in
+[`results/plus2/PLUS2.md`](results/plus2/PLUS2.md). AdaDiag++ is the "AdaDiag (best)" row of
+the paper-format tables now.
+
+What this shows:
+1. **AdaDiag++ is above AdaDiag+ on all six cells**, five of them with p < 0.05 and four
+   after Holm. On the fresh seeds 30–34 alone the signs agree on five cells; Hotel HR@1 is
+   −0.003 there and +0.013 on seeds 5–9, so that cell is a tie.
+2. **It recovers what AdaDiag+ lost.** Sock Shop HR@1 is back at TVDiag's level
+   (0.871 against 0.869), with F1 0.096 higher.
+3. **Against TVDiag's published single runs, the ten-seed means are higher on all six
+   cells.** The margins on GAIA HR@1 (+0.008) and on Sock Shop (+0.008 / +0.012) are no
+   larger than about one standard deviation of the seeds, and the published values are
+   single runs, so these are not claims of a significant difference.
+4. **Part of the gain is the ensemble itself, not AdaDiag.** Averaging three TVDiag models
+   (the control) also helps TVDiag: +0.016 / +0.005 on GAIA, +0.004 / +0.036 on Sock Shop,
+   +0.010 / +0.053 on Hotel. Against that control, AdaDiag++ keeps an F1 lead on all three
+   datasets (+0.022, +0.054†, +0.025) and ties on HR@1.
+5. **Cost.** Three training runs and three forward passes per diagnosis. An exploratory
+   check after the confirmation shows two members already give most of the gain
+   (`PLUS2.md`, "Ensemble size").
+6. **What did not help.** Label smoothing cost Hotel F1, the wide head cost GAIA, and count
+   dropout missed the threshold by 0.0002. Count dropout helped Sock Shop on the
+   development seeds (+0.011 / +0.020) and is the candidate to revisit.
+7. **Unchanged weak spots.** Hotel network-delay HR@1 is 0.37 and GAIA's two rare classes
+   (15 and 13 test incidents) stay near zero on FTI recall.
+
 
 ---
 
-## 7. Five findings about the TVDiag artefact
+## 7. Six findings about the TVDiag artefact
 
 Checkable in minutes, independent of AdaDiag:
 
@@ -1771,6 +2162,11 @@ Checkable in minutes, independent of AdaDiag:
    the FTI loss and then evaluates `model1`, which was stepped on the RCL loss. Computed as
    Eq. 17 defines it, the affinity is zero both ways; the published value is RCL's response
    to its own step (§6.20).
+6. **The released code does not run as published** (§6.22). It fails at import (two modules
+   that were never committed), needs a GPU (a hard-coded `.cuda()`), and can crash on an
+   unguarded division (GAIA, seed 8). With those worked around from outside its files, its
+   default seed reproduces the paper's GAIA row exactly. The logs the repository ships show
+   that the paper's TVDiag rows are single runs at that seed.
 
 ---
 
@@ -1848,6 +2244,22 @@ Checkable in minutes, independent of AdaDiag:
   before the fresh seeds 10–14 were run, but all runs use TVDiag's single test split, so
   the fresh seeds control seed noise, not the choice of split. Only the final change was
   confirmed; a change the rule dropped could still help with a better setting.
+- **AdaDiag+ (§6.24)** came out of three rounds. The balance criterion of rounds 2 and 3
+  was adopted after round 1's confirmation, and round 3's candidates were suggested by
+  results on seeds 5–9. Each round's choice was made on the development seeds and confirmed
+  on seeds no earlier round had used, but the series as a whole is adaptive, so its
+  cleanest evidence is round 3's own seeds 25–29. Every switch was run at one setting (attention:
+  one head, 16-d; moving average: 0.9 per step). The alert-type counts come from the
+  released raw alerts, so they inherit TVDiag's alert extraction. All runs use the single
+  test split.
+- **AdaDiag++ (§6.25)** is a fourth adaptive round on the same test split. Its rule was
+  fixed before its runs and its confirmation seeds (30–34) were unused, but the candidates
+  were chosen knowing AdaDiag+'s weak spots. The TVDiag × 3 control was run on seeds 30–34
+  only. The ensemble-size table is exploratory. Members share the training data and differ
+  only in their seed.
+- **TVDiag's released code (§6.22)** ran under Python 3.11 rather than 3.8.12, on a CPU, with
+  `fasttext-wheel` for fastText. Each run used one thread. On a GPU, runs with dropout (Hotel)
+  would use different random masks, and so would differ.
 - **Tables 8–9 (§6.20)** compare the model only: alert extraction, and so the paper's
   offline and online totals, cannot be re-run, and times are CPU, not GPU. Affinity is
   measured in the first epoch only, as TVDiag measures it. The baseline is the

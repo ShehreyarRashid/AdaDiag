@@ -1,0 +1,11 @@
+  sockshop plus                     s100 HR@1 0.871  F1 0.571  (338 ep, 320s)
+  sockshop plus                     s101 HR@1 0.859  F1 0.678  (273 ep, 258s)
+  sockshop plus                     s102 HR@1 0.851  F1 0.600  (293 ep, 287s)
+  gaia     plus                     s100 HR@1 0.757  F1 0.945  (152 ep, 103s)
+  hotel    plus                     s100 HR@1 0.833  F1 0.852  (303 ep, 124s)
+  hotel    plus                     s200 HR@1 0.821  F1 0.810  (258 ep, 107s)
+  hotel    plus                     s101 HR@1 0.833  F1 0.828  (190 ep, 77s)
+  gaia     plus                     s201 HR@1 0.750  F1 0.937  (374 ep, 238s)
+  hotel    plus                     s102 HR@1 0.821  F1 0.788  (164 ep, 70s)
+  hotel    plus                     s202 HR@1 0.859  F1 0.848  (219 ep, 92s)
+done

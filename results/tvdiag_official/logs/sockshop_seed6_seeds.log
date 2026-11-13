@@ -1,0 +1,1180 @@
+2026-11-04 12:38:24 [INFO]: Load dataset
+2026-11-04 12:38:24 [INFO]: Load raw events from sockshop dataset
+2026-11-04 12:38:24 [INFO]: Build dataset for training
+2026-11-04 12:38:29 [INFO]: Training...
+2026-11-04 12:38:29 [INFO]: Currently using CPU (GPU is highly recommended)
+2026-11-04 12:38:29 [INFO]: dataset: sockshop
+2026-11-04 12:38:29 [INFO]: reconstruct: False
+2026-11-04 12:38:29 [INFO]: log_step: 20
+2026-11-04 12:38:29 [INFO]: gpu_device: 0
+2026-11-04 12:38:29 [INFO]: modalities: ['metric', 'trace', 'log']
+2026-11-04 12:38:29 [INFO]: metric_direction: True
+2026-11-04 12:38:29 [INFO]: trace_op: True
+2026-11-04 12:38:29 [INFO]: trace_ab_type: True
+2026-11-04 12:38:29 [INFO]: aug_percent: 0.4
+2026-11-04 12:38:29 [INFO]: aug_times: 10
+2026-11-04 12:38:29 [INFO]: TO: True
+2026-11-04 12:38:29 [INFO]: CM: True
+2026-11-04 12:38:29 [INFO]: dynamic_weight: True
+2026-11-04 12:38:29 [INFO]: temperature: 0.3
+2026-11-04 12:38:29 [INFO]: contrastive_loss_scale: 0.1
+2026-11-04 12:38:29 [INFO]: batch_size: 128
+2026-11-04 12:38:29 [INFO]: epochs: 500
+2026-11-04 12:38:29 [INFO]: alert_embedding_dim: 128
+2026-11-04 12:38:29 [INFO]: graph_hidden_dim: 64
+2026-11-04 12:38:29 [INFO]: graph_out: 32
+2026-11-04 12:38:29 [INFO]: graph_layers: 2
+2026-11-04 12:38:29 [INFO]: linear_hidden: [64]
+2026-11-04 12:38:29 [INFO]: lr: 0.001
+2026-11-04 12:38:29 [INFO]: weight_decay: 0.0001
+2026-11-04 12:38:29 [INFO]: feat_drop: 0
+2026-11-04 12:38:29 [INFO]: patience: 10
+2026-11-04 12:38:29 [INFO]: ft_num: 7
+2026-11-04 12:38:29 [INFO]: aggregator: mean
+2026-11-04 12:38:29 [INFO]: MainModel(
+  (encoders): ModuleDict(
+    (metric): Encoder(
+      (graph_encoder): SAGEEncoder(
+        (sage_layers): ModuleList(
+          (0): SAGEConv(
+            (feat_drop): Dropout(p=0, inplace=False)
+            (fc_neigh): Linear(in_features=128, out_features=64, bias=False)
+            (fc_self): Linear(in_features=128, out_features=64, bias=False)
+          )
+          (1): SAGEConv(
+            (feat_drop): Dropout(p=0, inplace=False)
+            (fc_neigh): Linear(in_features=64, out_features=32, bias=False)
+            (fc_self): Linear(in_features=64, out_features=32, bias=False)
+          )
+        )
+        (pool): MaxPooling()
+      )
+    )
+    (trace): Encoder(
+      (graph_encoder): SAGEEncoder(
+        (sage_layers): ModuleList(
+          (0): SAGEConv(
+            (feat_drop): Dropout(p=0, inplace=False)
+            (fc_neigh): Linear(in_features=128, out_features=64, bias=False)
+            (fc_self): Linear(in_features=128, out_features=64, bias=False)
+          )
+          (1): SAGEConv(
+            (feat_drop): Dropout(p=0, inplace=False)
+            (fc_neigh): Linear(in_features=64, out_features=32, bias=False)
+            (fc_self): Linear(in_features=64, out_features=32, bias=False)
+          )
+        )
+        (pool): MaxPooling()
+      )
+    )
+    (log): Encoder(
+      (graph_encoder): SAGEEncoder(
+        (sage_layers): ModuleList(
+          (0): SAGEConv(
+            (feat_drop): Dropout(p=0, inplace=False)
+            (fc_neigh): Linear(in_features=128, out_features=64, bias=False)
+            (fc_self): Linear(in_features=128, out_features=64, bias=False)
+          )
+          (1): SAGEConv(
+            (feat_drop): Dropout(p=0, inplace=False)
+            (fc_neigh): Linear(in_features=64, out_features=32, bias=False)
+            (fc_self): Linear(in_features=64, out_features=32, bias=False)
+          )
+        )
+        (pool): MaxPooling()
+      )
+    )
+  )
+  (locator): Voter(
+    (net): FullyConnected(
+      (net): Sequential(
+        (0): Linear(in_features=96, out_features=64, bias=True)
+        (1): ReLU()
+        (2): Linear(in_features=64, out_features=1, bias=True)
+      )
+    )
+  )
+  (typeClassifier): Classifier(
+    (net): FullyConnected(
+      (net): Sequential(
+        (0): Linear(in_features=96, out_features=64, bias=True)
+        (1): ReLU()
+        (2): Linear(in_features=64, out_features=7, bias=True)
+      )
+    )
+  )
+)
+2026-11-04 12:38:29 [INFO]: Start training for 500 epochs.
+2026-11-04 12:38:30 [DEBUG]: con_loss: 2.725, RCA_loss: 2.870, TC_loss: 2.043
+2026-11-04 12:38:30 [DEBUG]: con_loss: 2.696, RCA_loss: 2.609, TC_loss: 1.981
+2026-11-04 12:38:30 [INFO]: Epoch 0 done. Loss: 6.503, Time per epoch: 0.761[s]
+2026-11-04 12:38:30 [DEBUG]: con_loss: 2.724, RCA_loss: 2.342, TC_loss: 1.886
+2026-11-04 12:38:31 [DEBUG]: con_loss: 2.696, RCA_loss: 2.190, TC_loss: 1.896
+2026-11-04 12:38:31 [INFO]: Epoch 1 done. Loss: 6.206, Time per epoch: 0.344[s]
+2026-11-04 12:38:31 [DEBUG]: con_loss: 2.726, RCA_loss: 2.027, TC_loss: 1.849
+2026-11-04 12:38:31 [DEBUG]: con_loss: 2.692, RCA_loss: 1.834, TC_loss: 1.815
+2026-11-04 12:38:31 [INFO]: Epoch 2 done. Loss: 6.008, Time per epoch: 0.369[s]
+2026-11-04 12:38:31 [DEBUG]: con_loss: 2.727, RCA_loss: 1.688, TC_loss: 1.825
+2026-11-04 12:38:31 [DEBUG]: con_loss: 2.688, RCA_loss: 1.598, TC_loss: 1.774
+2026-11-04 12:38:31 [INFO]: Epoch 3 done. Loss: 5.848, Time per epoch: 0.375[s]
+2026-11-04 12:38:31 [DEBUG]: con_loss: 2.725, RCA_loss: 1.395, TC_loss: 1.702
+2026-11-04 12:38:32 [DEBUG]: con_loss: 2.694, RCA_loss: 1.445, TC_loss: 1.721
+2026-11-04 12:38:32 [INFO]: Epoch 4 done. Loss: 5.693, Time per epoch: 0.378[s]
+2026-11-04 12:38:32 [DEBUG]: con_loss: 2.724, RCA_loss: 1.269, TC_loss: 1.691
+2026-11-04 12:38:32 [DEBUG]: con_loss: 2.693, RCA_loss: 1.270, TC_loss: 1.664
+2026-11-04 12:38:32 [INFO]: Epoch 5 done. Loss: 5.601, Time per epoch: 0.436[s]
+2026-11-04 12:38:32 [DEBUG]: con_loss: 2.724, RCA_loss: 1.179, TC_loss: 1.631
+2026-11-04 12:38:32 [DEBUG]: con_loss: 2.689, RCA_loss: 1.072, TC_loss: 1.579
+2026-11-04 12:38:33 [INFO]: Epoch 6 done. Loss: 5.491, Time per epoch: 0.386[s]
+2026-11-04 12:38:33 [DEBUG]: con_loss: 2.723, RCA_loss: 1.016, TC_loss: 1.606
+2026-11-04 12:38:33 [DEBUG]: con_loss: 2.689, RCA_loss: 0.974, TC_loss: 1.586
+2026-11-04 12:38:33 [INFO]: Epoch 7 done. Loss: 5.421, Time per epoch: 0.579[s]
+2026-11-04 12:38:33 [DEBUG]: con_loss: 2.725, RCA_loss: 0.869, TC_loss: 1.569
+2026-11-04 12:38:33 [DEBUG]: con_loss: 2.686, RCA_loss: 0.901, TC_loss: 1.503
+2026-11-04 12:38:34 [INFO]: Epoch 8 done. Loss: 5.336, Time per epoch: 0.383[s]
+2026-11-04 12:38:34 [DEBUG]: con_loss: 2.724, RCA_loss: 0.782, TC_loss: 1.500
+2026-11-04 12:38:34 [DEBUG]: con_loss: 2.689, RCA_loss: 0.711, TC_loss: 1.452
+2026-11-04 12:38:34 [INFO]: Epoch 9 done. Loss: 5.237, Time per epoch: 0.352[s]
+2026-11-04 12:38:34 [DEBUG]: con_loss: 2.725, RCA_loss: 0.650, TC_loss: 1.473
+2026-11-04 12:38:34 [DEBUG]: con_loss: 2.688, RCA_loss: 0.637, TC_loss: 1.399
+2026-11-04 12:38:34 [INFO]: Epoch 10 done. Loss: 5.166, Time per epoch: 0.407[s]
+2026-11-04 12:38:34 [DEBUG]: con_loss: 2.721, RCA_loss: 0.601, TC_loss: 1.409
+2026-11-04 12:38:35 [DEBUG]: con_loss: 2.680, RCA_loss: 0.564, TC_loss: 1.321
+2026-11-04 12:38:35 [INFO]: Epoch 11 done. Loss: 5.096, Time per epoch: 0.376[s]
+2026-11-04 12:38:35 [DEBUG]: con_loss: 2.711, RCA_loss: 0.605, TC_loss: 1.380
+2026-11-04 12:38:35 [DEBUG]: con_loss: 2.678, RCA_loss: 0.434, TC_loss: 1.281
+2026-11-04 12:38:35 [INFO]: Epoch 12 done. Loss: 5.045, Time per epoch: 0.348[s]
+2026-11-04 12:38:35 [DEBUG]: con_loss: 2.715, RCA_loss: 0.482, TC_loss: 1.309
+2026-11-04 12:38:35 [DEBUG]: con_loss: 2.684, RCA_loss: 0.443, TC_loss: 1.255
+2026-11-04 12:38:35 [INFO]: Epoch 13 done. Loss: 4.995, Time per epoch: 0.371[s]
+2026-11-04 12:38:35 [DEBUG]: con_loss: 2.717, RCA_loss: 0.519, TC_loss: 1.268
+2026-11-04 12:38:36 [DEBUG]: con_loss: 2.683, RCA_loss: 0.465, TC_loss: 1.296
+2026-11-04 12:38:36 [INFO]: Epoch 14 done. Loss: 5.010, Time per epoch: 0.391[s]
+2026-11-04 12:38:36 [DEBUG]: con_loss: 2.718, RCA_loss: 0.433, TC_loss: 1.238
+2026-11-04 12:38:36 [DEBUG]: con_loss: 2.682, RCA_loss: 0.357, TC_loss: 1.232
+2026-11-04 12:38:36 [INFO]: Epoch 15 done. Loss: 4.937, Time per epoch: 0.378[s]
+2026-11-04 12:38:36 [DEBUG]: con_loss: 2.708, RCA_loss: 0.334, TC_loss: 1.137
+2026-11-04 12:38:36 [DEBUG]: con_loss: 2.687, RCA_loss: 0.446, TC_loss: 1.195
+2026-11-04 12:38:36 [INFO]: Epoch 16 done. Loss: 4.899, Time per epoch: 0.344[s]
+2026-11-04 12:38:37 [DEBUG]: con_loss: 2.718, RCA_loss: 0.331, TC_loss: 1.116
+2026-11-04 12:38:37 [DEBUG]: con_loss: 2.685, RCA_loss: 0.351, TC_loss: 1.121
+2026-11-04 12:38:37 [INFO]: Epoch 17 done. Loss: 4.854, Time per epoch: 0.343[s]
+2026-11-04 12:38:37 [DEBUG]: con_loss: 2.713, RCA_loss: 0.362, TC_loss: 1.139
+2026-11-04 12:38:37 [DEBUG]: con_loss: 2.673, RCA_loss: 0.244, TC_loss: 1.096
+2026-11-04 12:38:37 [INFO]: Epoch 18 done. Loss: 4.829, Time per epoch: 0.526[s]
+2026-11-04 12:38:37 [DEBUG]: con_loss: 2.714, RCA_loss: 0.376, TC_loss: 1.053
+2026-11-04 12:38:38 [DEBUG]: con_loss: 2.677, RCA_loss: 0.280, TC_loss: 1.079
+2026-11-04 12:38:38 [INFO]: Epoch 19 done. Loss: 4.817, Time per epoch: 0.359[s]
+2026-11-04 12:38:38 [DEBUG]: con_loss: 2.714, RCA_loss: 0.324, TC_loss: 1.071
+2026-11-04 12:38:38 [DEBUG]: con_loss: 2.672, RCA_loss: 0.304, TC_loss: 1.021
+2026-11-04 12:38:38 [INFO]: Epoch 20 done. Loss: 4.799, Time per epoch: 0.291[s]
+2026-11-04 12:38:38 [DEBUG]: con_loss: 2.714, RCA_loss: 0.252, TC_loss: 0.958
+2026-11-04 12:38:38 [DEBUG]: con_loss: 2.686, RCA_loss: 0.294, TC_loss: 1.042
+2026-11-04 12:38:38 [INFO]: Epoch 21 done. Loss: 4.759, Time per epoch: 0.326[s]
+2026-11-04 12:38:38 [DEBUG]: con_loss: 2.708, RCA_loss: 0.236, TC_loss: 0.976
+2026-11-04 12:38:39 [DEBUG]: con_loss: 2.683, RCA_loss: 0.256, TC_loss: 0.984
+2026-11-04 12:38:39 [INFO]: Epoch 22 done. Loss: 4.733, Time per epoch: 0.363[s]
+2026-11-04 12:38:39 [DEBUG]: con_loss: 2.713, RCA_loss: 0.286, TC_loss: 0.970
+2026-11-04 12:38:39 [DEBUG]: con_loss: 2.676, RCA_loss: 0.257, TC_loss: 0.875
+2026-11-04 12:38:39 [INFO]: Epoch 23 done. Loss: 4.717, Time per epoch: 0.384[s]
+2026-11-04 12:38:39 [DEBUG]: con_loss: 2.703, RCA_loss: 0.235, TC_loss: 0.904
+2026-11-04 12:38:39 [DEBUG]: con_loss: 2.682, RCA_loss: 0.238, TC_loss: 0.951
+2026-11-04 12:38:39 [INFO]: Epoch 24 done. Loss: 4.701, Time per epoch: 0.363[s]
+2026-11-04 12:38:40 [DEBUG]: con_loss: 2.716, RCA_loss: 0.210, TC_loss: 0.819
+2026-11-04 12:38:40 [DEBUG]: con_loss: 2.676, RCA_loss: 0.177, TC_loss: 0.886
+2026-11-04 12:38:40 [INFO]: Epoch 25 done. Loss: 4.644, Time per epoch: 0.404[s]
+2026-11-04 12:38:40 [DEBUG]: con_loss: 2.710, RCA_loss: 0.184, TC_loss: 0.850
+2026-11-04 12:38:40 [DEBUG]: con_loss: 2.673, RCA_loss: 0.165, TC_loss: 0.746
+2026-11-04 12:38:40 [INFO]: Epoch 26 done. Loss: 4.605, Time per epoch: 0.436[s]
+2026-11-04 12:38:40 [DEBUG]: con_loss: 2.716, RCA_loss: 0.197, TC_loss: 0.784
+2026-11-04 12:38:41 [DEBUG]: con_loss: 2.678, RCA_loss: 0.140, TC_loss: 0.745
+2026-11-04 12:38:41 [INFO]: Epoch 27 done. Loss: 4.588, Time per epoch: 0.372[s]
+2026-11-04 12:38:41 [DEBUG]: con_loss: 2.709, RCA_loss: 0.226, TC_loss: 0.771
+2026-11-04 12:38:41 [DEBUG]: con_loss: 2.675, RCA_loss: 0.157, TC_loss: 0.728
+2026-11-04 12:38:41 [INFO]: Epoch 28 done. Loss: 4.589, Time per epoch: 0.338[s]
+2026-11-04 12:38:41 [DEBUG]: con_loss: 2.711, RCA_loss: 0.205, TC_loss: 0.697
+2026-11-04 12:38:41 [DEBUG]: con_loss: 2.677, RCA_loss: 0.156, TC_loss: 0.776
+2026-11-04 12:38:41 [INFO]: Epoch 29 done. Loss: 4.578, Time per epoch: 0.331[s]
+2026-11-04 12:38:42 [DEBUG]: con_loss: 2.713, RCA_loss: 0.204, TC_loss: 0.733
+2026-11-04 12:38:42 [DEBUG]: con_loss: 2.673, RCA_loss: 0.131, TC_loss: 0.734
+2026-11-04 12:38:42 [INFO]: Epoch 30 done. Loss: 4.569, Time per epoch: 0.486[s]
+2026-11-04 12:38:42 [DEBUG]: con_loss: 2.708, RCA_loss: 0.190, TC_loss: 0.702
+2026-11-04 12:38:42 [DEBUG]: con_loss: 2.670, RCA_loss: 0.100, TC_loss: 0.659
+2026-11-04 12:38:42 [INFO]: Epoch 31 done. Loss: 4.530, Time per epoch: 0.342[s]
+2026-11-04 12:38:42 [DEBUG]: con_loss: 2.710, RCA_loss: 0.159, TC_loss: 0.659
+2026-11-04 12:38:42 [DEBUG]: con_loss: 2.678, RCA_loss: 0.124, TC_loss: 0.621
+2026-11-04 12:38:43 [INFO]: Epoch 32 done. Loss: 4.510, Time per epoch: 0.363[s]
+2026-11-04 12:38:43 [DEBUG]: con_loss: 2.709, RCA_loss: 0.175, TC_loss: 0.624
+2026-11-04 12:38:43 [DEBUG]: con_loss: 2.681, RCA_loss: 0.122, TC_loss: 0.673
+2026-11-04 12:38:43 [INFO]: Epoch 33 done. Loss: 4.519, Time per epoch: 0.408[s]
+2026-11-04 12:38:43 [DEBUG]: con_loss: 2.699, RCA_loss: 0.174, TC_loss: 0.623
+2026-11-04 12:38:43 [DEBUG]: con_loss: 2.677, RCA_loss: 0.126, TC_loss: 0.537
+2026-11-04 12:38:43 [INFO]: Epoch 34 done. Loss: 4.482, Time per epoch: 0.327[s]
+2026-11-04 12:38:43 [DEBUG]: con_loss: 2.707, RCA_loss: 0.096, TC_loss: 0.542
+2026-11-04 12:38:44 [DEBUG]: con_loss: 2.672, RCA_loss: 0.113, TC_loss: 0.546
+2026-11-04 12:38:44 [INFO]: Epoch 35 done. Loss: 4.441, Time per epoch: 0.297[s]
+2026-11-04 12:38:44 [DEBUG]: con_loss: 2.698, RCA_loss: 0.121, TC_loss: 0.539
+2026-11-04 12:38:44 [DEBUG]: con_loss: 2.685, RCA_loss: 0.126, TC_loss: 0.492
+2026-11-04 12:38:44 [INFO]: Epoch 36 done. Loss: 4.438, Time per epoch: 0.452[s]
+2026-11-04 12:38:44 [DEBUG]: con_loss: 2.706, RCA_loss: 0.069, TC_loss: 0.489
+2026-11-04 12:38:44 [DEBUG]: con_loss: 2.679, RCA_loss: 0.145, TC_loss: 0.540
+2026-11-04 12:38:44 [INFO]: Epoch 37 done. Loss: 4.430, Time per epoch: 0.414[s]
+2026-11-04 12:38:45 [DEBUG]: con_loss: 2.703, RCA_loss: 0.080, TC_loss: 0.491
+2026-11-04 12:38:45 [DEBUG]: con_loss: 2.674, RCA_loss: 0.092, TC_loss: 0.492
+2026-11-04 12:38:45 [INFO]: Epoch 38 done. Loss: 4.406, Time per epoch: 0.335[s]
+2026-11-04 12:38:45 [DEBUG]: con_loss: 2.708, RCA_loss: 0.106, TC_loss: 0.503
+2026-11-04 12:38:45 [DEBUG]: con_loss: 2.678, RCA_loss: 0.127, TC_loss: 0.494
+2026-11-04 12:38:45 [INFO]: Epoch 39 done. Loss: 4.427, Time per epoch: 0.350[s]
+2026-11-04 12:38:45 [DEBUG]: con_loss: 2.705, RCA_loss: 0.113, TC_loss: 0.405
+2026-11-04 12:38:45 [DEBUG]: con_loss: 2.664, RCA_loss: 0.122, TC_loss: 0.448
+2026-11-04 12:38:45 [INFO]: Epoch 40 done. Loss: 4.387, Time per epoch: 0.344[s]
+2026-11-04 12:38:46 [DEBUG]: con_loss: 2.703, RCA_loss: 0.094, TC_loss: 0.400
+2026-11-04 12:38:46 [DEBUG]: con_loss: 2.674, RCA_loss: 0.071, TC_loss: 0.387
+2026-11-04 12:38:46 [INFO]: Epoch 41 done. Loss: 4.355, Time per epoch: 0.343[s]
+2026-11-04 12:38:46 [DEBUG]: con_loss: 2.703, RCA_loss: 0.081, TC_loss: 0.425
+2026-11-04 12:38:46 [DEBUG]: con_loss: 2.664, RCA_loss: 0.076, TC_loss: 0.462
+2026-11-04 12:38:46 [INFO]: Epoch 42 done. Loss: 4.375, Time per epoch: 0.458[s]
+2026-11-04 12:38:46 [DEBUG]: con_loss: 2.702, RCA_loss: 0.092, TC_loss: 0.379
+2026-11-04 12:38:47 [DEBUG]: con_loss: 2.667, RCA_loss: 0.078, TC_loss: 0.437
+2026-11-04 12:38:47 [INFO]: Epoch 43 done. Loss: 4.361, Time per epoch: 0.365[s]
+2026-11-04 12:38:47 [DEBUG]: con_loss: 2.701, RCA_loss: 0.093, TC_loss: 0.358
+2026-11-04 12:38:47 [DEBUG]: con_loss: 2.675, RCA_loss: 0.076, TC_loss: 0.351
+2026-11-04 12:38:47 [INFO]: Epoch 44 done. Loss: 4.336, Time per epoch: 0.371[s]
+2026-11-04 12:38:47 [DEBUG]: con_loss: 2.705, RCA_loss: 0.067, TC_loss: 0.419
+2026-11-04 12:38:47 [DEBUG]: con_loss: 2.675, RCA_loss: 0.083, TC_loss: 0.373
+2026-11-04 12:38:47 [INFO]: Epoch 45 done. Loss: 4.354, Time per epoch: 0.365[s]
+2026-11-04 12:38:47 [DEBUG]: con_loss: 2.704, RCA_loss: 0.087, TC_loss: 0.366
+2026-11-04 12:38:48 [DEBUG]: con_loss: 2.664, RCA_loss: 0.098, TC_loss: 0.331
+2026-11-04 12:38:48 [INFO]: Epoch 46 done. Loss: 4.335, Time per epoch: 0.351[s]
+2026-11-04 12:38:48 [DEBUG]: con_loss: 2.701, RCA_loss: 0.068, TC_loss: 0.286
+2026-11-04 12:38:48 [DEBUG]: con_loss: 2.676, RCA_loss: 0.062, TC_loss: 0.272
+2026-11-04 12:38:48 [INFO]: Epoch 47 done. Loss: 4.289, Time per epoch: 0.360[s]
+2026-11-04 12:38:48 [DEBUG]: con_loss: 2.690, RCA_loss: 0.075, TC_loss: 0.295
+2026-11-04 12:38:48 [DEBUG]: con_loss: 2.666, RCA_loss: 0.041, TC_loss: 0.281
+2026-11-04 12:38:48 [INFO]: Epoch 48 done. Loss: 4.285, Time per epoch: 0.359[s]
+2026-11-04 12:38:49 [DEBUG]: con_loss: 2.700, RCA_loss: 0.071, TC_loss: 0.312
+2026-11-04 12:38:49 [DEBUG]: con_loss: 2.672, RCA_loss: 0.063, TC_loss: 0.294
+2026-11-04 12:38:49 [INFO]: Epoch 49 done. Loss: 4.301, Time per epoch: 0.371[s]
+2026-11-04 12:38:49 [DEBUG]: con_loss: 2.700, RCA_loss: 0.055, TC_loss: 0.317
+2026-11-04 12:38:49 [DEBUG]: con_loss: 2.671, RCA_loss: 0.058, TC_loss: 0.264
+2026-11-04 12:38:49 [INFO]: Epoch 50 done. Loss: 4.289, Time per epoch: 0.353[s]
+2026-11-04 12:38:49 [DEBUG]: con_loss: 2.699, RCA_loss: 0.069, TC_loss: 0.317
+2026-11-04 12:38:49 [DEBUG]: con_loss: 2.656, RCA_loss: 0.069, TC_loss: 0.260
+2026-11-04 12:38:50 [INFO]: Epoch 51 done. Loss: 4.290, Time per epoch: 0.332[s]
+2026-11-04 12:38:50 [DEBUG]: con_loss: 2.706, RCA_loss: 0.073, TC_loss: 0.262
+2026-11-04 12:38:50 [DEBUG]: con_loss: 2.668, RCA_loss: 0.052, TC_loss: 0.265
+2026-11-04 12:38:50 [INFO]: Epoch 52 done. Loss: 4.279, Time per epoch: 0.352[s]
+2026-11-04 12:38:50 [DEBUG]: con_loss: 2.701, RCA_loss: 0.070, TC_loss: 0.208
+2026-11-04 12:38:50 [DEBUG]: con_loss: 2.664, RCA_loss: 0.035, TC_loss: 0.240
+2026-11-04 12:38:50 [INFO]: Epoch 53 done. Loss: 4.252, Time per epoch: 0.439[s]
+2026-11-04 12:38:51 [DEBUG]: con_loss: 2.697, RCA_loss: 0.056, TC_loss: 0.200
+2026-11-04 12:38:51 [DEBUG]: con_loss: 2.659, RCA_loss: 0.044, TC_loss: 0.249
+2026-11-04 12:38:51 [INFO]: Epoch 54 done. Loss: 4.249, Time per epoch: 0.572[s]
+2026-11-04 12:38:51 [DEBUG]: con_loss: 2.702, RCA_loss: 0.047, TC_loss: 0.222
+2026-11-04 12:38:51 [DEBUG]: con_loss: 2.667, RCA_loss: 0.060, TC_loss: 0.221
+2026-11-04 12:38:51 [INFO]: Epoch 55 done. Loss: 4.252, Time per epoch: 0.371[s]
+2026-11-04 12:38:51 [DEBUG]: con_loss: 2.698, RCA_loss: 0.043, TC_loss: 0.212
+2026-11-04 12:38:52 [DEBUG]: con_loss: 2.667, RCA_loss: 0.045, TC_loss: 0.168
+2026-11-04 12:38:52 [INFO]: Epoch 56 done. Loss: 4.231, Time per epoch: 0.346[s]
+2026-11-04 12:38:52 [DEBUG]: con_loss: 2.695, RCA_loss: 0.039, TC_loss: 0.199
+2026-11-04 12:38:52 [DEBUG]: con_loss: 2.667, RCA_loss: 0.036, TC_loss: 0.201
+2026-11-04 12:38:52 [INFO]: Epoch 57 done. Loss: 4.232, Time per epoch: 0.316[s]
+2026-11-04 12:38:52 [DEBUG]: con_loss: 2.699, RCA_loss: 0.038, TC_loss: 0.242
+2026-11-04 12:38:52 [DEBUG]: con_loss: 2.672, RCA_loss: 0.040, TC_loss: 0.211
+2026-11-04 12:38:52 [INFO]: Epoch 58 done. Loss: 4.248, Time per epoch: 0.324[s]
+2026-11-04 12:38:52 [DEBUG]: con_loss: 2.704, RCA_loss: 0.036, TC_loss: 0.170
+2026-11-04 12:38:52 [DEBUG]: con_loss: 2.660, RCA_loss: 0.046, TC_loss: 0.180
+2026-11-04 12:38:53 [INFO]: Epoch 59 done. Loss: 4.222, Time per epoch: 0.328[s]
+2026-11-04 12:38:53 [DEBUG]: con_loss: 2.696, RCA_loss: 0.031, TC_loss: 0.217
+2026-11-04 12:38:53 [DEBUG]: con_loss: 2.668, RCA_loss: 0.055, TC_loss: 0.187
+2026-11-04 12:38:53 [INFO]: Epoch 60 done. Loss: 4.236, Time per epoch: 0.333[s]
+2026-11-04 12:38:53 [DEBUG]: con_loss: 2.703, RCA_loss: 0.030, TC_loss: 0.265
+2026-11-04 12:38:53 [DEBUG]: con_loss: 2.659, RCA_loss: 0.038, TC_loss: 0.154
+2026-11-04 12:38:53 [INFO]: Epoch 61 done. Loss: 4.235, Time per epoch: 0.352[s]
+2026-11-04 12:38:53 [DEBUG]: con_loss: 2.690, RCA_loss: 0.046, TC_loss: 0.157
+2026-11-04 12:38:54 [DEBUG]: con_loss: 2.663, RCA_loss: 0.024, TC_loss: 0.178
+2026-11-04 12:38:54 [INFO]: Epoch 62 done. Loss: 4.212, Time per epoch: 0.338[s]
+2026-11-04 12:38:54 [DEBUG]: con_loss: 2.701, RCA_loss: 0.028, TC_loss: 0.149
+2026-11-04 12:38:54 [DEBUG]: con_loss: 2.660, RCA_loss: 0.039, TC_loss: 0.169
+2026-11-04 12:38:54 [INFO]: Epoch 63 done. Loss: 4.209, Time per epoch: 0.338[s]
+2026-11-04 12:38:54 [DEBUG]: con_loss: 2.700, RCA_loss: 0.037, TC_loss: 0.139
+2026-11-04 12:38:54 [DEBUG]: con_loss: 2.663, RCA_loss: 0.040, TC_loss: 0.164
+2026-11-04 12:38:54 [INFO]: Epoch 64 done. Loss: 4.209, Time per epoch: 0.357[s]
+2026-11-04 12:38:54 [DEBUG]: con_loss: 2.697, RCA_loss: 0.019, TC_loss: 0.146
+2026-11-04 12:38:55 [DEBUG]: con_loss: 2.654, RCA_loss: 0.044, TC_loss: 0.147
+2026-11-04 12:38:55 [INFO]: Epoch 65 done. Loss: 4.199, Time per epoch: 0.384[s]
+2026-11-04 12:38:55 [DEBUG]: con_loss: 2.696, RCA_loss: 0.028, TC_loss: 0.119
+2026-11-04 12:38:55 [DEBUG]: con_loss: 2.661, RCA_loss: 0.028, TC_loss: 0.152
+2026-11-04 12:38:55 [INFO]: Epoch 66 done. Loss: 4.193, Time per epoch: 0.629[s]
+2026-11-04 12:38:55 [DEBUG]: con_loss: 2.697, RCA_loss: 0.014, TC_loss: 0.143
+2026-11-04 12:38:56 [DEBUG]: con_loss: 2.651, RCA_loss: 0.036, TC_loss: 0.133
+2026-11-04 12:38:56 [INFO]: Epoch 67 done. Loss: 4.191, Time per epoch: 0.409[s]
+2026-11-04 12:38:56 [DEBUG]: con_loss: 2.696, RCA_loss: 0.030, TC_loss: 0.118
+2026-11-04 12:38:56 [DEBUG]: con_loss: 2.660, RCA_loss: 0.024, TC_loss: 0.110
+2026-11-04 12:38:56 [INFO]: Epoch 68 done. Loss: 4.182, Time per epoch: 0.365[s]
+2026-11-04 12:38:56 [DEBUG]: con_loss: 2.695, RCA_loss: 0.045, TC_loss: 0.160
+2026-11-04 12:38:56 [DEBUG]: con_loss: 2.668, RCA_loss: 0.025, TC_loss: 0.124
+2026-11-04 12:38:56 [INFO]: Epoch 69 done. Loss: 4.202, Time per epoch: 0.390[s]
+2026-11-04 12:38:57 [DEBUG]: con_loss: 2.695, RCA_loss: 0.030, TC_loss: 0.187
+2026-11-04 12:38:57 [DEBUG]: con_loss: 2.654, RCA_loss: 0.036, TC_loss: 0.136
+2026-11-04 12:38:57 [INFO]: Epoch 70 done. Loss: 4.207, Time per epoch: 0.423[s]
+2026-11-04 12:38:57 [DEBUG]: con_loss: 2.694, RCA_loss: 0.021, TC_loss: 0.104
+2026-11-04 12:38:57 [DEBUG]: con_loss: 2.662, RCA_loss: 0.019, TC_loss: 0.131
+2026-11-04 12:38:57 [INFO]: Epoch 71 done. Loss: 4.180, Time per epoch: 0.440[s]
+2026-11-04 12:38:57 [DEBUG]: con_loss: 2.686, RCA_loss: 0.017, TC_loss: 0.108
+2026-11-04 12:38:58 [DEBUG]: con_loss: 2.645, RCA_loss: 0.023, TC_loss: 0.111
+2026-11-04 12:38:58 [INFO]: Epoch 72 done. Loss: 4.170, Time per epoch: 0.373[s]
+2026-11-04 12:38:58 [DEBUG]: con_loss: 2.693, RCA_loss: 0.022, TC_loss: 0.105
+2026-11-04 12:38:58 [DEBUG]: con_loss: 2.657, RCA_loss: 0.019, TC_loss: 0.098
+2026-11-04 12:38:58 [INFO]: Epoch 73 done. Loss: 4.171, Time per epoch: 0.362[s]
+2026-11-04 12:38:58 [DEBUG]: con_loss: 2.694, RCA_loss: 0.023, TC_loss: 0.107
+2026-11-04 12:38:58 [DEBUG]: con_loss: 2.654, RCA_loss: 0.027, TC_loss: 0.130
+2026-11-04 12:38:58 [INFO]: Epoch 74 done. Loss: 4.181, Time per epoch: 0.433[s]
+2026-11-04 12:38:59 [DEBUG]: con_loss: 2.690, RCA_loss: 0.021, TC_loss: 0.137
+2026-11-04 12:38:59 [DEBUG]: con_loss: 2.649, RCA_loss: 0.023, TC_loss: 0.109
+2026-11-04 12:38:59 [INFO]: Epoch 75 done. Loss: 4.180, Time per epoch: 0.361[s]
+2026-11-04 12:38:59 [DEBUG]: con_loss: 2.685, RCA_loss: 0.020, TC_loss: 0.092
+2026-11-04 12:38:59 [DEBUG]: con_loss: 2.655, RCA_loss: 0.023, TC_loss: 0.104
+2026-11-04 12:38:59 [INFO]: Epoch 76 done. Loss: 4.167, Time per epoch: 0.398[s]
+2026-11-04 12:38:59 [DEBUG]: con_loss: 2.681, RCA_loss: 0.026, TC_loss: 0.087
+2026-11-04 12:39:00 [DEBUG]: con_loss: 2.656, RCA_loss: 0.020, TC_loss: 0.108
+2026-11-04 12:39:00 [INFO]: Epoch 77 done. Loss: 4.167, Time per epoch: 0.360[s]
+2026-11-04 12:39:00 [DEBUG]: con_loss: 2.684, RCA_loss: 0.018, TC_loss: 0.093
+2026-11-04 12:39:00 [DEBUG]: con_loss: 2.650, RCA_loss: 0.020, TC_loss: 0.089
+2026-11-04 12:39:00 [INFO]: Epoch 78 done. Loss: 4.161, Time per epoch: 0.513[s]
+2026-11-04 12:39:00 [DEBUG]: con_loss: 2.683, RCA_loss: 0.027, TC_loss: 0.091
+2026-11-04 12:39:00 [DEBUG]: con_loss: 2.653, RCA_loss: 0.013, TC_loss: 0.078
+2026-11-04 12:39:00 [INFO]: Epoch 79 done. Loss: 4.159, Time per epoch: 0.355[s]
+2026-11-04 12:39:01 [DEBUG]: con_loss: 2.686, RCA_loss: 0.019, TC_loss: 0.115
+2026-11-04 12:39:01 [DEBUG]: con_loss: 2.657, RCA_loss: 0.011, TC_loss: 0.076
+2026-11-04 12:39:01 [INFO]: Epoch 80 done. Loss: 4.164, Time per epoch: 0.374[s]
+2026-11-04 12:39:01 [DEBUG]: con_loss: 2.674, RCA_loss: 0.020, TC_loss: 0.071
+2026-11-04 12:39:01 [DEBUG]: con_loss: 2.654, RCA_loss: 0.015, TC_loss: 0.076
+2026-11-04 12:39:01 [INFO]: Epoch 81 done. Loss: 4.150, Time per epoch: 0.419[s]
+2026-11-04 12:39:01 [DEBUG]: con_loss: 2.682, RCA_loss: 0.022, TC_loss: 0.078
+2026-11-04 12:39:02 [DEBUG]: con_loss: 2.648, RCA_loss: 0.017, TC_loss: 0.080
+2026-11-04 12:39:02 [INFO]: Epoch 82 done. Loss: 4.154, Time per epoch: 0.360[s]
+2026-11-04 12:39:02 [DEBUG]: con_loss: 2.678, RCA_loss: 0.018, TC_loss: 0.075
+2026-11-04 12:39:02 [DEBUG]: con_loss: 2.646, RCA_loss: 0.021, TC_loss: 0.075
+2026-11-04 12:39:02 [INFO]: Epoch 83 done. Loss: 4.151, Time per epoch: 0.373[s]
+2026-11-04 12:39:02 [DEBUG]: con_loss: 2.688, RCA_loss: 0.017, TC_loss: 0.098
+2026-11-04 12:39:02 [DEBUG]: con_loss: 2.644, RCA_loss: 0.014, TC_loss: 0.051
+2026-11-04 12:39:02 [INFO]: Epoch 84 done. Loss: 4.150, Time per epoch: 0.359[s]
+2026-11-04 12:39:02 [DEBUG]: con_loss: 2.674, RCA_loss: 0.018, TC_loss: 0.067
+2026-11-04 12:39:03 [DEBUG]: con_loss: 2.648, RCA_loss: 0.013, TC_loss: 0.052
+2026-11-04 12:39:03 [INFO]: Epoch 85 done. Loss: 4.140, Time per epoch: 0.358[s]
+2026-11-04 12:39:03 [DEBUG]: con_loss: 2.681, RCA_loss: 0.011, TC_loss: 0.078
+2026-11-04 12:39:03 [DEBUG]: con_loss: 2.652, RCA_loss: 0.016, TC_loss: 0.059
+2026-11-04 12:39:03 [INFO]: Epoch 86 done. Loss: 4.147, Time per epoch: 0.334[s]
+2026-11-04 12:39:03 [DEBUG]: con_loss: 2.676, RCA_loss: 0.027, TC_loss: 0.092
+2026-11-04 12:39:03 [DEBUG]: con_loss: 2.646, RCA_loss: 0.010, TC_loss: 0.089
+2026-11-04 12:39:03 [INFO]: Epoch 87 done. Loss: 4.157, Time per epoch: 0.349[s]
+2026-11-04 12:39:04 [DEBUG]: con_loss: 2.686, RCA_loss: 0.019, TC_loss: 0.060
+2026-11-04 12:39:04 [DEBUG]: con_loss: 2.641, RCA_loss: 0.017, TC_loss: 0.056
+2026-11-04 12:39:04 [INFO]: Epoch 88 done. Loss: 4.142, Time per epoch: 0.388[s]
+2026-11-04 12:39:04 [DEBUG]: con_loss: 2.677, RCA_loss: 0.010, TC_loss: 0.083
+2026-11-04 12:39:04 [DEBUG]: con_loss: 2.653, RCA_loss: 0.012, TC_loss: 0.056
+2026-11-04 12:39:04 [INFO]: Epoch 89 done. Loss: 4.145, Time per epoch: 0.401[s]
+2026-11-04 12:39:05 [DEBUG]: con_loss: 2.669, RCA_loss: 0.014, TC_loss: 0.070
+2026-11-04 12:39:05 [DEBUG]: con_loss: 2.653, RCA_loss: 0.006, TC_loss: 0.078
+2026-11-04 12:39:05 [INFO]: Epoch 90 done. Loss: 4.145, Time per epoch: 0.607[s]
+2026-11-04 12:39:05 [DEBUG]: con_loss: 2.680, RCA_loss: 0.009, TC_loss: 0.076
+2026-11-04 12:39:05 [DEBUG]: con_loss: 2.643, RCA_loss: 0.020, TC_loss: 0.088
+2026-11-04 12:39:05 [INFO]: Epoch 91 done. Loss: 4.152, Time per epoch: 0.365[s]
+2026-11-04 12:39:05 [DEBUG]: con_loss: 2.676, RCA_loss: 0.017, TC_loss: 0.053
+2026-11-04 12:39:05 [DEBUG]: con_loss: 2.647, RCA_loss: 0.011, TC_loss: 0.067
+2026-11-04 12:39:06 [INFO]: Epoch 92 done. Loss: 4.140, Time per epoch: 0.370[s]
+2026-11-04 12:39:06 [DEBUG]: con_loss: 2.682, RCA_loss: 0.020, TC_loss: 0.095
+2026-11-04 12:39:06 [DEBUG]: con_loss: 2.639, RCA_loss: 0.015, TC_loss: 0.061
+2026-11-04 12:39:06 [INFO]: Epoch 93 done. Loss: 4.150, Time per epoch: 0.348[s]
+2026-11-04 12:39:06 [DEBUG]: con_loss: 2.665, RCA_loss: 0.008, TC_loss: 0.064
+2026-11-04 12:39:06 [DEBUG]: con_loss: 2.649, RCA_loss: 0.021, TC_loss: 0.071
+2026-11-04 12:39:06 [INFO]: Epoch 94 done. Loss: 4.142, Time per epoch: 0.325[s]
+2026-11-04 12:39:06 [DEBUG]: con_loss: 2.667, RCA_loss: 0.011, TC_loss: 0.052
+2026-11-04 12:39:06 [DEBUG]: con_loss: 2.637, RCA_loss: 0.007, TC_loss: 0.080
+2026-11-04 12:39:07 [INFO]: Epoch 95 done. Loss: 4.136, Time per epoch: 0.309[s]
+2026-11-04 12:39:07 [DEBUG]: con_loss: 2.672, RCA_loss: 0.014, TC_loss: 0.070
+2026-11-04 12:39:07 [DEBUG]: con_loss: 2.641, RCA_loss: 0.011, TC_loss: 0.059
+2026-11-04 12:39:07 [INFO]: Epoch 96 done. Loss: 4.139, Time per epoch: 0.332[s]
+2026-11-04 12:39:07 [DEBUG]: con_loss: 2.673, RCA_loss: 0.017, TC_loss: 0.057
+2026-11-04 12:39:07 [DEBUG]: con_loss: 2.641, RCA_loss: 0.008, TC_loss: 0.051
+2026-11-04 12:39:07 [INFO]: Epoch 97 done. Loss: 4.134, Time per epoch: 0.490[s]
+2026-11-04 12:39:08 [DEBUG]: con_loss: 2.663, RCA_loss: 0.010, TC_loss: 0.046
+2026-11-04 12:39:08 [DEBUG]: con_loss: 2.642, RCA_loss: 0.010, TC_loss: 0.049
+2026-11-04 12:39:08 [INFO]: Epoch 98 done. Loss: 4.128, Time per epoch: 0.494[s]
+2026-11-04 12:39:08 [DEBUG]: con_loss: 2.666, RCA_loss: 0.009, TC_loss: 0.045
+2026-11-04 12:39:08 [DEBUG]: con_loss: 2.644, RCA_loss: 0.012, TC_loss: 0.056
+2026-11-04 12:39:08 [INFO]: Epoch 99 done. Loss: 4.130, Time per epoch: 0.425[s]
+2026-11-04 12:39:08 [DEBUG]: con_loss: 2.660, RCA_loss: 0.010, TC_loss: 0.044
+2026-11-04 12:39:09 [DEBUG]: con_loss: 2.632, RCA_loss: 0.007, TC_loss: 0.051
+2026-11-04 12:39:09 [INFO]: Epoch 100 done. Loss: 4.124, Time per epoch: 0.370[s]
+2026-11-04 12:39:09 [DEBUG]: con_loss: 2.662, RCA_loss: 0.011, TC_loss: 0.063
+2026-11-04 12:39:09 [DEBUG]: con_loss: 2.636, RCA_loss: 0.006, TC_loss: 0.049
+2026-11-04 12:39:09 [INFO]: Epoch 101 done. Loss: 4.130, Time per epoch: 0.369[s]
+2026-11-04 12:39:09 [DEBUG]: con_loss: 2.671, RCA_loss: 0.011, TC_loss: 0.060
+2026-11-04 12:39:10 [DEBUG]: con_loss: 2.635, RCA_loss: 0.009, TC_loss: 0.043
+2026-11-04 12:39:10 [INFO]: Epoch 102 done. Loss: 4.130, Time per epoch: 0.575[s]
+2026-11-04 12:39:10 [DEBUG]: con_loss: 2.668, RCA_loss: 0.012, TC_loss: 0.043
+2026-11-04 12:39:10 [DEBUG]: con_loss: 2.639, RCA_loss: 0.005, TC_loss: 0.038
+2026-11-04 12:39:10 [INFO]: Epoch 103 done. Loss: 4.124, Time per epoch: 0.415[s]
+2026-11-04 12:39:10 [DEBUG]: con_loss: 2.666, RCA_loss: 0.012, TC_loss: 0.076
+2026-11-04 12:39:10 [DEBUG]: con_loss: 2.627, RCA_loss: 0.006, TC_loss: 0.050
+2026-11-04 12:39:10 [INFO]: Epoch 104 done. Loss: 4.132, Time per epoch: 0.414[s]
+2026-11-04 12:39:11 [DEBUG]: con_loss: 2.660, RCA_loss: 0.011, TC_loss: 0.045
+2026-11-04 12:39:11 [DEBUG]: con_loss: 2.625, RCA_loss: 0.007, TC_loss: 0.043
+2026-11-04 12:39:11 [INFO]: Epoch 105 done. Loss: 4.120, Time per epoch: 0.394[s]
+2026-11-04 12:39:11 [DEBUG]: con_loss: 2.664, RCA_loss: 0.009, TC_loss: 0.046
+2026-11-04 12:39:11 [DEBUG]: con_loss: 2.622, RCA_loss: 0.010, TC_loss: 0.045
+2026-11-04 12:39:11 [INFO]: Epoch 106 done. Loss: 4.122, Time per epoch: 0.447[s]
+2026-11-04 12:39:11 [DEBUG]: con_loss: 2.661, RCA_loss: 0.008, TC_loss: 0.052
+2026-11-04 12:39:12 [DEBUG]: con_loss: 2.620, RCA_loss: 0.007, TC_loss: 0.049
+2026-11-04 12:39:12 [INFO]: Epoch 107 done. Loss: 4.122, Time per epoch: 0.387[s]
+2026-11-04 12:39:12 [DEBUG]: con_loss: 2.660, RCA_loss: 0.010, TC_loss: 0.039
+2026-11-04 12:39:12 [DEBUG]: con_loss: 2.624, RCA_loss: 0.006, TC_loss: 0.043
+2026-11-04 12:39:12 [INFO]: Epoch 108 done. Loss: 4.118, Time per epoch: 0.363[s]
+2026-11-04 12:39:12 [DEBUG]: con_loss: 2.659, RCA_loss: 0.015, TC_loss: 0.037
+2026-11-04 12:39:12 [DEBUG]: con_loss: 2.630, RCA_loss: 0.008, TC_loss: 0.041
+2026-11-04 12:39:12 [INFO]: Epoch 109 done. Loss: 4.120, Time per epoch: 0.409[s]
+2026-11-04 12:39:13 [DEBUG]: con_loss: 2.660, RCA_loss: 0.009, TC_loss: 0.044
+2026-11-04 12:39:13 [DEBUG]: con_loss: 2.614, RCA_loss: 0.008, TC_loss: 0.033
+2026-11-04 12:39:13 [INFO]: Epoch 110 done. Loss: 4.115, Time per epoch: 0.366[s]
+2026-11-04 12:39:13 [DEBUG]: con_loss: 2.660, RCA_loss: 0.008, TC_loss: 0.039
+2026-11-04 12:39:13 [DEBUG]: con_loss: 2.616, RCA_loss: 0.007, TC_loss: 0.045
+2026-11-04 12:39:13 [INFO]: Epoch 111 done. Loss: 4.116, Time per epoch: 0.391[s]
+2026-11-04 12:39:13 [DEBUG]: con_loss: 2.643, RCA_loss: 0.005, TC_loss: 0.046
+2026-11-04 12:39:14 [DEBUG]: con_loss: 2.626, RCA_loss: 0.007, TC_loss: 0.028
+2026-11-04 12:39:14 [INFO]: Epoch 112 done. Loss: 4.111, Time per epoch: 0.500[s]
+2026-11-04 12:39:14 [DEBUG]: con_loss: 2.643, RCA_loss: 0.009, TC_loss: 0.028
+2026-11-04 12:39:14 [DEBUG]: con_loss: 2.625, RCA_loss: 0.004, TC_loss: 0.044
+2026-11-04 12:39:14 [INFO]: Epoch 113 done. Loss: 4.111, Time per epoch: 0.517[s]
+2026-11-04 12:39:15 [DEBUG]: con_loss: 2.648, RCA_loss: 0.006, TC_loss: 0.038
+2026-11-04 12:39:15 [DEBUG]: con_loss: 2.623, RCA_loss: 0.009, TC_loss: 0.034
+2026-11-04 12:39:15 [INFO]: Epoch 114 done. Loss: 4.112, Time per epoch: 0.586[s]
+2026-11-04 12:39:15 [DEBUG]: con_loss: 2.659, RCA_loss: 0.011, TC_loss: 0.038
+2026-11-04 12:39:15 [DEBUG]: con_loss: 2.615, RCA_loss: 0.005, TC_loss: 0.035
+2026-11-04 12:39:15 [INFO]: Epoch 115 done. Loss: 4.113, Time per epoch: 0.382[s]
+2026-11-04 12:39:15 [DEBUG]: con_loss: 2.647, RCA_loss: 0.009, TC_loss: 0.052
+2026-11-04 12:39:15 [DEBUG]: con_loss: 2.620, RCA_loss: 0.007, TC_loss: 0.030
+2026-11-04 12:39:16 [INFO]: Epoch 116 done. Loss: 4.114, Time per epoch: 0.360[s]
+2026-11-04 12:39:16 [DEBUG]: con_loss: 2.649, RCA_loss: 0.017, TC_loss: 0.029
+2026-11-04 12:39:16 [DEBUG]: con_loss: 2.619, RCA_loss: 0.006, TC_loss: 0.034
+2026-11-04 12:39:16 [INFO]: Epoch 117 done. Loss: 4.111, Time per epoch: 0.359[s]
+2026-11-04 12:39:16 [DEBUG]: con_loss: 2.656, RCA_loss: 0.009, TC_loss: 0.042
+2026-11-04 12:39:16 [DEBUG]: con_loss: 2.606, RCA_loss: 0.005, TC_loss: 0.026
+2026-11-04 12:39:16 [INFO]: Epoch 118 done. Loss: 4.109, Time per epoch: 0.528[s]
+2026-11-04 12:39:17 [DEBUG]: con_loss: 2.657, RCA_loss: 0.005, TC_loss: 0.031
+2026-11-04 12:39:17 [DEBUG]: con_loss: 2.604, RCA_loss: 0.004, TC_loss: 0.033
+2026-11-04 12:39:17 [INFO]: Epoch 119 done. Loss: 4.106, Time per epoch: 0.492[s]
+2026-11-04 12:39:17 [DEBUG]: con_loss: 2.644, RCA_loss: 0.005, TC_loss: 0.035
+2026-11-04 12:39:17 [DEBUG]: con_loss: 2.622, RCA_loss: 0.008, TC_loss: 0.033
+2026-11-04 12:39:17 [INFO]: Epoch 120 done. Loss: 4.109, Time per epoch: 0.350[s]
+2026-11-04 12:39:17 [DEBUG]: con_loss: 2.651, RCA_loss: 0.003, TC_loss: 0.036
+2026-11-04 12:39:18 [DEBUG]: con_loss: 2.609, RCA_loss: 0.005, TC_loss: 0.036
+2026-11-04 12:39:18 [INFO]: Epoch 121 done. Loss: 4.108, Time per epoch: 0.352[s]
+2026-11-04 12:39:18 [DEBUG]: con_loss: 2.638, RCA_loss: 0.006, TC_loss: 0.045
+2026-11-04 12:39:18 [DEBUG]: con_loss: 2.622, RCA_loss: 0.012, TC_loss: 0.029
+2026-11-04 12:39:18 [INFO]: Epoch 122 done. Loss: 4.111, Time per epoch: 0.389[s]
+2026-11-04 12:39:18 [DEBUG]: con_loss: 2.648, RCA_loss: 0.005, TC_loss: 0.037
+2026-11-04 12:39:18 [DEBUG]: con_loss: 2.613, RCA_loss: 0.005, TC_loss: 0.036
+2026-11-04 12:39:18 [INFO]: Epoch 123 done. Loss: 4.109, Time per epoch: 0.367[s]
+2026-11-04 12:39:18 [DEBUG]: con_loss: 2.639, RCA_loss: 0.008, TC_loss: 0.033
+2026-11-04 12:39:19 [DEBUG]: con_loss: 2.600, RCA_loss: 0.011, TC_loss: 0.031
+2026-11-04 12:39:19 [INFO]: Epoch 124 done. Loss: 4.103, Time per epoch: 0.350[s]
+2026-11-04 12:39:19 [DEBUG]: con_loss: 2.647, RCA_loss: 0.006, TC_loss: 0.035
+2026-11-04 12:39:19 [DEBUG]: con_loss: 2.594, RCA_loss: 0.006, TC_loss: 0.025
+2026-11-04 12:39:19 [INFO]: Epoch 125 done. Loss: 4.101, Time per epoch: 0.350[s]
+2026-11-04 12:39:19 [DEBUG]: con_loss: 2.631, RCA_loss: 0.005, TC_loss: 0.038
+2026-11-04 12:39:20 [DEBUG]: con_loss: 2.607, RCA_loss: 0.004, TC_loss: 0.031
+2026-11-04 12:39:20 [INFO]: Epoch 126 done. Loss: 4.102, Time per epoch: 0.511[s]
+2026-11-04 12:39:20 [DEBUG]: con_loss: 2.640, RCA_loss: 0.006, TC_loss: 0.031
+2026-11-04 12:39:20 [DEBUG]: con_loss: 2.611, RCA_loss: 0.005, TC_loss: 0.044
+2026-11-04 12:39:20 [INFO]: Epoch 127 done. Loss: 4.107, Time per epoch: 0.364[s]
+2026-11-04 12:39:20 [DEBUG]: con_loss: 2.642, RCA_loss: 0.003, TC_loss: 0.029
+2026-11-04 12:39:20 [DEBUG]: con_loss: 2.598, RCA_loss: 0.007, TC_loss: 0.030
+2026-11-04 12:39:20 [INFO]: Epoch 128 done. Loss: 4.100, Time per epoch: 0.358[s]
+2026-11-04 12:39:20 [DEBUG]: con_loss: 2.638, RCA_loss: 0.007, TC_loss: 0.028
+2026-11-04 12:39:21 [DEBUG]: con_loss: 2.598, RCA_loss: 0.004, TC_loss: 0.022
+2026-11-04 12:39:21 [INFO]: Epoch 129 done. Loss: 4.097, Time per epoch: 0.318[s]
+2026-11-04 12:39:21 [DEBUG]: con_loss: 2.638, RCA_loss: 0.004, TC_loss: 0.029
+2026-11-04 12:39:21 [DEBUG]: con_loss: 2.605, RCA_loss: 0.004, TC_loss: 0.032
+2026-11-04 12:39:21 [INFO]: Epoch 130 done. Loss: 4.101, Time per epoch: 0.324[s]
+2026-11-04 12:39:21 [DEBUG]: con_loss: 2.628, RCA_loss: 0.005, TC_loss: 0.035
+2026-11-04 12:39:21 [DEBUG]: con_loss: 2.609, RCA_loss: 0.003, TC_loss: 0.037
+2026-11-04 12:39:21 [INFO]: Epoch 131 done. Loss: 4.102, Time per epoch: 0.323[s]
+2026-11-04 12:39:21 [DEBUG]: con_loss: 2.625, RCA_loss: 0.007, TC_loss: 0.029
+2026-11-04 12:39:22 [DEBUG]: con_loss: 2.591, RCA_loss: 0.006, TC_loss: 0.028
+2026-11-04 12:39:22 [INFO]: Epoch 132 done. Loss: 4.094, Time per epoch: 0.316[s]
+2026-11-04 12:39:22 [DEBUG]: con_loss: 2.630, RCA_loss: 0.011, TC_loss: 0.021
+2026-11-04 12:39:22 [DEBUG]: con_loss: 2.600, RCA_loss: 0.003, TC_loss: 0.026
+2026-11-04 12:39:22 [INFO]: Epoch 133 done. Loss: 4.095, Time per epoch: 0.321[s]
+2026-11-04 12:39:22 [DEBUG]: con_loss: 2.626, RCA_loss: 0.006, TC_loss: 0.025
+2026-11-04 12:39:22 [DEBUG]: con_loss: 2.594, RCA_loss: 0.005, TC_loss: 0.027
+2026-11-04 12:39:22 [INFO]: Epoch 134 done. Loss: 4.093, Time per epoch: 0.323[s]
+2026-11-04 12:39:22 [DEBUG]: con_loss: 2.627, RCA_loss: 0.004, TC_loss: 0.025
+2026-11-04 12:39:23 [DEBUG]: con_loss: 2.597, RCA_loss: 0.005, TC_loss: 0.024
+2026-11-04 12:39:23 [INFO]: Epoch 135 done. Loss: 4.093, Time per epoch: 0.461[s]
+2026-11-04 12:39:23 [DEBUG]: con_loss: 2.627, RCA_loss: 0.005, TC_loss: 0.027
+2026-11-04 12:39:23 [DEBUG]: con_loss: 2.599, RCA_loss: 0.004, TC_loss: 0.025
+2026-11-04 12:39:23 [INFO]: Epoch 136 done. Loss: 4.094, Time per epoch: 0.382[s]
+2026-11-04 12:39:23 [DEBUG]: con_loss: 2.633, RCA_loss: 0.005, TC_loss: 0.034
+2026-11-04 12:39:23 [DEBUG]: con_loss: 2.581, RCA_loss: 0.004, TC_loss: 0.027
+2026-11-04 12:39:23 [INFO]: Epoch 137 done. Loss: 4.093, Time per epoch: 0.368[s]
+2026-11-04 12:39:24 [DEBUG]: con_loss: 2.626, RCA_loss: 0.005, TC_loss: 0.035
+2026-11-04 12:39:24 [DEBUG]: con_loss: 2.596, RCA_loss: 0.005, TC_loss: 0.029
+2026-11-04 12:39:24 [INFO]: Epoch 138 done. Loss: 4.097, Time per epoch: 0.599[s]
+2026-11-04 12:39:24 [DEBUG]: con_loss: 2.623, RCA_loss: 0.004, TC_loss: 0.024
+2026-11-04 12:39:24 [DEBUG]: con_loss: 2.601, RCA_loss: 0.005, TC_loss: 0.024
+2026-11-04 12:39:24 [INFO]: Epoch 139 done. Loss: 4.093, Time per epoch: 0.415[s]
+2026-11-04 12:39:25 [DEBUG]: con_loss: 2.621, RCA_loss: 0.003, TC_loss: 0.026
+2026-11-04 12:39:25 [DEBUG]: con_loss: 2.599, RCA_loss: 0.005, TC_loss: 0.026
+2026-11-04 12:39:25 [INFO]: Epoch 140 done. Loss: 4.093, Time per epoch: 0.388[s]
+2026-11-04 12:39:25 [DEBUG]: con_loss: 2.632, RCA_loss: 0.006, TC_loss: 0.022
+2026-11-04 12:39:25 [DEBUG]: con_loss: 2.583, RCA_loss: 0.004, TC_loss: 0.020
+2026-11-04 12:39:25 [INFO]: Epoch 141 done. Loss: 4.089, Time per epoch: 0.355[s]
+2026-11-04 12:39:25 [DEBUG]: con_loss: 2.615, RCA_loss: 0.005, TC_loss: 0.028
+2026-11-04 12:39:26 [DEBUG]: con_loss: 2.583, RCA_loss: 0.003, TC_loss: 0.020
+2026-11-04 12:39:26 [INFO]: Epoch 142 done. Loss: 4.086, Time per epoch: 0.360[s]
+2026-11-04 12:39:26 [DEBUG]: con_loss: 2.627, RCA_loss: 0.003, TC_loss: 0.021
+2026-11-04 12:39:26 [DEBUG]: con_loss: 2.580, RCA_loss: 0.005, TC_loss: 0.025
+2026-11-04 12:39:26 [INFO]: Epoch 143 done. Loss: 4.088, Time per epoch: 0.364[s]
+2026-11-04 12:39:26 [DEBUG]: con_loss: 2.625, RCA_loss: 0.004, TC_loss: 0.025
+2026-11-04 12:39:26 [DEBUG]: con_loss: 2.583, RCA_loss: 0.004, TC_loss: 0.022
+2026-11-04 12:39:26 [INFO]: Epoch 144 done. Loss: 4.088, Time per epoch: 0.387[s]
+2026-11-04 12:39:26 [DEBUG]: con_loss: 2.620, RCA_loss: 0.006, TC_loss: 0.025
+2026-11-04 12:39:27 [DEBUG]: con_loss: 2.587, RCA_loss: 0.005, TC_loss: 0.030
+2026-11-04 12:39:27 [INFO]: Epoch 145 done. Loss: 4.091, Time per epoch: 0.376[s]
+2026-11-04 12:39:27 [DEBUG]: con_loss: 2.604, RCA_loss: 0.005, TC_loss: 0.020
+2026-11-04 12:39:27 [DEBUG]: con_loss: 2.591, RCA_loss: 0.004, TC_loss: 0.026
+2026-11-04 12:39:27 [INFO]: Epoch 146 done. Loss: 4.085, Time per epoch: 0.393[s]
+2026-11-04 12:39:27 [DEBUG]: con_loss: 2.607, RCA_loss: 0.004, TC_loss: 0.023
+2026-11-04 12:39:27 [DEBUG]: con_loss: 2.575, RCA_loss: 0.002, TC_loss: 0.024
+2026-11-04 12:39:28 [INFO]: Epoch 147 done. Loss: 4.081, Time per epoch: 0.400[s]
+2026-11-04 12:39:28 [DEBUG]: con_loss: 2.609, RCA_loss: 0.005, TC_loss: 0.022
+2026-11-04 12:39:28 [DEBUG]: con_loss: 2.575, RCA_loss: 0.003, TC_loss: 0.018
+2026-11-04 12:39:28 [INFO]: Epoch 148 done. Loss: 4.080, Time per epoch: 0.440[s]
+2026-11-04 12:39:28 [DEBUG]: con_loss: 2.607, RCA_loss: 0.002, TC_loss: 0.019
+2026-11-04 12:39:28 [DEBUG]: con_loss: 2.587, RCA_loss: 0.006, TC_loss: 0.024
+2026-11-04 12:39:28 [INFO]: Epoch 149 done. Loss: 4.084, Time per epoch: 0.411[s]
+2026-11-04 12:39:29 [DEBUG]: con_loss: 2.593, RCA_loss: 0.009, TC_loss: 0.026
+2026-11-04 12:39:29 [DEBUG]: con_loss: 2.578, RCA_loss: 0.004, TC_loss: 0.021
+2026-11-04 12:39:29 [INFO]: Epoch 150 done. Loss: 4.080, Time per epoch: 0.539[s]
+2026-11-04 12:39:29 [DEBUG]: con_loss: 2.609, RCA_loss: 0.006, TC_loss: 0.018
+2026-11-04 12:39:29 [DEBUG]: con_loss: 2.585, RCA_loss: 0.004, TC_loss: 0.019
+2026-11-04 12:39:29 [INFO]: Epoch 151 done. Loss: 4.083, Time per epoch: 0.378[s]
+2026-11-04 12:39:29 [DEBUG]: con_loss: 2.610, RCA_loss: 0.002, TC_loss: 0.016
+2026-11-04 12:39:30 [DEBUG]: con_loss: 2.575, RCA_loss: 0.004, TC_loss: 0.022
+2026-11-04 12:39:30 [INFO]: Epoch 152 done. Loss: 4.080, Time per epoch: 0.381[s]
+2026-11-04 12:39:30 [DEBUG]: con_loss: 2.592, RCA_loss: 0.007, TC_loss: 0.019
+2026-11-04 12:39:30 [DEBUG]: con_loss: 2.575, RCA_loss: 0.006, TC_loss: 0.022
+2026-11-04 12:39:30 [INFO]: Epoch 153 done. Loss: 4.078, Time per epoch: 0.389[s]
+2026-11-04 12:39:30 [DEBUG]: con_loss: 2.581, RCA_loss: 0.003, TC_loss: 0.018
+2026-11-04 12:39:30 [DEBUG]: con_loss: 2.562, RCA_loss: 0.004, TC_loss: 0.022
+2026-11-04 12:39:30 [INFO]: Epoch 154 done. Loss: 4.070, Time per epoch: 0.381[s]
+2026-11-04 12:39:31 [DEBUG]: con_loss: 2.608, RCA_loss: 0.005, TC_loss: 0.017
+2026-11-04 12:39:31 [DEBUG]: con_loss: 2.535, RCA_loss: 0.002, TC_loss: 0.023
+2026-11-04 12:39:31 [INFO]: Epoch 155 done. Loss: 4.070, Time per epoch: 0.378[s]
+2026-11-04 12:39:31 [DEBUG]: con_loss: 2.600, RCA_loss: 0.005, TC_loss: 0.025
+2026-11-04 12:39:31 [DEBUG]: con_loss: 2.567, RCA_loss: 0.003, TC_loss: 0.025
+2026-11-04 12:39:31 [INFO]: Epoch 156 done. Loss: 4.079, Time per epoch: 0.403[s]
+2026-11-04 12:39:31 [DEBUG]: con_loss: 2.602, RCA_loss: 0.005, TC_loss: 0.022
+2026-11-04 12:39:32 [DEBUG]: con_loss: 2.562, RCA_loss: 0.003, TC_loss: 0.025
+2026-11-04 12:39:32 [INFO]: Epoch 157 done. Loss: 4.077, Time per epoch: 0.388[s]
+2026-11-04 12:39:32 [DEBUG]: con_loss: 2.604, RCA_loss: 0.004, TC_loss: 0.020
+2026-11-04 12:39:32 [DEBUG]: con_loss: 2.552, RCA_loss: 0.003, TC_loss: 0.023
+2026-11-04 12:39:32 [INFO]: Epoch 158 done. Loss: 4.074, Time per epoch: 0.368[s]
+2026-11-04 12:39:32 [DEBUG]: con_loss: 2.604, RCA_loss: 0.003, TC_loss: 0.017
+2026-11-04 12:39:32 [DEBUG]: con_loss: 2.551, RCA_loss: 0.002, TC_loss: 0.017
+2026-11-04 12:39:32 [INFO]: Epoch 159 done. Loss: 4.071, Time per epoch: 0.386[s]
+2026-11-04 12:39:32 [DEBUG]: con_loss: 2.592, RCA_loss: 0.003, TC_loss: 0.017
+2026-11-04 12:39:33 [DEBUG]: con_loss: 2.557, RCA_loss: 0.003, TC_loss: 0.017
+2026-11-04 12:39:33 [INFO]: Epoch 160 done. Loss: 4.070, Time per epoch: 0.402[s]
+2026-11-04 12:39:33 [DEBUG]: con_loss: 2.600, RCA_loss: 0.003, TC_loss: 0.025
+2026-11-04 12:39:33 [DEBUG]: con_loss: 2.548, RCA_loss: 0.003, TC_loss: 0.019
+2026-11-04 12:39:33 [INFO]: Epoch 161 done. Loss: 4.072, Time per epoch: 0.363[s]
+2026-11-04 12:39:33 [DEBUG]: con_loss: 2.588, RCA_loss: 0.002, TC_loss: 0.018
+2026-11-04 12:39:34 [DEBUG]: con_loss: 2.549, RCA_loss: 0.004, TC_loss: 0.022
+2026-11-04 12:39:34 [INFO]: Epoch 162 done. Loss: 4.068, Time per epoch: 0.583[s]
+2026-11-04 12:39:34 [DEBUG]: con_loss: 2.595, RCA_loss: 0.011, TC_loss: 0.021
+2026-11-04 12:39:34 [DEBUG]: con_loss: 2.554, RCA_loss: 0.003, TC_loss: 0.021
+2026-11-04 12:39:34 [INFO]: Epoch 163 done. Loss: 4.074, Time per epoch: 0.375[s]
+2026-11-04 12:39:34 [DEBUG]: con_loss: 2.591, RCA_loss: 0.003, TC_loss: 0.018
+2026-11-04 12:39:34 [DEBUG]: con_loss: 2.556, RCA_loss: 0.003, TC_loss: 0.019
+2026-11-04 12:39:35 [INFO]: Epoch 164 done. Loss: 4.070, Time per epoch: 0.397[s]
+2026-11-04 12:39:35 [DEBUG]: con_loss: 2.585, RCA_loss: 0.003, TC_loss: 0.018
+2026-11-04 12:39:35 [DEBUG]: con_loss: 2.556, RCA_loss: 0.004, TC_loss: 0.017
+2026-11-04 12:39:35 [INFO]: Epoch 165 done. Loss: 4.068, Time per epoch: 0.368[s]
+2026-11-04 12:39:35 [DEBUG]: con_loss: 2.588, RCA_loss: 0.003, TC_loss: 0.020
+2026-11-04 12:39:35 [DEBUG]: con_loss: 2.561, RCA_loss: 0.003, TC_loss: 0.020
+2026-11-04 12:39:35 [INFO]: Epoch 166 done. Loss: 4.071, Time per epoch: 0.364[s]
+2026-11-04 12:39:35 [DEBUG]: con_loss: 2.587, RCA_loss: 0.003, TC_loss: 0.027
+2026-11-04 12:39:36 [DEBUG]: con_loss: 2.549, RCA_loss: 0.009, TC_loss: 0.019
+2026-11-04 12:39:36 [INFO]: Epoch 167 done. Loss: 4.071, Time per epoch: 0.396[s]
+2026-11-04 12:39:36 [DEBUG]: con_loss: 2.589, RCA_loss: 0.002, TC_loss: 0.018
+2026-11-04 12:39:36 [DEBUG]: con_loss: 2.542, RCA_loss: 0.004, TC_loss: 0.016
+2026-11-04 12:39:36 [INFO]: Epoch 168 done. Loss: 4.065, Time per epoch: 0.404[s]
+2026-11-04 12:39:36 [DEBUG]: con_loss: 2.574, RCA_loss: 0.002, TC_loss: 0.015
+2026-11-04 12:39:36 [DEBUG]: con_loss: 2.548, RCA_loss: 0.003, TC_loss: 0.022
+2026-11-04 12:39:36 [INFO]: Epoch 169 done. Loss: 4.064, Time per epoch: 0.413[s]
+2026-11-04 12:39:37 [DEBUG]: con_loss: 2.561, RCA_loss: 0.003, TC_loss: 0.021
+2026-11-04 12:39:37 [DEBUG]: con_loss: 2.540, RCA_loss: 0.003, TC_loss: 0.018
+2026-11-04 12:39:37 [INFO]: Epoch 170 done. Loss: 4.059, Time per epoch: 0.394[s]
+2026-11-04 12:39:37 [DEBUG]: con_loss: 2.587, RCA_loss: 0.008, TC_loss: 0.023
+2026-11-04 12:39:37 [DEBUG]: con_loss: 2.542, RCA_loss: 0.004, TC_loss: 0.014
+2026-11-04 12:39:37 [INFO]: Epoch 171 done. Loss: 4.067, Time per epoch: 0.403[s]
+2026-11-04 12:39:37 [DEBUG]: con_loss: 2.576, RCA_loss: 0.006, TC_loss: 0.018
+2026-11-04 12:39:38 [DEBUG]: con_loss: 2.553, RCA_loss: 0.004, TC_loss: 0.020
+2026-11-04 12:39:38 [INFO]: Epoch 172 done. Loss: 4.067, Time per epoch: 0.437[s]
+2026-11-04 12:39:38 [DEBUG]: con_loss: 2.578, RCA_loss: 0.002, TC_loss: 0.018
+2026-11-04 12:39:38 [DEBUG]: con_loss: 2.554, RCA_loss: 0.004, TC_loss: 0.021
+2026-11-04 12:39:38 [INFO]: Epoch 173 done. Loss: 4.067, Time per epoch: 0.375[s]
+2026-11-04 12:39:38 [DEBUG]: con_loss: 2.570, RCA_loss: 0.002, TC_loss: 0.017
+2026-11-04 12:39:39 [DEBUG]: con_loss: 2.539, RCA_loss: 0.002, TC_loss: 0.020
+2026-11-04 12:39:39 [INFO]: Epoch 174 done. Loss: 4.060, Time per epoch: 0.595[s]
+2026-11-04 12:39:39 [DEBUG]: con_loss: 2.574, RCA_loss: 0.002, TC_loss: 0.018
+2026-11-04 12:39:39 [DEBUG]: con_loss: 2.540, RCA_loss: 0.003, TC_loss: 0.017
+2026-11-04 12:39:39 [INFO]: Epoch 175 done. Loss: 4.061, Time per epoch: 0.518[s]
+2026-11-04 12:39:39 [DEBUG]: con_loss: 2.565, RCA_loss: 0.006, TC_loss: 0.019
+2026-11-04 12:39:40 [DEBUG]: con_loss: 2.548, RCA_loss: 0.002, TC_loss: 0.020
+2026-11-04 12:39:40 [INFO]: Epoch 176 done. Loss: 4.063, Time per epoch: 0.440[s]
+2026-11-04 12:39:40 [DEBUG]: con_loss: 2.564, RCA_loss: 0.004, TC_loss: 0.020
+2026-11-04 12:39:40 [DEBUG]: con_loss: 2.541, RCA_loss: 0.003, TC_loss: 0.021
+2026-11-04 12:39:40 [INFO]: Epoch 177 done. Loss: 4.061, Time per epoch: 0.433[s]
+2026-11-04 12:39:40 [DEBUG]: con_loss: 2.566, RCA_loss: 0.002, TC_loss: 0.021
+2026-11-04 12:39:40 [DEBUG]: con_loss: 2.539, RCA_loss: 0.004, TC_loss: 0.020
+2026-11-04 12:39:40 [INFO]: Epoch 178 done. Loss: 4.061, Time per epoch: 0.377[s]
+2026-11-04 12:39:41 [DEBUG]: con_loss: 2.569, RCA_loss: 0.003, TC_loss: 0.016
+2026-11-04 12:39:41 [DEBUG]: con_loss: 2.531, RCA_loss: 0.003, TC_loss: 0.017
+2026-11-04 12:39:41 [INFO]: Epoch 179 done. Loss: 4.057, Time per epoch: 0.402[s]
+2026-11-04 12:39:41 [DEBUG]: con_loss: 2.558, RCA_loss: 0.003, TC_loss: 0.024
+2026-11-04 12:39:41 [DEBUG]: con_loss: 2.525, RCA_loss: 0.002, TC_loss: 0.013
+2026-11-04 12:39:41 [INFO]: Epoch 180 done. Loss: 4.054, Time per epoch: 0.432[s]
+2026-11-04 12:39:41 [DEBUG]: con_loss: 2.551, RCA_loss: 0.002, TC_loss: 0.015
+2026-11-04 12:39:42 [DEBUG]: con_loss: 2.534, RCA_loss: 0.002, TC_loss: 0.023
+2026-11-04 12:39:42 [INFO]: Epoch 181 done. Loss: 4.054, Time per epoch: 0.398[s]
+2026-11-04 12:39:42 [DEBUG]: con_loss: 2.558, RCA_loss: 0.006, TC_loss: 0.017
+2026-11-04 12:39:42 [DEBUG]: con_loss: 2.537, RCA_loss: 0.004, TC_loss: 0.021
+2026-11-04 12:39:42 [INFO]: Epoch 182 done. Loss: 4.058, Time per epoch: 0.422[s]
+2026-11-04 12:39:42 [DEBUG]: con_loss: 2.551, RCA_loss: 0.002, TC_loss: 0.019
+2026-11-04 12:39:42 [DEBUG]: con_loss: 2.532, RCA_loss: 0.003, TC_loss: 0.018
+2026-11-04 12:39:43 [INFO]: Epoch 183 done. Loss: 4.054, Time per epoch: 0.456[s]
+2026-11-04 12:39:43 [DEBUG]: con_loss: 2.546, RCA_loss: 0.002, TC_loss: 0.020
+2026-11-04 12:39:43 [DEBUG]: con_loss: 2.538, RCA_loss: 0.002, TC_loss: 0.016
+2026-11-04 12:39:43 [INFO]: Epoch 184 done. Loss: 4.053, Time per epoch: 0.401[s]
+2026-11-04 12:39:43 [DEBUG]: con_loss: 2.558, RCA_loss: 0.003, TC_loss: 0.017
+2026-11-04 12:39:43 [DEBUG]: con_loss: 2.530, RCA_loss: 0.002, TC_loss: 0.016
+2026-11-04 12:39:43 [INFO]: Epoch 185 done. Loss: 4.054, Time per epoch: 0.437[s]
+2026-11-04 12:39:44 [DEBUG]: con_loss: 2.555, RCA_loss: 0.003, TC_loss: 0.019
+2026-11-04 12:39:44 [DEBUG]: con_loss: 2.527, RCA_loss: 0.002, TC_loss: 0.015
+2026-11-04 12:39:44 [INFO]: Epoch 186 done. Loss: 4.053, Time per epoch: 0.626[s]
+2026-11-04 12:39:44 [DEBUG]: con_loss: 2.544, RCA_loss: 0.002, TC_loss: 0.014
+2026-11-04 12:39:44 [DEBUG]: con_loss: 2.535, RCA_loss: 0.002, TC_loss: 0.015
+2026-11-04 12:39:44 [INFO]: Epoch 187 done. Loss: 4.051, Time per epoch: 0.393[s]
+2026-11-04 12:39:45 [DEBUG]: con_loss: 2.560, RCA_loss: 0.003, TC_loss: 0.016
+2026-11-04 12:39:45 [DEBUG]: con_loss: 2.522, RCA_loss: 0.002, TC_loss: 0.019
+2026-11-04 12:39:45 [INFO]: Epoch 188 done. Loss: 4.053, Time per epoch: 0.390[s]
+2026-11-04 12:39:45 [DEBUG]: con_loss: 2.561, RCA_loss: 0.003, TC_loss: 0.017
+2026-11-04 12:39:45 [DEBUG]: con_loss: 2.524, RCA_loss: 0.001, TC_loss: 0.018
+2026-11-04 12:39:45 [INFO]: Epoch 189 done. Loss: 4.054, Time per epoch: 0.479[s]
+2026-11-04 12:39:45 [DEBUG]: con_loss: 2.532, RCA_loss: 0.003, TC_loss: 0.016
+2026-11-04 12:39:46 [DEBUG]: con_loss: 2.524, RCA_loss: 0.005, TC_loss: 0.024
+2026-11-04 12:39:46 [INFO]: Epoch 190 done. Loss: 4.048, Time per epoch: 0.504[s]
+2026-11-04 12:39:46 [DEBUG]: con_loss: 2.545, RCA_loss: 0.004, TC_loss: 0.017
+2026-11-04 12:39:46 [DEBUG]: con_loss: 2.516, RCA_loss: 0.003, TC_loss: 0.018
+2026-11-04 12:39:46 [INFO]: Epoch 191 done. Loss: 4.048, Time per epoch: 0.436[s]
+2026-11-04 12:39:46 [DEBUG]: con_loss: 2.555, RCA_loss: 0.003, TC_loss: 0.017
+2026-11-04 12:39:47 [DEBUG]: con_loss: 2.517, RCA_loss: 0.002, TC_loss: 0.018
+2026-11-04 12:39:47 [INFO]: Epoch 192 done. Loss: 4.051, Time per epoch: 0.431[s]
+2026-11-04 12:39:47 [DEBUG]: con_loss: 2.547, RCA_loss: 0.003, TC_loss: 0.016
+2026-11-04 12:39:47 [DEBUG]: con_loss: 2.532, RCA_loss: 0.004, TC_loss: 0.024
+2026-11-04 12:39:47 [INFO]: Epoch 193 done. Loss: 4.054, Time per epoch: 0.503[s]
+2026-11-04 12:39:47 [DEBUG]: con_loss: 2.538, RCA_loss: 0.003, TC_loss: 0.020
+2026-11-04 12:39:48 [DEBUG]: con_loss: 2.518, RCA_loss: 0.004, TC_loss: 0.020
+2026-11-04 12:39:48 [INFO]: Epoch 194 done. Loss: 4.048, Time per epoch: 0.433[s]
+2026-11-04 12:39:48 [DEBUG]: con_loss: 2.537, RCA_loss: 0.005, TC_loss: 0.017
+2026-11-04 12:39:48 [DEBUG]: con_loss: 2.522, RCA_loss: 0.004, TC_loss: 0.020
+2026-11-04 12:39:48 [INFO]: Epoch 195 done. Loss: 4.048, Time per epoch: 0.413[s]
+2026-11-04 12:39:48 [DEBUG]: con_loss: 2.522, RCA_loss: 0.002, TC_loss: 0.017
+2026-11-04 12:39:48 [DEBUG]: con_loss: 2.505, RCA_loss: 0.002, TC_loss: 0.013
+2026-11-04 12:39:48 [INFO]: Epoch 196 done. Loss: 4.038, Time per epoch: 0.388[s]
+2026-11-04 12:39:49 [DEBUG]: con_loss: 2.535, RCA_loss: 0.001, TC_loss: 0.018
+2026-11-04 12:39:49 [DEBUG]: con_loss: 2.506, RCA_loss: 0.003, TC_loss: 0.018
+2026-11-04 12:39:49 [INFO]: Epoch 197 done. Loss: 4.043, Time per epoch: 0.401[s]
+2026-11-04 12:39:49 [DEBUG]: con_loss: 2.529, RCA_loss: 0.002, TC_loss: 0.018
+2026-11-04 12:39:49 [DEBUG]: con_loss: 2.496, RCA_loss: 0.002, TC_loss: 0.016
+2026-11-04 12:39:49 [INFO]: Epoch 198 done. Loss: 4.038, Time per epoch: 0.591[s]
+2026-11-04 12:39:50 [DEBUG]: con_loss: 2.555, RCA_loss: 0.002, TC_loss: 0.017
+2026-11-04 12:39:50 [DEBUG]: con_loss: 2.495, RCA_loss: 0.001, TC_loss: 0.030
+2026-11-04 12:39:50 [INFO]: Epoch 199 done. Loss: 4.047, Time per epoch: 0.405[s]
+2026-11-04 12:39:50 [DEBUG]: con_loss: 2.525, RCA_loss: 0.001, TC_loss: 0.017
+2026-11-04 12:39:50 [DEBUG]: con_loss: 2.537, RCA_loss: 0.003, TC_loss: 0.020
+2026-11-04 12:39:50 [INFO]: Epoch 200 done. Loss: 4.048, Time per epoch: 0.412[s]
+2026-11-04 12:39:50 [DEBUG]: con_loss: 2.533, RCA_loss: 0.004, TC_loss: 0.017
+2026-11-04 12:39:51 [DEBUG]: con_loss: 2.498, RCA_loss: 0.002, TC_loss: 0.023
+2026-11-04 12:39:51 [INFO]: Epoch 201 done. Loss: 4.042, Time per epoch: 0.437[s]
+2026-11-04 12:39:51 [DEBUG]: con_loss: 2.541, RCA_loss: 0.002, TC_loss: 0.014
+2026-11-04 12:39:51 [DEBUG]: con_loss: 2.491, RCA_loss: 0.002, TC_loss: 0.016
+2026-11-04 12:39:51 [INFO]: Epoch 202 done. Loss: 4.039, Time per epoch: 0.425[s]
+2026-11-04 12:39:51 [DEBUG]: con_loss: 2.515, RCA_loss: 0.002, TC_loss: 0.015
+2026-11-04 12:39:51 [DEBUG]: con_loss: 2.500, RCA_loss: 0.001, TC_loss: 0.017
+2026-11-04 12:39:52 [INFO]: Epoch 203 done. Loss: 4.035, Time per epoch: 0.412[s]
+2026-11-04 12:39:52 [DEBUG]: con_loss: 2.535, RCA_loss: 0.002, TC_loss: 0.015
+2026-11-04 12:39:52 [DEBUG]: con_loss: 2.480, RCA_loss: 0.001, TC_loss: 0.013
+2026-11-04 12:39:52 [INFO]: Epoch 204 done. Loss: 4.034, Time per epoch: 0.411[s]
+2026-11-04 12:39:52 [DEBUG]: con_loss: 2.514, RCA_loss: 0.003, TC_loss: 0.013
+2026-11-04 12:39:52 [DEBUG]: con_loss: 2.505, RCA_loss: 0.002, TC_loss: 0.018
+2026-11-04 12:39:52 [INFO]: Epoch 205 done. Loss: 4.036, Time per epoch: 0.405[s]
+2026-11-04 12:39:52 [DEBUG]: con_loss: 2.535, RCA_loss: 0.003, TC_loss: 0.014
+2026-11-04 12:39:53 [DEBUG]: con_loss: 2.471, RCA_loss: 0.002, TC_loss: 0.019
+2026-11-04 12:39:53 [INFO]: Epoch 206 done. Loss: 4.034, Time per epoch: 0.427[s]
+2026-11-04 12:39:53 [DEBUG]: con_loss: 2.525, RCA_loss: 0.002, TC_loss: 0.015
+2026-11-04 12:39:53 [DEBUG]: con_loss: 2.492, RCA_loss: 0.002, TC_loss: 0.015
+2026-11-04 12:39:53 [INFO]: Epoch 207 done. Loss: 4.035, Time per epoch: 0.401[s]
+2026-11-04 12:39:53 [DEBUG]: con_loss: 2.531, RCA_loss: 0.004, TC_loss: 0.017
+2026-11-04 12:39:53 [DEBUG]: con_loss: 2.498, RCA_loss: 0.002, TC_loss: 0.017
+2026-11-04 12:39:54 [INFO]: Epoch 208 done. Loss: 4.040, Time per epoch: 0.388[s]
+2026-11-04 12:39:54 [DEBUG]: con_loss: 2.522, RCA_loss: 0.003, TC_loss: 0.018
+2026-11-04 12:39:54 [DEBUG]: con_loss: 2.476, RCA_loss: 0.002, TC_loss: 0.015
+2026-11-04 12:39:54 [INFO]: Epoch 209 done. Loss: 4.032, Time per epoch: 0.530[s]
+2026-11-04 12:39:54 [DEBUG]: con_loss: 2.523, RCA_loss: 0.002, TC_loss: 0.014
+2026-11-04 12:39:55 [DEBUG]: con_loss: 2.488, RCA_loss: 0.001, TC_loss: 0.017
+2026-11-04 12:39:55 [INFO]: Epoch 210 done. Loss: 4.034, Time per epoch: 0.614[s]
+2026-11-04 12:39:55 [DEBUG]: con_loss: 2.523, RCA_loss: 0.002, TC_loss: 0.012
+2026-11-04 12:39:55 [DEBUG]: con_loss: 2.486, RCA_loss: 0.004, TC_loss: 0.017
+2026-11-04 12:39:55 [INFO]: Epoch 211 done. Loss: 4.034, Time per epoch: 0.395[s]
+2026-11-04 12:39:55 [DEBUG]: con_loss: 2.522, RCA_loss: 0.002, TC_loss: 0.020
+2026-11-04 12:39:55 [DEBUG]: con_loss: 2.477, RCA_loss: 0.002, TC_loss: 0.018
+2026-11-04 12:39:55 [INFO]: Epoch 212 done. Loss: 4.033, Time per epoch: 0.368[s]
+2026-11-04 12:39:56 [DEBUG]: con_loss: 2.518, RCA_loss: 0.002, TC_loss: 0.012
+2026-11-04 12:39:56 [DEBUG]: con_loss: 2.486, RCA_loss: 0.002, TC_loss: 0.019
+2026-11-04 12:39:56 [INFO]: Epoch 213 done. Loss: 4.032, Time per epoch: 0.407[s]
+2026-11-04 12:39:56 [DEBUG]: con_loss: 2.514, RCA_loss: 0.003, TC_loss: 0.014
+2026-11-04 12:39:56 [DEBUG]: con_loss: 2.488, RCA_loss: 0.002, TC_loss: 0.017
+2026-11-04 12:39:56 [INFO]: Epoch 214 done. Loss: 4.032, Time per epoch: 0.409[s]
+2026-11-04 12:39:56 [DEBUG]: con_loss: 2.504, RCA_loss: 0.002, TC_loss: 0.016
+2026-11-04 12:39:57 [DEBUG]: con_loss: 2.483, RCA_loss: 0.003, TC_loss: 0.018
+2026-11-04 12:39:57 [INFO]: Epoch 215 done. Loss: 4.029, Time per epoch: 0.425[s]
+2026-11-04 12:39:57 [DEBUG]: con_loss: 2.509, RCA_loss: 0.001, TC_loss: 0.015
+2026-11-04 12:39:57 [DEBUG]: con_loss: 2.471, RCA_loss: 0.002, TC_loss: 0.015
+2026-11-04 12:39:57 [INFO]: Epoch 216 done. Loss: 4.026, Time per epoch: 0.515[s]
+2026-11-04 12:39:57 [DEBUG]: con_loss: 2.520, RCA_loss: 0.002, TC_loss: 0.016
+2026-11-04 12:39:58 [DEBUG]: con_loss: 2.467, RCA_loss: 0.003, TC_loss: 0.017
+2026-11-04 12:39:58 [INFO]: Epoch 217 done. Loss: 4.029, Time per epoch: 0.414[s]
+2026-11-04 12:39:58 [DEBUG]: con_loss: 2.524, RCA_loss: 0.002, TC_loss: 0.017
+2026-11-04 12:39:58 [DEBUG]: con_loss: 2.474, RCA_loss: 0.002, TC_loss: 0.013
+2026-11-04 12:39:58 [INFO]: Epoch 218 done. Loss: 4.031, Time per epoch: 0.393[s]
+2026-11-04 12:39:58 [DEBUG]: con_loss: 2.503, RCA_loss: 0.001, TC_loss: 0.012
+2026-11-04 12:39:58 [DEBUG]: con_loss: 2.461, RCA_loss: 0.001, TC_loss: 0.017
+2026-11-04 12:39:58 [INFO]: Epoch 219 done. Loss: 4.021, Time per epoch: 0.405[s]
+2026-11-04 12:39:59 [DEBUG]: con_loss: 2.509, RCA_loss: 0.002, TC_loss: 0.017
+2026-11-04 12:39:59 [DEBUG]: con_loss: 2.462, RCA_loss: 0.001, TC_loss: 0.017
+2026-11-04 12:39:59 [INFO]: Epoch 220 done. Loss: 4.025, Time per epoch: 0.436[s]
+2026-11-04 12:39:59 [DEBUG]: con_loss: 2.503, RCA_loss: 0.002, TC_loss: 0.015
+2026-11-04 12:39:59 [DEBUG]: con_loss: 2.474, RCA_loss: 0.003, TC_loss: 0.023
+2026-11-04 12:39:59 [INFO]: Epoch 221 done. Loss: 4.027, Time per epoch: 0.444[s]
+2026-11-04 12:40:00 [DEBUG]: con_loss: 2.504, RCA_loss: 0.002, TC_loss: 0.016
+2026-11-04 12:40:00 [DEBUG]: con_loss: 2.461, RCA_loss: 0.002, TC_loss: 0.017
+2026-11-04 12:40:00 [INFO]: Epoch 222 done. Loss: 4.023, Time per epoch: 0.668[s]
+2026-11-04 12:40:00 [DEBUG]: con_loss: 2.496, RCA_loss: 0.002, TC_loss: 0.018
+2026-11-04 12:40:00 [DEBUG]: con_loss: 2.463, RCA_loss: 0.003, TC_loss: 0.015
+2026-11-04 12:40:00 [INFO]: Epoch 223 done. Loss: 4.022, Time per epoch: 0.423[s]
+2026-11-04 12:40:01 [DEBUG]: con_loss: 2.481, RCA_loss: 0.001, TC_loss: 0.017
+2026-11-04 12:40:01 [DEBUG]: con_loss: 2.474, RCA_loss: 0.002, TC_loss: 0.013
+2026-11-04 12:40:01 [INFO]: Epoch 224 done. Loss: 4.020, Time per epoch: 0.439[s]
+2026-11-04 12:40:01 [DEBUG]: con_loss: 2.501, RCA_loss: 0.001, TC_loss: 0.019
+2026-11-04 12:40:01 [DEBUG]: con_loss: 2.455, RCA_loss: 0.002, TC_loss: 0.014
+2026-11-04 12:40:01 [INFO]: Epoch 225 done. Loss: 4.020, Time per epoch: 0.520[s]
+2026-11-04 12:40:01 [DEBUG]: con_loss: 2.486, RCA_loss: 0.001, TC_loss: 0.021
+2026-11-04 12:40:02 [DEBUG]: con_loss: 2.475, RCA_loss: 0.003, TC_loss: 0.019
+2026-11-04 12:40:02 [INFO]: Epoch 226 done. Loss: 4.024, Time per epoch: 0.410[s]
+2026-11-04 12:40:02 [DEBUG]: con_loss: 2.504, RCA_loss: 0.002, TC_loss: 0.014
+2026-11-04 12:40:02 [DEBUG]: con_loss: 2.449, RCA_loss: 0.001, TC_loss: 0.016
+2026-11-04 12:40:02 [INFO]: Epoch 227 done. Loss: 4.019, Time per epoch: 0.433[s]
+2026-11-04 12:40:02 [DEBUG]: con_loss: 2.485, RCA_loss: 0.002, TC_loss: 0.018
+2026-11-04 12:40:03 [DEBUG]: con_loss: 2.478, RCA_loss: 0.002, TC_loss: 0.014
+2026-11-04 12:40:03 [INFO]: Epoch 228 done. Loss: 4.022, Time per epoch: 0.419[s]
+2026-11-04 12:40:03 [DEBUG]: con_loss: 2.489, RCA_loss: 0.003, TC_loss: 0.013
+2026-11-04 12:40:03 [DEBUG]: con_loss: 2.463, RCA_loss: 0.002, TC_loss: 0.019
+2026-11-04 12:40:03 [INFO]: Epoch 229 done. Loss: 4.020, Time per epoch: 0.540[s]
+2026-11-04 12:40:03 [DEBUG]: con_loss: 2.508, RCA_loss: 0.001, TC_loss: 0.018
+2026-11-04 12:40:04 [DEBUG]: con_loss: 2.437, RCA_loss: 0.002, TC_loss: 0.014
+2026-11-04 12:40:04 [INFO]: Epoch 230 done. Loss: 4.017, Time per epoch: 0.492[s]
+2026-11-04 12:40:04 [DEBUG]: con_loss: 2.508, RCA_loss: 0.002, TC_loss: 0.018
+2026-11-04 12:40:04 [DEBUG]: con_loss: 2.447, RCA_loss: 0.001, TC_loss: 0.013
+2026-11-04 12:40:04 [INFO]: Epoch 231 done. Loss: 4.020, Time per epoch: 0.430[s]
+2026-11-04 12:40:04 [DEBUG]: con_loss: 2.495, RCA_loss: 0.002, TC_loss: 0.018
+2026-11-04 12:40:04 [DEBUG]: con_loss: 2.460, RCA_loss: 0.002, TC_loss: 0.017
+2026-11-04 12:40:05 [INFO]: Epoch 232 done. Loss: 4.021, Time per epoch: 0.453[s]
+2026-11-04 12:40:05 [DEBUG]: con_loss: 2.474, RCA_loss: 0.007, TC_loss: 0.013
+2026-11-04 12:40:05 [DEBUG]: con_loss: 2.451, RCA_loss: 0.002, TC_loss: 0.017
+2026-11-04 12:40:05 [INFO]: Epoch 233 done. Loss: 4.013, Time per epoch: 0.501[s]
+2026-11-04 12:40:05 [DEBUG]: con_loss: 2.471, RCA_loss: 0.002, TC_loss: 0.018
+2026-11-04 12:40:06 [DEBUG]: con_loss: 2.480, RCA_loss: 0.002, TC_loss: 0.020
+2026-11-04 12:40:06 [INFO]: Epoch 234 done. Loss: 4.021, Time per epoch: 0.678[s]
+2026-11-04 12:40:06 [DEBUG]: con_loss: 2.500, RCA_loss: 0.001, TC_loss: 0.016
+2026-11-04 12:40:06 [DEBUG]: con_loss: 2.450, RCA_loss: 0.003, TC_loss: 0.020
+2026-11-04 12:40:06 [INFO]: Epoch 235 done. Loss: 4.020, Time per epoch: 0.456[s]
+2026-11-04 12:40:06 [DEBUG]: con_loss: 2.476, RCA_loss: 0.003, TC_loss: 0.012
+2026-11-04 12:40:07 [DEBUG]: con_loss: 2.448, RCA_loss: 0.001, TC_loss: 0.013
+2026-11-04 12:40:07 [INFO]: Epoch 236 done. Loss: 4.011, Time per epoch: 0.432[s]
+2026-11-04 12:40:07 [DEBUG]: con_loss: 2.506, RCA_loss: 0.002, TC_loss: 0.013
+2026-11-04 12:40:07 [DEBUG]: con_loss: 2.452, RCA_loss: 0.003, TC_loss: 0.015
+2026-11-04 12:40:07 [INFO]: Epoch 237 done. Loss: 4.020, Time per epoch: 0.417[s]
+2026-11-04 12:40:07 [DEBUG]: con_loss: 2.477, RCA_loss: 0.001, TC_loss: 0.018
+2026-11-04 12:40:07 [DEBUG]: con_loss: 2.469, RCA_loss: 0.002, TC_loss: 0.016
+2026-11-04 12:40:07 [INFO]: Epoch 238 done. Loss: 4.018, Time per epoch: 0.434[s]
+2026-11-04 12:40:08 [DEBUG]: con_loss: 2.489, RCA_loss: 0.002, TC_loss: 0.014
+2026-11-04 12:40:08 [DEBUG]: con_loss: 2.441, RCA_loss: 0.002, TC_loss: 0.011
+2026-11-04 12:40:08 [INFO]: Epoch 239 done. Loss: 4.012, Time per epoch: 0.459[s]
+2026-11-04 12:40:08 [DEBUG]: con_loss: 2.470, RCA_loss: 0.002, TC_loss: 0.015
+2026-11-04 12:40:08 [DEBUG]: con_loss: 2.464, RCA_loss: 0.006, TC_loss: 0.013
+2026-11-04 12:40:08 [INFO]: Epoch 240 done. Loss: 4.015, Time per epoch: 0.394[s]
+2026-11-04 12:40:08 [DEBUG]: con_loss: 2.477, RCA_loss: 0.002, TC_loss: 0.012
+2026-11-04 12:40:09 [DEBUG]: con_loss: 2.447, RCA_loss: 0.003, TC_loss: 0.026
+2026-11-04 12:40:09 [INFO]: Epoch 241 done. Loss: 4.014, Time per epoch: 0.464[s]
+2026-11-04 12:40:09 [DEBUG]: con_loss: 2.466, RCA_loss: 0.002, TC_loss: 0.013
+2026-11-04 12:40:09 [DEBUG]: con_loss: 2.448, RCA_loss: 0.001, TC_loss: 0.014
+2026-11-04 12:40:09 [INFO]: Epoch 242 done. Loss: 4.009, Time per epoch: 0.395[s]
+2026-11-04 12:40:09 [DEBUG]: con_loss: 2.492, RCA_loss: 0.002, TC_loss: 0.014
+2026-11-04 12:40:10 [DEBUG]: con_loss: 2.435, RCA_loss: 0.001, TC_loss: 0.013
+2026-11-04 12:40:10 [INFO]: Epoch 243 done. Loss: 4.012, Time per epoch: 0.408[s]
+2026-11-04 12:40:10 [DEBUG]: con_loss: 2.470, RCA_loss: 0.001, TC_loss: 0.021
+2026-11-04 12:40:10 [DEBUG]: con_loss: 2.438, RCA_loss: 0.001, TC_loss: 0.019
+2026-11-04 12:40:10 [INFO]: Epoch 244 done. Loss: 4.011, Time per epoch: 0.418[s]
+2026-11-04 12:40:10 [DEBUG]: con_loss: 2.470, RCA_loss: 0.002, TC_loss: 0.012
+2026-11-04 12:40:10 [DEBUG]: con_loss: 2.437, RCA_loss: 0.005, TC_loss: 0.014
+2026-11-04 12:40:10 [INFO]: Epoch 245 done. Loss: 4.008, Time per epoch: 0.426[s]
+2026-11-04 12:40:11 [DEBUG]: con_loss: 2.481, RCA_loss: 0.002, TC_loss: 0.014
+2026-11-04 12:40:11 [DEBUG]: con_loss: 2.431, RCA_loss: 0.001, TC_loss: 0.018
+2026-11-04 12:40:11 [INFO]: Epoch 246 done. Loss: 4.010, Time per epoch: 0.563[s]
+2026-11-04 12:40:11 [DEBUG]: con_loss: 2.464, RCA_loss: 0.002, TC_loss: 0.012
+2026-11-04 12:40:11 [DEBUG]: con_loss: 2.424, RCA_loss: 0.002, TC_loss: 0.015
+2026-11-04 12:40:11 [INFO]: Epoch 247 done. Loss: 4.002, Time per epoch: 0.443[s]
+2026-11-04 12:40:12 [DEBUG]: con_loss: 2.471, RCA_loss: 0.002, TC_loss: 0.015
+2026-11-04 12:40:12 [DEBUG]: con_loss: 2.443, RCA_loss: 0.002, TC_loss: 0.011
+2026-11-04 12:40:12 [INFO]: Epoch 248 done. Loss: 4.008, Time per epoch: 0.480[s]
+2026-11-04 12:40:12 [DEBUG]: con_loss: 2.449, RCA_loss: 0.001, TC_loss: 0.011
+2026-11-04 12:40:12 [DEBUG]: con_loss: 2.452, RCA_loss: 0.002, TC_loss: 0.019
+2026-11-04 12:40:12 [INFO]: Epoch 249 done. Loss: 4.006, Time per epoch: 0.431[s]
+2026-11-04 12:40:12 [DEBUG]: con_loss: 2.438, RCA_loss: 0.001, TC_loss: 0.015
+2026-11-04 12:40:13 [DEBUG]: con_loss: 2.457, RCA_loss: 0.002, TC_loss: 0.013
+2026-11-04 12:40:13 [INFO]: Epoch 250 done. Loss: 4.004, Time per epoch: 0.354[s]
+2026-11-04 12:40:13 [DEBUG]: con_loss: 2.467, RCA_loss: 0.002, TC_loss: 0.014
+2026-11-04 12:40:13 [DEBUG]: con_loss: 2.440, RCA_loss: 0.001, TC_loss: 0.013
+2026-11-04 12:40:13 [INFO]: Epoch 251 done. Loss: 4.007, Time per epoch: 0.336[s]
+2026-11-04 12:40:13 [DEBUG]: con_loss: 2.475, RCA_loss: 0.002, TC_loss: 0.015
+2026-11-04 12:40:13 [DEBUG]: con_loss: 2.445, RCA_loss: 0.002, TC_loss: 0.013
+2026-11-04 12:40:13 [INFO]: Epoch 252 done. Loss: 4.011, Time per epoch: 0.387[s]
+2026-11-04 12:40:14 [DEBUG]: con_loss: 2.476, RCA_loss: 0.002, TC_loss: 0.016
+2026-11-04 12:40:14 [DEBUG]: con_loss: 2.423, RCA_loss: 0.002, TC_loss: 0.015
+2026-11-04 12:40:14 [INFO]: Epoch 253 done. Loss: 4.006, Time per epoch: 0.444[s]
+2026-11-04 12:40:14 [DEBUG]: con_loss: 2.457, RCA_loss: 0.001, TC_loss: 0.016
+2026-11-04 12:40:14 [DEBUG]: con_loss: 2.439, RCA_loss: 0.002, TC_loss: 0.015
+2026-11-04 12:40:14 [INFO]: Epoch 254 done. Loss: 4.005, Time per epoch: 0.424[s]
+2026-11-04 12:40:14 [DEBUG]: con_loss: 2.453, RCA_loss: 0.002, TC_loss: 0.014
+2026-11-04 12:40:15 [DEBUG]: con_loss: 2.452, RCA_loss: 0.002, TC_loss: 0.016
+2026-11-04 12:40:15 [INFO]: Epoch 255 done. Loss: 4.007, Time per epoch: 0.375[s]
+2026-11-04 12:40:15 [DEBUG]: con_loss: 2.470, RCA_loss: 0.001, TC_loss: 0.011
+2026-11-04 12:40:15 [DEBUG]: con_loss: 2.435, RCA_loss: 0.002, TC_loss: 0.014
+2026-11-04 12:40:15 [INFO]: Epoch 256 done. Loss: 4.006, Time per epoch: 0.378[s]
+2026-11-04 12:40:15 [DEBUG]: con_loss: 2.468, RCA_loss: 0.001, TC_loss: 0.014
+2026-11-04 12:40:15 [DEBUG]: con_loss: 2.404, RCA_loss: 0.002, TC_loss: 0.014
+2026-11-04 12:40:15 [INFO]: Epoch 257 done. Loss: 3.999, Time per epoch: 0.365[s]
+2026-11-04 12:40:16 [DEBUG]: con_loss: 2.472, RCA_loss: 0.002, TC_loss: 0.014
+2026-11-04 12:40:16 [DEBUG]: con_loss: 2.419, RCA_loss: 0.001, TC_loss: 0.014
+2026-11-04 12:40:16 [INFO]: Epoch 258 done. Loss: 4.003, Time per epoch: 0.697[s]
+2026-11-04 12:40:16 [DEBUG]: con_loss: 2.454, RCA_loss: 0.002, TC_loss: 0.011
+2026-11-04 12:40:16 [DEBUG]: con_loss: 2.442, RCA_loss: 0.002, TC_loss: 0.014
+2026-11-04 12:40:17 [INFO]: Epoch 259 done. Loss: 4.004, Time per epoch: 0.430[s]
+2026-11-04 12:40:17 [DEBUG]: con_loss: 2.454, RCA_loss: 0.005, TC_loss: 0.013
+2026-11-04 12:40:17 [DEBUG]: con_loss: 2.426, RCA_loss: 0.002, TC_loss: 0.013
+2026-11-04 12:40:17 [INFO]: Epoch 260 done. Loss: 4.001, Time per epoch: 0.402[s]
+2026-11-04 12:40:17 [DEBUG]: con_loss: 2.438, RCA_loss: 0.001, TC_loss: 0.017
+2026-11-04 12:40:17 [DEBUG]: con_loss: 2.433, RCA_loss: 0.001, TC_loss: 0.014
+2026-11-04 12:40:17 [INFO]: Epoch 261 done. Loss: 3.999, Time per epoch: 0.447[s]
+2026-11-04 12:40:18 [DEBUG]: con_loss: 2.443, RCA_loss: 0.001, TC_loss: 0.015
+2026-11-04 12:40:18 [DEBUG]: con_loss: 2.421, RCA_loss: 0.002, TC_loss: 0.013
+2026-11-04 12:40:18 [INFO]: Epoch 262 done. Loss: 3.996, Time per epoch: 0.422[s]
+2026-11-04 12:40:18 [DEBUG]: con_loss: 2.464, RCA_loss: 0.004, TC_loss: 0.012
+2026-11-04 12:40:18 [DEBUG]: con_loss: 2.425, RCA_loss: 0.002, TC_loss: 0.017
+2026-11-04 12:40:18 [INFO]: Epoch 263 done. Loss: 4.004, Time per epoch: 0.426[s]
+2026-11-04 12:40:18 [DEBUG]: con_loss: 2.452, RCA_loss: 0.001, TC_loss: 0.015
+2026-11-04 12:40:19 [DEBUG]: con_loss: 2.435, RCA_loss: 0.001, TC_loss: 0.014
+2026-11-04 12:40:19 [INFO]: Epoch 264 done. Loss: 4.002, Time per epoch: 0.416[s]
+2026-11-04 12:40:19 [DEBUG]: con_loss: 2.446, RCA_loss: 0.001, TC_loss: 0.015
+2026-11-04 12:40:19 [DEBUG]: con_loss: 2.436, RCA_loss: 0.001, TC_loss: 0.011
+2026-11-04 12:40:19 [INFO]: Epoch 265 done. Loss: 4.000, Time per epoch: 0.391[s]
+2026-11-04 12:40:19 [DEBUG]: con_loss: 2.466, RCA_loss: 0.003, TC_loss: 0.013
+2026-11-04 12:40:19 [DEBUG]: con_loss: 2.402, RCA_loss: 0.001, TC_loss: 0.013
+2026-11-04 12:40:19 [INFO]: Epoch 266 done. Loss: 3.997, Time per epoch: 0.418[s]
+2026-11-04 12:40:20 [DEBUG]: con_loss: 2.435, RCA_loss: 0.001, TC_loss: 0.018
+2026-11-04 12:40:20 [DEBUG]: con_loss: 2.434, RCA_loss: 0.001, TC_loss: 0.013
+2026-11-04 12:40:20 [INFO]: Epoch 267 done. Loss: 3.998, Time per epoch: 0.457[s]
+2026-11-04 12:40:20 [DEBUG]: con_loss: 2.441, RCA_loss: 0.001, TC_loss: 0.013
+2026-11-04 12:40:20 [DEBUG]: con_loss: 2.406, RCA_loss: 0.002, TC_loss: 0.012
+2026-11-04 12:40:20 [INFO]: Epoch 268 done. Loss: 3.991, Time per epoch: 0.434[s]
+2026-11-04 12:40:20 [DEBUG]: con_loss: 2.434, RCA_loss: 0.002, TC_loss: 0.012
+2026-11-04 12:40:21 [DEBUG]: con_loss: 2.407, RCA_loss: 0.002, TC_loss: 0.017
+2026-11-04 12:40:21 [INFO]: Epoch 269 done. Loss: 3.991, Time per epoch: 0.386[s]
+2026-11-04 12:40:21 [DEBUG]: con_loss: 2.443, RCA_loss: 0.001, TC_loss: 0.009
+2026-11-04 12:40:21 [DEBUG]: con_loss: 2.410, RCA_loss: 0.001, TC_loss: 0.014
+2026-11-04 12:40:21 [INFO]: Epoch 270 done. Loss: 3.992, Time per epoch: 0.567[s]
+2026-11-04 12:40:21 [DEBUG]: con_loss: 2.446, RCA_loss: 0.002, TC_loss: 0.012
+2026-11-04 12:40:22 [DEBUG]: con_loss: 2.407, RCA_loss: 0.002, TC_loss: 0.015
+2026-11-04 12:40:22 [INFO]: Epoch 271 done. Loss: 3.994, Time per epoch: 0.401[s]
+2026-11-04 12:40:22 [DEBUG]: con_loss: 2.427, RCA_loss: 0.001, TC_loss: 0.015
+2026-11-04 12:40:22 [DEBUG]: con_loss: 2.426, RCA_loss: 0.002, TC_loss: 0.012
+2026-11-04 12:40:22 [INFO]: Epoch 272 done. Loss: 3.993, Time per epoch: 0.395[s]
+2026-11-04 12:40:22 [DEBUG]: con_loss: 2.436, RCA_loss: 0.001, TC_loss: 0.013
+2026-11-04 12:40:22 [DEBUG]: con_loss: 2.407, RCA_loss: 0.001, TC_loss: 0.013
+2026-11-04 12:40:23 [INFO]: Epoch 273 done. Loss: 3.990, Time per epoch: 0.412[s]
+2026-11-04 12:40:23 [DEBUG]: con_loss: 2.430, RCA_loss: 0.002, TC_loss: 0.016
+2026-11-04 12:40:23 [DEBUG]: con_loss: 2.400, RCA_loss: 0.001, TC_loss: 0.015
+2026-11-04 12:40:23 [INFO]: Epoch 274 done. Loss: 3.989, Time per epoch: 0.404[s]
+2026-11-04 12:40:23 [DEBUG]: con_loss: 2.450, RCA_loss: 0.001, TC_loss: 0.016
+2026-11-04 12:40:23 [DEBUG]: con_loss: 2.429, RCA_loss: 0.001, TC_loss: 0.017
+2026-11-04 12:40:23 [INFO]: Epoch 275 done. Loss: 4.001, Time per epoch: 0.400[s]
+2026-11-04 12:40:24 [DEBUG]: con_loss: 2.405, RCA_loss: 0.001, TC_loss: 0.014
+2026-11-04 12:40:24 [DEBUG]: con_loss: 2.407, RCA_loss: 0.002, TC_loss: 0.011
+2026-11-04 12:40:24 [INFO]: Epoch 276 done. Loss: 3.983, Time per epoch: 0.468[s]
+2026-11-04 12:40:24 [DEBUG]: con_loss: 2.456, RCA_loss: 0.002, TC_loss: 0.011
+2026-11-04 12:40:24 [DEBUG]: con_loss: 2.387, RCA_loss: 0.001, TC_loss: 0.011
+2026-11-04 12:40:24 [INFO]: Epoch 277 done. Loss: 3.990, Time per epoch: 0.445[s]
+2026-11-04 12:40:24 [DEBUG]: con_loss: 2.435, RCA_loss: 0.002, TC_loss: 0.013
+2026-11-04 12:40:25 [DEBUG]: con_loss: 2.401, RCA_loss: 0.001, TC_loss: 0.011
+2026-11-04 12:40:25 [INFO]: Epoch 278 done. Loss: 3.989, Time per epoch: 0.510[s]
+2026-11-04 12:40:25 [DEBUG]: con_loss: 2.447, RCA_loss: 0.001, TC_loss: 0.016
+2026-11-04 12:40:25 [DEBUG]: con_loss: 2.376, RCA_loss: 0.004, TC_loss: 0.014
+2026-11-04 12:40:25 [INFO]: Epoch 279 done. Loss: 3.987, Time per epoch: 0.430[s]
+2026-11-04 12:40:25 [DEBUG]: con_loss: 2.444, RCA_loss: 0.001, TC_loss: 0.012
+2026-11-04 12:40:26 [DEBUG]: con_loss: 2.397, RCA_loss: 0.001, TC_loss: 0.015
+2026-11-04 12:40:26 [INFO]: Epoch 280 done. Loss: 3.990, Time per epoch: 0.411[s]
+2026-11-04 12:40:26 [DEBUG]: con_loss: 2.446, RCA_loss: 0.001, TC_loss: 0.016
+2026-11-04 12:40:26 [DEBUG]: con_loss: 2.376, RCA_loss: 0.001, TC_loss: 0.012
+2026-11-04 12:40:26 [INFO]: Epoch 281 done. Loss: 3.986, Time per epoch: 0.383[s]
+2026-11-04 12:40:26 [DEBUG]: con_loss: 2.435, RCA_loss: 0.001, TC_loss: 0.014
+2026-11-04 12:40:26 [DEBUG]: con_loss: 2.401, RCA_loss: 0.001, TC_loss: 0.014
+2026-11-04 12:40:27 [INFO]: Epoch 282 done. Loss: 3.989, Time per epoch: 0.554[s]
+2026-11-04 12:40:27 [DEBUG]: con_loss: 2.442, RCA_loss: 0.001, TC_loss: 0.011
+2026-11-04 12:40:27 [DEBUG]: con_loss: 2.387, RCA_loss: 0.001, TC_loss: 0.016
+2026-11-04 12:40:27 [INFO]: Epoch 283 done. Loss: 3.987, Time per epoch: 0.386[s]
+2026-11-04 12:40:27 [DEBUG]: con_loss: 2.427, RCA_loss: 0.001, TC_loss: 0.012
+2026-11-04 12:40:27 [DEBUG]: con_loss: 2.379, RCA_loss: 0.001, TC_loss: 0.019
+2026-11-04 12:40:27 [INFO]: Epoch 284 done. Loss: 3.982, Time per epoch: 0.467[s]
+2026-11-04 12:40:28 [DEBUG]: con_loss: 2.448, RCA_loss: 0.002, TC_loss: 0.017
+2026-11-04 12:40:28 [DEBUG]: con_loss: 2.381, RCA_loss: 0.001, TC_loss: 0.011
+2026-11-04 12:40:28 [INFO]: Epoch 285 done. Loss: 3.988, Time per epoch: 0.339[s]
+2026-11-04 12:40:28 [DEBUG]: con_loss: 2.433, RCA_loss: 0.001, TC_loss: 0.010
+2026-11-04 12:40:28 [DEBUG]: con_loss: 2.394, RCA_loss: 0.001, TC_loss: 0.014
+2026-11-04 12:40:28 [INFO]: Epoch 286 done. Loss: 3.986, Time per epoch: 0.370[s]
+2026-11-04 12:40:28 [DEBUG]: con_loss: 2.426, RCA_loss: 0.003, TC_loss: 0.013
+2026-11-04 12:40:28 [DEBUG]: con_loss: 2.386, RCA_loss: 0.001, TC_loss: 0.012
+2026-11-04 12:40:28 [INFO]: Epoch 287 done. Loss: 3.983, Time per epoch: 0.349[s]
+2026-11-04 12:40:29 [DEBUG]: con_loss: 2.420, RCA_loss: 0.002, TC_loss: 0.015
+2026-11-04 12:40:29 [DEBUG]: con_loss: 2.398, RCA_loss: 0.001, TC_loss: 0.013
+2026-11-04 12:40:29 [INFO]: Epoch 288 done. Loss: 3.985, Time per epoch: 0.342[s]
+2026-11-04 12:40:29 [DEBUG]: con_loss: 2.421, RCA_loss: 0.001, TC_loss: 0.011
+2026-11-04 12:40:29 [DEBUG]: con_loss: 2.386, RCA_loss: 0.001, TC_loss: 0.013
+2026-11-04 12:40:29 [INFO]: Epoch 289 done. Loss: 3.981, Time per epoch: 0.343[s]
+2026-11-04 12:40:29 [DEBUG]: con_loss: 2.425, RCA_loss: 0.002, TC_loss: 0.012
+2026-11-04 12:40:30 [DEBUG]: con_loss: 2.400, RCA_loss: 0.001, TC_loss: 0.010
+2026-11-04 12:40:30 [INFO]: Epoch 290 done. Loss: 3.986, Time per epoch: 0.484[s]
+2026-11-04 12:40:30 [DEBUG]: con_loss: 2.423, RCA_loss: 0.001, TC_loss: 0.009
+2026-11-04 12:40:30 [DEBUG]: con_loss: 2.370, RCA_loss: 0.001, TC_loss: 0.010
+2026-11-04 12:40:30 [INFO]: Epoch 291 done. Loss: 3.976, Time per epoch: 0.535[s]
+2026-11-04 12:40:30 [DEBUG]: con_loss: 2.416, RCA_loss: 0.001, TC_loss: 0.013
+2026-11-04 12:40:30 [DEBUG]: con_loss: 2.402, RCA_loss: 0.001, TC_loss: 0.016
+2026-11-04 12:40:31 [INFO]: Epoch 292 done. Loss: 3.985, Time per epoch: 0.396[s]
+2026-11-04 12:40:31 [DEBUG]: con_loss: 2.436, RCA_loss: 0.001, TC_loss: 0.010
+2026-11-04 12:40:31 [DEBUG]: con_loss: 2.377, RCA_loss: 0.001, TC_loss: 0.011
+2026-11-04 12:40:31 [INFO]: Epoch 293 done. Loss: 3.982, Time per epoch: 0.457[s]
+2026-11-04 12:40:31 [DEBUG]: con_loss: 2.415, RCA_loss: 0.001, TC_loss: 0.013
+2026-11-04 12:40:32 [DEBUG]: con_loss: 2.391, RCA_loss: 0.001, TC_loss: 0.010
+2026-11-04 12:40:32 [INFO]: Epoch 294 done. Loss: 3.980, Time per epoch: 0.729[s]
+2026-11-04 12:40:32 [DEBUG]: con_loss: 2.413, RCA_loss: 0.001, TC_loss: 0.010
+2026-11-04 12:40:32 [DEBUG]: con_loss: 2.387, RCA_loss: 0.002, TC_loss: 0.012
+2026-11-04 12:40:32 [INFO]: Epoch 295 done. Loss: 3.979, Time per epoch: 0.484[s]
+2026-11-04 12:40:32 [DEBUG]: con_loss: 2.398, RCA_loss: 0.001, TC_loss: 0.015
+2026-11-04 12:40:33 [DEBUG]: con_loss: 2.373, RCA_loss: 0.001, TC_loss: 0.010
+2026-11-04 12:40:33 [INFO]: Epoch 296 done. Loss: 3.972, Time per epoch: 0.438[s]
+2026-11-04 12:40:33 [DEBUG]: con_loss: 2.387, RCA_loss: 0.002, TC_loss: 0.014
+2026-11-04 12:40:33 [DEBUG]: con_loss: 2.400, RCA_loss: 0.001, TC_loss: 0.012
+2026-11-04 12:40:33 [INFO]: Epoch 297 done. Loss: 3.977, Time per epoch: 0.415[s]
+2026-11-04 12:40:33 [DEBUG]: con_loss: 2.404, RCA_loss: 0.001, TC_loss: 0.010
+2026-11-04 12:40:33 [DEBUG]: con_loss: 2.396, RCA_loss: 0.001, TC_loss: 0.011
+2026-11-04 12:40:34 [INFO]: Epoch 298 done. Loss: 3.979, Time per epoch: 0.415[s]
+2026-11-04 12:40:34 [DEBUG]: con_loss: 2.421, RCA_loss: 0.001, TC_loss: 0.012
+2026-11-04 12:40:34 [DEBUG]: con_loss: 2.390, RCA_loss: 0.006, TC_loss: 0.015
+2026-11-04 12:40:34 [INFO]: Epoch 299 done. Loss: 3.984, Time per epoch: 0.381[s]
+2026-11-04 12:40:34 [DEBUG]: con_loss: 2.394, RCA_loss: 0.002, TC_loss: 0.011
+2026-11-04 12:40:34 [DEBUG]: con_loss: 2.372, RCA_loss: 0.001, TC_loss: 0.012
+2026-11-04 12:40:34 [INFO]: Epoch 300 done. Loss: 3.971, Time per epoch: 0.411[s]
+2026-11-04 12:40:34 [DEBUG]: con_loss: 2.412, RCA_loss: 0.001, TC_loss: 0.017
+2026-11-04 12:40:35 [DEBUG]: con_loss: 2.386, RCA_loss: 0.002, TC_loss: 0.013
+2026-11-04 12:40:35 [INFO]: Epoch 301 done. Loss: 3.980, Time per epoch: 0.375[s]
+2026-11-04 12:40:35 [DEBUG]: con_loss: 2.409, RCA_loss: 0.001, TC_loss: 0.014
+2026-11-04 12:40:35 [DEBUG]: con_loss: 2.389, RCA_loss: 0.002, TC_loss: 0.015
+2026-11-04 12:40:35 [INFO]: Epoch 302 done. Loss: 3.980, Time per epoch: 0.407[s]
+2026-11-04 12:40:35 [DEBUG]: con_loss: 2.412, RCA_loss: 0.001, TC_loss: 0.011
+2026-11-04 12:40:36 [DEBUG]: con_loss: 2.397, RCA_loss: 0.001, TC_loss: 0.016
+2026-11-04 12:40:36 [INFO]: Epoch 303 done. Loss: 3.982, Time per epoch: 0.518[s]
+2026-11-04 12:40:36 [DEBUG]: con_loss: 2.409, RCA_loss: 0.003, TC_loss: 0.014
+2026-11-04 12:40:36 [DEBUG]: con_loss: 2.395, RCA_loss: 0.002, TC_loss: 0.012
+2026-11-04 12:40:36 [INFO]: Epoch 304 done. Loss: 3.981, Time per epoch: 0.440[s]
+2026-11-04 12:40:36 [DEBUG]: con_loss: 2.396, RCA_loss: 0.002, TC_loss: 0.013
+2026-11-04 12:40:36 [DEBUG]: con_loss: 2.388, RCA_loss: 0.002, TC_loss: 0.013
+2026-11-04 12:40:36 [INFO]: Epoch 305 done. Loss: 3.976, Time per epoch: 0.405[s]
+2026-11-04 12:40:37 [DEBUG]: con_loss: 2.403, RCA_loss: 0.001, TC_loss: 0.020
+2026-11-04 12:40:37 [DEBUG]: con_loss: 2.377, RCA_loss: 0.004, TC_loss: 0.010
+2026-11-04 12:40:37 [INFO]: Epoch 306 done. Loss: 3.976, Time per epoch: 0.691[s]
+2026-11-04 12:40:37 [DEBUG]: con_loss: 2.396, RCA_loss: 0.001, TC_loss: 0.010
+2026-11-04 12:40:38 [DEBUG]: con_loss: 2.364, RCA_loss: 0.001, TC_loss: 0.010
+2026-11-04 12:40:38 [INFO]: Epoch 307 done. Loss: 3.968, Time per epoch: 0.478[s]
+2026-11-04 12:40:38 [DEBUG]: con_loss: 2.391, RCA_loss: 0.001, TC_loss: 0.009
+2026-11-04 12:40:38 [DEBUG]: con_loss: 2.360, RCA_loss: 0.001, TC_loss: 0.012
+2026-11-04 12:40:38 [INFO]: Epoch 308 done. Loss: 3.966, Time per epoch: 0.415[s]
+2026-11-04 12:40:38 [DEBUG]: con_loss: 2.412, RCA_loss: 0.001, TC_loss: 0.013
+2026-11-04 12:40:38 [DEBUG]: con_loss: 2.356, RCA_loss: 0.001, TC_loss: 0.012
+2026-11-04 12:40:38 [INFO]: Epoch 309 done. Loss: 3.971, Time per epoch: 0.418[s]
+2026-11-04 12:40:39 [DEBUG]: con_loss: 2.390, RCA_loss: 0.002, TC_loss: 0.014
+2026-11-04 12:40:39 [DEBUG]: con_loss: 2.407, RCA_loss: 0.002, TC_loss: 0.012
+2026-11-04 12:40:39 [INFO]: Epoch 310 done. Loss: 3.979, Time per epoch: 0.435[s]
+2026-11-04 12:40:39 [DEBUG]: con_loss: 2.425, RCA_loss: 0.001, TC_loss: 0.014
+2026-11-04 12:40:39 [DEBUG]: con_loss: 2.331, RCA_loss: 0.001, TC_loss: 0.012
+2026-11-04 12:40:39 [INFO]: Epoch 311 done. Loss: 3.969, Time per epoch: 0.418[s]
+2026-11-04 12:40:39 [DEBUG]: con_loss: 2.409, RCA_loss: 0.003, TC_loss: 0.013
+2026-11-04 12:40:40 [DEBUG]: con_loss: 2.364, RCA_loss: 0.001, TC_loss: 0.011
+2026-11-04 12:40:40 [INFO]: Epoch 312 done. Loss: 3.973, Time per epoch: 0.429[s]
+2026-11-04 12:40:40 [DEBUG]: con_loss: 2.408, RCA_loss: 0.001, TC_loss: 0.012
+2026-11-04 12:40:40 [DEBUG]: con_loss: 2.351, RCA_loss: 0.001, TC_loss: 0.014
+2026-11-04 12:40:40 [INFO]: Epoch 313 done. Loss: 3.970, Time per epoch: 0.474[s]
+2026-11-04 12:40:40 [DEBUG]: con_loss: 2.388, RCA_loss: 0.002, TC_loss: 0.013
+2026-11-04 12:40:41 [DEBUG]: con_loss: 2.345, RCA_loss: 0.001, TC_loss: 0.008
+2026-11-04 12:40:41 [INFO]: Epoch 314 done. Loss: 3.961, Time per epoch: 0.415[s]
+2026-11-04 12:40:41 [DEBUG]: con_loss: 2.401, RCA_loss: 0.001, TC_loss: 0.010
+2026-11-04 12:40:41 [DEBUG]: con_loss: 2.371, RCA_loss: 0.001, TC_loss: 0.012
+2026-11-04 12:40:41 [INFO]: Epoch 315 done. Loss: 3.972, Time per epoch: 0.455[s]
+2026-11-04 12:40:41 [DEBUG]: con_loss: 2.379, RCA_loss: 0.001, TC_loss: 0.012
+2026-11-04 12:40:41 [DEBUG]: con_loss: 2.361, RCA_loss: 0.001, TC_loss: 0.012
+2026-11-04 12:40:42 [INFO]: Epoch 316 done. Loss: 3.964, Time per epoch: 0.463[s]
+2026-11-04 12:40:42 [DEBUG]: con_loss: 2.399, RCA_loss: 0.001, TC_loss: 0.012
+2026-11-04 12:40:42 [DEBUG]: con_loss: 2.369, RCA_loss: 0.002, TC_loss: 0.011
+2026-11-04 12:40:42 [INFO]: Epoch 317 done. Loss: 3.971, Time per epoch: 0.461[s]
+2026-11-04 12:40:43 [DEBUG]: con_loss: 2.386, RCA_loss: 0.001, TC_loss: 0.011
+2026-11-04 12:40:43 [DEBUG]: con_loss: 2.410, RCA_loss: 0.001, TC_loss: 0.014
+2026-11-04 12:40:43 [INFO]: Epoch 318 done. Loss: 3.978, Time per epoch: 0.932[s]
+2026-11-04 12:40:43 [DEBUG]: con_loss: 2.368, RCA_loss: 0.002, TC_loss: 0.013
+2026-11-04 12:40:43 [DEBUG]: con_loss: 2.359, RCA_loss: 0.001, TC_loss: 0.011
+2026-11-04 12:40:43 [INFO]: Epoch 319 done. Loss: 3.961, Time per epoch: 0.373[s]
+2026-11-04 12:40:43 [DEBUG]: con_loss: 2.381, RCA_loss: 0.001, TC_loss: 0.016
+2026-11-04 12:40:44 [DEBUG]: con_loss: 2.367, RCA_loss: 0.001, TC_loss: 0.011
+2026-11-04 12:40:44 [INFO]: Epoch 320 done. Loss: 3.967, Time per epoch: 0.369[s]
+2026-11-04 12:40:44 [DEBUG]: con_loss: 2.379, RCA_loss: 0.001, TC_loss: 0.011
+2026-11-04 12:40:44 [DEBUG]: con_loss: 2.356, RCA_loss: 0.001, TC_loss: 0.013
+2026-11-04 12:40:44 [INFO]: Epoch 321 done. Loss: 3.963, Time per epoch: 0.399[s]
+2026-11-04 12:40:44 [DEBUG]: con_loss: 2.368, RCA_loss: 0.002, TC_loss: 0.012
+2026-11-04 12:40:44 [DEBUG]: con_loss: 2.368, RCA_loss: 0.002, TC_loss: 0.013
+2026-11-04 12:40:45 [INFO]: Epoch 322 done. Loss: 3.964, Time per epoch: 0.422[s]
+2026-11-04 12:40:45 [DEBUG]: con_loss: 2.406, RCA_loss: 0.002, TC_loss: 0.013
+2026-11-04 12:40:45 [DEBUG]: con_loss: 2.356, RCA_loss: 0.001, TC_loss: 0.010
+2026-11-04 12:40:45 [INFO]: Epoch 323 done. Loss: 3.969, Time per epoch: 0.418[s]
+2026-11-04 12:40:45 [DEBUG]: con_loss: 2.375, RCA_loss: 0.005, TC_loss: 0.011
+2026-11-04 12:40:45 [DEBUG]: con_loss: 2.373, RCA_loss: 0.001, TC_loss: 0.015
+2026-11-04 12:40:45 [INFO]: Epoch 324 done. Loss: 3.968, Time per epoch: 0.426[s]
+2026-11-04 12:40:46 [DEBUG]: con_loss: 2.378, RCA_loss: 0.001, TC_loss: 0.012
+2026-11-04 12:40:46 [DEBUG]: con_loss: 2.350, RCA_loss: 0.001, TC_loss: 0.015
+2026-11-04 12:40:46 [INFO]: Epoch 325 done. Loss: 3.962, Time per epoch: 0.469[s]
+2026-11-04 12:40:46 [DEBUG]: con_loss: 2.366, RCA_loss: 0.001, TC_loss: 0.014
+2026-11-04 12:40:46 [DEBUG]: con_loss: 2.358, RCA_loss: 0.001, TC_loss: 0.013
+2026-11-04 12:40:46 [INFO]: Epoch 326 done. Loss: 3.961, Time per epoch: 0.372[s]
+2026-11-04 12:40:46 [DEBUG]: con_loss: 2.360, RCA_loss: 0.002, TC_loss: 0.014
+2026-11-04 12:40:47 [DEBUG]: con_loss: 2.356, RCA_loss: 0.001, TC_loss: 0.015
+2026-11-04 12:40:47 [INFO]: Epoch 327 done. Loss: 3.959, Time per epoch: 0.411[s]
+2026-11-04 12:40:47 [DEBUG]: con_loss: 2.371, RCA_loss: 0.002, TC_loss: 0.012
+2026-11-04 12:40:47 [DEBUG]: con_loss: 2.339, RCA_loss: 0.001, TC_loss: 0.013
+2026-11-04 12:40:47 [INFO]: Epoch 328 done. Loss: 3.957, Time per epoch: 0.343[s]
+2026-11-04 12:40:47 [DEBUG]: con_loss: 2.369, RCA_loss: 0.001, TC_loss: 0.012
+2026-11-04 12:40:47 [DEBUG]: con_loss: 2.341, RCA_loss: 0.001, TC_loss: 0.012
+2026-11-04 12:40:47 [INFO]: Epoch 329 done. Loss: 3.957, Time per epoch: 0.431[s]
+2026-11-04 12:40:48 [DEBUG]: con_loss: 2.387, RCA_loss: 0.001, TC_loss: 0.010
+2026-11-04 12:40:48 [DEBUG]: con_loss: 2.335, RCA_loss: 0.002, TC_loss: 0.014
+2026-11-04 12:40:48 [INFO]: Epoch 330 done. Loss: 3.960, Time per epoch: 0.710[s]
+2026-11-04 12:40:48 [DEBUG]: con_loss: 2.357, RCA_loss: 0.001, TC_loss: 0.012
+2026-11-04 12:40:48 [DEBUG]: con_loss: 2.356, RCA_loss: 0.001, TC_loss: 0.019
+2026-11-04 12:40:48 [INFO]: Epoch 331 done. Loss: 3.959, Time per epoch: 0.374[s]
+2026-11-04 12:40:49 [DEBUG]: con_loss: 2.380, RCA_loss: 0.001, TC_loss: 0.011
+2026-11-04 12:40:49 [DEBUG]: con_loss: 2.354, RCA_loss: 0.002, TC_loss: 0.012
+2026-11-04 12:40:49 [INFO]: Epoch 332 done. Loss: 3.963, Time per epoch: 0.391[s]
+2026-11-04 12:40:49 [DEBUG]: con_loss: 2.382, RCA_loss: 0.001, TC_loss: 0.014
+2026-11-04 12:40:49 [DEBUG]: con_loss: 2.336, RCA_loss: 0.001, TC_loss: 0.010
+2026-11-04 12:40:49 [INFO]: Epoch 333 done. Loss: 3.958, Time per epoch: 0.415[s]
+2026-11-04 12:40:49 [DEBUG]: con_loss: 2.376, RCA_loss: 0.001, TC_loss: 0.015
+2026-11-04 12:40:50 [DEBUG]: con_loss: 2.374, RCA_loss: 0.001, TC_loss: 0.010
+2026-11-04 12:40:50 [INFO]: Epoch 334 done. Loss: 3.967, Time per epoch: 0.568[s]
+2026-11-04 12:40:50 [DEBUG]: con_loss: 2.360, RCA_loss: 0.001, TC_loss: 0.010
+2026-11-04 12:40:50 [DEBUG]: con_loss: 2.347, RCA_loss: 0.001, TC_loss: 0.011
+2026-11-04 12:40:50 [INFO]: Epoch 335 done. Loss: 3.955, Time per epoch: 0.512[s]
+2026-11-04 12:40:51 [DEBUG]: con_loss: 2.393, RCA_loss: 0.001, TC_loss: 0.014
+2026-11-04 12:40:51 [DEBUG]: con_loss: 2.326, RCA_loss: 0.001, TC_loss: 0.010
+2026-11-04 12:40:51 [INFO]: Epoch 336 done. Loss: 3.959, Time per epoch: 0.513[s]
+2026-11-04 12:40:51 [DEBUG]: con_loss: 2.367, RCA_loss: 0.001, TC_loss: 0.012
+2026-11-04 12:40:51 [DEBUG]: con_loss: 2.333, RCA_loss: 0.001, TC_loss: 0.014
+2026-11-04 12:40:51 [INFO]: Epoch 337 done. Loss: 3.954, Time per epoch: 0.481[s]
+2026-11-04 12:40:52 [DEBUG]: con_loss: 2.361, RCA_loss: 0.001, TC_loss: 0.013
+2026-11-04 12:40:52 [DEBUG]: con_loss: 2.322, RCA_loss: 0.001, TC_loss: 0.011
+2026-11-04 12:40:52 [INFO]: Epoch 338 done. Loss: 3.949, Time per epoch: 0.759[s]
+2026-11-04 12:40:52 [DEBUG]: con_loss: 2.368, RCA_loss: 0.002, TC_loss: 0.014
+2026-11-04 12:40:53 [DEBUG]: con_loss: 2.336, RCA_loss: 0.001, TC_loss: 0.014
+2026-11-04 12:40:53 [INFO]: Epoch 339 done. Loss: 3.956, Time per epoch: 0.514[s]
+2026-11-04 12:40:53 [DEBUG]: con_loss: 2.377, RCA_loss: 0.001, TC_loss: 0.014
+2026-11-04 12:40:53 [DEBUG]: con_loss: 2.300, RCA_loss: 0.001, TC_loss: 0.011
+2026-11-04 12:40:53 [INFO]: Epoch 340 done. Loss: 3.949, Time per epoch: 0.438[s]
+2026-11-04 12:40:53 [DEBUG]: con_loss: 2.369, RCA_loss: 0.001, TC_loss: 0.013
+2026-11-04 12:40:53 [DEBUG]: con_loss: 2.349, RCA_loss: 0.001, TC_loss: 0.012
+2026-11-04 12:40:54 [INFO]: Epoch 341 done. Loss: 3.959, Time per epoch: 0.424[s]
+2026-11-04 12:40:54 [DEBUG]: con_loss: 2.375, RCA_loss: 0.001, TC_loss: 0.011
+2026-11-04 12:40:54 [DEBUG]: con_loss: 2.336, RCA_loss: 0.001, TC_loss: 0.010
+2026-11-04 12:40:54 [INFO]: Epoch 342 done. Loss: 3.956, Time per epoch: 0.620[s]
+2026-11-04 12:40:54 [DEBUG]: con_loss: 2.337, RCA_loss: 0.001, TC_loss: 0.016
+2026-11-04 12:40:55 [DEBUG]: con_loss: 2.313, RCA_loss: 0.001, TC_loss: 0.011
+2026-11-04 12:40:55 [INFO]: Epoch 343 done. Loss: 3.942, Time per epoch: 0.624[s]
+2026-11-04 12:40:55 [DEBUG]: con_loss: 2.353, RCA_loss: 0.001, TC_loss: 0.011
+2026-11-04 12:40:55 [DEBUG]: con_loss: 2.360, RCA_loss: 0.001, TC_loss: 0.014
+2026-11-04 12:40:55 [INFO]: Epoch 344 done. Loss: 3.958, Time per epoch: 0.378[s]
+2026-11-04 12:40:55 [DEBUG]: con_loss: 2.354, RCA_loss: 0.001, TC_loss: 0.011
+2026-11-04 12:40:55 [DEBUG]: con_loss: 2.334, RCA_loss: 0.001, TC_loss: 0.010
+2026-11-04 12:40:56 [INFO]: Epoch 345 done. Loss: 3.951, Time per epoch: 0.395[s]
+2026-11-04 12:40:56 [DEBUG]: con_loss: 2.358, RCA_loss: 0.001, TC_loss: 0.011
+2026-11-04 12:40:56 [DEBUG]: con_loss: 2.314, RCA_loss: 0.001, TC_loss: 0.011
+2026-11-04 12:40:56 [INFO]: Epoch 346 done. Loss: 3.947, Time per epoch: 0.415[s]
+2026-11-04 12:40:56 [DEBUG]: con_loss: 2.381, RCA_loss: 0.001, TC_loss: 0.011
+2026-11-04 12:40:56 [DEBUG]: con_loss: 2.323, RCA_loss: 0.001, TC_loss: 0.009
+2026-11-04 12:40:56 [INFO]: Epoch 347 done. Loss: 3.954, Time per epoch: 0.382[s]
+2026-11-04 12:40:57 [DEBUG]: con_loss: 2.346, RCA_loss: 0.006, TC_loss: 0.013
+2026-11-04 12:40:57 [DEBUG]: con_loss: 2.327, RCA_loss: 0.001, TC_loss: 0.011
+2026-11-04 12:40:57 [INFO]: Epoch 348 done. Loss: 3.949, Time per epoch: 0.450[s]
+2026-11-04 12:40:57 [DEBUG]: con_loss: 2.343, RCA_loss: 0.001, TC_loss: 0.014
+2026-11-04 12:40:57 [DEBUG]: con_loss: 2.333, RCA_loss: 0.001, TC_loss: 0.011
+2026-11-04 12:40:57 [INFO]: Epoch 349 done. Loss: 3.948, Time per epoch: 0.384[s]
+2026-11-04 12:40:57 [DEBUG]: con_loss: 2.362, RCA_loss: 0.001, TC_loss: 0.012
+2026-11-04 12:40:57 [DEBUG]: con_loss: 2.338, RCA_loss: 0.001, TC_loss: 0.011
+2026-11-04 12:40:58 [INFO]: Epoch 350 done. Loss: 3.954, Time per epoch: 0.386[s]
+2026-11-04 12:40:58 [DEBUG]: con_loss: 2.374, RCA_loss: 0.001, TC_loss: 0.010
+2026-11-04 12:40:58 [DEBUG]: con_loss: 2.345, RCA_loss: 0.001, TC_loss: 0.019
+2026-11-04 12:40:58 [INFO]: Epoch 351 done. Loss: 3.960, Time per epoch: 0.375[s]
+2026-11-04 12:40:58 [DEBUG]: con_loss: 2.343, RCA_loss: 0.001, TC_loss: 0.013
+2026-11-04 12:40:58 [DEBUG]: con_loss: 2.319, RCA_loss: 0.001, TC_loss: 0.011
+2026-11-04 12:40:58 [INFO]: Epoch 352 done. Loss: 3.945, Time per epoch: 0.358[s]
+2026-11-04 12:40:58 [DEBUG]: con_loss: 2.358, RCA_loss: 0.001, TC_loss: 0.012
+2026-11-04 12:40:59 [DEBUG]: con_loss: 2.354, RCA_loss: 0.001, TC_loss: 0.014
+2026-11-04 12:40:59 [INFO]: Epoch 353 done. Loss: 3.958, Time per epoch: 0.455[s]
+2026-11-04 12:40:59 [INFO]: Early stop at epoch 353 due to lack of improvement.
+2026-11-04 12:40:59 [INFO]: Training has finished.
+2026-11-04 12:40:59 [DEBUG]: The training time is 148.9026963710785[s]
+2026-11-04 12:40:59 [DEBUG]: The training time per epoch is 0.42062908579400704[s]
+2026-11-04 12:40:59 [DEBUG]: The affinity of RCL -> FTI is -0.0008897090540067598
+2026-11-04 12:40:59 [DEBUG]: The affinity of FTI -> RCL is 0.11808171901979292
+2026-11-04 12:40:59 [INFO]: Model checkpoint and metadata has been saved at ./logs/seed6/sockshop.
+2026-11-04 12:41:00 [INFO]: [Root localization] HR@1: 86.307%, HR@2: 93.361%, HR@3: 95.021%, HR@4: 96.266%, HR@5: 96.266%, avg@3: 0.916, MRR@3: 0.904
+2026-11-04 12:41:00 [INFO]: [Failure type classification] precision: 51.420%, recall: 48.133%, f1-score: 49.722%
+2026-11-04 12:41:00 [INFO]: The average test time is 0.004377123725859456[s]
+2026-11-04 12:41:00 [INFO]: The total test time is 1.054886817932129[s]

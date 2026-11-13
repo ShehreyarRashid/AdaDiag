@@ -1,0 +1,7 @@
+[
+ {
+  "dataset": "gaia",
+  "seed": 8,
+  "error": "ZeroDivisionError: float division by zero (eval.py:41, FTI_eval, called from core/TVDiag.py:160 during training)"
+ }
+]

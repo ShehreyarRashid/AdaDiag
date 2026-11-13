@@ -1,0 +1,8 @@
+  gaia     bag+rootd                    s0  HR@1 0.757  F1 0.922  macro-F1 0.540  (113 ep, 91s)
+  gaia     bag+rootd                    s1  HR@1 0.766  F1 0.930  macro-F1 0.558  (118 ep, 88s)
+  gaia     bag+rootd                    s2  HR@1 0.768  F1 0.919  macro-F1 0.549  (119 ep, 88s)
+done
+  hotel    bag+rootd                    s0  HR@1 0.821  F1 0.833  macro-F1 0.820  (124 ep, 62s)
+  hotel    bag+rootd                    s1  HR@1 0.833  F1 0.806  macro-F1 0.797  (198 ep, 98s)
+  hotel    bag+rootd                    s2  HR@1 0.846  F1 0.839  macro-F1 0.837  (155 ep, 79s)
+done

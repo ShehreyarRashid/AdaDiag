@@ -1,0 +1,13 @@
+  sockshop theta                        s0  HR@1 0.900  F1 0.599  macro-F1 0.577  (209 ep, 249s)
+  sockshop theta                        s1  HR@1 0.884  F1 0.567  macro-F1 0.550  (340 ep, 416s)
+  sockshop theta                        s2  HR@1 0.867  F1 0.571  macro-F1 0.554  (213 ep, 251s)
+  sockshop bag+theta                    s0  HR@1 0.876  F1 0.580  macro-F1 0.552  (322 ep, 458s)
+  sockshop bag+theta                    s1  HR@1 0.867  F1 0.611  macro-F1 0.594  (362 ep, 472s)
+  sockshop bag+theta                    s2  HR@1 0.859  F1 0.628  macro-F1 0.614  (327 ep, 468s)
+  sockshop bag+root+theta               s0  HR@1 0.863  F1 0.620  macro-F1 0.602  (204 ep, 282s)
+  sockshop bag+root+theta               s1  HR@1 0.896  F1 0.663  macro-F1 0.641  (301 ep, 424s)
+  sockshop bag+root+theta               s2  HR@1 0.884  F1 0.638  macro-F1 0.607  (338 ep, 455s)
+  sockshop bag+neigh+theta              s0  HR@1 0.867  F1 0.639  macro-F1 0.603  (357 ep, 445s)
+  sockshop bag+neigh+theta              s1  HR@1 0.867  F1 0.641  macro-F1 0.619  (389 ep, 506s)
+  sockshop bag+neigh+theta              s2  HR@1 0.867  F1 0.654  macro-F1 0.629  (365 ep, 528s)
+done

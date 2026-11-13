@@ -16,6 +16,14 @@ size, from a zero initial state, and the final hidden state replaces the mean:
     h' = W_self . h + W_neigh . LSTM(h_u1, ..., h_uk)[-1]
 A node with no in-neighbour gets a zero message, as in dgl. The default stays "mean", so
 every committed result is unchanged.
+
+`aggregator="attn"` (README section 6.24) replaces the mean with GATv2-style attention
+(Brody et al., ICLR 2022) over the same in-neighbours:
+    e_ij = a . LeakyReLU(W_l h_i + W_r h_j),  alpha_ij = softmax_j(e_ij),
+    h' = W_self . h + W_neigh . sum_j alpha_ij h_j
+in a 16-d scoring space, one head. In a dense graph (Hotel: 9 of 18 instances on average)
+the mean gives one anomalous neighbour the same weight as the normal ones; attention lets
+each instance choose. A node with no in-neighbour again gets a zero message.
 """
 from __future__ import annotations
 
@@ -59,16 +67,21 @@ class SAGEEncoder(nn.Module):
     normalises. The weights and their initialisation are the same either way."""
 
     def __init__(self, dims: list[int], feat_drop: float = 0.0, aggregator: str = "mean",
-                 alg1: bool = False):
+                 alg1: bool = False, att_dim: int = 16):
         super().__init__()
-        if aggregator not in ("mean", "lstm"):
-            raise ValueError(f"unknown aggregator {aggregator!r}; expected 'mean' or 'lstm'")
+        if aggregator not in ("mean", "lstm", "attn"):
+            raise ValueError(f"unknown aggregator {aggregator!r}; expected 'mean', 'lstm' or 'attn'")
         self.aggregator = aggregator
         self.alg1 = bool(alg1)
         self.self_fc = nn.ModuleList(nn.Linear(a, b, bias=False) for a, b in zip(dims, dims[1:]))
         self.neigh_fc = nn.ModuleList(nn.Linear(a, b, bias=False) for a, b in zip(dims, dims[1:]))
         if aggregator == "lstm":     # built after the linear layers, so they initialise as before
             self.lstm = nn.ModuleList(nn.LSTM(a, a, batch_first=True) for a in dims[:-1])
+        if aggregator == "attn":     # likewise
+            self.att_l = nn.ModuleList(nn.Linear(a, att_dim, bias=False) for a in dims[:-1])
+            self.att_r = nn.ModuleList(nn.Linear(a, att_dim, bias=False) for a in dims[:-1])
+            self.att_a = nn.ParameterList(nn.Parameter(torch.randn(att_dim) / att_dim ** 0.5)
+                                          for _ in dims[:-1])
         self.drop = nn.Dropout(feat_drop)
 
     def forward(self, h: torch.Tensor, A: torch.Tensor) -> torch.Tensor:
@@ -79,6 +92,8 @@ class SAGEEncoder(nn.Module):
             h = self.drop(h)
             if self.aggregator == "lstm":
                 h = sf(h) + nf(lstm_neighbours(self.lstm[i], h, A))
+            elif self.aggregator == "attn":
+                h = sf(h) + nf(self.attend(i, h, A))
             else:
                 h = sf(h) + nf(torch.bmm(A, h) / deg)
             if self.alg1:
@@ -86,6 +101,13 @@ class SAGEEncoder(nn.Module):
             elif i < last:
                 h = F.relu(h)
         return h
+
+    def attend(self, i: int, h: torch.Tensor, A: torch.Tensor) -> torch.Tensor:
+        """GATv2 message for layer i: (B, N, D), sum_j alpha_ij h_j over in-neighbours j."""
+        e = F.leaky_relu(self.att_l[i](h)[:, :, None, :] + self.att_r[i](h)[:, None, :, :], 0.2)
+        e = (e * self.att_a[i]).sum(-1).masked_fill(A <= 0, float("-inf"))     # (B, N, N)
+        alpha = torch.nan_to_num(torch.softmax(e, dim=-1), nan=0.0)             # no neighbour: 0
+        return torch.bmm(alpha, h)
 
 
 def max_pool(node_emb: torch.Tensor, keep: torch.Tensor) -> torch.Tensor:

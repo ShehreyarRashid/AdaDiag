@@ -10,9 +10,12 @@ Rows from the paper (every baseline and TVDiag) are copied exactly as printed
     -LSTM             TVDiag and AdaDiag-DL with the paper's LSTM aggregator (section 6.18)
     -Spec             both with the six features the paper specifies and its code omits (6.19)
     -θ                both with Eq. 13's learnable weights only (6.19; Table 6 only)
+    AdaDiag+          AdaDiag-DL + alert-type counts + Eq. 13's learnable weights (6.24); its
+                      earlier rounds r1 and r2 are in Table 6 only
 
 All rows: fresh seeds 5-9 (never used to choose a variant), 1 thread, 500-epoch cap,
-`isolate_weighting_rng` (results/selection/confirm_<ds>*.json). Dataset B (AIOps-22) is not
+`isolate_weighting_rng` (results/selection/confirm_<ds>*.json; AdaDiag+ in
+results/stronger/confirm59_<ds>.json). Dataset B (AIOps-22) is not
 distributed with TVDiag, so it has no rows from this repository.
 
 Columns follow the paper. In Tables 4 and 5, "⇑" is the paper's improvement rate of TVDiag
@@ -45,21 +48,32 @@ from adadiag import paper_numbers as P                                 # noqa: E
 OUT = ROOT / "results" / "paper_tables"
 LETTERS = ("A", "B", "C", "D")
 DS = {"A": "gaia", "C": "sockshop", "D": "hotel"}
-OURS = (("tvdiag", "TVDiag (re-run)"), ("adadiag", "AdaDiag-CL"), ("align", "AdaDiag-DL"),
+OURS = (("tvdiag_official", "TVDiag (released code)"),   # README section 6.22: authors' code, unchanged
+        ("tvdiag", "TVDiag (re-run)"), ("adadiag", "AdaDiag-CL"), ("align", "AdaDiag-DL"),
         # README section 6.18: both arms with the LSTM aggregator the paper describes
         ("tvdiag_lstm", "TVDiag-LSTM (re-run)"), ("align_lstm", "AdaDiag-DL-LSTM"),
         # README section 6.19: both arms with the six features the paper's text specifies and
         # its released code omits (config.PAPER)
-        ("tvdiag_paper", "TVDiag-Spec (re-run)"), ("align_paper", "AdaDiag-DL-Spec"))
+        ("tvdiag_paper", "TVDiag-Spec (re-run)"), ("align_paper", "AdaDiag-DL-Spec"),
+        # README section 6.24: AdaDiag+ = AdaDiag-DL + alert-type counts + Eq. 13's learnable
+        # theta, fixed on other seeds and run on seeds 5-9 here
+        ("align_plus3", "AdaDiag+"),
+        # README section 6.25: AdaDiag++ = three AdaDiag+ models (seeds s, s+100, s+200) averaged
+        ("align_pp", "AdaDiag++"))
 #: Table 6 only (Tables 4-5 are full): both arms with Eq. 13's learnable theta alone, the one
 #: paper feature that did not hurt TVDiag (README section 6.19)
-OURS6 = OURS + (("tvdiag+awl_learnable", "TVDiag-θ (re-run)"), ("align+awl_learnable", "AdaDiag-DL-θ"))
+#: (the released code's seeds are not the re-implementation's, so it is not in the paired Table 6)
+OURS6 = tuple(o for o in OURS if o[0] != "tvdiag_official") + (
+    ("tvdiag+awl_learnable", "TVDiag-θ (re-run)"), ("align+awl_learnable", "AdaDiag-DL-θ"),
+    # README section 6.24: the earlier rounds' changes (counts + root readout; + neighbour contrast)
+    ("align_plus", "AdaDiag+ r1"), ("align_plus2", "AdaDiag+ r2"))
 #: each row's paired reference in Table 6 (None: it is a reference)
-REF = {"tvdiag": None, "adadiag": "tvdiag", "align": "tvdiag",
+REF = {"tvdiag_official": None, "tvdiag": None, "adadiag": "tvdiag", "align": "tvdiag",
        "tvdiag_lstm": None, "align_lstm": "tvdiag_lstm",
        "tvdiag_paper": None, "align_paper": "tvdiag_paper",
-       "tvdiag+awl_learnable": None, "align+awl_learnable": "tvdiag+awl_learnable"}
-BOLD = ("align", "align_lstm")
+       "tvdiag+awl_learnable": None, "align+awl_learnable": "tvdiag+awl_learnable",
+       "align_plus": "tvdiag", "align_plus2": "tvdiag", "align_plus3": "tvdiag", "align_pp": "tvdiag"}
+BOLD = ("align", "align_lstm", "align_plus3", "align_pp")
 SEEDS = range(5, 10)
 GET = {"HR@1": lambda r: r["HR@1"], "HR@3": lambda r: r["HR@3"],
        "Avg@3": lambda r: (r["HR@1"] + r["HR@2"] + r["HR@3"]) / 3, "MRR@3": lambda r: r["MRR@3"],
@@ -79,6 +93,21 @@ def runs(letter):
         for r in json.load(open(f)):
             if r["seed"] in SEEDS:
                 out.setdefault(r["variant"], {}).setdefault(r["seed"], r)
+    # README section 6.24: AdaDiag+ (both rounds) on seeds 5-9 (scripts/stronger.py --stage seeds5-9)
+    f = ROOT / "results" / "stronger" / f"confirm59_{DS[letter]}.json"
+    for r in (json.load(open(f)) if f.exists() else []):
+        if r["seed"] in SEEDS:
+            out.setdefault(r["variant"], {}).setdefault(r["seed"], r)
+    # README section 6.25: AdaDiag++ on seeds 5-9 (scripts/make_plus2_report.py writes the file)
+    f = ROOT / "results" / "plus2" / f"confirm_{DS[letter]}.json"
+    for r in (json.load(open(f)) if f.exists() else []):
+        if r["seed"] in SEEDS and r["variant"] == "align_pp":
+            out.setdefault(r["variant"], {}).setdefault(r["seed"], r)
+    # README section 6.22: TVDiag's released code, run unchanged (scripts/run_tvdiag_official.py)
+    for f in sorted(glob.glob(str(ROOT / "results" / "tvdiag_official" / "runs*.json"))):
+        for r in json.load(open(f)):
+            if r["dataset"] == DS[letter] and r["mode"] == "seeds" and r["seed"] in SEEDS:
+                out.setdefault("tvdiag_official", {}).setdefault(r["seed"], r)
     return out
 
 
@@ -130,7 +159,7 @@ def tex_table(table):
     L = [r"\begin{table}[!ht]", r"\centering",
          (r"\caption{Root Cause Localization Comparison}\label{tab:rcl}" if table == 4 else
           r"\caption{Failure Type Identification Comparison}\label{tab:fti}"),
-         r"\footnotesize\setlength{\tabcolsep}{3.2pt}",
+         r"\scriptsize\setlength{\tabcolsep}{3.4pt}\renewcommand{\arraystretch}{0.90}",
          r"\begin{tabular}{c c l c " + " ".join("c c" for _ in cols) + "}", r"\toprule",
          r"Dataset & Modality & Method & p-value & "
          + " & ".join(f"{head[c]} & $\\Uparrow$ {head[c]}" for c in cols) + r" \\", r"\midrule"]
@@ -186,12 +215,17 @@ def tex_table(table):
           r"against \textit{TVDiag}'s published " + ("HR@1" if table == 4 else "F1-score") + r". "
           r"AdaDiag-CL: weights learned from the contrastive term (as proposed). "
           r"\textbf{AdaDiag-DL}: weights learned from the diagnosis losses (the variant selected "
-          r"in README \S6.17). Rows marked -LSTM: the same two arms with the LSTM neighbour "
+          r"in README \S6.17). TVDiag (released code): the authors' code "
+          r"(github.com/WHU-AISE/TVDiag, commit cf6f334) run unchanged on a CPU (README \S6.22). "
+          r"Rows marked -LSTM: the same two arms with the LSTM neighbour "
           r"aggregator the paper describes (its released code uses mean; README \S6.18). Rows "
           r"marked -Spec: the same two arms with the six features the paper's text specifies and "
           r"its released code omits (Eq.~3 per anchor, Eqs.~5--6 symmetric, Eq.~13 learnable, "
           r"Algorithm~1's per-layer normalisation, bidirectional edges, one AUG copy per sample; "
-          r"README \S6.19). The paired comparison with the re-run is Table~\ref{tab:paired}.",
+          r"README \S6.19). \textbf{AdaDiag+}: AdaDiag-DL with each instance's alert-type counts "
+          r"next to its embeddings and Eq.~13's learnable weights, fixed on other seeds "
+          r"(README \S6.24). \textbf{AdaDiag++}: three AdaDiag+ models that differ only in "
+          r"their seed, outputs averaged (README \S6.25). The paired comparison with the re-run is Table~\ref{tab:paired}.",
           r"\end{minipage}", r"\end{table}"]
     return "\n".join(L) + "\n", csv_rows
 
@@ -204,7 +238,7 @@ def tex_paired():
     L = [r"\begin{table}[!ht]", r"\centering",
          r"\caption{AdaDiag against TVDiag under identical conditions (this repository; paired "
          r"over the same 5 seeds)}\label{tab:paired}",
-         r"\small\setlength{\tabcolsep}{3.5pt}",
+         r"\small\setlength{\tabcolsep}{3.5pt}\renewcommand{\arraystretch}{0.95}",
          r"\begin{tabular}{c l " + "c " * len(cols) + "}", r"\toprule",
          r" & & \multicolumn{4}{c}{Root cause localization} & \multicolumn{3}{c}{Failure type identification} \\",
          r"\cmidrule(lr){3-6}\cmidrule(lr){7-9}",
@@ -341,7 +375,8 @@ def key_results() -> str:
                + (" is" if len({m for _, _, m, _ in lost}) == 1 else " are")
                + f" at most {max(g for *_, g in lost) + 5e-4:.3f} below the best baseline")
             + r". Like TVDiag, AdaDiag clears the baselines. It keeps TVDiag's accuracy without adding to it."
-            "\n" + lstm_bullet() + spec_bullet() + theta_bullet() + r"\end{itemize}" "\n")
+            "\n" + official_bullet() + lstm_bullet() + spec_bullet() + theta_bullet()
+            + r"\end{itemize}" "\n")
 
 
 def _pair(R, a, b, c):
@@ -454,6 +489,57 @@ def spec_bullet() -> str:
                 if min(t[1] for t in ps) >= 0.05 else
                 f"; no difference survives Holm correction (smallest adjusted $p={min(adj):.2f}$).")
                if ps and min(adj) >= 0.05 else ".") + "\n")
+
+
+def authors_match() -> str:
+    """README section 6.22: how many published TVDiag values the authors' committed logs give."""
+    f = ROOT / "results" / "tvdiag_official" / "authors_logs.json"
+    if not f.exists():
+        return "?"
+    a = json.load(open(f))
+    m = [v for ds in ("gaia", "sockshop", "hotel") for v in a[ds]["matches"].values()]
+    return f"{sum(m)} of {len(m)}"
+
+
+def official_bullet() -> str:
+    """README section 6.22: TVDiag's released code against the paper and the re-run."""
+    f = lambda x: ("0.000" if abs(x) < 5e-4 else f"{x:+.3f}").replace("-", "$-$").replace("+", "$+$")
+    parts = []
+    for l in DS:
+        R = runs(l)
+        o, t = R.get("tvdiag_official", {}), R.get("tvdiag", {})
+        if len(o) < 2:
+            continue
+        cells = []
+        for c, table in (("HR@1", 4), ("F1-score", 5)):
+            x = np.array([GET[c](r) for r in o.values()])
+            y = np.array([GET[c](r) for r in t.values()])
+            pub = paper_rows(l, table)[-1]["values"][c]
+            pw = float(stats.ttest_ind(x, y, equal_var=False).pvalue)
+            cells.append(f"{x.mean():.3f} (paper {f(x.mean() - pub)}, re-run {f(x.mean() - y.mean())}"
+                         + ("$^{*}$" if pw < 0.05 else "") + ")")
+        parts.append(f"$\\mathcal{{{l}}}$ HR@1 {cells[0]}, F1 {cells[1]}")
+    if not parts:
+        return ""
+    # main.py's own seed (2), against every published value
+    exact = []
+    recs = [r for f in glob.glob(str(ROOT / "results" / "tvdiag_official" / "runs*.json"))
+            for r in json.load(open(f)) if r["seed"] == 2]
+    for l in DS:
+        r = next((x for x in recs if x["dataset"] == DS[l]), None)
+        if r is None:
+            continue
+        pub = dict(paper_rows(l, 4)[-1]["values"], **paper_rows(l, 5)[-1]["values"])
+        n = sum(abs(round(GET[c](r), 3) - pub[c]) < 5e-4 for c in T4 + T5)
+        exact.append(f"$\\mathcal{{{l}}}$ {n} of 7")
+    return (r"\item \textbf{TVDiag's released code, run unchanged} (row TVDiag (released code); "
+            r"README \S6.22), seeds 5--9: " + "; ".join(parts) + r" (differences from the published "
+            r"value and from this repository's re-run; $^{*}$: Welch $t$-test $p<0.05$ against the "
+            r"re-run). Its own default seed (2, as \texttt{main.py} runs it) reproduces the published "
+            r"\textit{TVDiag} values to three decimals in " + ", ".join(exact) + r" metrics, and the "
+            r"authors' own logs committed in the repository (GPU, seed 2) contain the paper's "
+            r"\textit{TVDiag} rows (" + authors_match() + r" values to three decimals), so those rows "
+            r"are single runs." "\n")
 
 
 def theta_bullet() -> str:

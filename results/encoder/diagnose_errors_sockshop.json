@@ -1,0 +1,212 @@
+{
+ "never_root": [
+  "carts-db-0",
+  "catalogue-db-0",
+  "orders-db-0",
+  "queue-master-0",
+  "rabbitmq-0",
+  "session-db-0",
+  "user-db-0"
+ ],
+ "seeds": {
+  "0": {
+   "hr1": 0.863070547580719,
+   "hr1_masked": 0.863070547580719,
+   "n_wrong": 33,
+   "hop1": 0.6060606060606061,
+   "hop1_chance": 0.41818180680274963,
+   "hop2": 0.30303030303030304,
+   "hop3plus": 0.09090909090909091,
+   "unreachable": 0.0,
+   "wrong_on_never_root": 0.0,
+   "per_type": {
+    "cpu": {
+     "n": 22,
+     "hr1": 0.9090909361839294,
+     "hr1_masked": 0.9090909361839294,
+     "wrong_on_never_root": 0.0
+    },
+    "memory": {
+     "n": 34,
+     "hr1": 0.8529411554336548,
+     "hr1_masked": 0.8529411554336548,
+     "wrong_on_never_root": 0.0
+    },
+    "network-corrupt": {
+     "n": 41,
+     "hr1": 0.9512194991111755,
+     "hr1_masked": 0.9512194991111755,
+     "wrong_on_never_root": 0.0
+    },
+    "network-delay": {
+     "n": 35,
+     "hr1": 0.6857143044471741,
+     "hr1_masked": 0.6857143044471741,
+     "wrong_on_never_root": 0.0
+    },
+    "network-loss": {
+     "n": 37,
+     "hr1": 0.7837837934494019,
+     "hr1_masked": 0.7837837934494019,
+     "wrong_on_never_root": 0.0
+    },
+    "pod-failure": {
+     "n": 40,
+     "hr1": 0.949999988079071,
+     "hr1_masked": 0.949999988079071,
+     "wrong_on_never_root": 0.0
+    },
+    "pod-kill": {
+     "n": 32,
+     "hr1": 0.90625,
+     "hr1_masked": 0.90625,
+     "wrong_on_never_root": 0.0
+    }
+   },
+   "confusions": [
+    [
+     "memory: carts-0 -> front-end-1",
+     2
+    ],
+    [
+     "pod-kill: front-end-0 -> payment-1",
+     2
+    ],
+    [
+     "pod-failure: front-end-0 -> carts-1",
+     2
+    ],
+    [
+     "network-delay: orders-0 -> catalogue-1",
+     1
+    ],
+    [
+     "cpu: catalogue-1 -> shipping-0",
+     1
+    ],
+    [
+     "pod-kill: front-end-1 -> catalogue-0",
+     1
+    ],
+    [
+     "network-loss: carts-0 -> carts-1",
+     1
+    ],
+    [
+     "network-delay: orders-0 -> payment-1",
+     1
+    ]
+   ]
+  },
+  "1": {
+   "hr1": 0.8506224155426025,
+   "hr1_masked": 0.8506224155426025,
+   "n_wrong": 36,
+   "hop1": 0.5833333333333334,
+   "hop1_chance": 0.4194444417953491,
+   "hop2": 0.3333333333333333,
+   "hop3plus": 0.08333333333333333,
+   "unreachable": 0.0,
+   "wrong_on_never_root": 0.0,
+   "per_type": {
+    "cpu": {
+     "n": 22,
+     "hr1": 0.9090909361839294,
+     "hr1_masked": 0.9090909361839294,
+     "wrong_on_never_root": 0.0
+    },
+    "memory": {
+     "n": 34,
+     "hr1": 0.8823529481887817,
+     "hr1_masked": 0.8823529481887817,
+     "wrong_on_never_root": 0.0
+    },
+    "network-corrupt": {
+     "n": 41,
+     "hr1": 0.9024389982223511,
+     "hr1_masked": 0.9024389982223511,
+     "wrong_on_never_root": 0.0
+    },
+    "network-delay": {
+     "n": 35,
+     "hr1": 0.6571428775787354,
+     "hr1_masked": 0.6571428775787354,
+     "wrong_on_never_root": 0.0
+    },
+    "network-loss": {
+     "n": 37,
+     "hr1": 0.8108108043670654,
+     "hr1_masked": 0.8108108043670654,
+     "wrong_on_never_root": 0.0
+    },
+    "pod-failure": {
+     "n": 40,
+     "hr1": 0.925000011920929,
+     "hr1_masked": 0.925000011920929,
+     "wrong_on_never_root": 0.0
+    },
+    "pod-kill": {
+     "n": 32,
+     "hr1": 0.875,
+     "hr1_masked": 0.875,
+     "wrong_on_never_root": 0.0
+    }
+   }
+  },
+  "2": {
+   "hr1": 0.863070547580719,
+   "hr1_masked": 0.863070547580719,
+   "n_wrong": 33,
+   "hop1": 0.7272727272727273,
+   "hop1_chance": 0.43787881731987,
+   "hop2": 0.24242424242424243,
+   "hop3plus": 0.030303030303030304,
+   "unreachable": 0.0,
+   "wrong_on_never_root": 0.0,
+   "per_type": {
+    "cpu": {
+     "n": 22,
+     "hr1": 0.9090909361839294,
+     "hr1_masked": 0.9090909361839294,
+     "wrong_on_never_root": 0.0
+    },
+    "memory": {
+     "n": 34,
+     "hr1": 0.8823529481887817,
+     "hr1_masked": 0.8823529481887817,
+     "wrong_on_never_root": 0.0
+    },
+    "network-corrupt": {
+     "n": 41,
+     "hr1": 0.9268292784690857,
+     "hr1_masked": 0.9268292784690857,
+     "wrong_on_never_root": 0.0
+    },
+    "network-delay": {
+     "n": 35,
+     "hr1": 0.7428571581840515,
+     "hr1_masked": 0.7428571581840515,
+     "wrong_on_never_root": 0.0
+    },
+    "network-loss": {
+     "n": 37,
+     "hr1": 0.7297297120094299,
+     "hr1_masked": 0.7297297120094299,
+     "wrong_on_never_root": 0.0
+    },
+    "pod-failure": {
+     "n": 40,
+     "hr1": 0.949999988079071,
+     "hr1_masked": 0.949999988079071,
+     "wrong_on_never_root": 0.0
+    },
+    "pod-kill": {
+     "n": 32,
+     "hr1": 0.90625,
+     "hr1_masked": 0.90625,
+     "wrong_on_never_root": 0.0
+    }
+   }
+  }
+ }
+}

@@ -1,0 +1,96 @@
+{
+ "source": "logs/<dataset>/<dataset>.log as committed in WHU-AISE/TVDiag at cf6f334 (the authors' GPU runs of main.py, seed 2)",
+ "gaia": {
+  "log": {
+   "HR@1": 0.75932,
+   "HR@3": 0.90948,
+   "Avg@3": 0.844,
+   "MRR@3": 0.827,
+   "Precision": 0.92511,
+   "Recall": 0.94782,
+   "F1-score": 0.93633
+  },
+  "published": {
+   "HR@1": 0.759,
+   "HR@3": 0.909,
+   "Avg@3": 0.844,
+   "MRR@3": 0.827,
+   "Precision": 0.925,
+   "Recall": 0.948,
+   "F1-score": 0.936
+  },
+  "matches": {
+   "HR@1": true,
+   "HR@3": true,
+   "Avg@3": true,
+   "MRR@3": true,
+   "Precision": true,
+   "Recall": true,
+   "F1-score": true
+  },
+  "date": "2025-03-08 10:00:49",
+  "device": "GPU 0"
+ },
+ "sockshop": {
+  "log": {
+   "HR@1": 0.86307,
+   "HR@3": 0.9543600000000001,
+   "Avg@3": 0.913,
+   "MRR@3": 0.903,
+   "Precision": 0.64945,
+   "Recall": 0.62241,
+   "F1-score": 0.63564
+  },
+  "published": {
+   "HR@1": 0.863,
+   "HR@3": 0.954,
+   "Avg@3": 0.913,
+   "MRR@3": 0.903,
+   "Precision": 0.649,
+   "Recall": 0.622,
+   "F1-score": 0.636
+  },
+  "matches": {
+   "HR@1": true,
+   "HR@3": true,
+   "Avg@3": true,
+   "MRR@3": true,
+   "Precision": true,
+   "Recall": true,
+   "F1-score": true
+  },
+  "date": "2025-03-08 10:02:28",
+  "device": "GPU 0"
+ },
+ "hotel": {
+  "log": {
+   "HR@1": 0.8205100000000001,
+   "HR@3": 0.9230800000000001,
+   "Avg@3": 0.876,
+   "MRR@3": 0.865,
+   "Precision": 0.83636,
+   "Recall": 0.80769,
+   "F1-score": 0.82178
+  },
+  "published": {
+   "HR@1": 0.821,
+   "HR@3": 0.923,
+   "Avg@3": 0.876,
+   "MRR@3": 0.866,
+   "Precision": 0.836,
+   "Recall": 0.808,
+   "F1-score": 0.822
+  },
+  "matches": {
+   "HR@1": true,
+   "HR@3": true,
+   "Avg@3": true,
+   "MRR@3": false,
+   "Precision": true,
+   "Recall": true,
+   "F1-score": true
+  },
+  "date": "2025-04-24 22:47:46",
+  "device": "GPU 0"
+ }
+}

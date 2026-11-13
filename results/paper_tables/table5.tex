@@ -1,12 +1,12 @@
 \begin{table}[!ht]
 \centering
 \caption{Failure Type Identification Comparison}\label{tab:fti}
-\footnotesize\setlength{\tabcolsep}{3.2pt}
+\scriptsize\setlength{\tabcolsep}{3.4pt}\renewcommand{\arraystretch}{0.90}
 \begin{tabular}{c c l c c c c c c c}
 \toprule
 Dataset & Modality & Method & p-value & \textit{Precision} & $\Uparrow$ \textit{Precision} & \textit{Recall} & $\Uparrow$ \textit{Recall} & F1-score & $\Uparrow$ F1-score \\
 \midrule
-\multirow{14}{*}{$\mathcal{A}$} & Log & LogCluster & 1.4E-02 & 0.888 & 4.167\% & 0.915 & 3.607\% & 0.901 & 3.885\% \\
+\multirow{17}{*}{$\mathcal{A}$} & Log & LogCluster & 1.4E-02 & 0.888 & 4.167\% & 0.915 & 3.607\% & 0.901 & 3.885\% \\
  & Multimodality & DiagFusion & 3.3E-04 & 0.852 & 8.568\% & 0.838 & 13.126\% & 0.840 & 11.429\% \\
  & Multimodality & Medicine & 4.1E-06 & 0.669 & 38.266\% & 0.667 & 42.129\% & 0.648 & 44.444\% \\
  & Multimodality & DT-FTI & 9.4E-03 & 0.889 & 4.049\% & 0.892 & 6.278\% & 0.890 & 5.169\% \\
@@ -14,13 +14,16 @@ Dataset & Modality & Method & p-value & \textit{Precision} & $\Uparrow$ \textit{
  & Multimodality & LGB-FTI & 5.2E-02 & 0.892 & 3.700\% & 0.928 & 2.155\% & 0.907 & 3.197\% \\
  & Multimodality & \textbf{\textit{TVDiag}} & - & 0.925 & - & 0.948 & - & 0.936 & - \\
 \cdashline{2-10}
+ & Multimodality & TVDiag (released code)$^\dagger$ & 2.4E-01 & 0.922 & 0.342\% & 0.944 & 0.380\% & 0.933 & 0.323\% \\
  & Multimodality & TVDiag (re-run)$^\dagger$ & 1.1E-01 & 0.911 & 1.544\% & 0.931 & 1.804\% & 0.921 & 1.634\% \\
  & Multimodality & AdaDiag-CL$^\dagger$ & 8.6E-01 & 0.925 & 0.054\% & 0.947 & 0.154\% & 0.935 & 0.066\% \\
  & Multimodality & \textbf{AdaDiag-DL}$^\dagger$ & 9.2E-01 & 0.925 & 0.011\% & 0.948 & $-$0.003\% & 0.936 & $-$0.034\% \\
- & Multimodality & TVDiag-LSTM (re-run)$^\dagger$ & 2.4E-02 & \textbf{0.931} & $-$0.691\% & \textbf{0.957} & $-$0.916\% & \textbf{0.944} & $-$0.840\% \\
+ & Multimodality & TVDiag-LSTM (re-run)$^\dagger$ & 2.4E-02 & 0.931 & $-$0.691\% & 0.957 & $-$0.916\% & 0.944 & $-$0.840\% \\
  & Multimodality & \textbf{AdaDiag-DL-LSTM}$^\dagger$ & 6.8E-01 & 0.923 & 0.169\% & 0.945 & 0.290\% & 0.934 & 0.191\% \\
  & Multimodality & TVDiag-Spec (re-run)$^\dagger$ & 2.9E-02 & 0.913 & 1.302\% & 0.938 & 1.064\% & 0.925 & 1.146\% \\
  & Multimodality & AdaDiag-DL-Spec$^\dagger$ & 4.8E-04 & 0.909 & 1.791\% & 0.934 & 1.548\% & 0.921 & 1.632\% \\
+ & Multimodality & \textbf{AdaDiag+}$^\dagger$ & 2.2E-02 & 0.933 & $-$0.811\% & 0.956 & $-$0.850\% & 0.944 & $-$0.868\% \\
+ & Multimodality & \textbf{AdaDiag++}$^\dagger$ & 7.0E-03 & \textbf{0.934} & $-$1.014\% & \textbf{0.961} & $-$1.355\% & \textbf{0.948} & $-$1.220\% \\
 \midrule
 \multirow{8}{*}{$\mathcal{B}$} & Log & LogCluster & 1.1E-02 & 0.434 & 103.226\% & 0.159 & 447.799\% & 0.147 & 495.918\% \\
  & Multimodality & DiagFusion & 3.4E-04 & 0.533 & 65.478\% & 0.489 & 78.119\% & 0.505 & 73.465\% \\
@@ -31,14 +34,15 @@ Dataset & Modality & Method & p-value & \textit{Precision} & $\Uparrow$ \textit{
  & Multimodality & \textbf{\textit{TVDiag}} & - & \textbf{0.882} & - & \textbf{0.871} & - & \textbf{0.876} & - \\
  & \multicolumn{9}{l}{\footnotesize\itshape AdaDiag: not run, dataset $\mathcal{B}$ (AIOps-22) is not distributed with TVDiag's code} \\
 \midrule
-\multirow{14}{*}{$\mathcal{C}$} & Log & LogCluster & 1.9E-06 & 0.233 & 178.541\% & 0.228 & 172.807\% & 0.213 & 198.592\% \\
+\multirow{17}{*}{$\mathcal{C}$} & Log & LogCluster & 1.9E-06 & 0.233 & 178.541\% & 0.228 & 172.807\% & 0.213 & 198.592\% \\
  & Multimodality & DiagFusion & 7.9E-05 & 0.338 & 92.012\% & 0.332 & 87.349\% & 0.328 & 93.902\% \\
  & Multimodality & Medicine & 5.0E-04 & 0.497 & 30.584\% & 0.469 & 32.623\% & 0.454 & 40.088\% \\
  & Multimodality & DT-FTI & 6.4E-05 & 0.376 & 72.606\% & 0.365 & 70.411\% & 0.366 & 73.770\% \\
  & Multimodality & SVM-FTI & 3.2E-03 & 0.384 & 69.010\% & 0.315 & 97.460\% & 0.282 & 125.532\% \\
  & Multimodality & LGB-FTI & 9.7E-04 & 0.442 & 46.833\% & 0.390 & 59.487\% & 0.388 & 63.918\% \\
- & Multimodality & \textbf{\textit{TVDiag}} & - & \textbf{0.649} & - & \textbf{0.622} & - & \textbf{0.636} & - \\
+ & Multimodality & \textbf{\textit{TVDiag}} & - & 0.649 & - & 0.622 & - & 0.636 & - \\
 \cdashline{2-10}
+ & Multimodality & TVDiag (released code)$^\dagger$ & 2.0E-03 & 0.563 & 15.289\% & 0.524 & 18.593\% & 0.543 & 17.132\% \\
  & Multimodality & TVDiag (re-run)$^\dagger$ & 5.5E-04 & 0.573 & 13.194\% & 0.535 & 16.203\% & 0.554 & 14.890\% \\
  & Multimodality & AdaDiag-CL$^\dagger$ & 2.2E-04 & 0.584 & 11.183\% & 0.543 & 14.604\% & 0.562 & 13.082\% \\
  & Multimodality & \textbf{AdaDiag-DL}$^\dagger$ & 4.7E-03 & 0.584 & 11.189\% & 0.546 & 13.907\% & 0.564 & 12.742\% \\
@@ -46,15 +50,18 @@ Dataset & Modality & Method & p-value & \textit{Precision} & $\Uparrow$ \textit{
  & Multimodality & \textbf{AdaDiag-DL-LSTM}$^\dagger$ & 1.7E-04 & 0.587 & 10.542\% & 0.549 & 13.390\% & 0.567 & 12.173\% \\
  & Multimodality & TVDiag-Spec (re-run)$^\dagger$ & 1.0E-05 & 0.435 & 49.356\% & 0.398 & 56.148\% & 0.416 & 53.052\% \\
  & Multimodality & AdaDiag-DL-Spec$^\dagger$ & 3.3E-04 & 0.450 & 44.123\% & 0.424 & 46.675\% & 0.437 & 45.633\% \\
+ & Multimodality & \textbf{AdaDiag+}$^\dagger$ & 1.8E-01 & 0.640 & 1.470\% & 0.612 & 1.697\% & 0.625 & 1.730\% \\
+ & Multimodality & \textbf{AdaDiag++}$^\dagger$ & 8.0E-02 & \textbf{0.678} & $-$4.208\% & \textbf{0.636} & $-$2.153\% & \textbf{0.656} & $-$3.007\% \\
 \midrule
-\multirow{14}{*}{$\mathcal{D}$} & Log & LogCluster & 4.5E-03 & 0.396 & 111.111\% & 0.282 & 186.525\% & 0.212 & 287.736\% \\
+\multirow{17}{*}{$\mathcal{D}$} & Log & LogCluster & 4.5E-03 & 0.396 & 111.111\% & 0.282 & 186.525\% & 0.212 & 287.736\% \\
  & Multimodality & DiagFusion & 3.2E-05 & 0.618 & 35.275\% & 0.603 & 33.997\% & 0.600 & 37.000\% \\
  & Multimodality & Medicine & 1.9E-02 & 0.782 & 6.905\% & 0.725 & 11.448\% & 0.728 & 12.912\% \\
  & Multimodality & DT-FTI & 5.2E-03 & 0.676 & 23.669\% & 0.603 & 33.997\% & 0.598 & 37.458\% \\
  & Multimodality & SVM-FTI & 9.5E-03 & 0.488 & 71.311\% & 0.628 & 28.662\% & 0.540 & 52.222\% \\
  & Multimodality & LGB-FTI & 4.1E-02 & 0.809 & 3.337\% & 0.769 & 5.072\% & 0.764 & 7.592\% \\
- & Multimodality & \textbf{\textit{TVDiag}} & - & \textbf{0.836} & - & \textbf{0.808} & - & \textbf{0.822} & - \\
+ & Multimodality & \textbf{\textit{TVDiag}} & - & 0.836 & - & 0.808 & - & 0.822 & - \\
 \cdashline{2-10}
+ & Multimodality & TVDiag (released code)$^\dagger$ & 1.3E-01 & 0.760 & 10.055\% & 0.726 & 11.350\% & 0.742 & 10.767\% \\
  & Multimodality & TVDiag (re-run)$^\dagger$ & 2.0E-01 & 0.803 & 4.121\% & 0.764 & 5.745\% & 0.783 & 4.978\% \\
  & Multimodality & AdaDiag-CL$^\dagger$ & 9.2E-02 & 0.803 & 4.173\% & 0.764 & 5.745\% & 0.783 & 5.005\% \\
  & Multimodality & \textbf{AdaDiag-DL}$^\dagger$ & 1.9E-01 & 0.810 & 3.214\% & 0.769 & 5.040\% & 0.789 & 4.177\% \\
@@ -62,11 +69,13 @@ Dataset & Modality & Method & p-value & \textit{Precision} & $\Uparrow$ \textit{
  & Multimodality & \textbf{AdaDiag-DL-LSTM}$^\dagger$ & 1.7E-02 & 0.796 & 5.079\% & 0.772 & 4.691\% & 0.783 & 4.919\% \\
  & Multimodality & TVDiag-Spec (re-run)$^\dagger$ & 1.7E-03 & 0.728 & 14.894\% & 0.687 & 17.582\% & 0.707 & 16.342\% \\
  & Multimodality & AdaDiag-DL-Spec$^\dagger$ & 3.2E-04 & 0.732 & 14.257\% & 0.703 & 15.007\% & 0.717 & 14.685\% \\
+ & Multimodality & \textbf{AdaDiag+}$^\dagger$ & 2.5E-01 & 0.851 & $-$1.793\% & 0.821 & $-$1.525\% & 0.836 & $-$1.624\% \\
+ & Multimodality & \textbf{AdaDiag++}$^\dagger$ & 2.1E-04 & \textbf{0.872} & $-$4.144\% & \textbf{0.851} & $-$5.084\% & \textbf{0.862} & $-$4.594\% \\
 \bottomrule
 \end{tabular}
 \par\vspace{4pt}
 \begin{minipage}{\linewidth}\footnotesize
 $\Uparrow$ indicates the improvement rate of \textit{TVDiag} compared to other methods (as in the paper; negative: the row is above \textit{TVDiag}). The best performance for each evaluation metric is indicated in bold.
- Rows without $\dagger$ are copied from the paper (Table 5). $^\dagger$Rows below the dashed line are from this repository: mean over 5 fresh seeds (5--9), same code for all three; p-value: two-sided one-sample $t$-test of the seeds against \textit{TVDiag}'s published F1-score. AdaDiag-CL: weights learned from the contrastive term (as proposed). \textbf{AdaDiag-DL}: weights learned from the diagnosis losses (the variant selected in README \S6.17). Rows marked -LSTM: the same two arms with the LSTM neighbour aggregator the paper describes (its released code uses mean; README \S6.18). Rows marked -Spec: the same two arms with the six features the paper's text specifies and its released code omits (Eq.~3 per anchor, Eqs.~5--6 symmetric, Eq.~13 learnable, Algorithm~1's per-layer normalisation, bidirectional edges, one AUG copy per sample; README \S6.19). The paired comparison with the re-run is Table~\ref{tab:paired}.
+ Rows without $\dagger$ are copied from the paper (Table 5). $^\dagger$Rows below the dashed line are from this repository: mean over 5 fresh seeds (5--9), same code for all three; p-value: two-sided one-sample $t$-test of the seeds against \textit{TVDiag}'s published F1-score. AdaDiag-CL: weights learned from the contrastive term (as proposed). \textbf{AdaDiag-DL}: weights learned from the diagnosis losses (the variant selected in README \S6.17). TVDiag (released code): the authors' code (github.com/WHU-AISE/TVDiag, commit cf6f334) run unchanged on a CPU (README \S6.22). Rows marked -LSTM: the same two arms with the LSTM neighbour aggregator the paper describes (its released code uses mean; README \S6.18). Rows marked -Spec: the same two arms with the six features the paper's text specifies and its released code omits (Eq.~3 per anchor, Eqs.~5--6 symmetric, Eq.~13 learnable, Algorithm~1's per-layer normalisation, bidirectional edges, one AUG copy per sample; README \S6.19). \textbf{AdaDiag+}: AdaDiag-DL with each instance's alert-type counts next to its embeddings and Eq.~13's learnable weights, fixed on other seeds (README \S6.24). \textbf{AdaDiag++}: three AdaDiag+ models that differ only in their seed, outputs averaged (README \S6.25). The paired comparison with the re-run is Table~\ref{tab:paired}.
 \end{minipage}
 \end{table}

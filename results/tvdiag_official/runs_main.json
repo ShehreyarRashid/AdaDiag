@@ -1,0 +1,60 @@
+[
+ {
+  "dataset": "gaia",
+  "seed": 2,
+  "mode": "main",
+  "variant": "tvdiag_official",
+  "HR@1": 0.75932,
+  "HR@2": 0.86368,
+  "HR@3": 0.90948,
+  "HR@4": 0.92545,
+  "HR@5": 0.94569,
+  "MRR@3": 0.827,
+  "avg@3": 0.844,
+  "precision": 0.92511,
+  "recall": 0.94782,
+  "f1": 0.93633,
+  "train_time": null,
+  "avg_train_time": null,
+  "avg_inference_time": null,
+  "epochs": 126,
+  "wall_s": 127.4,
+  "env": {
+   "commit": "cf6f334887036f363807bac1b8995c3b6f47c5db",
+   "python": "3.11.17",
+   "torch": "2.1.1+cu121",
+   "dgl": "2.1.0",
+   "threads": 1,
+   "device": "cpu (.cuda() redirected)"
+  }
+ },
+ {
+  "dataset": "sockshop",
+  "seed": 2,
+  "mode": "main",
+  "variant": "tvdiag_official",
+  "HR@1": 0.86722,
+  "HR@2": 0.92116,
+  "HR@3": 0.9543600000000001,
+  "HR@4": 0.9626600000000001,
+  "HR@5": 0.9626600000000001,
+  "MRR@3": 0.905,
+  "avg@3": 0.914,
+  "precision": 0.6488200000000001,
+  "recall": 0.62241,
+  "f1": 0.63534,
+  "train_time": null,
+  "avg_train_time": null,
+  "avg_inference_time": null,
+  "epochs": 230,
+  "wall_s": 127.4,
+  "env": {
+   "commit": "cf6f334887036f363807bac1b8995c3b6f47c5db",
+   "python": "3.11.17",
+   "torch": "2.1.1+cu121",
+   "dgl": "2.1.0",
+   "threads": 1,
+   "device": "cpu (.cuda() redirected)"
+  }
+ }
+]

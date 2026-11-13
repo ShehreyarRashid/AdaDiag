@@ -41,10 +41,27 @@ class AdaDiag(nn.Module):
         self.fti_readout = cfg.get("fti_readout", "max") or "max"
         if self.fti_readout not in ("max", "root_attn"):
             raise ValueError(f"unknown fti_readout {self.fti_readout!r}")
+        # README section 6.24: with "root_attn", `root_detach` stops the FTI loss from reaching the
+        # RCL scores through the readout's softmax, so FTI reads the culprit without reshaping
+        # the ranking
+        self.root_detach = bool(cfg.get("root_detach", False))
         k_rcl = 1 + (self.rcl_context in ("global", "both")) + (self.rcl_context in ("neighbour", "both"))
         k_fti = 2 if self.fti_readout == "root_attn" else 1
-        self.locator = Locator(fuse * k_rcl, cfg["linear_hidden"])
-        self.classifier = TypeClassifier(fuse * k_fti, cfg["linear_hidden"], n_types)
+        # README section 6.25 (both off by default; both need alert_bag, section 6.24):
+        #   bag_drop  dropout on the alert-type count columns of X during training
+        #   bag_head  the heads also read the raw counts: the locator each instance's own
+        #             counts, the classifier their max and mean over instances (a wide path
+        #             beside the graph encoders)
+        self.n_emb = int(cfg.get("embedding_cols", 128))
+        self.bag_drop = float(cfg.get("bag_drop", 0.0) or 0.0)
+        self.bag_head = bool(cfg.get("bag_head", False))
+        n_bag = len(MODALITIES) * (d_in - self.n_emb)
+        if (self.bag_drop or self.bag_head) and n_bag <= 0:
+            raise ValueError("bag_drop / bag_head need alert_bag=True (section 6.24)")
+        x_rcl = n_bag if self.bag_head else 0
+        x_fti = 2 * n_bag if self.bag_head else 0
+        self.locator = Locator(fuse * k_rcl + x_rcl, cfg["linear_hidden"])
+        self.classifier = TypeClassifier(fuse * k_fti + x_fti, cfg["linear_hidden"], n_types)
 
         # Ablation switches (see ablation.py). Every default reproduces the method exactly.
         dropped = set(cfg.get("drop_modalities", ()) or ())
@@ -59,6 +76,14 @@ class AdaDiag(nn.Module):
         # Paper switch (README section 6.19): "the edges in E are bidirectional" (TVDiag
         # paper, Sec. 4.2). The released graphs are used as given; GAIA's are half one-way.
         self.bidirectional = bool(cfg.get("bidirectional", False))
+        # Encoder analysis (README section 6.23): drop every edge, so each instance is encoded
+        # from its own alerts only -- how much does the encoder use the service graph?
+        self.no_edges = bool(cfg.get("no_edges", False))
+        # README section 6.24: a linear path from each instance's own features straight to
+        # its embedding (a skip around the graph layers), so a local fault is not averaged
+        # away by its neighbours. Built after everything else, so nothing else's
+        # initialisation moves.
+        self.self_res = bool(cfg.get("self_res", False))
         self.descriptor = cfg.get("descriptor", "full")
         if self.descriptor not in ("full", "emb", "counts"):
             raise ValueError(f"unknown descriptor {self.descriptor!r}")
@@ -75,6 +100,8 @@ class AdaDiag(nn.Module):
         if rng_state is not None:
             torch.set_rng_state(rng_state)
         self.d_out = d_o
+        if self.self_res:
+            self.res = nn.ModuleDict({m: nn.Linear(d_in, d_o, bias=False) for m in MODALITIES})
 
     def forward(self, X, A, keep, counts):
         """Returns (per-modality graph embeddings, fused embedding, node logits, type logits).
@@ -82,14 +109,21 @@ class AdaDiag(nn.Module):
         A removed modality (ablation) contributes an all-zero embedding: its encoder is not
         run, so it receives no gradient, and the heads see nothing from it.
         """
+        if self.no_edges:
+            A = torch.zeros_like(A)
         if self.bidirectional:
             A = torch.maximum(A, A.transpose(1, 2))
         if self.self_loops:
             A = A + torch.diag_embed((A.sum(-1) == 0).to(A.dtype))
+        if self.bag_drop and self.training:
+            X = torch.cat([X[..., :self.n_emb],
+                           nn.functional.dropout(X[..., self.n_emb:], self.bag_drop)], dim=-1)
         fs, es = {}, {}
         for j, m in enumerate(MODALITIES):
             if self.active[j]:
                 node_emb = self.encoders[m](X[:, j], A)
+                if self.self_res:
+                    node_emb = node_emb + self.res[m](X[:, j])
             else:
                 node_emb = X.new_zeros(X.shape[0], X.shape[2], self.d_out)
             es[m] = node_emb
@@ -112,10 +146,17 @@ class AdaDiag(nn.Module):
         if self.rcl_context in ("neighbour", "both"):
             deg = A.sum(-1, keepdim=True).clamp(min=1.0)
             e_in = torch.cat([e_in, e - torch.bmm(A, e) / deg], dim=-1)
+        if self.bag_head:
+            raw = X[..., self.n_emb:].permute(0, 2, 1, 3).flatten(2)        # (B, N, 3V)
+            e_in = torch.cat([e_in, raw], dim=-1)
         node_logits = self.locator(e_in)
         if self.fti_readout == "root_attn":
             p = torch.softmax(node_logits.masked_fill(~keep, float("-inf")), dim=1)
+            if self.root_detach:
+                p = p.detach()
             f_fti = torch.cat([f_fti, (p[..., None] * e).sum(1)], dim=-1)
+        if self.bag_head:
+            f_fti = torch.cat([f_fti, raw.max(1).values, raw.mean(1)], dim=-1)
         return fs, f, node_logits, self.classifier(f_fti)
 
     def weights(self, f: torch.Tensor, counts: torch.Tensor) -> torch.Tensor:

@@ -1,0 +1,3 @@
+tvdiag hotel seed 5: committed HR@1 0.794872 F1 0.815464 ep 127 | re-trained HR@1 0.794872 F1 0.815464 ep 127 | bit-identical: True
+align hotel seed 5: committed HR@1 0.794872 F1 0.823638 ep 127 | re-trained HR@1 0.794872 F1 0.823638 ep 127 | bit-identical: True
+  w_final identical: True

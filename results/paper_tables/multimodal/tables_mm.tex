@@ -15,7 +15,7 @@ github.com/ShehreyarRashid/AdaDiag}
 \end{center}
 \noindent\small Baselines and \textit{TVDiag}: the paper's own numbers. AdaDiag: this
 repository, on the released datasets $\mathcal{A}$ (GAIA), $\mathcal{C}$ (Sock Shop) and
-$\mathcal{D}$ (Hotel Reservation). AdaDiag (best) is the AdaDiag configuration with the highest mean of HR@1 and F1 over $\mathcal{A}$, $\mathcal{C}$ and $\mathcal{D}$ among the 5 run on fresh seeds; the choice was made after the runs. Against \textit{TVDiag} re-run under identical conditions it is not significantly different (README \S6.19), so the gaps to the published \textit{TVDiag} also reflect the re-implementation (README \S6.1, \S6.9).
+$\mathcal{D}$ (Hotel Reservation). AdaDiag (best) is the AdaDiag configuration with the highest mean of HR@1 and F1 over $\mathcal{A}$, $\mathcal{C}$ and $\mathcal{D}$ among the 9 run on fresh seeds; the choice was made after the runs. Its configuration was fixed on development seeds before these runs; over ten fresh seeds it is above \textit{TVDiag} re-run under identical conditions on HR@1 and F1 for all three datasets, significantly except HR@1 on $\mathcal{C}$; it costs three training runs (README \S6.25). \textit{TVDiag}'s own released code, run unchanged at its default seed (2), reproduces the published $\mathcal{A}$ row exactly, and the authors' own logs committed in the repository contain the paper's \textit{TVDiag} rows, so those are single runs; over seeds 5--9 the released code scores the row marked $\ddagger$ (README \S6.22).
 \normalsize
 \input{table4_mm.tex}
 \input{table5_mm.tex}

@@ -1,14 +1,14 @@
 \begin{table}[!ht]
 \centering
 \caption{AdaDiag against TVDiag under identical conditions (this repository; paired over the same 5 seeds)}\label{tab:paired}
-\small\setlength{\tabcolsep}{3.5pt}
+\small\setlength{\tabcolsep}{3.5pt}\renewcommand{\arraystretch}{0.95}
 \begin{tabular}{c l c c c c c c c }
 \toprule
  & & \multicolumn{4}{c}{Root cause localization} & \multicolumn{3}{c}{Failure type identification} \\
 \cmidrule(lr){3-6}\cmidrule(lr){7-9}
 Dataset & Method & HR@1 & HR@3 & Avg@3 & MRR@3 & P & R & F1 \\
 \midrule
-\multirow{9}{*}{$\mathcal{A}$} & TVDiag (re-run) & 0.738{\scriptsize$\pm$0.016} & 0.894{\scriptsize$\pm$0.005} & 0.828{\scriptsize$\pm$0.008} & 0.809{\scriptsize$\pm$0.009} & 0.911{\scriptsize$\pm$0.014} & 0.931{\scriptsize$\pm$0.019} & 0.921{\scriptsize$\pm$0.017} \\
+\multirow{13}{*}{$\mathcal{A}$} & TVDiag (re-run) & 0.738{\scriptsize$\pm$0.016} & 0.894{\scriptsize$\pm$0.005} & 0.828{\scriptsize$\pm$0.008} & 0.809{\scriptsize$\pm$0.009} & 0.911{\scriptsize$\pm$0.014} & 0.931{\scriptsize$\pm$0.019} & 0.921{\scriptsize$\pm$0.017} \\
  & AdaDiag-CL & 0.743{\scriptsize($+$0.005)} & 0.898{\scriptsize($+$0.004)} & 0.834{\scriptsize($+$0.005)} & 0.814{\scriptsize($+$0.005)} & 0.925{\scriptsize($+$0.014)} & 0.947{\scriptsize($+$0.015)} & 0.935{\scriptsize($+$0.014)} \\
  & \textbf{AdaDiag-DL} & 0.749{\scriptsize($+$0.011)} & 0.901{\scriptsize($+$0.007)} & 0.837{\scriptsize($+$0.009)} & 0.818{\scriptsize($+$0.009)} & 0.925{\scriptsize($+$0.014)} & 0.948{\scriptsize($+$0.017)} & 0.936{\scriptsize($+$0.015)} \\
 \cdashline{2-9}
@@ -17,11 +17,15 @@ Dataset & Method & HR@1 & HR@3 & Avg@3 & MRR@3 & P & R & F1 \\
 \cdashline{2-9}
  & TVDiag-Spec (re-run) & 0.684{\scriptsize$\pm$0.014} & 0.870{\scriptsize$\pm$0.021} & 0.791{\scriptsize$\pm$0.019} & 0.769{\scriptsize$\pm$0.017} & 0.913{\scriptsize$\pm$0.007} & 0.938{\scriptsize$\pm$0.007} & 0.925{\scriptsize$\pm$0.007} \\
  & AdaDiag-DL-Spec & 0.679{\scriptsize($-$0.006)} & 0.871{\scriptsize($+$0.000)} & 0.787{\scriptsize($-$0.004)} & 0.765{\scriptsize($-$0.004)} & 0.909{\scriptsize($-$0.004)} & 0.934{\scriptsize($-$0.004)} & 0.921{\scriptsize($-$0.004)} \\
+ & \textbf{AdaDiag+} & 0.754{\scriptsize($+$0.016)} & 0.903{\scriptsize($+$0.009)} & 0.839{\scriptsize($+$0.011)}$^{*}$ & 0.821{\scriptsize($+$0.012)}$^{*}$ & 0.933{\scriptsize($+$0.022)}$^{*}$ & 0.956{\scriptsize($+$0.025)}$^{*}$ & 0.944{\scriptsize($+$0.023)}$^{*}$ \\
+ & \textbf{AdaDiag++} & 0.768{\scriptsize($+$0.030)}$^{*}$ & 0.906{\scriptsize($+$0.013)}$^{*}$ & 0.849{\scriptsize($+$0.021)}$^{*}$ & 0.832{\scriptsize($+$0.022)}$^{*}$ & 0.934{\scriptsize($+$0.024)}$^{*}$ & 0.961{\scriptsize($+$0.030)}$^{*}$ & 0.948{\scriptsize($+$0.027)}$^{*}$ \\
 \cdashline{2-9}
  & TVDiag-$\theta$ (re-run) & 0.745{\scriptsize$\pm$0.014} & 0.901{\scriptsize$\pm$0.004} & 0.833{\scriptsize$\pm$0.007} & 0.815{\scriptsize$\pm$0.008} & 0.914{\scriptsize$\pm$0.010} & 0.933{\scriptsize$\pm$0.013} & 0.923{\scriptsize$\pm$0.011} \\
  & AdaDiag-DL-$\theta$ & 0.749{\scriptsize($+$0.004)} & 0.899{\scriptsize($-$0.002)} & 0.836{\scriptsize($+$0.003)} & 0.818{\scriptsize($+$0.002)} & 0.930{\scriptsize($+$0.017)} & 0.953{\scriptsize($+$0.020)} & 0.941{\scriptsize($+$0.018)} \\
+ & AdaDiag+ r1 & 0.770{\scriptsize($+$0.032)}$^{*}$ & 0.910{\scriptsize($+$0.017)}$^{*}$ & 0.850{\scriptsize($+$0.022)}$^{*}$ & 0.833{\scriptsize($+$0.024)}$^{*}$ & 0.910{\scriptsize($-$0.001)} & 0.928{\scriptsize($-$0.003)} & 0.919{\scriptsize($-$0.002)} \\
+ & AdaDiag+ r2 & 0.751{\scriptsize($+$0.013)} & 0.902{\scriptsize($+$0.009)} & 0.838{\scriptsize($+$0.010)} & 0.820{\scriptsize($+$0.011)} & 0.925{\scriptsize($+$0.015)} & 0.949{\scriptsize($+$0.018)} & 0.937{\scriptsize($+$0.016)} \\
 \midrule
-\multirow{9}{*}{$\mathcal{C}$} & TVDiag (re-run) & 0.869{\scriptsize$\pm$0.019} & 0.948{\scriptsize$\pm$0.016} & 0.915{\scriptsize$\pm$0.016} & 0.905{\scriptsize$\pm$0.016} & 0.573{\scriptsize$\pm$0.015} & 0.535{\scriptsize$\pm$0.023} & 0.554{\scriptsize$\pm$0.018} \\
+\multirow{13}{*}{$\mathcal{C}$} & TVDiag (re-run) & 0.869{\scriptsize$\pm$0.019} & 0.948{\scriptsize$\pm$0.016} & 0.915{\scriptsize$\pm$0.016} & 0.905{\scriptsize$\pm$0.016} & 0.573{\scriptsize$\pm$0.015} & 0.535{\scriptsize$\pm$0.023} & 0.554{\scriptsize$\pm$0.018} \\
  & AdaDiag-CL & 0.870{\scriptsize($+$0.001)} & 0.947{\scriptsize($-$0.001)} & 0.917{\scriptsize($+$0.002)} & 0.906{\scriptsize($+$0.001)} & 0.584{\scriptsize($+$0.010)} & 0.543{\scriptsize($+$0.007)} & 0.562{\scriptsize($+$0.009)} \\
  & \textbf{AdaDiag-DL} & 0.872{\scriptsize($+$0.003)} & 0.945{\scriptsize($-$0.002)} & 0.916{\scriptsize($+$0.002)} & 0.906{\scriptsize($+$0.002)} & 0.584{\scriptsize($+$0.010)} & 0.546{\scriptsize($+$0.011)} & 0.564{\scriptsize($+$0.011)} \\
 \cdashline{2-9}
@@ -30,11 +34,15 @@ Dataset & Method & HR@1 & HR@3 & Avg@3 & MRR@3 & P & R & F1 \\
 \cdashline{2-9}
  & TVDiag-Spec (re-run) & 0.810{\scriptsize$\pm$0.014} & 0.919{\scriptsize$\pm$0.011} & 0.871{\scriptsize$\pm$0.012} & 0.858{\scriptsize$\pm$0.012} & 0.435{\scriptsize$\pm$0.023} & 0.398{\scriptsize$\pm$0.017} & 0.416{\scriptsize$\pm$0.018} \\
  & AdaDiag-DL-Spec & 0.812{\scriptsize($+$0.002)} & 0.917{\scriptsize($-$0.002)} & 0.874{\scriptsize($+$0.003)} & 0.860{\scriptsize($+$0.002)} & 0.450{\scriptsize($+$0.016)} & 0.424{\scriptsize($+$0.026)} & 0.437{\scriptsize($+$0.021)} \\
+ & \textbf{AdaDiag+} & 0.859{\scriptsize($-$0.010)} & 0.950{\scriptsize($+$0.002)} & 0.913{\scriptsize($-$0.001)} & 0.901{\scriptsize($-$0.003)} & 0.640{\scriptsize($+$0.066)}$^{*}$ & 0.612{\scriptsize($+$0.076)}$^{*}$ & 0.625{\scriptsize($+$0.072)}$^{*}$ \\
+ & \textbf{AdaDiag++} & 0.870{\scriptsize($+$0.001)} & 0.954{\scriptsize($+$0.006)} & 0.921{\scriptsize($+$0.006)} & 0.909{\scriptsize($+$0.004)} & 0.678{\scriptsize($+$0.104)}$^{*}$ & 0.636{\scriptsize($+$0.100)}$^{*}$ & 0.656{\scriptsize($+$0.102)}$^{*}$ \\
 \cdashline{2-9}
  & TVDiag-$\theta$ (re-run) & 0.864{\scriptsize$\pm$0.009} & 0.952{\scriptsize$\pm$0.006} & 0.916{\scriptsize$\pm$0.005} & 0.905{\scriptsize$\pm$0.006} & 0.623{\scriptsize$\pm$0.034} & 0.573{\scriptsize$\pm$0.041} & 0.597{\scriptsize$\pm$0.037} \\
  & AdaDiag-DL-$\theta$ & 0.877{\scriptsize($+$0.013)}$^{*}$ & 0.949{\scriptsize($-$0.003)} & 0.919{\scriptsize($+$0.003)} & 0.910{\scriptsize($+$0.005)} & 0.629{\scriptsize($+$0.006)} & 0.575{\scriptsize($+$0.002)} & 0.601{\scriptsize($+$0.004)} \\
+ & AdaDiag+ r1 & 0.874{\scriptsize($+$0.005)} & 0.949{\scriptsize($+$0.001)} & 0.920{\scriptsize($+$0.006)} & 0.909{\scriptsize($+$0.005)} & 0.663{\scriptsize($+$0.090)}$^{*}$ & 0.615{\scriptsize($+$0.080)}$^{*}$ & 0.638{\scriptsize($+$0.085)}$^{*}$ \\
+ & AdaDiag+ r2 & 0.867{\scriptsize($-$0.002)} & 0.946{\scriptsize($-$0.002)} & 0.914{\scriptsize($+$0.000)} & 0.904{\scriptsize($-$0.001)} & 0.615{\scriptsize($+$0.041)}$^{*}$ & 0.578{\scriptsize($+$0.043)}$^{*}$ & 0.596{\scriptsize($+$0.042)}$^{*}$ \\
 \midrule
-\multirow{9}{*}{$\mathcal{D}$} & TVDiag (re-run) & 0.818{\scriptsize$\pm$0.017} & 0.910{\scriptsize$\pm$0.009} & 0.864{\scriptsize$\pm$0.006} & 0.856{\scriptsize$\pm$0.006} & 0.803{\scriptsize$\pm$0.059} & 0.764{\scriptsize$\pm$0.055} & 0.783{\scriptsize$\pm$0.057} \\
+\multirow{13}{*}{$\mathcal{D}$} & TVDiag (re-run) & 0.818{\scriptsize$\pm$0.017} & 0.910{\scriptsize$\pm$0.009} & 0.864{\scriptsize$\pm$0.006} & 0.856{\scriptsize$\pm$0.006} & 0.803{\scriptsize$\pm$0.059} & 0.764{\scriptsize$\pm$0.055} & 0.783{\scriptsize$\pm$0.057} \\
  & AdaDiag-CL & 0.818{\scriptsize($+$0.000)} & 0.915{\scriptsize($+$0.005)} & 0.867{\scriptsize($+$0.003)} & 0.859{\scriptsize($+$0.002)} & 0.803{\scriptsize($+$0.000)} & 0.764{\scriptsize($+$0.000)} & 0.783{\scriptsize($+$0.000)} \\
  & \textbf{AdaDiag-DL} & 0.810{\scriptsize($-$0.008)} & 0.910{\scriptsize($+$0.000)} & 0.860{\scriptsize($-$0.004)} & 0.852{\scriptsize($-$0.005)} & 0.810{\scriptsize($+$0.007)} & 0.769{\scriptsize($+$0.005)} & 0.789{\scriptsize($+$0.006)} \\
 \cdashline{2-9}
@@ -43,9 +51,13 @@ Dataset & Method & HR@1 & HR@3 & Avg@3 & MRR@3 & P & R & F1 \\
 \cdashline{2-9}
  & TVDiag-Spec (re-run) & 0.826{\scriptsize$\pm$0.017} & 0.923{\scriptsize$\pm$0.009} & 0.885{\scriptsize$\pm$0.012} & 0.872{\scriptsize$\pm$0.012} & 0.728{\scriptsize$\pm$0.050} & 0.687{\scriptsize$\pm$0.023} & 0.707{\scriptsize$\pm$0.034} \\
  & AdaDiag-DL-Spec & 0.826{\scriptsize($+$0.000)} & 0.918{\scriptsize($-$0.005)} & 0.880{\scriptsize($-$0.005)} & 0.868{\scriptsize($-$0.003)} & 0.732{\scriptsize($+$0.004)} & 0.703{\scriptsize($+$0.015)} & 0.717{\scriptsize($+$0.010)} \\
+ & \textbf{AdaDiag+} & 0.831{\scriptsize($+$0.013)} & 0.926{\scriptsize($+$0.015)} & 0.880{\scriptsize($+$0.016)}$^{*}$ & 0.871{\scriptsize($+$0.015)}$^{*}$ & 0.851{\scriptsize($+$0.048)} & 0.821{\scriptsize($+$0.056)}$^{*}$ & 0.836{\scriptsize($+$0.053)} \\
+ & \textbf{AdaDiag++} & 0.844{\scriptsize($+$0.026)}$^{*}$ & 0.938{\scriptsize($+$0.028)}$^{*}$ & 0.892{\scriptsize($+$0.028)}$^{*}$ & 0.884{\scriptsize($+$0.027)}$^{*}$ & 0.872{\scriptsize($+$0.069)} & 0.851{\scriptsize($+$0.087)}$^{*}$ & 0.862{\scriptsize($+$0.079)}$^{*}$ \\
 \cdashline{2-9}
  & TVDiag-$\theta$ (re-run) & 0.826{\scriptsize$\pm$0.007} & 0.908{\scriptsize$\pm$0.011} & 0.870{\scriptsize$\pm$0.006} & 0.862{\scriptsize$\pm$0.006} & 0.834{\scriptsize$\pm$0.030} & 0.795{\scriptsize$\pm$0.045} & 0.814{\scriptsize$\pm$0.038} \\
  & AdaDiag-DL-$\theta$ & 0.826{\scriptsize($+$0.000)} & 0.915{\scriptsize($+$0.008)} & 0.872{\scriptsize($+$0.002)} & 0.864{\scriptsize($+$0.002)} & 0.852{\scriptsize($+$0.018)} & 0.823{\scriptsize($+$0.028)} & 0.837{\scriptsize($+$0.023)} \\
+ & AdaDiag+ r1 & 0.815{\scriptsize($-$0.003)} & 0.913{\scriptsize($+$0.003)} & 0.869{\scriptsize($+$0.005)} & 0.859{\scriptsize($+$0.002)} & 0.829{\scriptsize($+$0.026)} & 0.797{\scriptsize($+$0.033)} & 0.813{\scriptsize($+$0.030)} \\
+ & AdaDiag+ r2 & 0.821{\scriptsize($+$0.003)} & 0.921{\scriptsize($+$0.010)} & 0.876{\scriptsize($+$0.012)} & 0.865{\scriptsize($+$0.009)} & 0.843{\scriptsize($+$0.040)} & 0.795{\scriptsize($+$0.031)} & 0.818{\scriptsize($+$0.035)} \\
 \bottomrule
 \end{tabular}
 \par\vspace{4pt}

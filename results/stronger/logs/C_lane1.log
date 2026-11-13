@@ -1,0 +1,8 @@
+  gaia     bag+root+neigh               s0  HR@1 0.738  F1 0.909  macro-F1 0.539  (113 ep, 97s)
+  gaia     bag+root+neigh               s1  HR@1 0.729  F1 0.899  macro-F1 0.472  (132 ep, 106s)
+  gaia     bag+root+neigh               s2  HR@1 0.766  F1 0.918  macro-F1 0.557  (87 ep, 73s)
+done
+  hotel    bag+root+neigh               s0  HR@1 0.808  F1 0.848  macro-F1 0.829  (116 ep, 65s)
+  hotel    bag+root+neigh               s1  HR@1 0.808  F1 0.736  macro-F1 0.723  (84 ep, 47s)
+  hotel    bag+root+neigh               s2  HR@1 0.808  F1 0.785  macro-F1 0.778  (105 ep, 60s)
+done

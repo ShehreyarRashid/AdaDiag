@@ -242,7 +242,8 @@ def compute_terms(model, arm, batch, cfg, capture: dict | None = None,
     l_rcl = l_fti = None
     if arm == "v5_align" and model.training and torch.is_grad_enabled():
         l_rcl = F.cross_entropy(node_logits.masked_fill(~keep, float("-inf")), root)
-        l_fti = F.cross_entropy(type_logits, yt, weight=cfg.get("_fti_weight"))
+        l_fti = F.cross_entropy(type_logits, yt, weight=cfg.get("_fti_weight"),
+                                label_smoothing=float(cfg.get("fti_smooth", 0.0) or 0.0))
         align_weights(model, fs, labels, {"rcl": l_rcl, "fti": l_fti}, cfg)
     w = model.weights(f, cnt)
     if arm == "v4_fusion":
@@ -291,7 +292,8 @@ def compute_terms(model, arm, batch, cfg, capture: dict | None = None,
         l_cm = zero
     if l_rcl is None:          # created here, after l_to and l_cm, exactly as before
         l_rcl = F.cross_entropy(node_logits.masked_fill(~keep, float("-inf")), root)
-        l_fti = F.cross_entropy(type_logits, yt, weight=cfg.get("_fti_weight"))
+        l_fti = F.cross_entropy(type_logits, yt, weight=cfg.get("_fti_weight"),
+                                label_smoothing=float(cfg.get("fti_smooth", 0.0) or 0.0))
 
     terms = {"l_rcl": l_rcl, "l_fti": l_fti, "l_to": l_to, "l_cm": l_cm}
     if cfg.get("entropy_reg", 0.0) and model.weighting.is_learned:
@@ -338,6 +340,15 @@ def train(arm: str, seed: int, ds, cfg: dict,
         raise ValueError(f"unknown early_stop_on {es_on!r}; expected 'total' or 'diag'")
     if cfg.get("aug_modality_drop") and cfg.get("aug_mode") == "paper":
         raise ValueError("aug_modality_drop is not combined with aug_mode='paper'")
+    # README section 6.24: alert-type counts are appended to X by alerts.with_alert_bag; the
+    # encoders' input width follows X, and a mismatch is an error, not a silent slice
+    if cfg.get("alert_bag") and ds.X.shape[-1] == cfg["alert_embedding_dim"]:
+        raise ValueError("alert_bag=True needs the dataset from alerts.with_alert_bag(ds)")
+    if ds.X.shape[-1] != cfg["alert_embedding_dim"]:
+        if not cfg.get("alert_bag"):
+            raise ValueError(f"X has {ds.X.shape[-1]} features, config expects "
+                             f"{cfg['alert_embedding_dim']}")
+        cfg = dict(cfg, alert_embedding_dim=int(ds.X.shape[-1]))
 
     model = AdaDiag(arm, len(ds.types), cfg)
     # Eq. 13's outer weighting. Reproduced INERT, exactly as TVDiag ships it -- see
@@ -354,6 +365,12 @@ def train(arm: str, seed: int, ds, cfg: dict,
     else:
         opt = torch.optim.Adam(model.parameters(), lr=cfg["lr"],
                                weight_decay=cfg["weight_decay"])
+
+    # README section 6.24: an exponential moving average of the weights, updated after every
+    # step and evaluated in place of the lowest-loss epoch. TVDiag stops on the TRAINING loss
+    # (there is no validation split), so the epoch it keeps is a noisy choice.
+    ema_d = float(cfg.get("weight_ema", 0.0) or 0.0)
+    ema = ({k: v.detach().clone() for k, v in model.state_dict().items()} if ema_d else None)
 
     tr = ds.train_idx
     best, bad, state = None, 0, copy.deepcopy(model.state_dict())
@@ -402,6 +419,13 @@ def train(arm: str, seed: int, ds, cfg: dict,
             opt.zero_grad()
             loss.backward()
             opt.step()
+            if ema is not None:
+                with torch.no_grad():
+                    for k, v in model.state_dict().items():
+                        if v.dtype.is_floating_point:
+                            ema[k].mul_(ema_d).add_(v.detach(), alpha=1.0 - ema_d)
+                        else:
+                            ema[k].copy_(v)
             if monitor is not None:
                 monitor(epoch, capture, w.detach())
 
@@ -423,7 +447,9 @@ def train(arm: str, seed: int, ds, cfg: dict,
                     print(f"    early stop @ epoch {epoch}")
                 break
 
-    if cfg.get("restore_best", True):   # TVDiag itself evaluates the LAST epoch's model
+    if ema is not None:
+        model.load_state_dict(ema)
+    elif cfg.get("restore_best", True):   # TVDiag itself evaluates the LAST epoch's model
         model.load_state_dict(state)
     res = evaluate(model, ds, ds.test_idx)
     res.update(arm=arm, seed=seed, dataset=ds.name,

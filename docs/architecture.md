@@ -101,3 +101,36 @@ the incident's fused feature, or each node's difference from its neighbours' mea
 `fti_readout` (the classifier also reads the node embeddings pooled by the RCL softmax).
 The one confirmed on fresh seeds is `rcl_context="neighbour"`; it widens the locator's
 input only, so the encoders and their initialisation are unchanged.
+
+## Encoder diagnostics
+
+README §6.23 adds one diagnostic switch, off by default: `no_edges` zeroes the adjacency
+before the encoders, so each instance is encoded from its own alerts only. It measures how
+much the GraphSAGE encoders use the service graph; it is not a proposed method.
+
+## A stronger AdaDiag
+
+README §6.24 adds five switches, all off by default, so every committed result reproduces:
+`alert_bag` (each instance's alert-type counts, read from the released raw alerts by
+`src/adadiag/alerts.py`, appended to its embeddings; it needs the widened dataset from
+`alerts.with_alert_bag(ds)`), `aggregator="attn"` (GATv2-style attention over neighbours),
+`self_res` (a linear skip from an instance's own features to its embedding), `weight_ema`
+(evaluate a moving average of the weights) and `root_detach` (with `fti_readout="root_attn"`,
+the FTI loss does not reach the RCL scores through the readout). The final configuration,
+AdaDiag+, is AdaDiag-DL with `alert_bag=True` and `awl_learnable=True` (Eq. 13's learnable
+loss weights, section 6.19); its encoders are TVDiag's, with a wider input.
+
+## AdaDiag++
+
+README §6.25. AdaDiag++ is three AdaDiag+ models trained independently with seeds s, s + 100
+and s + 200; `adadiag.ensemble.predict` averages their softmax outputs, over instances for
+RCL and over failure types for FTI. Three more switches exist and are off by default because
+they failed the screen: `fti_smooth` (label smoothing on the FTI loss), `bag_drop` (dropout
+on the alert-type counts) and `bag_head` (the heads also read the raw counts).
+
+## Diagram
+
+![AdaDiag++ architecture](figures/architecture.png)
+
+Source: `docs/figures/architecture.tex` (TikZ; `pdflatex architecture.tex`). Colours mark what
+each version added: TVDiag (grey), AdaDiag-DL (blue), AdaDiag+ (green), AdaDiag++ (orange).
