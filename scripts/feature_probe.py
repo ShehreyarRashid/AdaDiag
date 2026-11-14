@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 """v1.22 README section 6.24: do the alert-type counts carry information the embeddings lose?
 
-Simple probes, no graph and no training of AdaDiag. Features per instance: TVDiag's three
-128-d embeddings ("emb"), the alert-type counts of src/adadiag/alerts.py ("bag"), or both.
+Simple probes, no graph and no training of GradFusion. Features per instance: TVDiag's three
+128-d embeddings ("emb"), the alert-type counts of src/gradfusion/alerts.py ("bag"), or both.
   FTI   logistic regression on the incident's max- and sum-pooled features -> failure type
   RCL   logistic regression per instance (root or not), ranked within the incident -> HR@1
   FTI at the true root (an upper bound for a perfect RCL): random forest on the root's bag
@@ -23,8 +23,8 @@ import numpy as np
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "src"))
-from adadiag import data                                             # noqa: E402
-from adadiag.alerts import alert_bags                                # noqa: E402
+from gradfusion import data                                             # noqa: E402
+from gradfusion.alerts import alert_bags                                # noqa: E402
 
 warnings.filterwarnings("ignore")
 

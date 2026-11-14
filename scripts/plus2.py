@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
-"""v1.22 README section 6.25: improving AdaDiag+ -- round 4, screened then confirmed.
+"""v1.22 README section 6.25: improving GradFusion+ -- round 4, screened then confirmed.
 
-Starting point: AdaDiag+ (section 6.24) = AdaDiag-DL + alert-type counts + Eq. 13's learnable
+Starting point: GradFusion+ (section 6.24) = GradFusion-DL + alert-type counts + Eq. 13's learnable
 theta. Candidates, all off by default, each at one setting fixed in advance:
 
   smooth    fti_smooth=0.1   label smoothing on the FTI loss (122-248 training incidents)
@@ -34,33 +34,33 @@ import numpy as np
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "src"))
 import torch                                                         # noqa: E402
-from adadiag import config, data                                     # noqa: E402
-from adadiag.alerts import with_alert_bag                            # noqa: E402
-from adadiag.evaluate import per_class                               # noqa: E402
-from adadiag.train import train                                      # noqa: E402
+from gradfusion import config, data                                     # noqa: E402
+from gradfusion.alerts import with_alert_bag                            # noqa: E402
+from gradfusion.evaluate import per_class                               # noqa: E402
+from gradfusion.train import train                                      # noqa: E402
 
 OUT = ROOT / "results" / "plus2"
 DATASETS = ("gaia", "sockshop", "hotel")
 COST = {"gaia": 180, "sockshop": 460, "hotel": 180}                  # seconds, for job order
 DEV, FRESH, TABLE = range(0, 3), range(30, 35), range(5, 10)
 MEMBERS = (0, 100, 200)                                              # seed offsets of ens3
-PLUS = dict(alert_bag=True, awl_learnable=True)                      # AdaDiag+ (section 6.24)
+PLUS = dict(alert_bag=True, awl_learnable=True)                      # GradFusion+ (section 6.24)
 SINGLES = {"smooth": dict(fti_smooth=0.1), "bagdrop": dict(bag_drop=0.2),
            "baghead": dict(bag_head=True)}
 RULE = (
-    "Round 4. Reference: AdaDiag+ (bag+theta) on the development seeds 0-2. Settings as section "
+    "Round 4. Reference: GradFusion+ (bag+theta) on the development seeds 0-2. Settings as section "
     "6.17. A variant's six differences are dHR@1 and dF1 on the three datasets, paired by seed; "
     "its score is their mean. "
-    "Stage S: smooth, bagdrop and baghead, each added alone to AdaDiag+. A single is kept if its "
+    "Stage S: smooth, bagdrop and baghead, each added alone to GradFusion+. A single is kept if its "
     "score is at least +0.005 and its smallest difference is at least -0.010. With two or more "
     "kept, their combination is screened too (stage C). The single-model configuration is the "
     "eligible variant (kept singles, and the combination if its score is at least +0.005 and "
     "its smallest difference at least -0.010) whose smallest difference is largest; with none "
-    "eligible it stays AdaDiag+. "
+    "eligible it stays GradFusion+. "
     "Stage E: ens3 of that configuration (seeds s, s+100, s+200; softmax outputs averaged) "
     "against the configuration itself on seeds 0-2; the ensemble is adopted if its score is at "
     "least +0.005 and its smallest difference at least -0.010. "
-    "Confirmation: fresh seeds 30-34, never used before, for TVDiag, AdaDiag-DL, AdaDiag+ and "
+    "Confirmation: fresh seeds 30-34, never used before, for TVDiag, GradFusion-DL, GradFusion+ and "
     "the final configuration (and, as a control, ens3 of TVDiag). Paired t-tests, Holm over "
     "HR@1 and F1 x 3 datasets per comparison. There is no round 5 on these seeds.")
 
@@ -84,7 +84,7 @@ def variant(name: str) -> tuple[str, dict]:
 
 
 def metrics(node_p: np.ndarray, type_p: np.ndarray, root: np.ndarray, y: np.ndarray) -> dict:
-    """TVDiag's metrics (adadiag.evaluate) from scores instead of a model."""
+    """TVDiag's metrics (gradfusion.evaluate) from scores instead of a model."""
     from sklearn.metrics import f1_score, precision_score, recall_score
     order = np.argsort(-node_p, axis=1, kind="stable")
     rank = (order == root[:, None]).argmax(1) + 1
@@ -231,7 +231,7 @@ def decide_s() -> None:
     names = [f"plus+{k}" for k in SINGLES]
     kept = [k for k in SINGLES if ok(diffs(f"plus+{k}", "plus", DEV))]
     p.update(kept=kept, written_s=stamp())
-    save_plan(p, f"\n## Stage S (reference: AdaDiag+), {p['written_s']}\n\n{table(names, 'plus')}\n\n"
+    save_plan(p, f"\n## Stage S (reference: GradFusion+), {p['written_s']}\n\n{table(names, 'plus')}\n\n"
                  f"Kept: {', '.join(kept) or 'none'}.")
 
 
@@ -300,7 +300,7 @@ def main() -> None:
     if a.stage == "rule":
         if not (OUT / "PLAN.md").exists():
             (OUT / "PLAN.md").write_text(
-                f"# Improving AdaDiag+: the rule and the screen (v1.22 README §6.25)\n\n"
+                f"# Improving GradFusion+: the rule and the screen (v1.22 README §6.25)\n\n"
                 f"Rule written {stamp()}, before any run.\n\n**Rule.** {RULE}\n")
         print((OUT / "PLAN.md").read_text()); return
     if not (OUT / "PLAN.md").exists():

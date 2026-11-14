@@ -1,14 +1,14 @@
 #!/usr/bin/env python3
-"""The TVDiag paper's Tables 4 and 5, multimodal methods only, with AdaDiag++ added.
+"""The TVDiag paper's Tables 4 and 5, multimodal methods only, with GradFusion added.
 
-Every row except AdaDiag's is copied exactly as the paper prints it
-(`adadiag.paper_numbers`): the multimodal baselines and TVDiag, with their p-values and the
+Every row except GradFusion's is copied exactly as the paper prints it
+(`gradfusion.paper_numbers`): the multimodal baselines and TVDiag, with their p-values and the
 paper's improvement-rate columns. Single-modality baselines are left out.
 
-The AdaDiag row is AdaDiag++ (three AdaDiag+ models, outputs averaged), mean over seeds 5-9
+The GradFusion row is GradFusion (three GradFusion+ models, outputs averaged), mean over seeds 5-9
 (results/plus2/confirm_<ds>.json). Its p-value is a one-sample t-test of the five seeds against TVDiag's
 published value (HR@1 in Table 4, F1 in Table 5). Dataset B is not released, so it has no
-AdaDiag row.
+GradFusion row.
 
 Writes results/paper_tables/multimodal/: table4_mm.tex, table5_mm.tex, tables_mm.tex,
 tables_mm.pdf, tables_mm.csv.
@@ -29,7 +29,7 @@ from scipy import stats
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "src"))
-from adadiag import paper_numbers as P                                 # noqa: E402
+from gradfusion import paper_numbers as P                                 # noqa: E402
 
 OUT = ROOT / "results" / "paper_tables" / "multimodal"
 DS = {"A": "gaia", "C": "sockshop", "D": "hotel"}
@@ -40,10 +40,10 @@ GET = {"HR@1": lambda r: r["HR@1"], "HR@3": lambda r: r["HR@3"],
        "Avg@3": lambda r: (r["HR@1"] + r["HR@2"] + r["HR@3"]) / 3, "MRR@3": lambda r: r["MRR@3"],
        "Precision": lambda r: r["precision"], "Recall": lambda r: r["recall"],
        "F1-score": lambda r: r["f1"]}
-#: the AdaDiag row: (label, file pattern, variant, seeds)
+#: the GradFusion row: (label, file pattern, variant, seeds)
 CANDIDATES = (
-    # three AdaDiag+ models (seeds s, s+100, s+200), outputs averaged
-    ("AdaDiag++", "plus2/confirm_{}.json", "align_pp", range(5, 10)),
+    # three GradFusion+ models (seeds s, s+100, s+200), outputs averaged
+    ("GradFusion", "plus2/confirm_{}.json", "align_pp", range(5, 10)),
 )
 
 
@@ -86,7 +86,7 @@ def official(ds):
     return list(out.values())
 
 
-def ada_row(letter, table, rs, name="AdaDiag++"):
+def ada_row(letter, table, rs, name="GradFusion"):
     cols = T4 if table == 4 else T5
     key = "HR@1" if table == 4 else "F1-score"
     tv = paper_rows(letter, table)[-1]["values"][key]
@@ -126,7 +126,7 @@ def tex_table(table, rs_by_letter, label):
             ds_cell = rf"\multirow{{{n}}}{{*}}{{$\mathcal{{{letter}}}$}}" if i == 0 else ""
             name = (r"\textbf{\textit{TVDiag}}" if r["method"] == "TVDiag" else
                     r"\textit{TVDiag} (released code)$^\ddagger$" if r["method"] == "TVDiag (released code)"
-                    else r"\textbf{AdaDiag++}$^\dagger$" if not r["paper"] else r["method"])
+                    else r"\textbf{GradFusion}$^\dagger$" if not r["paper"] else r["method"])
             cells = []
             for c in cols:
                 x = r["values"][c]
@@ -142,7 +142,7 @@ def tex_table(table, rs_by_letter, label):
                                  p_value=r["p"], **{c: round(r["values"][c], 6) for c in cols}))
         if letter not in rs_by_letter:
             L.append(r" & \multicolumn{" + str(2 + 2 * len(cols)) + r"}{l}{\footnotesize\itshape "
-                     r"AdaDiag: not run, dataset $\mathcal{B}$ (AIOps-22) is not released} \\")
+                     r"GradFusion: not run, dataset $\mathcal{B}$ (AIOps-22) is not released} \\")
         L.append(r"\bottomrule" if li == len(LETTERS) - 1 else r"\midrule")
     key = "HR@1" if table == 4 else "F1-score"
     L += [r"\end{tabular}", r"\par\vspace{4pt}", r"\begin{minipage}{\linewidth}\footnotesize",
@@ -150,7 +150,7 @@ def tex_table(table, rs_by_letter, label):
           r"as in the paper (negative: the row is above \textit{TVDiag}). The best result in each "
           r"metric is shown in bold. Rows without $\dagger$ are copied from the paper (Xie et al., "
           r"\textit{TVDiag}, ACM TOSEM 35(2), Art.~40, 2026, Table " + str(table) + r"); the "
-          r"single-modality baselines are omitted. $^\dagger$\textbf{AdaDiag++}: " + label
+          r"single-modality baselines are omitted. $^\dagger$\textbf{GradFusion}: " + label
           + r", mean over 5 seeds (5--9). $^\ddagger$\textit{TVDiag} (released code): the authors' "
           r"code (github.com/WHU-AISE/TVDiag, commit cf6f334) run unchanged on a CPU, same seeds "
           r". p-values of both: two-sided one-sample $t$-test of the seeds against "
@@ -170,11 +170,11 @@ DOC = r"""\documentclass[10pt]{article}
 \setcounter{table}{3}
 \begin{document}
 \begin{center}
-{\large\textbf{Multimodal methods and AdaDiag in the format of the TVDiag paper: Tables 4 and 5}}\\[2pt]
+{\large\textbf{Multimodal methods and GradFusion in the format of the TVDiag paper: Tables 4 and 5}}\\[2pt]
 {\small Shehreyar Rashid (26I-9004) \quad Research Topics in Cloud Computing \quad
 github.com/ShehreyarRashid/AdaDiag}
 \end{center}
-\noindent\small Baselines and \textit{TVDiag}: the paper's own numbers. AdaDiag: this
+\noindent\small Baselines and \textit{TVDiag}: the paper's own numbers. GradFusion: this
 repository, on the released datasets $\mathcal{A}$ (GAIA), $\mathcal{C}$ (Sock Shop) and
 $\mathcal{D}$ (Hotel Reservation). NOTE
 \normalsize
@@ -187,14 +187,14 @@ $\mathcal{D}$ (Hotel Reservation). NOTE
 def main() -> None:
     OUT.mkdir(parents=True, exist_ok=True)
     (score, lab, v, seeds, rs), scored = best()
-    label = (r"three AdaDiag+ models that differ only in their seed, outputs averaged. AdaDiag+ "
+    label = (r"three GradFusion+ models that differ only in their seed, outputs averaged. GradFusion+ "
              r"is TVDiag with adaptive modality weights, each instance's alert-type counts "
              r"next to its embeddings, and Eq.~13's learnable loss weights (README)")
     t4, c4 = tex_table(4, rs, label)
     t5, c5 = tex_table(5, rs, label)
     (OUT / "table4_mm.tex").write_text(t4)
     (OUT / "table5_mm.tex").write_text(t5)
-    note = (r"AdaDiag++'s configuration was fixed on development seeds before these runs; over "
+    note = (r"GradFusion's configuration was fixed on development seeds before these runs; over "
             r"ten fresh seeds it is above \textit{TVDiag} re-run under identical conditions on "
             r"HR@1 and F1 for all three datasets, significantly except HR@1 on $\mathcal{C}$; it "
             r"costs three training runs. \textit{TVDiag}'s own released code, run unchanged at its "

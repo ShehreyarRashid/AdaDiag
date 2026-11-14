@@ -1,4 +1,4 @@
-"""v1.22 README section 6.24: the switches of a stronger AdaDiag."""
+"""v1.22 README section 6.24: the switches of a stronger GradFusion."""
 import sys
 from pathlib import Path
 
@@ -7,11 +7,11 @@ import torch
 
 HERE = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(HERE / "src")); sys.path.insert(0, str(HERE / "scripts"))
-from adadiag import config, data                                   # noqa: E402
-from adadiag.alerts import alert_bags, vocabulary, with_alert_bag  # noqa: E402
-from adadiag.encoders import SAGEEncoder                           # noqa: E402
-from adadiag.model import AdaDiag                                  # noqa: E402
-from adadiag.train import train                                    # noqa: E402
+from gradfusion import config, data                                   # noqa: E402
+from gradfusion.alerts import alert_bags, vocabulary, with_alert_bag  # noqa: E402
+from gradfusion.encoders import SAGEEncoder                           # noqa: E402
+from gradfusion.model import GradFusion                                  # noqa: E402
+from gradfusion.train import train                                    # noqa: E402
 
 HAVE_DATA = (HERE / "data" / "hotel" / "raw" / "traces.json").exists()
 
@@ -43,8 +43,8 @@ def test_new_switches_are_off_by_default():
     torch.manual_seed(2)
     X, A = torch.randn(2, 3, 6, 128), (torch.rand(2, 6, 6) > 0.5).float()
     keep, c = torch.ones(2, 6, dtype=torch.bool), torch.zeros(2, 3)
-    torch.manual_seed(3); m0 = AdaDiag("v0_raw", 5, config.get("hotel"))
-    torch.manual_seed(3); m1 = AdaDiag("v0_raw", 5, config.get("hotel", self_res=False,
+    torch.manual_seed(3); m0 = GradFusion("v0_raw", 5, config.get("hotel"))
+    torch.manual_seed(3); m1 = GradFusion("v0_raw", 5, config.get("hotel", self_res=False,
                                                                 aggregator="mean"))
     m0.eval(); m1.eval()
     with torch.no_grad():
@@ -56,7 +56,7 @@ def test_self_res_adds_a_path_from_own_features():
     torch.manual_seed(4)
     X = torch.randn(1, 3, 6, 128)
     keep, c = torch.ones(1, 6, dtype=torch.bool), torch.zeros(1, 3)
-    m = AdaDiag("v0_raw", 5, config.get("hotel", self_res=True, no_edges=True)).eval()
+    m = GradFusion("v0_raw", 5, config.get("hotel", self_res=True, no_edges=True)).eval()
     with torch.no_grad():
         e = m(X, torch.zeros(1, 6, 6), keep, c)
     assert e[2].shape == (1, 6)

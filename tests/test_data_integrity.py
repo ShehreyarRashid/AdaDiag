@@ -44,6 +44,6 @@ def test_all_three_datasets_are_listed():
 @pytest.mark.parametrize("name", ["gaia", "hotel", "sockshop"])
 def test_loads_from_the_repository_by_default(name):
     """No --repo needed: data.load finds data/ in this repository and asserts EXPECTED."""
-    from adadiag import config, data
+    from gradfusion import config, data
     ds = data.load(name)                                  # strict=True asserts the counts
     config.check_against(config.get(name), ds)

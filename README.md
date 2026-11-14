@@ -1,25 +1,39 @@
-# AdaDiag++
+# GradFusion
 
 [![tests](https://github.com/ShehreyarRashid/AdaDiag/actions/workflows/tests.yml/badge.svg)](https://github.com/ShehreyarRashid/AdaDiag/actions/workflows/tests.yml)
 [![license: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 
-**Adaptive multimodal failure diagnosis for microservices.** AdaDiag++ finds the root-cause
+**Adaptive multimodal failure diagnosis for microservices.** GradFusion finds the root-cause
 service instance (RCL) and the failure type (FTI) of an incident from its metric, trace and
 log alerts. It is built on [TVDiag](https://github.com/WHU-AISE/TVDiag) (ACM TOSEM 35(2),
 Art. 40, 2026) and uses TVDiag's released data.
 
 Shehreyar Rashid (26I-9004), FAST-NUCES · Research Topics in Cloud Computing
 
-![AdaDiag++ architecture](docs/figures/architecture.png)
+GradFusion was called AdaDiag++ before v2.1; the repository keeps its old name.
 
-## 1. What AdaDiag++ adds to TVDiag
+## Figures
+
+**Figure 1. TVDiag, with the four areas this work looks at.**
+
+![TVDiag and the areas under consideration](docs/figures/fig1_tvdiag_focus.png)
+
+**Figure 2. GradFusion: what changed.** The parts in colour are new; the grey parts are TVDiag's.
+
+![GradFusion: what changed](docs/figures/fig2_gradfusion_changes.png)
+
+**Figure 3. GradFusion in detail.**
+
+![GradFusion in detail](docs/figures/fig3_gradfusion_detail.png)
+
+## 1. What GradFusion adds to TVDiag
 
 | Part | What it does | Where |
 |---|---|---|
-| Adaptive modality weights | Weights each modality's contrastive term per task, from how well its gradient agrees with the diagnosis losses | `src/adadiag/weighting.py`, `train.py` |
-| Alert-type counts | Adds, per instance, how many alerts of each type fired. TVDiag averages alert embeddings, which loses this | `src/adadiag/alerts.py` |
-| Learnable loss weights | Learns the weights of the four losses (TVDiag paper, Eq. 13) | `src/adadiag/losses.py` |
-| Ensemble of three | Trains three models with different seeds and averages their outputs | `src/adadiag/ensemble.py` |
+| Adaptive modality weights | Weights each modality's contrastive term per task, from how well its gradient agrees with the diagnosis losses | `src/gradfusion/weighting.py`, `train.py` |
+| Alert-type counts | Adds, per instance, how many alerts of each type fired. TVDiag averages alert embeddings, which loses this | `src/gradfusion/alerts.py` |
+| Learnable loss weights | Learns the weights of the four losses (TVDiag paper, Eq. 13) | `src/gradfusion/losses.py` |
+| Ensemble of three | Trains three models with different seeds and averages their outputs | `src/gradfusion/ensemble.py` |
 
 The graph encoders, the heads and the data are TVDiag's.
 
@@ -32,9 +46,9 @@ repository under the same conditions.
 |---|---|---|---|
 | TVDiag, published (one run) | 0.759 / 0.936 | 0.863 / 0.636 | 0.821 / 0.822 |
 | TVDiag, re-run | 0.738 / 0.921 | 0.869 / 0.552 | 0.821 / 0.781 |
-| **AdaDiag++** | **0.767 / 0.948** | **0.871 / 0.648** | **0.841 / 0.860** |
+| **GradFusion** | **0.767 / 0.948** | **0.871 / 0.648** | **0.841 / 0.860** |
 
-Gain of AdaDiag++ over TVDiag re-run (paired over the same ten seeds):
+Gain of GradFusion over TVDiag re-run (paired over the same ten seeds):
 
 | Dataset | HR@1 | F1 |
 |---|---|---|
@@ -53,10 +67,10 @@ Gain of AdaDiag++ over TVDiag re-run (paired over the same ten seeds):
 
 - **Cost.** Three training runs and three forward passes per diagnosis.
 - **Part of the gain comes from the ensemble alone.** Averaging three TVDiag models also
-  helps TVDiag. Against that control (seeds 30–34), AdaDiag++ leads on F1 for all three
+  helps TVDiag. Against that control (seeds 30–34), GradFusion leads on F1 for all three
   datasets (+0.022, +0.054, +0.025) and ties on HR@1.
 - **Sock Shop HR@1 is a tie** with TVDiag (+0.002).
-- **Published TVDiag numbers are single runs.** AdaDiag++'s ten-seed means are higher on all
+- **Published TVDiag numbers are single runs.** GradFusion's ten-seed means are higher on all
   six cells, but the margins on GAIA HR@1 and on Sock Shop are small.
 - **Weak spot.** Network-delay faults on Hotel (HR@1 0.37).
 - **One test split.** The configuration was chosen in several rounds on the same split. Each
@@ -79,19 +93,19 @@ pip install torch --index-url https://download.pytorch.org/whl/cpu
 pip install -r requirements.txt
 pytest -q                                              # 36 tests
 
-python scripts/run_adadiag.py --dataset hotel --seed 5   # trains and evaluates AdaDiag++
+python scripts/run_gradfusion.py --dataset hotel --seed 5   # trains and evaluates GradFusion
 ```
 
-CPU only, no GPU needed. One AdaDiag++ run takes roughly 5–8 minutes on Hotel, 7 on GAIA
+CPU only, no GPU needed. One GradFusion run takes roughly 5–8 minutes on Hotel, 7 on GAIA
 and 19 on Sock Shop (one core).
 
 In Python:
 
 ```python
-from adadiag import config, data
-from adadiag.alerts import with_alert_bag
-from adadiag.ensemble import predict
-from adadiag.train import train
+from gradfusion import config, data
+from gradfusion.alerts import with_alert_bag
+from gradfusion.ensemble import predict
+from gradfusion.train import train
 
 ds = with_alert_bag(data.load("hotel"))
 cfg = config.get("hotel", isolate_weighting_rng=True, alert_bag=True, awl_learnable=True)
@@ -102,7 +116,7 @@ node_scores, type_scores = predict(models, ds, ds.test_idx)
 ## 6. Reproduce the results
 
 ```bash
-python scripts/plus2.py --stage confirm      # seeds 30-34: TVDiag, AdaDiag-DL, AdaDiag+, members
+python scripts/plus2.py --stage confirm      # seeds 30-34: TVDiag, GradFusion-DL, GradFusion+, members
 python scripts/plus2.py --stage seeds5-9     # seeds 5-9
 python scripts/make_plus2_report.py          # results/plus2/PLUS2.md
 python scripts/make_multimodal_tables.py     # Tables 4-5 (needs pdflatex)
@@ -114,8 +128,8 @@ of a stage to use two cores. Runs are deterministic by seed.
 ## 7. Repository layout
 
 ```
-src/adadiag/     the method (model, training, alert counts, ensemble)
-scripts/         run_adadiag.py, the experiment (plus2.py), reports and tables
+src/gradfusion/     the method (model, training, alert counts, ensemble)
+scripts/         run_gradfusion.py, the experiment (plus2.py), reports and tables
 tests/           36 tests
 data/            TVDiag's released datasets A, C, D
 results/         every run behind the tables (see results/README.md)
@@ -127,7 +141,7 @@ docs/            architecture.md, HISTORY.md, figures/
 [`docs/HISTORY.md`](docs/HISTORY.md) gives the short story. The selection rule and each
 decision are in [`results/plus2/PLAN.md`](results/plus2/PLAN.md), written before the
 confirmation runs. Earlier versions and their full research log are in this repository's
-git history (the versions before v2.0).
+git history (the versions before v2.0), under the old name AdaDiag.
 
 ## 9. Cite
 

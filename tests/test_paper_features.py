@@ -13,12 +13,12 @@ import torch
 import torch.nn.functional as F
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "src"))
-from adadiag import config, data                                         # noqa: E402
-from adadiag.encoders import SAGEEncoder                                 # noqa: E402
-from adadiag.losses import (AutomaticWeightedLoss, cm_paper,             # noqa: E402
+from gradfusion import config, data                                         # noqa: E402
+from gradfusion.encoders import SAGEEncoder                                 # noqa: E402
+from gradfusion.losses import (AutomaticWeightedLoss, cm_paper,             # noqa: E402
                             supcon_anchor_mean, supcon_per_sample, uspcon)
-from adadiag.model import AdaDiag                                        # noqa: E402
-from adadiag.train import build_aug_pool, train                          # noqa: E402
+from gradfusion.model import GradFusion                                        # noqa: E402
+from gradfusion.train import build_aug_pool, train                          # noqa: E402
 
 T = 0.3
 
@@ -103,8 +103,8 @@ def test_bidirectional_symmetrises_and_is_a_no_op_on_symmetric_graphs():
     A = (torch.rand(2, 6, 6) > 0.6).float()
     keep = torch.ones(2, 6, dtype=torch.bool)
     c = torch.zeros(2, 3)
-    torch.manual_seed(1); on = AdaDiag("v0_raw", 5, config.get("hotel", bidirectional=True))
-    torch.manual_seed(1); off = AdaDiag("v0_raw", 5, config.get("hotel"))
+    torch.manual_seed(1); on = GradFusion("v0_raw", 5, config.get("hotel", bidirectional=True))
+    torch.manual_seed(1); off = GradFusion("v0_raw", 5, config.get("hotel"))
     on.eval(); off.eval()
     with torch.no_grad():
         S = torch.maximum(A, A.transpose(1, 2))

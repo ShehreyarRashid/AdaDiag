@@ -1,8 +1,12 @@
 # Architecture
 
-![AdaDiag++ architecture](figures/architecture.png)
+![TVDiag and the areas under consideration](figures/fig1_tvdiag_focus.png)
 
-Source: `figures/architecture.tex` (TikZ). Colours mark what each step added: TVDiag (grey),
+![GradFusion: what changed](figures/fig2_gradfusion_changes.png)
+
+![GradFusion in detail](figures/fig3_gradfusion_detail.png)
+
+Sources: `figures/fig1_tvdiag_focus.tex`, `fig2_gradfusion_changes.tex` and `fig3_gradfusion_detail.tex` (TikZ; each also as PDF and PNG). Figure 1 marks the four areas of TVDiag that this work looks at, Figure 2 shows what GradFusion changes, and Figure 3 gives the detail. In Figure 3 the colours mark what each step added: TVDiag (grey),
 adaptive weights (blue), alert-type counts and learnable loss weights (green), ensemble
 (orange).
 
@@ -20,7 +24,7 @@ adaptive weights (blue), alert-type counts and learnable loss weights (green), e
 ## Training objective (one model)
 
 - `L_RCL` and `L_FTI`: cross-entropy on the two heads.
-- `L_TO`: TVDiag's task-oriented contrastive loss. AdaDiag weights each modality's term
+- `L_TO`: TVDiag's task-oriented contrastive loss. GradFusion weights each modality's term
   with a 3×2 matrix, set from how well that term's gradient agrees with `L_RCL` and `L_FTI`
   (arm `v5_align`, `weighting.py`, `train.py`).
 - `L_CM`: TVDiag's cross-modal contrastive loss.
@@ -41,4 +45,4 @@ config.get(dataset, isolate_weighting_rng=True, alert_bag=True, awl_learnable=Tr
 ```
 
 with the dataset wrapped by `alerts.with_alert_bag(ds)` and the arm `"v5_align"`. Other
-switches in the code are off by default and are not part of AdaDiag++ (`HISTORY.md`).
+switches in the code are off by default and are not part of GradFusion (`HISTORY.md`).

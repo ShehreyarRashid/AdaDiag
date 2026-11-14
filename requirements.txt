@@ -1,7 +1,7 @@
-# AdaDiag++ — runtime dependencies.
+# GradFusion — runtime dependencies.
 #
 # Deliberately small. DGL is NOT required: the incident graphs have 10–21 nodes, so the
-# GraphSAGE layers are implemented with dense batched matmuls (src/adadiag/encoders.py).
+# GraphSAGE layers are implemented with dense batched matmuls (src/gradfusion/encoders.py).
 # That removes the hardest version-pinning problem in reproducing TVDiag and makes the
 # whole pipeline runnable on CPU.
 #

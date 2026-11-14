@@ -1,6 +1,6 @@
 # Conda alternative to requirements.txt. CPU only; no DGL, no CUDA needed.
-#   conda env create -f environment.yml && conda activate adadiag
-name: adadiag
+#   conda env create -f environment.yml && conda activate gradfusion
+name: gradfusion
 channels:
   - conda-forge
 dependencies:

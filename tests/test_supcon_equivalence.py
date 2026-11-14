@@ -1,6 +1,6 @@
 """The one test that must pass before any number is trusted.
 
-AdaDiag needs a PER-SAMPLE supervised contrastive loss so that a per-incident weight can
+GradFusion needs a PER-SAMPLE supervised contrastive loss so that a per-incident weight can
 multiply it. TVDiag's `SupConLoss` returns one scalar per batch. If the refactor is not
 exactly equivalent, every arm -- including the baseline -- is silently a different model
 and the whole comparison is void.
@@ -15,7 +15,7 @@ import torch
 import torch.nn.functional as F
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "src"))
-from adadiag.losses import supcon_per_sample  # noqa: E402
+from gradfusion.losses import supcon_per_sample  # noqa: E402
 
 
 def tvdiag_supcon(embeddings, labels, temperature=0.3):
@@ -51,7 +51,7 @@ def test_awl_is_inert_as_tvdiag_ships_it():
     """TVDiag never steps the AutomaticWeightedLoss parameters, so it reduces to
     0.5*sum(losses) + n*log(2). Reproducing that exactly is part of the baseline."""
     import math
-    from adadiag.losses import AutomaticWeightedLoss
+    from gradfusion.losses import AutomaticWeightedLoss
     awl = AutomaticWeightedLoss(4, learnable=False)
     losses = [torch.tensor(float(x)) for x in (1, 2, 3, 4)]
     expected = 0.5 * sum(range(1, 5)) + 4 * math.log(2)
@@ -60,7 +60,7 @@ def test_awl_is_inert_as_tvdiag_ships_it():
 
 
 def test_weight_columns_are_on_the_simplex():
-    from adadiag.weighting import WeightingModule
+    from gradfusion.weighting import WeightingModule
     for arm in ("v0_simplex", "v1_uniform", "v2_global", "v3_incident"):
         wm = WeightingModule(arm, fuse_dim=96)
         w = wm(torch.randn(8, 96), torch.randn(8, 3))

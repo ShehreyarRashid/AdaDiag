@@ -14,7 +14,7 @@ Dataset & Method & p-value & \textit{Precision} & $\Uparrow$ \textit{Precision} 
  & \textbf{\textit{TVDiag}} & - & 0.925 & - & 0.948 & - & 0.936 & - \\
 \cdashline{2-9}
  & \textit{TVDiag} (released code)$^\ddagger$ & 2.4E-01 & 0.922 & 0.342\% & 0.944 & 0.380\% & 0.933 & 0.323\% \\
- & \textbf{AdaDiag++}$^\dagger$ & 7.0E-03 & \textbf{0.934} & $-$1.014\% & \textbf{0.961} & $-$1.355\% & \textbf{0.948} & $-$1.220\% \\
+ & \textbf{GradFusion}$^\dagger$ & 7.0E-03 & \textbf{0.934} & $-$1.014\% & \textbf{0.961} & $-$1.355\% & \textbf{0.948} & $-$1.220\% \\
 \midrule
 \multirow{7}{*}{$\mathcal{B}$} & DiagFusion & 3.4E-04 & 0.533 & 65.478\% & 0.489 & 78.119\% & 0.505 & 73.465\% \\
  & Medicine & 4.7E-04 & 0.307 & 187.296\% & 0.244 & 256.967\% & 0.244 & 259.016\% \\
@@ -22,7 +22,7 @@ Dataset & Method & p-value & \textit{Precision} & $\Uparrow$ \textit{Precision} 
  & SVM-FTI & 3.6E-03 & 0.807 & 9.294\% & 0.784 & 11.097\% & 0.774 & 13.178\% \\
  & LGB-FTI & 7.0E-04 & 0.604 & 46.026\% & 0.580 & 50.172\% & 0.556 & 57.554\% \\
  & \textbf{\textit{TVDiag}} & - & \textbf{0.882} & - & \textbf{0.871} & - & \textbf{0.876} & - \\
- & \multicolumn{8}{l}{\footnotesize\itshape AdaDiag: not run, dataset $\mathcal{B}$ (AIOps-22) is not released} \\
+ & \multicolumn{8}{l}{\footnotesize\itshape GradFusion: not run, dataset $\mathcal{B}$ (AIOps-22) is not released} \\
 \midrule
 \multirow{8}{*}{$\mathcal{C}$} & DiagFusion & 7.9E-05 & 0.338 & 92.012\% & 0.332 & 87.349\% & 0.328 & 93.902\% \\
  & Medicine & 5.0E-04 & 0.497 & 30.584\% & 0.469 & 32.623\% & 0.454 & 40.088\% \\
@@ -32,7 +32,7 @@ Dataset & Method & p-value & \textit{Precision} & $\Uparrow$ \textit{Precision} 
  & \textbf{\textit{TVDiag}} & - & 0.649 & - & 0.622 & - & 0.636 & - \\
 \cdashline{2-9}
  & \textit{TVDiag} (released code)$^\ddagger$ & 2.0E-03 & 0.563 & 15.289\% & 0.524 & 18.593\% & 0.543 & 17.132\% \\
- & \textbf{AdaDiag++}$^\dagger$ & 8.0E-02 & \textbf{0.678} & $-$4.208\% & \textbf{0.636} & $-$2.153\% & \textbf{0.656} & $-$3.007\% \\
+ & \textbf{GradFusion}$^\dagger$ & 8.0E-02 & \textbf{0.678} & $-$4.208\% & \textbf{0.636} & $-$2.153\% & \textbf{0.656} & $-$3.007\% \\
 \midrule
 \multirow{8}{*}{$\mathcal{D}$} & DiagFusion & 3.2E-05 & 0.618 & 35.275\% & 0.603 & 33.997\% & 0.600 & 37.000\% \\
  & Medicine & 1.9E-02 & 0.782 & 6.905\% & 0.725 & 11.448\% & 0.728 & 12.912\% \\
@@ -42,11 +42,11 @@ Dataset & Method & p-value & \textit{Precision} & $\Uparrow$ \textit{Precision} 
  & \textbf{\textit{TVDiag}} & - & 0.836 & - & 0.808 & - & 0.822 & - \\
 \cdashline{2-9}
  & \textit{TVDiag} (released code)$^\ddagger$ & 1.3E-01 & 0.760 & 10.055\% & 0.726 & 11.350\% & 0.742 & 10.767\% \\
- & \textbf{AdaDiag++}$^\dagger$ & 2.1E-04 & \textbf{0.872} & $-$4.144\% & \textbf{0.851} & $-$5.084\% & \textbf{0.862} & $-$4.594\% \\
+ & \textbf{GradFusion}$^\dagger$ & 2.1E-04 & \textbf{0.872} & $-$4.144\% & \textbf{0.851} & $-$5.084\% & \textbf{0.862} & $-$4.594\% \\
 \bottomrule
 \end{tabular}
 \par\vspace{4pt}
 \begin{minipage}{\linewidth}\footnotesize
-$\Uparrow$ indicates the improvement rate of \textit{TVDiag} compared to other methods, as in the paper (negative: the row is above \textit{TVDiag}). The best result in each metric is shown in bold. Rows without $\dagger$ are copied from the paper (Xie et al., \textit{TVDiag}, ACM TOSEM 35(2), Art.~40, 2026, Table 5); the single-modality baselines are omitted. $^\dagger$\textbf{AdaDiag++}: three AdaDiag+ models that differ only in their seed, outputs averaged. AdaDiag+ is TVDiag with adaptive modality weights, each instance's alert-type counts next to its embeddings, and Eq.~13's learnable loss weights (README), mean over 5 seeds (5--9). $^\ddagger$\textit{TVDiag} (released code): the authors' code (github.com/WHU-AISE/TVDiag, commit cf6f334) run unchanged on a CPU, same seeds . p-values of both: two-sided one-sample $t$-test of the seeds against \textit{TVDiag}'s published F1-score.
+$\Uparrow$ indicates the improvement rate of \textit{TVDiag} compared to other methods, as in the paper (negative: the row is above \textit{TVDiag}). The best result in each metric is shown in bold. Rows without $\dagger$ are copied from the paper (Xie et al., \textit{TVDiag}, ACM TOSEM 35(2), Art.~40, 2026, Table 5); the single-modality baselines are omitted. $^\dagger$\textbf{GradFusion}: three GradFusion+ models that differ only in their seed, outputs averaged. GradFusion+ is TVDiag with adaptive modality weights, each instance's alert-type counts next to its embeddings, and Eq.~13's learnable loss weights (README), mean over 5 seeds (5--9). $^\ddagger$\textit{TVDiag} (released code): the authors' code (github.com/WHU-AISE/TVDiag, commit cf6f334) run unchanged on a CPU, same seeds . p-values of both: two-sided one-sample $t$-test of the seeds against \textit{TVDiag}'s published F1-score.
 \end{minipage}
 \end{table}
