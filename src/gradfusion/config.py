@@ -59,9 +59,40 @@ PAPER = dict(
 )
 
 
+#: GradFusion (README): the arm and options of one GradFusion+ member, and the seed offsets of
+#: the three members whose softmax outputs `ensemble.predict` averages.
+GRADFUSION_ARM = "v5_align"
+GRADFUSION = dict(isolate_weighting_rng=True, alert_bag=True, awl_learnable=True)
+MEMBER_SEED_OFFSETS = (0, 100, 200)
+
+#: Every option the code reads besides BASE and PER_DATASET, all off (or at TVDiag's value) by
+#: default. `get` rejects any other name, so a misspelt option fails loudly instead of being
+#: silently ignored. Grouped by where each is documented (v1.22 README section).
+OPTIONS = frozenset({
+    # model and encoders (6.18-6.25)
+    "aggregator", "sage_alg1", "bidirectional", "self_loops", "no_edges", "self_res",
+    "rcl_context", "fti_readout", "root_detach", "embedding_cols", "bag_drop", "bag_head",
+    "alert_bag",
+    # weighting module and ablations (sections 1, 6.10-6.15)
+    "drop_modalities", "detach", "descriptor", "w_constraint", "oracle_w", "oracle_class_w",
+    "fixed_trace", "isolate_weighting_rng", "weight_warmup", "entropy_reg", "align_ema",
+    # objective (6.13, 6.19, 6.21)
+    "use_to", "use_cm", "to_norm", "cm_mode", "to_scale", "dynamic_weights", "awl_learnable",
+    "cl_pos_beta", "cl_neg_beta", "cl_importance", "cl_curriculum", "cl_curriculum_start",
+    "fti_smooth", "fti_class_weight", "fast_supcon",
+    # augmentation and training loop (6.11, 6.20-6.24)
+    "aug_mode", "aug_copies", "aug_modality_drop", "restore_best", "early_stop_on",
+    "weight_ema", "measure_affinity",
+})
+
+
 def get(dataset: str, **overrides) -> dict:
+    """TVDiag's configuration for `dataset`, with `overrides` applied (None means "keep")."""
     if dataset not in PER_DATASET:
         raise KeyError(f"unknown dataset {dataset!r}; expected one of {list(PER_DATASET)}")
+    unknown = set(overrides) - set(BASE) - set(PER_DATASET[dataset]) - OPTIONS
+    if unknown:
+        raise KeyError(f"unknown config option(s) {sorted(unknown)}; see config.OPTIONS")
     cfg = dict(BASE)
     cfg.update(PER_DATASET[dataset])
     cfg.update({k: v for k, v in overrides.items() if v is not None})

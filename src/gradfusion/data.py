@@ -19,7 +19,7 @@ from __future__ import annotations
 import csv
 import json
 import pickle
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from pathlib import Path
 
 import numpy as np
@@ -50,6 +50,9 @@ class Dataset:
     name: str
     keys: list[str] | None = None    # incident ids in label.csv, row order (v1.22 README section 6.24)
     root_dir: Path | None = None     # data/<name>/, for reading the raw alerts
+    bag_vocab: dict | None = None    # alert-type vocabulary, set by alerts.with_alert_bag
+    # alerts.with_alert_bag's cached result; not an init field, so dataclasses.replace drops it
+    _with_bag: Dataset | None = field(default=None, init=False, repr=False, compare=False)
 
     @property
     def n_nodes(self) -> int:
@@ -66,6 +69,25 @@ class Dataset:
     def __repr__(self) -> str:
         return (f"<{self.name}: {len(self.split)} incidents, {self.n_nodes} instances, "
                 f"{len(self.types)} types, {len(self.train_idx)}/{len(self.test_idx)} train/test>")
+
+
+def read_json(path: Path):
+    with open(path, encoding="utf-8") as fh:
+        return json.load(fh)
+
+
+def _read_pickle(path: Path):
+    # The pickles are TVDiag's released artefacts, checked against data/SHA256SUMS by
+    # tests/test_data_integrity.py. Never point this loader at pickles you do not trust:
+    # unpickling can run arbitrary code.
+    with open(path, "rb") as fh:
+        return pickle.load(fh)
+
+
+def _check(cond: bool, msg: str) -> None:
+    """A data check that, unlike `assert`, still runs under `python -O`."""
+    if not cond:
+        raise ValueError(msg)
 
 
 #: This repository's root, which ships `data/` (src/gradfusion/data.py -> parents[2]).
@@ -90,12 +112,14 @@ def load(name: str, repo: str | Path | None = None, strict: bool = True) -> Data
             f"not distributed by TVDiag -- see README section 'Dataset'."
         )
 
-    feats = {m: pickle.load(open(root_dir / "tmp" / f"{m}.pkl", "rb")) for m in MODALITIES}
-    nodes = json.load(open(root_dir / "raw" / "nodes.json"))
-    edges = json.load(open(root_dir / "raw" / "edges.json"))
-    alerts = {m: json.load(open(root_dir / "raw" / f"{_ALERT_FILE[m]}.json")) for m in MODALITIES}
-    rows = list(csv.DictReader(open(root_dir / "label.csv")))
+    feats = {m: _read_pickle(root_dir / "tmp" / f"{m}.pkl") for m in MODALITIES}
+    nodes = read_json(root_dir / "raw" / "nodes.json")
+    edges = read_json(root_dir / "raw" / "edges.json")
+    alerts = {m: read_json(root_dir / "raw" / f"{_ALERT_FILE[m]}.json") for m in MODALITIES}
+    with open(root_dir / "label.csv", newline="", encoding="utf-8") as fh:
+        rows = list(csv.DictReader(fh))
     types = sorted({r["anomaly_type"] for r in rows})
+    type_index = {t: j for j, t in enumerate(types)}
 
     # Every incident must list the same instances in the same ORDER: `root` is an index into
     # that list and the RCL head has one output per position, so a per-incident reordering
@@ -124,15 +148,16 @@ def load(name: str, repo: str | Path | None = None, strict: bool = True) -> Data
             continue
         X.append(np.stack([np.asarray(feats[m][i], dtype=np.float32) for m in MODALITIES]))
         a = np.zeros((n_nodes, n_nodes), dtype=np.float32)
-        for s, d in edges[i]:
-            a[d, s] = 1.0
+        sd = np.asarray(edges[i], dtype=np.int64).reshape(-1, 2)     # rows (source, destination)
+        a[sd[:, 1], sd[:, 0]] = 1.0
         A.append(a)
         root.append(names.index(r["instance"]))
-        ytype.append(types.index(r["anomaly_type"]))
+        ytype.append(type_index[r["anomaly_type"]])
         cnt.append([len(alerts[m].get(i, [])) for m in MODALITIES])
         split.append(r["data_type"])
         keys.append(i)
 
+    _check(len(X) > 0, f"{name}: no usable incidents in {root_dir} ({skipped} skipped)")
     split = np.asarray(split)
     counts = torch.tensor(np.asarray(cnt, dtype=np.float32))
     # log1p then standardise on the TRAIN split only: raw counts run 0-70 and would otherwise
@@ -149,9 +174,9 @@ def load(name: str, repo: str | Path | None = None, strict: bool = True) -> Data
     )
     if strict and name in EXPECTED:
         e = EXPECTED[name]
-        assert ds.n_nodes == e["instances"], f"{name}: {ds.n_nodes} instances, expected {e['instances']}"
-        assert len(ds.types) == e["types"], f"{name}: {len(ds.types)} types, expected {e['types']}"
-        assert len(ds.train_idx) == e["train"] and len(ds.test_idx) == e["test"], (
-            f"{name}: {len(ds.train_idx)}/{len(ds.test_idx)} split, "
-            f"expected {e['train']}/{e['test']}")
+        _check(ds.n_nodes == e["instances"], f"{name}: {ds.n_nodes} instances, expected {e['instances']}")
+        _check(len(ds.types) == e["types"], f"{name}: {len(ds.types)} types, expected {e['types']}")
+        _check(len(ds.train_idx) == e["train"] and len(ds.test_idx) == e["test"],
+               f"{name}: {len(ds.train_idx)}/{len(ds.test_idx)} split, "
+               f"expected {e['train']}/{e['test']}")
     return ds

@@ -91,13 +91,14 @@ TVDiag's released data, unchanged ([`data/README.md`](data/README.md)).
 ```bash
 pip install torch --index-url https://download.pytorch.org/whl/cpu
 pip install -r requirements.txt
-pytest -q                                              # 36 tests
+pytest -q                                              # 54 tests (GRADFUSION_SLOW=1 adds a full run)
 
 python scripts/run_gradfusion.py --dataset hotel --seed 5   # trains and evaluates GradFusion
 ```
 
 CPU only, no GPU needed. One GradFusion run takes roughly 5–8 minutes on Hotel, 7 on GAIA
-and 19 on Sock Shop (one core).
+and 19 on Sock Shop (one core). Add `--fast` for a quicker run that is not bit-identical to
+the committed results (see `docs/CODE_REVIEW.md`).
 
 In Python:
 
@@ -108,8 +109,8 @@ from gradfusion.ensemble import predict
 from gradfusion.train import train
 
 ds = with_alert_bag(data.load("hotel"))
-cfg = config.get("hotel", isolate_weighting_rng=True, alert_bag=True, awl_learnable=True)
-models = [train("v5_align", seed, ds, cfg)[1] for seed in (5, 105, 205)]
+cfg = config.get("hotel", **config.GRADFUSION)        # add fast_supcon=True for speed
+models = [train(config.GRADFUSION_ARM, 5 + k, ds, cfg)[1] for k in config.MEMBER_SEED_OFFSETS]
 node_scores, type_scores = predict(models, ds, ds.test_idx)
 ```
 
@@ -130,10 +131,10 @@ of a stage to use two cores. Runs are deterministic by seed.
 ```
 src/gradfusion/     the method (model, training, alert counts, ensemble)
 scripts/         run_gradfusion.py, the experiment (plus2.py), reports and tables
-tests/           36 tests
+tests/           54 tests
 data/            TVDiag's released datasets A, C, D
 results/         every run behind the tables (see results/README.md)
-docs/            architecture.md, HISTORY.md, figures/
+docs/            architecture.md, CODE_REVIEW.md, HISTORY.md, figures/
 ```
 
 ## 8. How this version was chosen

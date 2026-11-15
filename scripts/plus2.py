@@ -36,6 +36,7 @@ sys.path.insert(0, str(ROOT / "src"))
 import torch                                                         # noqa: E402
 from gradfusion import config, data                                     # noqa: E402
 from gradfusion.alerts import with_alert_bag                            # noqa: E402
+from gradfusion.evaluate import metrics_from_scores as metrics          # noqa: E402,F401
 from gradfusion.evaluate import per_class                               # noqa: E402
 from gradfusion.train import train                                      # noqa: E402
 
@@ -43,7 +44,7 @@ OUT = ROOT / "results" / "plus2"
 DATASETS = ("gaia", "sockshop", "hotel")
 COST = {"gaia": 180, "sockshop": 460, "hotel": 180}                  # seconds, for job order
 DEV, FRESH, TABLE = range(0, 3), range(30, 35), range(5, 10)
-MEMBERS = (0, 100, 200)                                              # seed offsets of ens3
+MEMBERS = config.MEMBER_SEED_OFFSETS                                 # seed offsets of ens3
 PLUS = dict(alert_bag=True, awl_learnable=True)                      # GradFusion+ (section 6.24)
 SINGLES = {"smooth": dict(fti_smooth=0.1), "bagdrop": dict(bag_drop=0.2),
            "baghead": dict(bag_head=True)}
@@ -81,21 +82,6 @@ def variant(name: str) -> tuple[str, dict]:
     for p in parts[1:]:
         over.update(SINGLES[p])
     return "v5_align", over
-
-
-def metrics(node_p: np.ndarray, type_p: np.ndarray, root: np.ndarray, y: np.ndarray) -> dict:
-    """TVDiag's metrics (gradfusion.evaluate) from scores instead of a model."""
-    from sklearn.metrics import f1_score, precision_score, recall_score
-    order = np.argsort(-node_p, axis=1, kind="stable")
-    rank = (order == root[:, None]).argmax(1) + 1
-    out = {f"HR@{k}": float((rank <= k).mean()) for k in range(1, 6)}
-    out["MRR@3"] = float(np.where(rank <= 3, 1.0 / rank, 0.0).mean())
-    yp = type_p.argmax(1)
-    p = precision_score(y, yp, average="weighted", zero_division=0)
-    r = recall_score(y, yp, average="weighted", zero_division=0)
-    out.update(precision=float(p), recall=float(r), f1=float(2 * p * r / (p + r)) if p + r else 0.0,
-               macro_f1=float(f1_score(y, yp, average="macro", zero_division=0)))
-    return out
 
 
 def _path(ds: str, name: str, seed: int) -> Path:

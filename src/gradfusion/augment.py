@@ -25,10 +25,9 @@ def drop_non_root(X: torch.Tensor, A: torch.Tensor, root: torch.Tensor,
     B, _, N, _ = X.shape
     k = int(N * pct)
     keep = torch.ones(B, N, dtype=torch.bool)
-    for b in range(B):
-        candidates = [j for j in range(N) if j != int(root[b])]
-        for j in rng.sample(candidates, min(k, len(candidates))):
-            keep[b, j] = False
+    for b, r in enumerate(root.tolist()):
+        candidates = [j for j in range(N) if j != r]          # ascending: fixes the rng draws
+        keep[b, rng.sample(candidates, min(k, len(candidates)))] = False
     m = keep.float()
     return X * m[:, None, :, None], A * m[:, None, :] * m[:, :, None], keep
 

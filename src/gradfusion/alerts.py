@@ -22,20 +22,23 @@ its own types: X becomes (M, 3, N, 128 + V).
 from __future__ import annotations
 
 import dataclasses
-import json
 import re
 
 import numpy as np
 import torch
 
-MODALITIES = ("metric", "trace", "log")
+from .data import MODALITIES, read_json
+
 _FILES = {"metric": "metrics", "trace": "traces", "log": "logs"}
+_TEMPLATE_SUFFIX = re.compile(r"^.*-(\d+)$")
 
 
 def _template(name: str, log_id: str) -> str:
     # Sock Shop and Hotel name templates "<instance>-<k>"; GAIA gives the number alone
-    m = re.match(r"^.*-(\d+)$", log_id)
-    return m.group(1) if (m and name != "gaia") else log_id
+    if name == "gaia":
+        return log_id
+    m = _TEMPLATE_SUFFIX.match(log_id)
+    return m.group(1) if m else log_id
 
 
 def _types(name: str, modality: str, a: list) -> list[tuple[str, tuple]]:
@@ -50,8 +53,13 @@ def _types(name: str, modality: str, a: list) -> list[tuple[str, tuple]]:
     return [(dst, ("in", status)), (src, ("out", status))]
 
 
-def vocabulary(ds) -> dict[str, list[tuple]]:
-    raw = {m: json.load(open(ds.root_dir / "raw" / f"{_FILES[m]}.json")) for m in MODALITIES}
+def _raw_alerts(ds) -> dict[str, dict]:
+    return {m: read_json(ds.root_dir / "raw" / f"{_FILES[m]}.json") for m in MODALITIES}
+
+
+def vocabulary(ds, raw: dict | None = None) -> dict[str, list[tuple]]:
+    """Sorted alert types per modality, from the TRAINING incidents only."""
+    raw = _raw_alerts(ds) if raw is None else raw
     train = {ds.keys[i] for i in ds.train_idx}
     return {m: sorted({t for k in train for a in raw[m].get(k, []) for _, t in _types(ds.name, m, a)})
             for m in MODALITIES}
@@ -61,8 +69,8 @@ def alert_bags(ds) -> tuple[torch.Tensor, dict]:
     """(M, 3, N, V) scaled alert-type counts, and the vocabulary per modality."""
     if ds.keys is None or ds.root_dir is None:
         raise ValueError("alert_bags needs a Dataset from data.load (incident keys and raw alerts)")
-    vocab = vocabulary(ds)
-    raw = {m: json.load(open(ds.root_dir / "raw" / f"{_FILES[m]}.json")) for m in MODALITIES}
+    raw = _raw_alerts(ds)                  # read once, shared with vocabulary()
+    vocab = vocabulary(ds, raw)
     pos = {m: {t: j for j, t in enumerate(v)} for m, v in vocab.items()}
     inst = {n: j for j, n in enumerate(ds.instances)}
     V = max(len(v) for v in vocab.values())
@@ -81,12 +89,10 @@ def alert_bags(ds) -> tuple[torch.Tensor, dict]:
 
 def with_alert_bag(ds):
     """A copy of `ds` whose X carries the alert-type counts after the 128-d embeddings."""
-    cached = getattr(ds, "_with_bag", None)
-    if cached is not None:
-        return cached
+    if ds._with_bag is not None:
+        return ds._with_bag
     bag, vocab = alert_bags(ds)
-    out = dataclasses.replace(ds, X=torch.cat([ds.X, bag], dim=-1))
-    out.bag_vocab = vocab
-    out._with_bag = out
+    out = dataclasses.replace(ds, X=torch.cat([ds.X, bag], dim=-1), bag_vocab=vocab)
+    out._with_bag = out                    # applying it twice is a no-op
     ds._with_bag = out
     return out

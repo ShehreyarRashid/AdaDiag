@@ -10,7 +10,6 @@ included) and fig_plus2.png.
 """
 from __future__ import annotations
 
-import glob
 import json
 import sys
 from pathlib import Path

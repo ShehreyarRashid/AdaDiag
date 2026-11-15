@@ -15,8 +15,46 @@ import torch
 from sklearn.metrics import f1_score, precision_score, recall_score
 
 
+def _ranks(node_logits: torch.Tensor, root: torch.Tensor) -> torch.Tensor:
+    """1-based rank of the true root cause among each incident's instances."""
+    order = node_logits.argsort(dim=1, descending=True)
+    return (order == root[:, None]).float().argmax(1) + 1
+
+
+def fti_metrics(y_true: np.ndarray, y_pred: np.ndarray) -> dict:
+    """FTI metrics, TVDiag's way: F1 is the harmonic mean of weighted precision and recall."""
+    p = float(precision_score(y_true, y_pred, average="weighted", zero_division=0))
+    r = float(recall_score(y_true, y_pred, average="weighted", zero_division=0))
+    return {
+        "precision": p,
+        "recall": r,
+        "f1": 2 * p * r / (p + r) if (p + r) > 0 else 0.0,
+        "f1_sklearn_weighted": float(f1_score(y_true, y_pred, average="weighted", zero_division=0)),
+        "macro_f1": float(f1_score(y_true, y_pred, average="macro", zero_division=0)),
+    }
+
+
+def metrics_from_scores(node_p: np.ndarray, type_p: np.ndarray, root: np.ndarray,
+                        y: np.ndarray) -> dict:
+    """`evaluate`'s metrics from score arrays instead of a model (used for ensembles).
+
+    node_p (n, N) instance scores, type_p (n, T) failure-type scores; ties in node_p are
+    broken by instance index (stable sort).
+    """
+    if len(root) == 0:
+        raise ValueError("no incidents to score")
+    order = np.argsort(-node_p, axis=1, kind="stable")
+    rank = (order == root[:, None]).argmax(1) + 1
+    out = {f"HR@{k}": float((rank <= k).mean()) for k in range(1, 6)}
+    out["MRR@3"] = float(np.where(rank <= 3, 1.0 / rank, 0.0).mean())
+    out.update(fti_metrics(y, type_p.argmax(1)))
+    return out
+
+
 @torch.no_grad()
 def evaluate(model, ds, idx: np.ndarray, batch_size: int = 512) -> dict:
+    if len(idx) == 0:
+        raise ValueError("no incidents to evaluate")
     model.eval()
     hits = {k: 0 for k in range(1, 6)}
     rr, n = 0.0, 0
@@ -25,27 +63,18 @@ def evaluate(model, ds, idx: np.ndarray, batch_size: int = 512) -> dict:
         b = idx[s:s + batch_size]
         keep = torch.ones(len(b), ds.n_nodes, dtype=torch.bool)
         _, _, node_logits, type_logits = model(ds.X[b], ds.A[b], keep, ds.cnt[b])
-        order = node_logits.argsort(dim=1, descending=True)
-        root = ds.root[b]
-        rank = (order == root[:, None]).float().argmax(1) + 1
+        rank = _ranks(node_logits, ds.root[b])
         for k in range(1, 6):
             hits[k] += int((rank <= k).sum())
-        rr += float(torch.where(rank <= 3, 1.0 / rank, torch.zeros_like(rank, dtype=torch.float)).sum())
+        # float64, like metrics_from_scores (float32 left MRR@3 off by ~1e-8)
+        rr += float(torch.where(rank <= 3, 1.0 / rank.double(), 0.0).sum())
         y_pred.append(type_logits.argmax(1))
         y_true.append(ds.ytype[b])
         n += len(b)
 
-    yp = torch.cat(y_pred).numpy()
-    yt = torch.cat(y_true).numpy()
-    p = precision_score(yt, yp, average="weighted", zero_division=0)
-    r = recall_score(yt, yp, average="weighted", zero_division=0)
     out = {f"HR@{k}": hits[k] / n for k in range(1, 6)}
     out["MRR@3"] = rr / n
-    out["precision"] = p
-    out["recall"] = r
-    out["f1"] = 2 * p * r / (p + r) if (p + r) > 0 else 0.0      # TVDiag's definition
-    out["f1_sklearn_weighted"] = f1_score(yt, yp, average="weighted", zero_division=0)
-    out["macro_f1"] = f1_score(yt, yp, average="macro", zero_division=0)
+    out.update(fti_metrics(torch.cat(y_true).numpy(), torch.cat(y_pred).numpy()))
     return out
 
 
@@ -65,8 +94,7 @@ def per_class(model, ds) -> tuple[dict, dict]:
             continue
         keep = torch.ones(len(sel), ds.n_nodes, dtype=torch.bool)
         _, f, node_logits, type_logits = model(ds.X[sel], ds.A[sel], keep, ds.cnt[sel])
-        order = node_logits.argsort(dim=1, descending=True)
-        rank = (order == ds.root[sel][:, None]).float().argmax(1) + 1
+        rank = _ranks(node_logits, ds.root[sel])
         metrics[cname] = dict(
             n=len(sel),
             hr1=float((rank <= 1).float().mean()),

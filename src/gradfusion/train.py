@@ -16,8 +16,7 @@ import torch
 import torch.nn.functional as F
 
 from .augment import drop_modality, drop_non_root
-from .losses import (AutomaticWeightedLoss, cm_paper, supcon_anchor_mean, supcon_per_sample,
-                     supcon_weighted, uspcon)
+from .losses import (AutomaticWeightedLoss, cm_paper, supcon_anchor_mean, supcon_weighted, uspcon)
 from .model import GradFusion
 from .affinity import task_affinity
 from .evaluate import evaluate
@@ -25,21 +24,23 @@ from .weighting import MODALITIES, PRIOR_SIMPLEX, TASKS
 
 
 def to_term(emb, labels, temperature, to_norm: str = "code", pos_beta: float = 0.0,
-            neg_beta: float = 0.0, keep_frac: float = 1.0):
+            neg_beta: float = 0.0, keep_frac: float = 1.0, fast: bool = False):
     """One SupCon term, (per_sample, divisor). `to_norm="paper"` is Eq. 3's per-anchor mean
-    (v1.22 README section 6.19); "code" is the released global mean, with the section 6.13 options."""
+    (v1.22 README section 6.19); "code" is the released global mean, with the section 6.13 options.
+    `fast`: see `losses.pairwise_cosine`."""
     if to_norm == "paper":
         if pos_beta or neg_beta or keep_frac < 1.0:
             raise ValueError("to_norm='paper' is not combined with the section 6.13 weightings")
-        return supcon_anchor_mean(emb, labels, temperature)
+        return supcon_anchor_mean(emb, labels, temperature, fast)
     if to_norm != "code":
         raise ValueError(f"unknown to_norm {to_norm!r}; expected 'code' or 'paper'")
-    return supcon_weighted(emb, labels, temperature, pos_beta, neg_beta, keep_frac)
+    return supcon_weighted(emb, labels, temperature, pos_beta, neg_beta, keep_frac, fast)
 
 
 def task_oriented_loss(model, fs, labels, w, temperature, active=None,
                        pos_beta: float = 0.0, neg_beta: float = 0.0,
-                       keep_frac: float = 1.0, to_norm: str = "code") -> torch.Tensor:
+                       keep_frac: float = 1.0, to_norm: str = "code", fast: bool = False,
+                       terms: dict | None = None) -> torch.Tensor:
     """Six weighted terms in place of TVDiag's three unit-weight ones.
 
     TVDiag::
@@ -57,6 +58,9 @@ def task_oriented_loss(model, fs, labels, w, temperature, active=None,
     `keep_frac` are the pair- and anchor-level weightings of v1.22 README section 6.13
     (`losses.supcon_weighted`); at their defaults the term is TVDiag's, bit for bit.
     `to_norm="paper"` (section 6.19) normalises each term per anchor, as Eq. 3 is written.
+    `terms`: SupCon terms already computed for this batch, {(modality, task): (per_sample,
+    nz)} (`align_weights` fills it), reused instead of being recomputed. The caller passes it
+    only when they were computed with the same options.
     """
     total = torch.zeros((), dtype=torch.float32, device=w.device)
     for mi, m in enumerate(MODALITIES):
@@ -69,8 +73,11 @@ def task_oriented_loss(model, fs, labels, w, temperature, active=None,
             # (all rows, not row 0: v0_oracle's per-class matrix varies across the batch)
             if not model.weighting.is_learned and float(w[:, mi, ti].detach().abs().sum()) == 0.0:
                 continue
-            per_sample, nz = to_term(fs[m], labels[t], temperature, to_norm,
-                                     pos_beta, neg_beta, keep_frac)
+            if terms is not None and (m, t) in terms:
+                per_sample, nz = terms[m, t]
+            else:
+                per_sample, nz = to_term(fs[m], labels[t], temperature, to_norm,
+                                         pos_beta, neg_beta, keep_frac, fast)
             total = total + (w[:, mi, ti] * per_sample).sum() / nz
     return total
 
@@ -92,7 +99,7 @@ def _set_align(model, cos, cfg):
     wm.align_w.copy_(w)
 
 
-def align_weights(model, fs, labels, diag, cfg) -> torch.Tensor:
+def align_weights(model, fs, labels, diag, cfg, terms: dict | None = None) -> torch.Tensor:
     """v5_align (v1.22 README section 6.13): set the 3x2 matrix from the DIAGNOSIS losses.
 
     A step of size eta on term (m, t) changes task t's diagnosis loss, to first order, by
@@ -105,8 +112,10 @@ def align_weights(model, fs, labels, diag, cfg) -> torch.Tensor:
     (`align_ema`, default 0.9), clipped at zero and normalised down each task column:
     terms that hurt their task get weight 0; a column with no helpful term is uniform.
     Returns the (3, 2) cosines of this batch; the module's matrix is updated in place.
+    If `terms` is a dict, the SupCon terms computed here are stored in it, keyed
+    (modality, task), so `task_oriented_loss` can reuse them instead of recomputing all six.
     """
-    cos = torch.zeros(len(MODALITIES), len(TASKS))
+    cos = torch.zeros(len(MODALITIES), len(TASKS), device=model.weighting.align_ema.device)
     groups = {m: [p for p in model.encoders[m].parameters() if p.requires_grad]
               for j, m in enumerate(MODALITIES) if model.active[j]}
     allp = [p for ps in groups.values() for p in ps]
@@ -119,7 +128,10 @@ def align_weights(model, fs, labels, diag, cfg) -> torch.Tensor:
             ps = groups[m]
             g_task = _flat(gd[k:k + len(ps)], ps)
             k += len(ps)
-            per, nz = to_term(fs[m], labels[t], cfg["temperature"], cfg.get("to_norm", "code"))
+            per, nz = to_term(fs[m], labels[t], cfg["temperature"], cfg.get("to_norm", "code"),
+                              fast=bool(cfg.get("fast_supcon", False)))
+            if terms is not None:
+                terms[m, t] = (per, nz)
             g_term = _flat(torch.autograd.grad(per.sum() / nz, ps, retain_graph=True,
                                                allow_unused=True), ps)
             if g_task.norm() > 0 and g_term.norm() > 0:
@@ -236,15 +248,16 @@ def compute_terms(model, arm, batch, cfg, capture: dict | None = None,
     labels = {"rcl": root, "fti": yt}
     if capture is not None:
         capture.update(fs={m: v.detach() for m, v in fs.items()}, labels=labels, keep=keep)
-    zero = torch.zeros((), dtype=torch.float32)
+    zero = torch.zeros((), dtype=torch.float32, device=f.device)
 
     # --- the replaced block -------------------------------------------------
     l_rcl = l_fti = None
+    supcon_terms: dict = {}
     if arm == "v5_align" and model.training and torch.is_grad_enabled():
         l_rcl = F.cross_entropy(node_logits.masked_fill(~keep, float("-inf")), root)
         l_fti = F.cross_entropy(type_logits, yt, weight=cfg.get("_fti_weight"),
                                 label_smoothing=float(cfg.get("fti_smooth", 0.0) or 0.0))
-        align_weights(model, fs, labels, {"rcl": l_rcl, "fti": l_fti}, cfg)
+        align_weights(model, fs, labels, {"rcl": l_rcl, "fti": l_fti}, cfg, supcon_terms)
     w = model.weights(f, cnt)
     if arm == "v4_fusion":
         # v4 moves the weights to the fusion path, so the LOSS keeps TVDiag's prior
@@ -273,10 +286,13 @@ def compute_terms(model, arm, batch, cfg, capture: dict | None = None,
         q0 = float(cfg.get("cl_curriculum_start", 0.5))
         keep_frac = q0 + (1.0 - q0) * min(1.0, epoch / K)
     active = None if all(model.active) else model.active
+    pos_beta = float(cfg.get("cl_pos_beta", 0.0) or 0.0)
+    neg_beta = float(cfg.get("cl_neg_beta", 0.0) or 0.0)
+    # align_weights computed its terms without the section 6.13 options: reuse only if unused
+    reuse = supcon_terms if (not pos_beta and not neg_beta and keep_frac >= 1.0) else None
     l_to = (task_oriented_loss(model, fs, labels, w_loss, cfg["temperature"], active,
-                               float(cfg.get("cl_pos_beta", 0.0) or 0.0),
-                               float(cfg.get("cl_neg_beta", 0.0) or 0.0), keep_frac,
-                               cfg.get("to_norm", "code"))
+                               pos_beta, neg_beta, keep_frac, cfg.get("to_norm", "code"),
+                               fast=bool(cfg.get("fast_supcon", False)), terms=reuse)
             if cfg.get("use_to", True) else zero)
     # ------------------------------------------------------------------------
 
@@ -328,6 +344,10 @@ def train(arm: str, seed: int, ds, cfg: dict,
         (metrics, model) -- the test metrics dict, and the trained model so callers can
         inspect the learned weights (see `evaluate.per_class`, `identifiability`).
     """
+    if len(ds.train_idx) == 0:
+        raise ValueError(f"{ds.name}: the training split is empty")
+    if int(cfg["epochs"]) < 1 or int(cfg["batch_size"]) < 1:
+        raise ValueError("epochs and batch_size must be at least 1")
     torch.manual_seed(seed)
     np.random.seed(seed)
     random.seed(seed)
@@ -374,7 +394,7 @@ def train(arm: str, seed: int, ds, cfg: dict,
 
     tr = ds.train_idx
     best, bad, state = None, 0, copy.deepcopy(model.state_dict())
-    w_trace, t0, epoch = [], time.time(), 0
+    w_last, t0, epoch = None, time.time(), 0
     warm_n = int(cfg.get("weight_warmup", 0) or 0)     # 0 = the method as published here
     # early stopping is paused while the objective is still changing (warm-up, curriculum)
     pause_n = max(warm_n, int(cfg.get("cl_curriculum", 0) or 0))
@@ -433,7 +453,7 @@ def train(arm: str, seed: int, ds, cfg: dict,
                              (terms["l_rcl"] + terms["l_fti"]).detach())
             nb += 1
             if model.weighting.is_learned or arm == "v5_align":
-                w_trace.append(w.mean(0).detach().tolist())
+                w_last = w.detach().mean(0)        # a copy: v5_align's w is a view of a buffer
 
         mean_loss = running / nb
         if pause_n and epoch == pause_n:
@@ -456,8 +476,8 @@ def train(arm: str, seed: int, ds, cfg: dict,
                epochs=epoch + 1, train_s=round(time.time() - t0, 1),
                weighting_params=model.weighting.n_parameters(),
                env={"torch": torch.__version__, "threads": torch.get_num_threads()})
-    if w_trace:
-        res["w_final"] = w_trace[-1]
+    if w_last is not None:
+        res["w_final"] = w_last.tolist()
     if aff:
         res["affinity"] = {k: float(np.mean([a[k] for a in aff])) for k in aff[0]}
         res["affinity_steps"] = len(aff)

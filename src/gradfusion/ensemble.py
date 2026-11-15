@@ -13,7 +13,12 @@ import torch
 
 @torch.no_grad()
 def predict(models, ds, idx) -> tuple[torch.Tensor, torch.Tensor]:
-    """(instance scores (len(idx), N), failure-type scores (len(idx), T)), member-averaged."""
+    """(instance scores (len(idx), N), failure-type scores (len(idx), T)), member-averaged.
+
+    Puts every member in eval mode."""
+    models = list(models)
+    if not models:
+        raise ValueError("predict needs at least one model")
     keep = torch.ones(len(idx), ds.n_nodes, dtype=torch.bool)
     node, typ = 0.0, 0.0
     for m in models:

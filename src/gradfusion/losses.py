@@ -9,6 +9,13 @@ Three pieces, all reproduced from TVDiag so that only the weighting differs betw
 * `uspcon` — the unsupervised cross-modal (CM) term, unchanged.
 * `AutomaticWeightedLoss` — the outer Eq. 13 weighting, reproduced *including the fact that
   it does not learn* in the released implementation (see the class docstring).
+
+`fast=True` (config `fast_supcon`, off by default) computes the pairwise cosine matrix as one
+matrix product of the L2-normalised embeddings instead of TVDiag's broadcast
+`F.cosine_similarity`, which materialises an (n, n, d) tensor in the forward and the backward
+pass. Mathematically the same; about 30x faster for n = 256 and 40x for n = 1024, but the
+floating-point summation order differs (|difference| ~1e-7 relative), so a run is no longer
+bit-identical to the committed results. The default stays exact.
 """
 from __future__ import annotations
 
@@ -17,8 +24,16 @@ import torch.nn as nn
 import torch.nn.functional as F
 
 
-def supcon_per_sample(emb: torch.Tensor, labels: torch.Tensor,
-                      temperature: float) -> tuple[torch.Tensor, int]:
+def pairwise_cosine(emb: torch.Tensor, fast: bool = False) -> torch.Tensor:
+    """(n, n) cosine similarities of the rows of `emb`. See the module docstring for `fast`."""
+    z = F.normalize(emb, dim=1)
+    if fast:
+        return z @ z.T
+    return F.cosine_similarity(z.unsqueeze(1), z.unsqueeze(0), dim=2)
+
+
+def supcon_per_sample(emb: torch.Tensor, labels: torch.Tensor, temperature: float,
+                      fast: bool = False) -> tuple[torch.Tensor, int]:
     """TVDiag's supervised contrastive loss, per sample.
 
     Returns:
@@ -28,8 +43,7 @@ def supcon_per_sample(emb: torch.Tensor, labels: torch.Tensor,
     `per_sample.sum() / nz` equals TVDiag's `SupConLoss(emb, labels)` to machine precision.
     """
     n = labels.shape[0]
-    z = F.normalize(emb, dim=1)
-    sim = F.cosine_similarity(z.unsqueeze(1), z.unsqueeze(0), dim=2)
+    sim = pairwise_cosine(emb, fast)
     mask = (labels.view(-1, 1) == labels.view(1, -1)).float()
     mask_no_sim = 1.0 - mask
     eye = torch.eye(n, device=emb.device)
@@ -44,7 +58,7 @@ def supcon_per_sample(emb: torch.Tensor, labels: torch.Tensor,
 
 def supcon_weighted(emb: torch.Tensor, labels: torch.Tensor, temperature: float,
                     pos_beta: float = 0.0, neg_beta: float = 0.0,
-                    keep_frac: float = 1.0) -> tuple[torch.Tensor, int]:
+                    keep_frac: float = 1.0, fast: bool = False) -> tuple[torch.Tensor, int]:
     """TVDiag's SupCon with pair- and anchor-level weights (v1.22 README section 6.13).
 
     TVDiag's term for anchor i is a sum over its positives p of
@@ -67,10 +81,9 @@ def supcon_weighted(emb: torch.Tensor, labels: torch.Tensor, temperature: float,
     All three at their defaults returns `supcon_per_sample` itself, bit for bit.
     """
     if pos_beta == 0.0 and neg_beta == 0.0 and keep_frac >= 1.0:
-        return supcon_per_sample(emb, labels, temperature)
+        return supcon_per_sample(emb, labels, temperature, fast)
     n = labels.shape[0]
-    z = F.normalize(emb, dim=1)
-    cos = F.cosine_similarity(z.unsqueeze(1), z.unsqueeze(0), dim=2)
+    cos = pairwise_cosine(emb, fast)
     eye = torch.eye(n, device=emb.device)
     same = (labels.view(-1, 1) == labels.view(1, -1)).float()
     posm, negm = same * (1.0 - eye), 1.0 - same
@@ -104,8 +117,8 @@ def supcon_weighted(emb: torch.Tensor, labels: torch.Tensor, temperature: float,
     return per, nz
 
 
-def supcon_anchor_mean(emb: torch.Tensor, labels: torch.Tensor,
-                       temperature: float) -> tuple[torch.Tensor, int]:
+def supcon_anchor_mean(emb: torch.Tensor, labels: torch.Tensor, temperature: float,
+                       fast: bool = False) -> tuple[torch.Tensor, int]:
     """Eq. 3 as the TVDiag PAPER writes it (v1.22 README section 6.19, `to_norm="paper"`).
 
     The paper's term for anchor i is -1/|P_i| * sum_{j in P_i} log(...): a mean over i's OWN
@@ -119,7 +132,7 @@ def supcon_anchor_mean(emb: torch.Tensor, labels: torch.Tensor,
     TVDiag's omega = 0.1 that would scale the term by the batch size, 256-1024x, which the
     1/2n of Eq. 5 suggests is not intended. A constant factor, recorded here.)
     """
-    per, _ = supcon_per_sample(emb, labels, temperature)
+    per, _ = supcon_per_sample(emb, labels, temperature, fast)
     npos = (labels.view(-1, 1) == labels.view(1, -1)).sum(1) - 1
     valid = npos > 0
     per = torch.where(valid, per / npos.clamp_min(1).to(per.dtype), torch.zeros_like(per))

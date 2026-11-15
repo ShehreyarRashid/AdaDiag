@@ -10,6 +10,7 @@ v2.0).
 | GradFusion-DL | Modality weights from gradient alignment with the diagnosis losses | Ties TVDiag |
 | GradFusion+ (v1.21) | Alert-type counts and Eq. 13's learnable loss weights | F1 up on all three datasets; Sock Shop HR@1 −0.008 |
 | **GradFusion (v1.22)** | Three GradFusion+ models, outputs averaged | Above GradFusion+ on HR@1 and F1 for all three datasets |
+| v2.2 | Code review: input checks, shared metric code, optional `fast_supcon` | Same results, bit for bit ([CODE_REVIEW.md](CODE_REVIEW.md)) |
 
 ## What was tried and dropped
 
